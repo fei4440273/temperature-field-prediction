@@ -1,0 +1,29 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Generated data and experiment artifacts
+/data/
+/checkpoints/
+/predictions/
+/reports/*.json
+/reports/*.csv
+/reports/*.png
+/reports/**/*.json
+/reports/**/*.csv
+/reports/**/*.png
+/reports/runs/
+*.pt
+*.pth
+*.ckpt
+
+# Independent data repository
+/GitHub data repository/

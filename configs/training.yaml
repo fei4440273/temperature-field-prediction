@@ -1,0 +1,81 @@
+schema_version: 1
+seeds: [0, 1, 2, 3, 4]
+device: cuda
+distributed:
+  enabled: true
+  backend: nccl
+  world_size: 2
+optimizer:
+  name: adamw
+  learning_rate: 0.001
+  joint_learning_rate: 0.0001
+  weight_decay: 0.000001
+epochs:
+  simulation: 2000
+  high_fidelity: 1500
+  joint: 500
+early_stopping:
+  patience: 200
+  min_delta: 0.0001
+loss_weights:
+  low_fidelity: 1.0
+  ir: 1.0
+  sensor_absolute: 5.0
+  sensor_delta: 1.0
+  pde: 1.0
+  boundary: 1.0
+  initial: 1.0
+  interface: 1.0
+multifidelity_selection_weights:
+  ir_rmse: 1.0
+  sensor_absolute_rmse: 0.2
+  sensor_delta_rmse: 1.0
+ir:
+  radial_bin_width_mm: 0.25
+  inverse_variance_epsilon: 0.01
+  weight_clip: [0.1, 10.0]
+lstm:
+  candidate_windows: [8, 16, 32]
+pod:
+  candidate_modes: [5, 10, 20, 30, 50]
+gno:
+  knn_k: 8
+inverse_identification:
+  enabled: true
+  scope: training_powers_only
+  learning_rate: 0.001
+  parameters:
+    silicon_carbide_emissivity:
+      transform: sigmoid_0_1
+      initial_values: [0.2, 0.5, 0.8]
+    copper_emissivity:
+      transform: sigmoid_0_1
+      initial_values: [0.1, 0.5, 0.9]
+    contact_resistance_m2_k_w:
+      transform: log10_positive
+      initial_log10_values: [-8.0, -6.0, -4.0]
+      hard_bounds: null
+  selection_metric: validation_weighted_temperature_rmse
+  identifiability_checks:
+    - multistart_parameter_spread
+    - profile_likelihood
+    - held_out_power_stability
+  freeze_before_test_evaluation: true
+  sensitivity_selection:
+    seed: 30
+    correction_epochs: 300
+    joint_epochs: 100
+    contact_resistance_m2_k_w: 0.0000734072435302768
+    test_evaluation_enabled: false
+  locked_nominal_model:
+    seeds: [0, 1, 2, 3, 4]
+    correction_epochs: 300
+    joint_epochs: 100
+    silicon_carbide_emissivity: 0.5
+    copper_emissivity: 0.5
+    contact_resistance_m2_k_w: 0.0000734072435302768
+    sensor_absolute_weight: 5.0
+    sensor_delta_weight: 1.0
+    checkpoint_selection: weighted_ir_and_sensor_validation_rmse
+    fixed_test_status: final_test_only_after_model_and_hyperparameters_are_frozen
+    configuration_locked_before_test: true

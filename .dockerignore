@@ -1,0 +1,10 @@
+data/
+GitHub data repository/
+reports/
+predictions/
+checkpoints/
+.git/
+.pytest_cache/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
