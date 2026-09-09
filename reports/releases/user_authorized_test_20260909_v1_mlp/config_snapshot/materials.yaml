@@ -1,0 +1,33 @@
+schema_version: 1
+temperature_unit: K
+verified: true
+silicon_carbide:
+  source: user_provided_2026-09-02
+  temperature_dependence: constant
+  density_kg_m3: 3170.0
+  conductivity_w_m_k:
+    kind: constant
+    value: 120.0
+    table: null
+  heat_capacity_j_kg_k:
+    kind: constant
+    value: 700.0
+    table: null
+    reported_value: 0.7
+    reported_unit: kJ/(kg*K)
+    unit_confirmation_required: false
+copper:
+  source: user_provided_2026-09-02
+  temperature_dependence: constant
+  density_kg_m3: 8900.0
+  conductivity_w_m_k:
+    kind: constant
+    value: 401.0
+    table: null
+  heat_capacity_j_kg_k:
+    kind: constant
+    value: 400.0
+    table: null
+    reported_value: 0.4
+    reported_unit: kJ/(kg*K)
+    unit_confirmation_required: false

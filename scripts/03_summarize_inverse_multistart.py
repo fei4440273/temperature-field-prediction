@@ -42,7 +42,7 @@ def summarize(paths: list[Path]) -> dict[str, Any]:
                 "path": str(path),
                 "seed": checkpoint_seeds[0],
                 "best_epoch": int(run["best_epoch"]),
-                "validation_ir_rmse_k": float(run["best_validation_ir_rmse_k"]),
+                "validation_ir_rmse_c": float(run["best_validation_ir_rmse_c"]),
                 "initial": {
                     "silicon_carbide_emissivity": float(
                         config["silicon_carbide_emissivity_initial"]
@@ -67,7 +67,7 @@ def summarize(paths: list[Path]) -> dict[str, Any]:
                 },
             }
         )
-    selected = min(records, key=lambda item: item["validation_ir_rmse_k"])
+    selected = min(records, key=lambda item: item["validation_ir_rmse_c"])
     return {
         "schema_version": 1,
         "status": "SHORT_RUN_IDENTIFIABILITY_DIAGNOSTIC_NOT_FINAL_MODEL",
@@ -95,7 +95,7 @@ def render_markdown(summary: dict[str, Any]) -> str:
     for run in summary["runs"]:
         initial, final, drift = run["initial"], run["final"], run["absolute_drift"]
         rows.append(
-            f"| {run['scenario']} | {run['validation_ir_rmse_k']:.4f} | "
+            f"| {run['scenario']} | {run['validation_ir_rmse_c']:.4f} | "
             f"{initial['silicon_carbide_emissivity']:.3f} -> "
             f"{final['silicon_carbide_emissivity']:.6f} | "
             f"{initial['copper_emissivity']:.3f} -> {final['copper_emissivity']:.6f} | "
@@ -110,7 +110,7 @@ def render_markdown(summary: dict[str, Any]) -> str:
 共同随机种子：`{summary['common_seed']}`  
 数据隔离：测试集未读取，模型比较只使用验证功率。
 
-| 场景 | 验证 IR RMSE (K) | SiC 辐射率 | Cu 辐射率 | Rc (m²·K/W) | Rc 的 log10 漂移 |
+| 场景 | 验证 IR RMSE (℃) | SiC 辐射率 | Cu 辐射率 | Rc (m²·K/W) | Rc 的 log10 漂移 |
 |---|---:|---:|---:|---:|---:|
 {table}
 

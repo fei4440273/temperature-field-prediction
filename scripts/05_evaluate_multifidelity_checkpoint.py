@@ -11,11 +11,15 @@ def main() -> None:
         description="Evaluate a selected MF checkpoint on its declared test powers"
     )
     parser.add_argument("--checkpoint", required=True)
+    parser.add_argument("--release-manifest", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--device")
     args = parser.parse_args()
     result = evaluate_multifidelity_checkpoint(
-        args.checkpoint, output_path=args.output, device_name=args.device
+        args.checkpoint,
+        args.release_manifest,
+        output_path=args.output,
+        device_name=args.device,
     )
     print(
         json.dumps(

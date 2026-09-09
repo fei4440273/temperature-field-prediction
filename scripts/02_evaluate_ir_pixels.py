@@ -10,7 +10,8 @@ def main() -> None:
     checkpoint_group = parser.add_mutually_exclusive_group()
     checkpoint_group.add_argument("--checkpoint")
     checkpoint_group.add_argument("--surface-checkpoint")
-    parser.add_argument("--split", choices=("train", "validation", "test"), default="test")
+    parser.add_argument("--split", choices=("train", "validation", "test"), default="validation")
+    parser.add_argument("--release-manifest")
     parser.add_argument("--output", default="reports/ir_pixel_evaluation.json")
     parser.add_argument("--figures", default="reports/figures/ir_pixels")
     parser.add_argument("--device")
@@ -22,6 +23,7 @@ def main() -> None:
         output_path=args.output,
         figure_directory=args.figures,
         device=args.device,
+        release_manifest_path=args.release_manifest,
     )
     print(json.dumps(result["aggregate"], indent=2))
 

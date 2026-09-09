@@ -1,0 +1,12 @@
+schema_version: 1
+simulation:
+  test_powers_w: [50, 130, 210, 290, 370, 450, 530, 610, 690, 770]
+  validation_powers_w: [90, 170, 250, 330, 410, 490, 570, 650, 730, 800]
+  training_powers_w: auto_remaining_10_to_800_step_10
+high_fidelity:
+  training_powers_w: [55.0, 216.8, 254.5, 257.0, 309.0, 364.3, 430.0, 494.2, 532.0, 558.5, 593.5, 729.0]
+  validation_powers_w: [115.2, 403.0, 630.5]
+  test_powers_w: [169.0, 339.0, 634.0]
+external_sensor_test:
+  interpolation_powers_w: []
+  extrapolation_relative_to_ir_powers_w: []

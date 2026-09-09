@@ -25,5 +25,19 @@ dist/
 *.pth
 *.ckpt
 
+# Small protocol/release evidence is versioned; large checkpoints stay ignored.
+!/reports/current_protocol/
+!/reports/current_protocol/*.json
+!/reports/current_protocol/*.csv
+!/reports/current_protocol/*.yaml
+!/reports/releases/
+!/reports/releases/**/*.json
+!/reports/releases/**/*.csv
+!/reports/releases/**/*.yaml
+!/reports/final_test_20260909_user_authorized/
+!/reports/final_test_20260909_user_authorized/**/*.json
+!/reports/final_test_20260909_user_authorized/**/*.csv
+!/reports/final_test_20260909_user_authorized/**/*.md
+
 # Independent data repository
 /GitHub data repository/

@@ -1,0 +1,12 @@
+coordinate_system: axisymmetric_rz
+units: m
+copper:
+  radius_m: 0.05834
+  height_m: 0.0175
+silicon_carbide:
+  radius_m: 0.025
+  height_m: 0.012
+embedding:
+  sic_top_z_m: 0.0
+  sic_bottom_z_m: -0.012
+  copper_bottom_z_m: -0.0175

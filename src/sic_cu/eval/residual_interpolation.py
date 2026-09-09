@@ -8,6 +8,8 @@ import polars as pl
 
 from sic_cu.config import PROJECT_ROOT
 from sic_cu.data.splits import build_power_splits
+from sic_cu.data.processed import load_processed_ir_observations
+from sic_cu.eval.protocol_checks import validate_release_manifest
 from sic_cu.models.residual_interpolation import (
     SUPPORTED_RESIDUAL_INTERPOLATION_METHODS,
     PowerResidualInterpolator,
@@ -147,13 +149,13 @@ def _metrics_for_power(
             )
     return {
         "power_w": float(frame["power_w"][0]),
-        "rmse_k": float(np.sqrt(np.sum(weights * error**2) / denominator)),
-        "mae_k": float(np.sum(weights * np.abs(error)) / denominator),
-        "peak_mae_k": float(np.mean(np.abs(peak_errors))),
-        "peak_max_abs_error_k": float(np.max(np.abs(peak_errors))),
+        "rmse_c": float(np.sqrt(np.sum(weights * error**2) / denominator)),
+        "mae_c": float(np.sum(weights * np.abs(error)) / denominator),
+        "peak_mae_c": float(np.mean(np.abs(peak_errors))),
+        "peak_max_abs_error_c": float(np.max(np.abs(peak_errors))),
         "peak_mean_relative_error_percent": float(np.mean(peak_relative_errors)),
         "peak_max_relative_error_percent": float(np.max(peak_relative_errors)),
-        "radial_gradient_mae_k_per_mm": float(np.mean(gradient_absolute)),
+        "radial_gradient_mae_c_per_mm": float(np.mean(gradient_absolute)),
     }
 
 
@@ -191,11 +193,11 @@ def evaluate_residual_interpolator(
         "aggregate": {
             key: float(np.mean([record[key] for record in per_power]))
             for key in (
-                "rmse_k",
-                "mae_k",
-                "peak_mae_k",
+                "rmse_c",
+                "mae_c",
+                "peak_mae_c",
                 "peak_mean_relative_error_percent",
-                "radial_gradient_mae_k_per_mm",
+                "radial_gradient_mae_c_per_mm",
             )
         },
         "per_power": per_power,
@@ -218,11 +220,13 @@ def _method_comparison(
 
 def evaluate_all_protocols(
     output_path: str = "reports/residual_interpolation_cv.json",
+    release_manifest_path: str | None = None,
 ) -> dict[str, Any]:
     splits = build_power_splits()
-    frame = pl.read_parquet(
-        PROJECT_ROOT / "data/processed/experiment_ir_radial.parquet"
-    )
+    frame = load_processed_ir_observations()
+    if release_manifest_path is not None:
+        validate_release_manifest(release_manifest_path)
+        frame = pl.concat((frame, load_processed_ir_observations("test")))
     simulation_powers = sorted(splits.simulation_train)
     frame = frame.with_columns(
         pl.Series(LOW_FIDELITY_COLUMN, _lf_surface(frame, simulation_powers))
@@ -233,18 +237,21 @@ def evaluate_all_protocols(
     )
     selected_method = min(
         fixed_validation,
-        key=lambda name: fixed_validation[name]["aggregate"]["rmse_k"],
+        key=lambda name: fixed_validation[name]["aggregate"]["rmse_c"],
     )
-    fixed_test = evaluate_residual_interpolator(
-        frame,
-        splits.hf_train,
-        splits.hf_test,
-        simulation_powers,
-        selected_method,
-    )
+    fixed_test = None
+    if release_manifest_path is not None:
+        fixed_test = evaluate_residual_interpolator(
+            frame,
+            splits.hf_train,
+            splits.hf_test,
+            simulation_powers,
+            selected_method,
+        )
 
     result = {
         "schema_version": 1,
+        "temperature_error_unit": "℃",
         "method_family": "complete-power surface residual interpolation",
         "scope": "SiC top surface only; no internal-field claim",
         "fixed_split": {
@@ -252,6 +259,11 @@ def evaluate_all_protocols(
             "selected_method": selected_method,
             "validation_method_comparison": fixed_validation,
             "test": fixed_test,
+            "test_status": (
+                "evaluated_from_frozen_release"
+                if fixed_test is not None
+                else "sealed_until_frozen_release"
+            ),
         },
         "cross_validation": "disabled_by_fixed_split_protocol",
         "material_passport": {

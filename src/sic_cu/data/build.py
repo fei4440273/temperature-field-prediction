@@ -8,7 +8,9 @@ from typing import Any
 import polars as pl
 
 from sic_cu.config import PROJECT_ROOT, load_yaml, resolve_data_root
+from sic_cu.eval.protocol_checks import canonical_json_sha256, current_code_commit
 
+from .common import sha256_file
 from .experiment import experiment_files, radial_observations
 from .sensors import ring_average_raw, sensor_files
 from .simulation import read_simulation, simulation_files
@@ -70,9 +72,15 @@ def build_processed_data(
         )
 
     manifest: dict[str, Any] = {
-        "schema_version": 2,
+        "schema_version": 3,
         "source_metadata": metadata_path,
         "raw_data_modified": False,
+        "fingerprints": {
+            "split_sha256": sha256_file(PROJECT_ROOT / "configs/splits.yaml"),
+            "data_metadata_sha256": sha256_file(PROJECT_ROOT / metadata_path),
+            "training_config_sha256": sha256_file(PROJECT_ROOT / training_path),
+            "code_commit": current_code_commit(),
+        },
         "simulation": [],
         "experiment_ir": [],
         "test_ir": [],
@@ -99,6 +107,8 @@ def build_processed_data(
         _write_parquet(frame, output)
         manifest["simulation"].append(
             {
+                "source": str(path.relative_to(PROJECT_ROOT)),
+                "source_sha256": sha256_file(path),
                 "power_w": power,
                 "split": _split_name(power, sim_mapping),
                 "rows": frame.height,
@@ -108,7 +118,7 @@ def build_processed_data(
         )
 
     ir_cfg = training["ir"]
-    radial_frames: list[pl.DataFrame] = []
+    radial_frames: dict[str, list[pl.DataFrame]] = {"experiment": [], "test": []}
     for source_dataset, directory, mapping, manifest_key in (
         (
             "experiment",
@@ -136,10 +146,11 @@ def build_processed_data(
                 pl.lit(split).alias("split"),
                 pl.lit(source_dataset).alias("source_dataset"),
             )
-            radial_frames.append(radial)
+            radial_frames[source_dataset].append(radial)
             manifest[manifest_key].append(
                 {
                     "source": str(path.relative_to(PROJECT_ROOT)),
+                    "source_sha256": sha256_file(path),
                     "source_dataset": source_dataset,
                     "power_w": power,
                     "time_s": float(radial["time_s"][0]),
@@ -149,9 +160,11 @@ def build_processed_data(
                 }
             )
     ir_output = output_root / "experiment_ir_radial.parquet"
-    _write_parquet(pl.concat(radial_frames), ir_output)
+    test_ir_output = output_root / "test_ir_radial.parquet"
+    _write_parquet(pl.concat(radial_frames["experiment"]), ir_output)
+    _write_parquet(pl.concat(radial_frames["test"]), test_ir_output)
 
-    sensor_frames: list[pl.DataFrame] = []
+    sensor_frames: dict[str, list[pl.DataFrame]] = {"experiment": [], "test": []}
     for source_dataset, sensor_type, directory, mapping in (
         (
             "experiment",
@@ -186,10 +199,11 @@ def build_processed_data(
                 pl.lit(split).alias("split"),
                 pl.lit(source_dataset).alias("source_dataset"),
             )
-            sensor_frames.append(ring)
+            sensor_frames[source_dataset].append(ring)
             manifest["sensors"].append(
                 {
                     "source": str(path.relative_to(PROJECT_ROOT)),
+                    "source_sha256": sha256_file(path),
                     "source_dataset": source_dataset,
                     "sensor_type": sensor_type,
                     "power_w": power,
@@ -199,7 +213,9 @@ def build_processed_data(
                 }
             )
     sensor_output = output_root / "sensor_ring_raw.parquet"
-    _write_parquet(pl.concat(sensor_frames), sensor_output)
+    test_sensor_output = output_root / "test_sensor_ring_raw.parquet"
+    _write_parquet(pl.concat(sensor_frames["experiment"]), sensor_output)
+    _write_parquet(pl.concat(sensor_frames["test"]), test_sensor_output)
 
     assert_no_hf_leakage(
         {
@@ -241,9 +257,22 @@ def build_processed_data(
             item["radial_observations"] for item in manifest["test_ir"]
         ),
         "sensor_rows": sum(item["samples"] for item in manifest["sensors"]),
+        "experiment_sensor_rows": sum(
+            item["samples"]
+            for item in manifest["sensors"]
+            if item["source_dataset"] == "experiment"
+        ),
+        "test_sensor_rows": sum(
+            item["samples"]
+            for item in manifest["sensors"]
+            if item["source_dataset"] == "test"
+        ),
         "ir_path": str(ir_output.relative_to(PROJECT_ROOT)),
+        "test_ir_path": str(test_ir_output.relative_to(PROJECT_ROOT)),
         "sensor_path": str(sensor_output.relative_to(PROJECT_ROOT)),
+        "test_sensor_path": str(test_sensor_output.relative_to(PROJECT_ROOT)),
     }
+    manifest["processed_manifest_sha256"] = canonical_json_sha256(manifest)
     manifest_path = output_root / "manifest.json"
     manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     return manifest

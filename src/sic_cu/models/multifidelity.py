@@ -117,12 +117,28 @@ class AdditiveCorrectionModel(nn.Module):
         for parameter in self.low_fidelity_model.parameters():
             parameter.requires_grad_(not freeze)
 
-    def forward(self, coordinates: Tensor, correction_only: bool = False) -> Tensor:
+    def forward(
+        self,
+        coordinates: Tensor,
+        correction_only: bool = False,
+        fidelity: str = "high",
+    ) -> Tensor:
+        if fidelity not in {"low", "high"}:
+            raise ValueError("fidelity must be 'low' or 'high'")
+        if correction_only and fidelity != "high":
+            raise ValueError("correction_only is only defined for high fidelity")
         if self.include_material and coordinates.shape[-1] != 5:
             raise ValueError(
                 "Material-aware correction requires [r,z,t,power,material_id]"
             )
-        low_fidelity = self.low_fidelity_model(coordinates)
+        forward_low = getattr(self.low_fidelity_model, "forward_low", None)
+        low_fidelity = (
+            forward_low(coordinates)
+            if callable(forward_low)
+            else self.low_fidelity_model(coordinates)
+        )
+        if fidelity == "low":
+            return low_fidelity
         normalized_lf = (
             low_fidelity - self.scales.temperature_offset_k
         ) / self.scales.temperature_scale_k

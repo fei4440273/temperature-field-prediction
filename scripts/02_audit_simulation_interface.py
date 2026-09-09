@@ -14,7 +14,7 @@ def main() -> None:
         json.dumps(
             {
                 "paired_nodes": result["paired_same_coordinate_nodes"],
-                "global_max_abs_jump_k": result["global_max_abs_jump_k"],
+                "global_max_abs_jump_c": result["global_max_abs_jump_c"],
                 "global_max_record": result["global_max_record"],
             },
             indent=2,

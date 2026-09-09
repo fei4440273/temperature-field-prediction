@@ -1,0 +1,14 @@
+schema_version: 1
+status: draft
+protocol_id: hf_fixed_12_3_3_v4
+split_sha256: REQUIRED
+raw_manifest_sha256: REQUIRED
+processed_manifest_sha256: REQUIRED
+code_commit: REQUIRED
+physics_config_sha256: REQUIRED
+selection_metric_version: macro_v1
+frozen_model_configs: REQUIRED
+frozen_seeds: [0, 1, 2, 3, 4]
+frozen_checkpoint_sha256s: REQUIRED
+test_access_purpose: final_evaluation_only
+historically_exposed_test: true

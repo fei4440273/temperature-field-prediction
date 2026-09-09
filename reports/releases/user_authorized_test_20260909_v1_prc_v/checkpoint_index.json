@@ -1,0 +1,10 @@
+[
+  {
+    "path": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/prc_temperature_residual_k8_seed0/best.pt",
+    "sha256": "50ff132320e12ae9ff9005de2df004c6afd7fe6936462784e524580127fff241",
+    "method": "prc_multifidelity",
+    "seed": 0,
+    "role": "prc_multifidelity",
+    "validation_score_c": 2.671333262912186
+  }
+]

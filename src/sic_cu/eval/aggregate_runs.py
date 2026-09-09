@@ -46,18 +46,18 @@ def aggregate_simulation_runs(
     if any(powers != test_power_sets[0] for powers in test_power_sets[1:]):
         raise ValueError("Runs do not use the same ordered simulation test powers")
 
-    field_metric_names = ("rmse_k", "mae_k", "r2", "relative_l2")
+    field_metric_names = ("rmse_c", "mae_c", "r2", "relative_l2")
     aggregate = {
         name: _sample_statistics(
             [float(record["test"]["aggregate"][name]["mean"]) for record in records]
         )
         for name in field_metric_names
     }
-    aggregate["tmax_mae_k"] = _sample_statistics(
+    aggregate["tmax_mae_c"] = _sample_statistics(
         [
             float(
                 np.mean(
-                    [item["metrics"]["tmax"]["mae_k"] for item in record["test"]["per_power"]]
+                    [item["metrics"]["tmax"]["mae_c"] for item in record["test"]["per_power"]]
                 )
             )
             for record in records
@@ -85,8 +85,8 @@ def aggregate_simulation_runs(
                     )
                     for name in field_metric_names
                 },
-                "tmax_mae_k": _sample_statistics(
-                    [float(item["metrics"]["tmax"]["mae_k"]) for item in power_records]
+                "tmax_mae_c": _sample_statistics(
+                    [float(item["metrics"]["tmax"]["mae_c"]) for item in power_records]
                 ),
             }
         )
@@ -141,11 +141,11 @@ def aggregate_interface_runs(
     if len(seeds) != len(set(seeds)):
         raise ValueError("Duplicate interface-evaluation seeds cannot be aggregated")
     metric_names = (
-        "mae_k",
-        "rmse_k",
-        "max_abs_error_k",
-        "target_mean_abs_jump_k",
-        "prediction_mean_abs_jump_k",
+        "mae_c",
+        "rmse_c",
+        "max_abs_error_c",
+        "target_mean_abs_jump_c",
+        "prediction_mean_abs_jump_c",
     )
     result = {
         "schema_version": 1,
@@ -197,11 +197,11 @@ def aggregate_ir_pixel_runs(
     if any(signature != signatures[0] for signature in signatures[1:]):
         raise ValueError("IR pixel results do not share the same split, powers, and aggregation")
     metric_names = (
-        "pixel_rmse_k",
-        "pixel_mae_k",
-        "axisymmetric_floor_rmse_k",
-        "radial_profile_rmse_k",
-        "peak_mae_k",
+        "pixel_rmse_c",
+        "pixel_mae_c",
+        "axisymmetric_floor_rmse_c",
+        "radial_profile_rmse_c",
+        "peak_mae_c",
     )
     aggregate = {
         name: _sample_statistics(
@@ -253,11 +253,14 @@ def aggregate_ir_pixel_runs(
 def aggregate_surface_residual_runs(
     run_directories: list[str],
     output_path: str = "reports/surface_residual_5seed_summary.json",
+    release_manifest_path: str | None = None,
 ) -> dict[str, Any]:
+    if release_manifest_path is None:
+        raise ValueError("A frozen release manifest is required for test aggregation")
     records = []
     for directory in run_directories:
         path = PROJECT_ROOT / directory / "metrics.json"
-        result = recompute_surface_run_metrics(directory)
+        result = recompute_surface_run_metrics(directory, release_manifest_path)
         if result["method"] != "deterministic_multifidelity_surface_residual":
             raise ValueError(f"Unexpected method in {path}")
         records.append(result)
@@ -265,11 +268,11 @@ def aggregate_surface_residual_runs(
     if len(seeds) != len(set(seeds)):
         raise ValueError("Duplicate seeds cannot be aggregated")
     metric_names = (
-        "aggregate_rmse_k",
-        "aggregate_mae_k",
-        "aggregate_peak_mae_k",
+        "aggregate_rmse_c",
+        "aggregate_mae_c",
+        "aggregate_peak_mae_c",
         "aggregate_peak_relative_error_percent",
-        "aggregate_radial_gradient_mae_k_per_mm",
+        "aggregate_radial_gradient_mae_c_per_mm",
     )
     aggregate = {
         name: {
@@ -299,7 +302,7 @@ def aggregate_surface_residual_runs(
                     "mean": float(np.mean([item[name] for item in power_records])),
                     "std": float(np.std([item[name] for item in power_records], ddof=1)),
                 }
-                for name in ("rmse_k", "mae_k", "peak_mean_relative_error_percent")
+                for name in ("rmse_c", "mae_c", "peak_mean_relative_error_percent")
             }
         )
         per_power.append(power_summary)
@@ -315,9 +318,9 @@ def aggregate_surface_residual_runs(
         ],
         "per_power_across_seeds": per_power,
         "acceptance": {
-            "surface_mae_le_5k": aggregate["aggregate_mae_k"]["mean"] <= 5.0,
-            "every_test_power_mean_mae_le_5k": all(
-                item["mae_k"]["mean"] <= 5.0 for item in per_power
+            "surface_mae_le_5c": aggregate["aggregate_mae_c"]["mean"] <= 5.0,
+            "every_test_power_mean_mae_le_5c": all(
+                item["mae_c"]["mean"] <= 5.0 for item in per_power
             ),
             "mean_peak_relative_error_le_5pct": aggregate[
                 "aggregate_peak_relative_error_percent"
@@ -376,28 +379,28 @@ def aggregate_multifidelity_runs(
         raise ValueError("Formal runs do not share the locked physics scenario")
 
     aggregate = {
-        "best_validation_selection_score_k": _sample_statistics(
+        "best_validation_selection_score_c": _sample_statistics(
             [
                 float(
                     record.get(
-                        "best_validation_selection_score_k",
-                        record["best_validation_ir_rmse_k"],
+                        "best_validation_selection_score_c",
+                        record["best_validation_ir_rmse_c"],
                     )
                 )
                 for record in records
             ]
         ),
-        "best_validation_ir_rmse_k": _sample_statistics(
-            [float(record["best_validation_ir_rmse_k"]) for record in records]
+        "best_validation_ir_rmse_c": _sample_statistics(
+            [float(record["best_validation_ir_rmse_c"]) for record in records]
         ),
-        "test_ir_rmse_k": _sample_statistics(
-            [float(record["test_ir"]["rmse_k"]) for record in records]
+        "test_ir_rmse_c": _sample_statistics(
+            [float(record["test_ir"]["rmse_c"]) for record in records]
         ),
-        "test_ir_mae_k": _sample_statistics(
-            [float(record["test_ir"]["mae_k"]) for record in records]
+        "test_ir_mae_c": _sample_statistics(
+            [float(record["test_ir"]["mae_c"]) for record in records]
         ),
-        "test_peak_mae_k": _sample_statistics(
-            [float(record["test_ir"]["peak_mae_k"]) for record in records]
+        "test_peak_mae_c": _sample_statistics(
+            [float(record["test_ir"]["peak_mae_c"]) for record in records]
         ),
         "test_peak_relative_error_percent": _sample_statistics(
             [
@@ -405,11 +408,11 @@ def aggregate_multifidelity_runs(
                 for evaluation in ir_records
             ]
         ),
-        "test_sensor_absolute_rmse_k": _sample_statistics(
-            [float(record["test_sensor"]["absolute_rmse_k"]) for record in records]
+        "test_sensor_absolute_rmse_c": _sample_statistics(
+            [float(record["test_sensor"]["absolute_rmse_c"]) for record in records]
         ),
-        "test_sensor_delta_rmse_k": _sample_statistics(
-            [float(record["test_sensor"]["delta_rmse_k"]) for record in records]
+        "test_sensor_delta_rmse_c": _sample_statistics(
+            [float(record["test_sensor"]["delta_rmse_c"]) for record in records]
         ),
         "training_seconds": _sample_statistics(
             [float(record["training_seconds"]) for record in records]
@@ -427,10 +430,10 @@ def aggregate_multifidelity_runs(
         per_power.append(
             {
                 "power_w": power,
-                "rmse_k": _sample_statistics([float(item["rmse_k"]) for item in items]),
-                "mae_k": _sample_statistics([float(item["mae_k"]) for item in items]),
-                "peak_mae_k": _sample_statistics(
-                    [float(item["peak_mae_k"]) for item in items]
+                "rmse_c": _sample_statistics([float(item["rmse_c"]) for item in items]),
+                "mae_c": _sample_statistics([float(item["mae_c"]) for item in items]),
+                "peak_mae_c": _sample_statistics(
+                    [float(item["peak_mae_c"]) for item in items]
                 ),
                 "peak_relative_error_percent": _sample_statistics(
                     [
@@ -462,28 +465,28 @@ def aggregate_multifidelity_runs(
             {
                 "seed": int(record["seed"]),
                 "best_epoch": int(record["best_epoch"]),
-                "best_validation_ir_rmse_k": float(
-                    record["best_validation_ir_rmse_k"]
+                "best_validation_ir_rmse_c": float(
+                    record["best_validation_ir_rmse_c"]
                 ),
-                "best_validation_selection_score_k": float(
+                "best_validation_selection_score_c": float(
                     record.get(
-                        "best_validation_selection_score_k",
-                        record["best_validation_ir_rmse_k"],
+                        "best_validation_selection_score_c",
+                        record["best_validation_ir_rmse_c"],
                     )
                 ),
                 "best_validation_sensor": record.get("best_validation_sensor"),
                 "test_ir": record["test_ir"],
                 "test_sensor": {
-                    "absolute_rmse_k": record["test_sensor"]["absolute_rmse_k"],
-                    "delta_rmse_k": record["test_sensor"]["delta_rmse_k"],
+                    "absolute_rmse_c": record["test_sensor"]["absolute_rmse_c"],
+                    "delta_rmse_c": record["test_sensor"]["delta_rmse_c"],
                 },
             }
             for record in sorted(records, key=lambda item: int(item["seed"]))
         ],
         "acceptance": {
-            "mean_surface_mae_le_5k": aggregate["test_ir_mae_k"]["mean"] <= 5.0,
-            "every_test_power_mean_mae_le_5k": all(
-                item["mae_k"]["mean"] <= 5.0 for item in per_power
+            "mean_surface_mae_le_5c": aggregate["test_ir_mae_c"]["mean"] <= 5.0,
+            "every_test_power_mean_mae_le_5c": all(
+                item["mae_c"]["mean"] <= 5.0 for item in per_power
             ),
             "mean_peak_relative_error_le_5pct": aggregate[
                 "test_peak_relative_error_percent"
@@ -537,17 +540,17 @@ def aggregate_external_sensor_runs(
             {
                 "power_w": power,
                 "sensor_type": sensor_type,
-                "absolute_rmse_k": _sample_statistics(
-                    [float(item["absolute"]["rmse_k"]) for item in items]
+                "absolute_rmse_c": _sample_statistics(
+                    [float(item["absolute"]["rmse_c"]) for item in items]
                 ),
-                "delta_rmse_k": _sample_statistics(
-                    [float(item["delta"]["rmse_k"]) for item in items]
+                "delta_rmse_c": _sample_statistics(
+                    [float(item["delta"]["rmse_c"]) for item in items]
                 ),
-                "absolute_mae_k": _sample_statistics(
-                    [float(item["absolute"]["mae_k"]) for item in items]
+                "absolute_mae_c": _sample_statistics(
+                    [float(item["absolute"]["mae_c"]) for item in items]
                 ),
-                "delta_mae_k": _sample_statistics(
-                    [float(item["delta"]["mae_k"]) for item in items]
+                "delta_mae_c": _sample_statistics(
+                    [float(item["delta"]["mae_c"]) for item in items]
                 ),
             }
         )
@@ -559,11 +562,11 @@ def aggregate_external_sensor_runs(
         "run_count": len(records),
         "powers_w": list(signatures[0][0]),
         "aggregate_across_seeds": {
-            "absolute_rmse_k": _sample_statistics(
-                [float(record["aggregate"]["absolute_rmse_k"]) for record in records]
+            "absolute_rmse_c": _sample_statistics(
+                [float(record["aggregate"]["absolute_rmse_c"]) for record in records]
             ),
-            "delta_rmse_k": _sample_statistics(
-                [float(record["aggregate"]["delta_rmse_k"]) for record in records]
+            "delta_rmse_c": _sample_statistics(
+                [float(record["aggregate"]["delta_rmse_c"]) for record in records]
             ),
         },
         "per_curve_across_seeds": per_curve,

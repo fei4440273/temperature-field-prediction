@@ -54,8 +54,8 @@ def test_simulation_power_boundaries_are_queryable(power: float) -> None:
 def test_stable_time_uses_maximum_temperature_changes() -> None:
     times = np.array([0.0, 1.0, 2.0, 3.0, 4.0])
     maximum = np.array([20.0, 21.0, 21.005, 21.012, 21.013])
-    assert stable_time_from_maximum(times, maximum, tolerance_k=0.01) == 1.0
-    assert stable_time_from_maximum(times, maximum, tolerance_k=0.001) is None
+    assert stable_time_from_maximum(times, maximum, tolerance_c=0.01) == 1.0
+    assert stable_time_from_maximum(times, maximum, tolerance_c=0.001) is None
 
 
 def test_rotation_preserves_axisymmetric_values() -> None:
@@ -81,9 +81,14 @@ def test_export_roundtrip(tmp_path) -> None:
         vtk_times_s=(0.0,),
     )
     with np.load(paths["field"]) as saved:
-        assert np.array_equal(saved["mean_temperature_k"], prediction.mean_temperature_k)
+        assert str(saved["temperature_unit"]) == "\u2103"
+        assert np.allclose(saved["mean_temperature_c"], prediction.mean_temperature_c)
+        assert np.allclose(saved["q05_temperature_c"], prediction.q05_temperature_c)
+        assert np.allclose(saved["q95_temperature_c"], prediction.q95_temperature_c)
+        assert np.allclose(saved["max_temperature_c"], prediction.max_temperature_c)
     metadata = json.loads((tmp_path / "metadata.json").read_text())
     assert metadata["power_w"] == 36.0
+    assert metadata["temperature_unit"] == "\u2103"
     assert len(paths["vtk"]) == 1
     assert "POINT_DATA" in (tmp_path / "vtk/field_0s.vtk").read_text()
 

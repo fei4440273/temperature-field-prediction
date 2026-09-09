@@ -119,6 +119,9 @@ def ring_average_raw(path: Path, sensor_type: str) -> pl.DataFrame:
 def load_canonical_sensor_observations(
     metadata_path: str = "configs/data_metadata.yaml",
     processed_path: str = "data/processed/sensor_ring_raw.parquet",
+    *,
+    split: str | None = None,
+    test_processed_path: str = "data/processed/test_sensor_ring_raw.parquet",
 ) -> pl.DataFrame:
     """Convert the ring table only after coordinate, value, and time semantics are verified."""
     metadata = load_yaml(metadata_path)["sensors"]
@@ -149,7 +152,10 @@ def load_canonical_sensor_observations(
     value_unit = metadata.get("value_unit")
     if value_unit not in {"degC", "K"}:
         raise PhysicsConfigurationError(f"Unsupported sensor value unit: {value_unit}")
-    source = Path(processed_path)
+    if split not in {None, "train", "validation", "test", "external_test"}:
+        raise ValueError("Unsupported sensor split")
+    selected_path = test_processed_path if split == "test" else processed_path
+    source = Path(selected_path)
     if not source.is_absolute():
         source = PROJECT_ROOT / source
     frame = pl.read_parquet(source)
@@ -159,7 +165,7 @@ def load_canonical_sensor_observations(
     time_column = "time_raw" if "time_raw" in frame.columns else "sample_index"
     if "source_dataset" not in frame.columns:
         frame = frame.with_columns(pl.lit("legacy").alias("source_dataset"))
-    return frame.with_columns(
+    canonical = frame.with_columns(
         (pl.col(time_column) * time_scale).cast(pl.Float32).alias("time_s"),
         (pl.col("radius_raw") * coordinate_scale).cast(pl.Float32).alias("r_m"),
         temperature.cast(pl.Float32).alias("temperature_k"),
@@ -174,3 +180,4 @@ def load_canonical_sensor_observations(
         "split",
         "source_dataset",
     )
+    return canonical if split is None else canonical.filter(pl.col("split") == split)

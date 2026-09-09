@@ -13,6 +13,7 @@ from sic_cu.config import PROJECT_ROOT, load_yaml
 from sic_cu.data.common import parse_ir_power_time
 from sic_cu.data.experiment import experiment_files
 from sic_cu.data.splits import build_power_splits
+from sic_cu.eval.protocol_checks import validate_release_checkpoint
 from sic_cu.models import ModelScales, SurfaceResidualMLP
 from sic_cu.prediction import Predictor
 
@@ -36,13 +37,13 @@ def pixel_frame_metrics(
     mse = float(np.mean(error**2))
     floor_mse = float(np.mean(floor_error**2))
     return {
-        "pixel_rmse_k": mse**0.5,
-        "pixel_mae_k": float(np.mean(np.abs(error))),
-        "axisymmetric_floor_rmse_k": floor_mse**0.5,
-        "radial_profile_rmse_k": float(
+        "pixel_rmse_c": mse**0.5,
+        "pixel_mae_c": float(np.mean(np.abs(error))),
+        "axisymmetric_floor_rmse_c": floor_mse**0.5,
+        "radial_profile_rmse_c": float(
             np.sqrt(np.sum(counts * (predicted_radial_mean - radial_mean) ** 2) / len(target_k))
         ),
-        "peak_error_k": float(np.max(prediction_k) - np.max(target_k)),
+        "peak_error_c": float(np.max(prediction_k) - np.max(target_k)),
     }
 
 
@@ -81,7 +82,7 @@ def _save_comparison(
         artist = axis.imshow(
             image, origin="lower", extent=extent, cmap="inferno", vmin=low, vmax=high
         )
-        figure.colorbar(artist, ax=axis, label="Temperature (degC)")
+        figure.colorbar(artist, ax=axis, label="Temperature (℃)")
         axis.set_title(title)
     artist = axes[2].imshow(
         error_image,
@@ -91,7 +92,7 @@ def _save_comparison(
         vmin=-error_limit,
         vmax=error_limit,
     )
-    figure.colorbar(artist, ax=axes[2], label="Prediction - experiment (K)")
+    figure.colorbar(artist, ax=axes[2], label="Prediction - experiment (℃)")
     axes[2].set_title("Error")
     for axis in axes:
         axis.set_aspect("equal")
@@ -110,11 +111,20 @@ def evaluate_ir_pixels(
     output_path: str = "reports/ir_pixel_evaluation.json",
     figure_directory: str = "reports/figures/ir_pixels",
     device: str | None = None,
+    release_manifest_path: str | None = None,
 ) -> dict[str, Any]:
     if split not in {"train", "validation", "test"}:
         raise ValueError("split must be train, validation, or test")
     if checkpoint is not None and surface_checkpoint is not None:
         raise ValueError("checkpoint and surface_checkpoint are mutually exclusive")
+    if split == "test":
+        frozen_checkpoint = checkpoint or surface_checkpoint
+        if frozen_checkpoint is None or release_manifest_path is None:
+            raise RuntimeError(
+                "Test pixel evaluation requires a registered checkpoint "
+                "and frozen release manifest"
+            )
+        validate_release_checkpoint(release_manifest_path, frozen_checkpoint)
     splits = build_power_splits()
     expected = {
         "train": splits.hf_train,
@@ -172,8 +182,21 @@ def evaluate_ir_pixels(
                 columns=["x_mm", "y_mm", "r_mm", "temperature_c", "radial_bin"],
                 low_memory=True,
             )
-            surface_r, surface_temperature = _surface_profile(prediction, index)
-            predicted = np.interp(frame["r_mm"].to_numpy() / 1000.0, surface_r, surface_temperature)
+            radius_m = frame["r_mm"].to_numpy() / 1000.0
+            if predictor.supports_point_queries:
+                coordinates = np.column_stack(
+                    (
+                        radius_m,
+                        np.zeros(frame.height),
+                        np.full(frame.height, times[index]),
+                        np.full(frame.height, power),
+                        np.ones(frame.height),
+                    )
+                ).astype(np.float32)
+                predicted = predictor.predict_points(coordinates).reshape(-1)
+            else:
+                surface_r, surface_temperature = _surface_profile(prediction, index)
+                predicted = np.interp(radius_m, surface_r, surface_temperature)
             if surface_model is not None:
                 inputs = np.column_stack(
                     (
@@ -219,14 +242,14 @@ def evaluate_ir_pixels(
         means = {
             name: float(np.mean([record[name] for record in frame_records]))
             for name in (
-                "pixel_rmse_k",
-                "pixel_mae_k",
-                "axisymmetric_floor_rmse_k",
-                "radial_profile_rmse_k",
+                "pixel_rmse_c",
+                "pixel_mae_c",
+                "axisymmetric_floor_rmse_c",
+                "radial_profile_rmse_c",
             )
         }
-        means["peak_mae_k"] = float(
-            np.mean([abs(record["peak_error_k"]) for record in frame_records])
+        means["peak_mae_c"] = float(
+            np.mean([abs(record["peak_error_c"]) for record in frame_records])
         )
         power_records.append(
             {
@@ -253,20 +276,26 @@ def evaluate_ir_pixels(
             }
         )
     aggregate_names = (
-        "pixel_rmse_k",
-        "pixel_mae_k",
-        "axisymmetric_floor_rmse_k",
-        "radial_profile_rmse_k",
-        "peak_mae_k",
+        "pixel_rmse_c",
+        "pixel_mae_c",
+        "axisymmetric_floor_rmse_c",
+        "radial_profile_rmse_c",
+        "peak_mae_c",
     )
     result = {
         "schema_version": 1,
+        "temperature_error_unit": "℃",
         "split": split,
         "checkpoint": checkpoint,
         "surface_checkpoint": surface_checkpoint,
         "seed": surface_seed,
         "powers_w": sorted(expected),
         "aggregation": "pixels within frame, then equal frame means, then equal power means",
+        "query_mode": (
+            "direct_coordinates"
+            if predictor.supports_point_queries
+            else "explicit_grid_interpolation"
+        ),
         "aggregate": {
             name: {
                 "mean": float(np.mean([record[name] for record in power_records])),

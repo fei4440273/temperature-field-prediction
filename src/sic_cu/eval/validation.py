@@ -8,6 +8,7 @@ import numpy as np
 import polars as pl
 
 from sic_cu.config import PROJECT_ROOT
+from sic_cu.eval.metrics import macro_metric_summary, macro_v1_selection_score
 
 
 def _power_key(value: float) -> float:
@@ -53,49 +54,70 @@ def build_three_power_comparison(
         modalities = {
             "top_surface": {
                 name: float(top[name])
-                for name in ("mean_error_k", "mae_k", "rmse_k", "max_abs_error_k")
+                for name in ("mean_error_c", "mae_c", "rmse_c", "max_abs_error_c")
             },
             "hot": {
                 name: float(hot[name])
-                for name in ("mean_error_k", "mae_k", "rmse_k", "max_abs_error_k")
+                for name in ("mean_error_c", "mae_c", "rmse_c", "max_abs_error_c")
             },
             "cold": {
                 name: float(cold[name])
-                for name in ("mean_error_k", "mae_k", "rmse_k", "max_abs_error_k")
+                for name in ("mean_error_c", "mae_c", "rmse_c", "max_abs_error_c")
             },
         }
         values = list(modalities.values())
         combined = {
-            "mean_error_k": float(np.mean([item["mean_error_k"] for item in values])),
-            "mae_k": float(np.mean([item["mae_k"] for item in values])),
-            "rmse_k": float(np.sqrt(np.mean([item["rmse_k"] ** 2 for item in values]))),
-            "max_abs_error_k": float(max(item["max_abs_error_k"] for item in values)),
+            "mean_error_c": float(np.mean([item["mean_error_c"] for item in values])),
+            "mae_c": float(np.mean([item["mae_c"] for item in values])),
+            "rmse_c": float(np.mean([item["rmse_c"] for item in values])),
+            "max_abs_error_c": float(max(item["max_abs_error_c"] for item in values)),
         }
         per_power.append(
             {"power_w": power, "modalities": modalities, "combined": combined}
         )
 
-    aggregate = {
-        "mean_error_k": float(
-            np.mean([item["combined"]["mean_error_k"] for item in per_power])
-        ),
-        "mae_k": float(np.mean([item["combined"]["mae_k"] for item in per_power])),
-        "rmse_k": float(
-            np.sqrt(np.mean([item["combined"]["rmse_k"] ** 2 for item in per_power]))
-        ),
-        "max_abs_error_k": float(
-            max(item["combined"]["max_abs_error_k"] for item in per_power)
-        ),
-    }
+    aggregate = macro_metric_summary([item["combined"] for item in per_power])
+    ir_macro_rmse = float(np.mean([top_by_power[power]["rmse_c"] for power in expected]))
+    ring_absolute_macro_rmse = float(
+        np.mean(
+            [
+                sensor_by_key[(power, sensor_type)]["absolute"]["rmse_c"]
+                for power in expected
+                for sensor_type in ("hot", "cold")
+            ]
+        )
+    )
+    delta_values = [
+        sensor_by_key[(power, sensor_type)].get("delta", {}).get("rmse_c")
+        for power in expected
+        for sensor_type in ("hot", "cold")
+    ]
+    selection = None
+    if split == "validation" and all(value is not None for value in delta_values):
+        ring_delta_macro_rmse = float(np.mean(delta_values))
+        selection = {
+            "version": "macro_v1",
+            "ir_macro_rmse_c": ir_macro_rmse,
+            "ring_absolute_macro_rmse_c": ring_absolute_macro_rmse,
+            "ring_delta_macro_rmse_c": ring_delta_macro_rmse,
+            "score_c": macro_v1_selection_score(
+                ir_macro_rmse,
+                ring_absolute_macro_rmse,
+                ring_delta_macro_rmse,
+            ),
+        }
     return {
         "schema_version": 1,
+        "temperature_error_unit": "℃",
         "split": split,
         "powers_w": expected,
         "used_for_gradient_updates": False,
         "used_for_model_selection": split == "validation",
-        "weighting": "equal top_surface/hot/cold weighting within power; equal power weighting",
+        "selection_metric_version": "macro_v1",
+        "weighting": "arithmetic mean of per-condition metrics; equal top/hot/cold and power weighting",
         "per_power": per_power,
         "aggregate": aggregate,
+        "selection": selection,
     }
 
 
@@ -115,7 +137,7 @@ def write_three_power_comparison(
     json_destination.write_text(json.dumps(result, indent=2), encoding="utf-8")
 
     rows = []
-    metric_names = ("mean_error_k", "mae_k", "rmse_k", "max_abs_error_k")
+    metric_names = ("mean_error_c", "mae_c", "rmse_c", "max_abs_error_c")
     for item in result["per_power"]:
         row: dict[str, float] = {"power_w": float(item["power_w"])}
         for modality, metrics in item["modalities"].items():

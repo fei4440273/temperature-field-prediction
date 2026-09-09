@@ -1,0 +1,598 @@
+{
+  "schema_version": 1,
+  "split": "test",
+  "checkpoint": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed0/best.pt",
+  "surface_checkpoint": null,
+  "seed": null,
+  "powers_w": [
+    169.0,
+    339.0,
+    634.0
+  ],
+  "aggregation": "pixels within frame, then equal frame means, then equal power means",
+  "query_mode": "direct_coordinates",
+  "aggregate": {
+    "pixel_rmse_c": {
+      "mean": 3.18918147494063,
+      "std": 1.3972857060665116
+    },
+    "pixel_mae_c": {
+      "mean": 2.750651468701026,
+      "std": 1.007607049521098
+    },
+    "axisymmetric_floor_rmse_c": {
+      "mean": 0.060475731439936044,
+      "std": 0.03807360905924413
+    },
+    "radial_profile_rmse_c": {
+      "mean": 3.1891256046718888,
+      "std": 1.3972337512461843
+    },
+    "peak_mae_c": {
+      "mean": 2.8423865960348844,
+      "std": 0.4612940336168058
+    }
+  },
+  "per_power": [
+    {
+      "power_w": 169.0,
+      "frame_count": 16,
+      "pixel_rmse_c": 1.7996581761576966,
+      "pixel_mae_c": 1.692076512533746,
+      "axisymmetric_floor_rmse_c": 0.019989080276349117,
+      "radial_profile_rmse_c": 1.7996472576956593,
+      "peak_mae_c": 2.613731527099592,
+      "last_frame_figure": "reports/current_protocol/figures/final_test_ir_pixels_seed0/169W_last_frame.png",
+      "frames": [
+        {
+          "time_s": 5.0,
+          "pixel_rmse_c": 3.932734250788082,
+          "pixel_mae_c": 3.808338365678259,
+          "axisymmetric_floor_rmse_c": 0.013015977258512652,
+          "radial_profile_rmse_c": 3.932730286092136,
+          "peak_error_c": -3.53715590820309
+        },
+        {
+          "time_s": 10.0,
+          "pixel_rmse_c": 1.7326794701532198,
+          "pixel_mae_c": 1.6027446075361678,
+          "axisymmetric_floor_rmse_c": 0.015343830448328374,
+          "radial_profile_rmse_c": 1.7326708928030363,
+          "peak_error_c": -2.558294566406232
+        },
+        {
+          "time_s": 15.0,
+          "pixel_rmse_c": 0.6136184235316677,
+          "pixel_mae_c": 0.4973668447428728,
+          "axisymmetric_floor_rmse_c": 0.016826642275917465,
+          "radial_profile_rmse_c": 0.6136016821855282,
+          "peak_error_c": -1.6429418554687345
+        },
+        {
+          "time_s": 20.0,
+          "pixel_rmse_c": 0.5785699452336052,
+          "pixel_mae_c": 0.4574344796231185,
+          "axisymmetric_floor_rmse_c": 0.01800747452110537,
+          "radial_profile_rmse_c": 0.5785558314695424,
+          "peak_error_c": -1.151281093749958
+        },
+        {
+          "time_s": 25.0,
+          "pixel_rmse_c": 0.6471099875939889,
+          "pixel_mae_c": 0.5266535467106948,
+          "axisymmetric_floor_rmse_c": 0.01896236274006443,
+          "radial_profile_rmse_c": 0.6470926021245859,
+          "peak_error_c": -1.3252427734374805
+        },
+        {
+          "time_s": 30.0,
+          "pixel_rmse_c": 0.925271511820896,
+          "pixel_mae_c": 0.7269104377265546,
+          "axisymmetric_floor_rmse_c": 0.019735312073562255,
+          "radial_profile_rmse_c": 0.9252580883545135,
+          "peak_error_c": -1.6722464257812248
+        },
+        {
+          "time_s": 35.0,
+          "pixel_rmse_c": 1.2155323500372774,
+          "pixel_mae_c": 1.0139535644282582,
+          "axisymmetric_floor_rmse_c": 0.02036116388509263,
+          "radial_profile_rmse_c": 1.2155224856539841,
+          "peak_error_c": -1.8620372265625065
+        },
+        {
+          "time_s": 40.0,
+          "pixel_rmse_c": 1.4558033827748016,
+          "pixel_mae_c": 1.3464736771104913,
+          "axisymmetric_floor_rmse_c": 0.020867760709632557,
+          "radial_profile_rmse_c": 1.455794487249401,
+          "peak_error_c": -2.0790090820312344
+        },
+        {
+          "time_s": 45.0,
+          "pixel_rmse_c": 1.6271393051037768,
+          "pixel_mae_c": 1.5421922153476915,
+          "axisymmetric_floor_rmse_c": 0.021277828396313665,
+          "radial_profile_rmse_c": 1.627129897823001,
+          "peak_error_c": -2.4023620410156354
+        },
+        {
+          "time_s": 50.0,
+          "pixel_rmse_c": 1.7834521751659893,
+          "pixel_mae_c": 1.702138055305399,
+          "axisymmetric_floor_rmse_c": 0.021609965299825902,
+          "radial_profile_rmse_c": 1.7834422165898685,
+          "peak_error_c": -2.7625653906249568
+        },
+        {
+          "time_s": 55.0,
+          "pixel_rmse_c": 1.9560180528845867,
+          "pixel_mae_c": 1.8789655031212704,
+          "axisymmetric_floor_rmse_c": 0.02187872253795834,
+          "radial_profile_rmse_c": 1.9560079605296585,
+          "peak_error_c": -3.086667499999976
+        },
+        {
+          "time_s": 60.0,
+          "pixel_rmse_c": 2.138406030950861,
+          "pixel_mae_c": 2.0696071375948653,
+          "axisymmetric_floor_rmse_c": 0.022096303044089726,
+          "radial_profile_rmse_c": 2.1383960292864876,
+          "peak_error_c": -3.340698671874975
+        },
+        {
+          "time_s": 65.0,
+          "pixel_rmse_c": 2.3147476418435313,
+          "pixel_mae_c": 2.2538286040306676,
+          "axisymmetric_floor_rmse_c": 0.022272428174410656,
+          "radial_profile_rmse_c": 2.3147376722881594,
+          "peak_error_c": -3.5168440468750077
+        },
+        {
+          "time_s": 70.0,
+          "pixel_rmse_c": 2.4764384156542905,
+          "pixel_mae_c": 2.4171114618165537,
+          "axisymmetric_floor_rmse_c": 0.022415028491746848,
+          "radial_profile_rmse_c": 2.4764282522383425,
+          "peak_error_c": -3.617879619140581
+        },
+        {
+          "time_s": 75.0,
+          "pixel_rmse_c": 2.625452849297942,
+          "pixel_mae_c": 2.5556714157191878,
+          "axisymmetric_floor_rmse_c": 0.022530507521169856,
+          "radial_profile_rmse_c": 2.6254421898087204,
+          "peak_error_c": -3.6489997167968795
+        },
+        {
+          "time_s": 80.0,
+          "pixel_rmse_c": 2.7715570256886313,
+          "pixel_mae_c": 2.673834284047883,
+          "axisymmetric_floor_rmse_c": 0.022623977043855176,
+          "radial_profile_rmse_c": 2.7715455486335845,
+          "peak_error_c": -3.615478515625
+        }
+      ],
+      "prediction_metadata": {
+        "source": "multifidelity_correction:reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed0/best.pt",
+        "warnings": [
+          "The internal field is a physics-guided inference constrained by surface or sparse experiment observations, not internal experiment ground truth."
+        ]
+      }
+    },
+    {
+      "power_w": 339.0,
+      "frame_count": 20,
+      "pixel_rmse_c": 2.667172904376318,
+      "pixel_mae_c": 2.453820162348373,
+      "axisymmetric_floor_rmse_c": 0.04997783277215294,
+      "radial_profile_rmse_c": 2.6671455517583755,
+      "peak_mae_c": 2.427586619628883,
+      "last_frame_figure": "reports/current_protocol/figures/final_test_ir_pixels_seed0/339W_last_frame.png",
+      "frames": [
+        {
+          "time_s": 5.0,
+          "pixel_rmse_c": 4.127629054880616,
+          "pixel_mae_c": 3.7098256773556018,
+          "axisymmetric_floor_rmse_c": 0.03165901578756358,
+          "radial_profile_rmse_c": 4.127616055594797,
+          "peak_error_c": -1.983110126953079
+        },
+        {
+          "time_s": 10.0,
+          "pixel_rmse_c": 2.2768680478880796,
+          "pixel_mae_c": 2.0631499303895695,
+          "axisymmetric_floor_rmse_c": 0.0373213130747456,
+          "radial_profile_rmse_c": 2.2768440733420943,
+          "peak_error_c": -2.2651454492187213
+        },
+        {
+          "time_s": 15.0,
+          "pixel_rmse_c": 1.351286299547832,
+          "pixel_mae_c": 1.1460099367958332,
+          "axisymmetric_floor_rmse_c": 0.0409278769009628,
+          "radial_profile_rmse_c": 1.3512542330194346,
+          "peak_error_c": -1.9785651269530717
+        },
+        {
+          "time_s": 20.0,
+          "pixel_rmse_c": 1.3087272294803067,
+          "pixel_mae_c": 1.0759323151315472,
+          "axisymmetric_floor_rmse_c": 0.04379996779445173,
+          "radial_profile_rmse_c": 1.3086895346822063,
+          "peak_error_c": -1.9688589453124905
+        },
+        {
+          "time_s": 25.0,
+          "pixel_rmse_c": 1.7700174730157345,
+          "pixel_mae_c": 1.6118279570919218,
+          "axisymmetric_floor_rmse_c": 0.04612264730577243,
+          "radial_profile_rmse_c": 1.769993302028156,
+          "peak_error_c": -1.667670380859363
+        },
+        {
+          "time_s": 30.0,
+          "pixel_rmse_c": 2.2969327647158804,
+          "pixel_mae_c": 2.1678749769632417,
+          "axisymmetric_floor_rmse_c": 0.048002905255996396,
+          "radial_profile_rmse_c": 2.2969130119361303,
+          "peak_error_c": -1.6781683496093365
+        },
+        {
+          "time_s": 35.0,
+          "pixel_rmse_c": 2.595919278872965,
+          "pixel_mae_c": 2.4585868700212794,
+          "axisymmetric_floor_rmse_c": 0.049525014331564095,
+          "radial_profile_rmse_c": 2.5958977934431138,
+          "peak_error_c": -2.0046149902343586
+        },
+        {
+          "time_s": 40.0,
+          "pixel_rmse_c": 2.7465834001836726,
+          "pixel_mae_c": 2.602637980007704,
+          "axisymmetric_floor_rmse_c": 0.050757178231536755,
+          "radial_profile_rmse_c": 2.7465598336992345,
+          "peak_error_c": -2.2933098046875102
+        },
+        {
+          "time_s": 45.0,
+          "pixel_rmse_c": 2.8341617045667458,
+          "pixel_mae_c": 2.682053802518749,
+          "axisymmetric_floor_rmse_c": 0.0517547601310408,
+          "radial_profile_rmse_c": 2.834136867660733,
+          "peak_error_c": -2.3915007031249615
+        },
+        {
+          "time_s": 50.0,
+          "pixel_rmse_c": 2.8868565538495763,
+          "pixel_mae_c": 2.716731078260187,
+          "axisymmetric_floor_rmse_c": 0.052562310312748224,
+          "radial_profile_rmse_c": 2.8868307714510033,
+          "peak_error_c": -2.358087646484364
+        },
+        {
+          "time_s": 55.0,
+          "pixel_rmse_c": 2.922141375027592,
+          "pixel_mae_c": 2.7227065667478985,
+          "axisymmetric_floor_rmse_c": 0.05321619184845197,
+          "radial_profile_rmse_c": 2.9221147690821545,
+          "peak_error_c": -2.3047406445311935
+        },
+        {
+          "time_s": 60.0,
+          "pixel_rmse_c": 2.9507300746770686,
+          "pixel_mae_c": 2.718716497911238,
+          "axisymmetric_floor_rmse_c": 0.053745306532486596,
+          "radial_profile_rmse_c": 2.950702820309024,
+          "peak_error_c": -2.3002203613281154
+        },
+        {
+          "time_s": 65.0,
+          "pixel_rmse_c": 2.9742992676578877,
+          "pixel_mae_c": 2.7170187619042934,
+          "axisymmetric_floor_rmse_c": 0.05417390406743459,
+          "radial_profile_rmse_c": 2.9742715567772136,
+          "peak_error_c": -2.3597798437499478
+        },
+        {
+          "time_s": 70.0,
+          "pixel_rmse_c": 2.9894832028923464,
+          "pixel_mae_c": 2.720811419205876,
+          "axisymmetric_floor_rmse_c": 0.05452058082359232,
+          "radial_profile_rmse_c": 2.9894551374903253,
+          "peak_error_c": -2.4729034082031376
+        },
+        {
+          "time_s": 75.0,
+          "pixel_rmse_c": 2.9919006034527533,
+          "pixel_mae_c": 2.7265081979480583,
+          "axisymmetric_floor_rmse_c": 0.054801460741707976,
+          "radial_profile_rmse_c": 2.991872140047966,
+          "peak_error_c": -2.6251249511718697
+        },
+        {
+          "time_s": 80.0,
+          "pixel_rmse_c": 2.9777924698534153,
+          "pixel_mae_c": 2.7268251150084417,
+          "axisymmetric_floor_rmse_c": 0.0550288748672212,
+          "radial_profile_rmse_c": 2.9777633750316683,
+          "peak_error_c": -2.804678857421891
+        },
+        {
+          "time_s": 85.0,
+          "pixel_rmse_c": 2.9438428609444562,
+          "pixel_mae_c": 2.712868624957317,
+          "axisymmetric_floor_rmse_c": 0.05521301367979665,
+          "radial_profile_rmse_c": 2.9438127239848684,
+          "peak_error_c": -2.9993345996093694
+        },
+        {
+          "time_s": 90.0,
+          "pixel_rmse_c": 2.88717571972047,
+          "pixel_mae_c": 2.675890988088852,
+          "axisymmetric_floor_rmse_c": 0.055361726820116176,
+          "radial_profile_rmse_c": 2.8871439389452895,
+          "peak_error_c": -3.194658769531202
+        },
+        {
+          "time_s": 95.0,
+          "pixel_rmse_c": 2.8064460963977993,
+          "pixel_mae_c": 2.6092141140382146,
+          "axisymmetric_floor_rmse_c": 0.05548247191090689,
+          "radial_profile_rmse_c": 2.806411917191861,
+          "peak_error_c": -3.3749288671874638
+        },
+        {
+          "time_s": 100.0,
+          "pixel_rmse_c": 2.7046646099011666,
+          "pixel_mae_c": 2.5112124366216317,
+          "axisymmetric_floor_rmse_c": 0.05558013502496186,
+          "radial_profile_rmse_c": 2.7046271794502426,
+          "peak_error_c": -3.526330566406216
+        }
+      ],
+      "prediction_metadata": {
+        "source": "multifidelity_correction:reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed0/best.pt",
+        "warnings": [
+          "The internal field is a physics-guided inference constrained by surface or sparse experiment observations, not internal experiment ground truth."
+        ]
+      }
+    },
+    {
+      "power_w": 634.0,
+      "frame_count": 26,
+      "pixel_rmse_c": 5.100713344287874,
+      "pixel_mae_c": 4.10605773122096,
+      "axisymmetric_floor_rmse_c": 0.11146028127130607,
+      "radial_profile_rmse_c": 5.100584004561633,
+      "peak_mae_c": 3.4858416413761777,
+      "last_frame_figure": "reports/current_protocol/figures/final_test_ir_pixels_seed0/634W_last_frame.png",
+      "frames": [
+        {
+          "time_s": 5.0,
+          "pixel_rmse_c": 6.586643287540662,
+          "pixel_mae_c": 5.328910057258726,
+          "axisymmetric_floor_rmse_c": 0.06876242990129032,
+          "radial_profile_rmse_c": 6.586594099517728,
+          "peak_error_c": -3.932880234375034
+        },
+        {
+          "time_s": 10.0,
+          "pixel_rmse_c": 5.102690401101736,
+          "pixel_mae_c": 3.7546811332614736,
+          "axisymmetric_floor_rmse_c": 0.08106062305666052,
+          "radial_profile_rmse_c": 5.102615119520713,
+          "peak_error_c": -11.374269062499934
+        },
+        {
+          "time_s": 15.0,
+          "pixel_rmse_c": 4.830667922434483,
+          "pixel_mae_c": 3.629151193350366,
+          "axisymmetric_floor_rmse_c": 0.08889396311835766,
+          "radial_profile_rmse_c": 4.830582388741341,
+          "peak_error_c": -6.167638398437475
+        },
+        {
+          "time_s": 20.0,
+          "pixel_rmse_c": 4.694983944105339,
+          "pixel_mae_c": 3.5881608014012474,
+          "axisymmetric_floor_rmse_c": 0.0951318454845509,
+          "radial_profile_rmse_c": 4.694881203561697,
+          "peak_error_c": -1.6373528320311834
+        },
+        {
+          "time_s": 25.0,
+          "pixel_rmse_c": 4.87411221070003,
+          "pixel_mae_c": 3.680072171785627,
+          "axisymmetric_floor_rmse_c": 0.10017676188791964,
+          "radial_profile_rmse_c": 4.874000857856974,
+          "peak_error_c": -0.21164374999989377
+        },
+        {
+          "time_s": 30.0,
+          "pixel_rmse_c": 5.184863544456337,
+          "pixel_mae_c": 3.9131729233596406,
+          "axisymmetric_floor_rmse_c": 0.10426064846145607,
+          "radial_profile_rmse_c": 5.184755569319252,
+          "peak_error_c": -1.0349246093749116
+        },
+        {
+          "time_s": 35.0,
+          "pixel_rmse_c": 5.44157433108436,
+          "pixel_mae_c": 4.22305401017049,
+          "axisymmetric_floor_rmse_c": 0.10756642483406764,
+          "radial_profile_rmse_c": 5.441471308461617,
+          "peak_error_c": -2.6671473046874326
+        },
+        {
+          "time_s": 40.0,
+          "pixel_rmse_c": 5.587907151437447,
+          "pixel_mae_c": 4.494077900407782,
+          "axisymmetric_floor_rmse_c": 0.11024293189582632,
+          "radial_profile_rmse_c": 5.587805515463278,
+          "peak_error_c": -4.041170507812467
+        },
+        {
+          "time_s": 45.0,
+          "pixel_rmse_c": 5.650323304961589,
+          "pixel_mae_c": 4.582312845610397,
+          "axisymmetric_floor_rmse_c": 0.1124095333499443,
+          "radial_profile_rmse_c": 5.650219616151684,
+          "peak_error_c": -4.669663769531212
+        },
+        {
+          "time_s": 50.0,
+          "pixel_rmse_c": 5.664226565492086,
+          "pixel_mae_c": 4.565110176147974,
+          "axisymmetric_floor_rmse_c": 0.11416356638295964,
+          "radial_profile_rmse_c": 5.664118907497764,
+          "peak_error_c": -4.639567949218645
+        },
+        {
+          "time_s": 55.0,
+          "pixel_rmse_c": 5.635784444617267,
+          "pixel_mae_c": 4.4827646692348555,
+          "axisymmetric_floor_rmse_c": 0.11558356008016558,
+          "radial_profile_rmse_c": 5.635671836620299,
+          "peak_error_c": -4.293214296875021
+        },
+        {
+          "time_s": 60.0,
+          "pixel_rmse_c": 5.551712213732827,
+          "pixel_mae_c": 4.335189450144195,
+          "axisymmetric_floor_rmse_c": 0.11673307738020257,
+          "radial_profile_rmse_c": 5.5515937844525185,
+          "peak_error_c": -3.8815349804687003
+        },
+        {
+          "time_s": 65.0,
+          "pixel_rmse_c": 5.400017182008314,
+          "pixel_mae_c": 4.136139719719106,
+          "axisymmetric_floor_rmse_c": 0.1176638332830072,
+          "radial_profile_rmse_c": 5.399891781767009,
+          "peak_error_c": -3.4770254687499573
+        },
+        {
+          "time_s": 70.0,
+          "pixel_rmse_c": 5.178765082419879,
+          "pixel_mae_c": 3.918070153698449,
+          "axisymmetric_floor_rmse_c": 0.11841719210703013,
+          "radial_profile_rmse_c": 5.178631223785878,
+          "peak_error_c": -3.064252343750013
+        },
+        {
+          "time_s": 75.0,
+          "pixel_rmse_c": 4.89573111941234,
+          "pixel_mae_c": 3.6733457840143586,
+          "axisymmetric_floor_rmse_c": 0.11902702869218097,
+          "radial_profile_rmse_c": 4.895586994857995,
+          "peak_error_c": -2.599091816406144
+        },
+        {
+          "time_s": 80.0,
+          "pixel_rmse_c": 4.5667264817934745,
+          "pixel_mae_c": 3.407975340002534,
+          "axisymmetric_floor_rmse_c": 0.11952099725641153,
+          "radial_profile_rmse_c": 4.566570019062809,
+          "peak_error_c": -2.048557695312411
+        },
+        {
+          "time_s": 85.0,
+          "pixel_rmse_c": 4.2157666368616695,
+          "pixel_mae_c": 3.1334039004078273,
+          "axisymmetric_floor_rmse_c": 0.11992058520375803,
+          "radial_profile_rmse_c": 4.215595771140991,
+          "peak_error_c": -1.3957310546875306
+        },
+        {
+          "time_s": 90.0,
+          "pixel_rmse_c": 3.8785625406464335,
+          "pixel_mae_c": 2.8682327513882906,
+          "axisymmetric_floor_rmse_c": 0.12024399757918813,
+          "radial_profile_rmse_c": 3.8783759798642516,
+          "peak_error_c": -0.6361711914062198
+        },
+        {
+          "time_s": 95.0,
+          "pixel_rmse_c": 3.6095898439203316,
+          "pixel_mae_c": 2.647745708049128,
+          "axisymmetric_floor_rmse_c": 0.1205062002663749,
+          "radial_profile_rmse_c": 3.6093891181508213,
+          "peak_error_c": 0.22597720703129198
+        },
+        {
+          "time_s": 100.0,
+          "pixel_rmse_c": 3.488844436234395,
+          "pixel_mae_c": 2.6198456450850287,
+          "axisymmetric_floor_rmse_c": 0.12071808170665072,
+          "radial_profile_rmse_c": 3.4886370595861433,
+          "peak_error_c": 1.1816182617187678
+        },
+        {
+          "time_s": 105.0,
+          "pixel_rmse_c": 3.613056493874998,
+          "pixel_mae_c": 2.8547884513874706,
+          "axisymmetric_floor_rmse_c": 0.12088975071609592,
+          "radial_profile_rmse_c": 3.6128569466736513,
+          "peak_error_c": 2.2177045898438337
+        },
+        {
+          "time_s": 110.0,
+          "pixel_rmse_c": 4.055931187192357,
+          "pixel_mae_c": 3.554744044257282,
+          "axisymmetric_floor_rmse_c": 0.12102859881549102,
+          "radial_profile_rmse_c": 4.055754067216834,
+          "peak_error_c": 3.3100489648437588
+        },
+        {
+          "time_s": 115.0,
+          "pixel_rmse_c": 4.819941579410346,
+          "pixel_mae_c": 4.4701840082096105,
+          "axisymmetric_floor_rmse_c": 0.12114125021150739,
+          "radial_profile_rmse_c": 4.819792547432684,
+          "peak_error_c": 4.403067207031199
+        },
+        {
+          "time_s": 120.0,
+          "pixel_rmse_c": 5.81094580909186,
+          "pixel_mae_c": 5.468997643166321,
+          "axisymmetric_floor_rmse_c": 0.12123230875485878,
+          "radial_profile_rmse_c": 5.810821293478016,
+          "peak_error_c": 5.38080615234378
+        },
+        {
+          "time_s": 125.0,
+          "pixel_rmse_c": 6.813117532595364,
+          "pixel_mae_c": 6.413679716022585,
+          "axisymmetric_floor_rmse_c": 0.1213061965397064,
+          "radial_profile_rmse_c": 6.813009708874353,
+          "peak_error_c": 6.042043730468777
+        },
+        {
+          "time_s": 130.0,
+          "pixel_rmse_c": 7.466061704358792,
+          "pixel_mae_c": 7.013690814204193,
+          "axisymmetric_floor_rmse_c": 0.12136592608829583,
+          "radial_profile_rmse_c": 7.465961399546169,
+          "peak_error_c": 6.098779296875023
+        }
+      ],
+      "prediction_metadata": {
+        "source": "multifidelity_correction:reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed0/best.pt",
+        "warnings": [
+          "The internal field is a physics-guided inference constrained by surface or sparse experiment observations, not internal experiment ground truth."
+        ]
+      }
+    }
+  ],
+  "material_passport": {
+    "truth_scope": "raw measured SiC top-surface pixels",
+    "internal_field_truth": "not available",
+    "pixel_independence_claimed": false,
+    "each_frame_total_weight_capped": true,
+    "all_source_pixels_marked_recovered": true,
+    "experiment_data_used": false,
+    "prediction_scope": "predictor field surface"
+  },
+  "temperature_error_unit": "℃"
+}

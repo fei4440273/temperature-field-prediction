@@ -17,12 +17,12 @@ def _run_record(seed: int, powers: tuple[float, ...]) -> dict:
                 "inference_seconds": value / 10,
                 "metrics": {
                     "full_field": {
-                        "rmse_k": value,
-                        "mae_k": value / 2,
+                        "rmse_c": value,
+                        "mae_c": value / 2,
                         "r2": 1 - value / 100,
                         "relative_l2": value / 100,
                     },
-                    "tmax": {"mae_k": value * 2},
+                    "tmax": {"mae_c": value * 2},
                 },
             }
         )
@@ -30,7 +30,7 @@ def _run_record(seed: int, powers: tuple[float, ...]) -> dict:
         "method": "mlp",
         "seed": seed,
         "best_epoch": 3,
-        "best_validation_rmse_k": 1.0,
+        "best_validation_rmse_c": 1.0,
         "training_seconds": 2.0 + seed,
         "test": {
             "aggregate": {
@@ -39,7 +39,7 @@ def _run_record(seed: int, powers: tuple[float, ...]) -> dict:
                     / len(per_power),
                     "std": 0.0,
                 }
-                for name in ("rmse_k", "mae_k", "r2", "relative_l2")
+                for name in ("rmse_c", "mae_c", "r2", "relative_l2")
             },
             "per_power": per_power,
         },
@@ -60,7 +60,7 @@ def test_aggregate_simulation_runs_and_reject_mismatched_powers(tmp_path, monkey
     result = aggregate_runs.aggregate_simulation_runs(directories, "summary.json")
     assert result["run_count"] == 2
     assert result["test_powers_w"] == [50.0, 130.0]
-    assert result["aggregate_across_seeds"]["rmse_k"]["mean"] == pytest.approx(2.0)
+    assert result["aggregate_across_seeds"]["rmse_c"]["mean"] == pytest.approx(2.0)
     assert (tmp_path / "summary.json").exists()
 
     mismatch = tmp_path / "mismatch"
@@ -76,11 +76,11 @@ def test_aggregate_ir_pixel_runs_requires_unique_seeds(tmp_path, monkeypatch) ->
     monkeypatch.setattr(aggregate_runs, "PROJECT_ROOT", tmp_path)
     paths = []
     names = (
-        "pixel_rmse_k",
-        "pixel_mae_k",
-        "axisymmetric_floor_rmse_k",
-        "radial_profile_rmse_k",
-        "peak_mae_k",
+        "pixel_rmse_c",
+        "pixel_mae_c",
+        "axisymmetric_floor_rmse_c",
+        "radial_profile_rmse_c",
+        "peak_mae_c",
     )
     for seed in range(2):
         record = {
@@ -99,7 +99,7 @@ def test_aggregate_ir_pixel_runs_requires_unique_seeds(tmp_path, monkeypatch) ->
         path.write_text(json.dumps(record), encoding="utf-8")
         paths.append(path.name)
     result = aggregate_runs.aggregate_ir_pixel_runs(paths, "pixel_summary.json")
-    assert result["aggregate_across_seeds"]["pixel_rmse_k"]["mean"] == pytest.approx(1.5)
+    assert result["aggregate_across_seeds"]["pixel_rmse_c"]["mean"] == pytest.approx(1.5)
 
     duplicate = json.loads((tmp_path / paths[1]).read_text(encoding="utf-8"))
     duplicate["seed"] = 0

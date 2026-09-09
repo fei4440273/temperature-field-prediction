@@ -8,11 +8,18 @@ from sic_cu.eval.high_fidelity import evaluate_ir_surface
 def main() -> None:
     parser = argparse.ArgumentParser(description="Evaluate a frozen IR power split")
     parser.add_argument("--checkpoint")
-    parser.add_argument("--split", choices=("train", "validation", "test"), default="test")
+    parser.add_argument("--split", choices=("train", "validation", "test"), default="validation")
+    parser.add_argument("--release-manifest")
     parser.add_argument("--output", default="reports/ir_surface_evaluation.json")
     parser.add_argument("--device")
     args = parser.parse_args()
-    result = evaluate_ir_surface(args.checkpoint, args.split, args.output, args.device)
+    result = evaluate_ir_surface(
+        args.checkpoint,
+        args.split,
+        args.output,
+        args.device,
+        args.release_manifest,
+    )
     print(json.dumps(result["aggregate"], indent=2))
 
 

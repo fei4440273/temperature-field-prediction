@@ -1,0 +1,10 @@
+[
+  {
+    "path": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/prc_amplitude_time_k8_seed0/best.pt",
+    "sha256": "7dd68efa808821f7f89415b2541f0e86d19ec2dec0b98d12082ca20c69988290",
+    "method": "prc_multifidelity",
+    "seed": 0,
+    "role": "prc_multifidelity",
+    "validation_score_c": 2.4369256707547793
+  }
+]

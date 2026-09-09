@@ -18,15 +18,31 @@ from torch.nn.parallel import DistributedDataParallel
 from torch.utils.data import TensorDataset
 
 from sic_cu.config import PROJECT_ROOT, load_yaml
+from sic_cu.data.balanced_sampler import (
+    balanced_material_time_indices,
+    material_sample_counts,
+)
 from sic_cu.data.fields import load_processed_field
 from sic_cu.data.splits import build_power_splits
+from sic_cu.eval.protocol_checks import (
+    checkpoint_provenance,
+    current_protocol_fingerprints,
+    validate_lf_checkpoint_provenance,
+    validate_release_checkpoint,
+)
 from sic_cu.eval.metrics import aggregate_field_records, field_metrics
 from sic_cu.losses import PhysicsLossComputer, PhysicsLossWeights
-from sic_cu.models import DeepONetPINN, LSTMPINN, MLPPINN, ModelScales
+from sic_cu.models import (
+    DeepONetPINN,
+    LSTMPINN,
+    MLPPINN,
+    ModelScales,
+    PRCMultifidelityModel,
+)
 from sic_cu.models.common import parameter_count
 from sic_cu.physics.collocation import sample_collocation
-from sic_cu.physics.configuration import load_boundary_conditions
 from sic_cu.physics.materials import PhysicsConfigurationError, load_materials
+from sic_cu.physics.resolution import load_resolved_boundary_conditions
 from sic_cu.train.common import physics_optimizer_step, write_config_snapshot
 
 
@@ -51,7 +67,7 @@ def distributed_context() -> tuple[int, int, int]:
 
 def _physics_ready() -> PhysicsLossComputer:
     materials = load_materials()
-    boundaries = load_boundary_conditions()
+    boundaries = load_resolved_boundary_conditions()
     training = load_yaml("configs/training.yaml")
     weights = training["loss_weights"]
     return PhysicsLossComputer(
@@ -92,13 +108,44 @@ def build_model(method: str, scales: ModelScales, **kwargs: Any) -> nn.Module:
             activation=str(kwargs.get("activation", "silu")),
             include_material=bool(kwargs.get("include_material", False)),
         )
+    if method == "prc_lf":
+        model = PRCMultifidelityModel(
+            scales=scales,
+            modes=int(kwargs.get("modes", 8)),
+            width=int(kwargs.get("width", 64)),
+            depth=int(kwargs.get("depth", 3)),
+            activation=str(kwargs.get("activation", "tanh")),
+            correction_variant=str(
+                kwargs.get("correction_variant", "amplitude_time")
+            ),
+            tau_min_s=float(kwargs.get("tau_min_s", 0.05)),
+            tau_max_correction_log_scale=float(
+                kwargs.get("tau_max_correction_log_scale", 0.7)
+            ),
+            power_reference_w=float(kwargs.get("power_reference_w", 400.0)),
+            freeze_low_fidelity=False,
+        )
+        for parameter in model.high_fidelity_parameters():
+            parameter.requires_grad_(False)
+        return model
     raise ValueError(f"Pointwise trainer does not support method: {method}")
+
+
+def _simulation_forward(model: nn.Module, coordinates: Tensor) -> Tensor:
+    underlying = model.module if hasattr(model, "module") else model
+    return (
+        model(coordinates, fidelity="low")
+        if isinstance(underlying, PRCMultifidelityModel)
+        else model(coordinates)
+    )
 
 
 def load_sampled_points(
     powers: list[float],
     samples_per_power: int,
     seed: int,
+    *,
+    balanced: bool = True,
 ) -> TensorDataset:
     rng = np.random.default_rng(seed)
     coordinates: list[np.ndarray] = []
@@ -117,7 +164,16 @@ def load_sampled_points(
             ],
         )
         sample_count = min(samples_per_power, frame.height)
-        indices = rng.choice(frame.height, size=sample_count, replace=False)
+        indices = (
+            balanced_material_time_indices(
+                frame["material_id"].to_numpy(),
+                frame["time_s"].to_numpy(),
+                sample_count,
+                rng,
+            )
+            if balanced
+            else rng.choice(frame.height, size=sample_count, replace=False)
+        )
         sampled = frame[indices]
         coordinates.append(
             sampled.select("r_m", "z_m", "time_s", "power_w", "material_id").to_numpy()
@@ -168,7 +224,9 @@ def _validation_sums(
     )
     for offset in range(0, len(indices), batch_size):
         batch_indices = indices[offset : offset + batch_size]
-        error = model(coordinates.index_select(0, batch_indices)) - target.index_select(
+        error = _simulation_forward(
+            model, coordinates.index_select(0, batch_indices)
+        ) - target.index_select(
             0, batch_indices
         )
         sums[0] += error.double().pow(2).sum()
@@ -197,7 +255,7 @@ def predict_field(
     start = time.perf_counter()
     for offset in range(0, len(coordinates), batch_size):
         batch = torch.from_numpy(coordinates[offset : offset + batch_size]).to(device)
-        predictions.append(model(batch).cpu().numpy())
+        predictions.append(_simulation_forward(model, batch).cpu().numpy())
     elapsed = time.perf_counter() - start
     return np.concatenate(predictions).reshape(field.temperature_k.shape), elapsed
 
@@ -253,6 +311,7 @@ def train_simulation_model(
         device = torch.device("cuda", local_rank)
         torch.cuda.reset_peak_memory_stats(device)
     splits = build_power_splits()
+    fingerprints = current_protocol_fingerprints()
     train_powers = sorted(splits.simulation_train)
     validation_powers = sorted(splits.simulation_validation)
     train_dataset = load_sampled_points(train_powers, samples_per_power, seed)
@@ -266,13 +325,23 @@ def train_simulation_model(
         tensor.to(device) for tensor in validation_dataset.tensors
     )
     scales = ModelScales()
-    kwargs = model_kwargs or {}
-    kwargs.setdefault("include_material", True)
+    kwargs = dict(model_kwargs or {})
+    if method == "prc_lf":
+        kwargs.pop("include_material", None)
+    else:
+        kwargs.setdefault("include_material", True)
     base_model = build_model(method, scales, **kwargs).to(device)
     model: nn.Module = (
         DistributedDataParallel(base_model, device_ids=[local_rank]) if world_size > 1 else base_model
     )
-    optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate, weight_decay=1e-6)
+    trainable_parameters = (
+        list(base_model.low_fidelity_parameters())
+        if isinstance(base_model, PRCMultifidelityModel)
+        else list(model.parameters())
+    )
+    optimizer = torch.optim.AdamW(
+        trainable_parameters, lr=learning_rate, weight_decay=1e-6
+    )
     output_root = PROJECT_ROOT / output_directory
     checkpoint_path = output_root / "best.pt"
     log_path = output_root / "training.jsonl"
@@ -302,7 +371,7 @@ def train_simulation_model(
             coordinates = train_coordinates.index_select(0, batch_indices)
             target = train_target.index_select(0, batch_indices)
             optimizer.zero_grad(set_to_none=True)
-            prediction = model(coordinates)
+            prediction = _simulation_forward(model, coordinates)
             loss = ((prediction - target) / scales.temperature_scale_k).pow(2).mean()
             loss.backward()
             optimizer.step()
@@ -356,9 +425,15 @@ def train_simulation_model(
                         "model_state": (model.module if hasattr(model, "module") else model).state_dict(),
                         "model_kwargs": kwargs,
                         "scales": asdict(scales),
-                        "validation_rmse_k": validation_rmse,
+                        "validation_rmse_c": validation_rmse,
                         "train_powers_w": train_powers,
                         "validation_powers_w": validation_powers,
+                        "provenance": checkpoint_provenance(
+                            role="low_fidelity_simulation",
+                            train_powers_w=train_powers,
+                            validation_powers_w=validation_powers,
+                            fingerprints=fingerprints,
+                        ),
                         "material_passport": {
                             "simulation_data_used": True,
                             "experiment_data_used": False,
@@ -377,9 +452,9 @@ def train_simulation_model(
                     json.dumps(
                         {
                             "epoch": epoch,
-                            "train_rmse_k": train_rmse,
-                            "validation_rmse_k": validation_rmse,
-                            "validation_mae_k": validation_mae,
+                            "train_rmse_c": train_rmse,
+                            "validation_rmse_c": validation_rmse,
+                            "validation_mae_c": validation_mae,
                             "learning_rate": optimizer.param_groups[0]["lr"],
                             **{f"loss_{name}": value for name, value in physics_values.items()},
                         }
@@ -408,7 +483,7 @@ def train_simulation_model(
             "world_size": world_size,
             "epochs_completed": epoch,
             "best_epoch": checkpoint["epoch"],
-            "best_validation_rmse_k": checkpoint["validation_rmse_k"],
+            "best_validation_rmse_c": checkpoint["validation_rmse_c"],
             "training_seconds": float(elapsed_tensor.item()),
             "parameter_count": parameter_count(base_model),
             "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device)
@@ -426,6 +501,17 @@ def train_simulation_model(
                 "physics_enabled": use_physics,
                 "physics_collocation_per_rank": physics_collocation if use_physics else 0,
                 "physics_weight": physics_weight if use_physics else 0.0,
+                "balanced_simulation_sampling": True,
+            },
+            "data_consumption": {
+                "train_points": int(len(train_coordinates)),
+                "validation_points": int(len(validation_coordinates)),
+                "train_material_points": material_sample_counts(
+                    train_coordinates.detach().cpu().numpy()
+                ),
+                "validation_material_points": material_sample_counts(
+                    validation_coordinates.detach().cpu().numpy()
+                ),
             },
             "material_passport": {
                 "simulation_role": "low-fidelity training and frozen-power testing",
@@ -439,12 +525,12 @@ def train_simulation_model(
         (output_root / "run_state.json").write_text(
             json.dumps(run_state, indent=2), encoding="utf-8"
         )
-        test = _evaluate_test_powers(base_model, sorted(splits.simulation_test), device)
         result = run_state | {
             "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device)
             if device.type == "cuda"
             else 0,
-            "test": test,
+            "test": None,
+            "test_status": "sealed_until_frozen_release",
         }
         (output_root / "metrics.json").write_text(json.dumps(result, indent=2), encoding="utf-8")
     if dist.is_initialized():
@@ -461,6 +547,7 @@ def evaluate_saved_simulation_model(
     batch_size: int = 8192,
     template_metrics_path: str | None = None,
     training_seconds: float | None = None,
+    release_manifest_path: str,
 ) -> dict[str, Any]:
     device = torch.device(device_name)
     if device.type == "cuda":
@@ -470,6 +557,8 @@ def evaluate_saved_simulation_model(
     checkpoint = torch.load(
         PROJECT_ROOT / checkpoint_path, map_location=device, weights_only=False
     )
+    validate_lf_checkpoint_provenance(checkpoint)
+    validate_release_checkpoint(release_manifest_path, checkpoint_path)
     method = str(checkpoint["method"])
     scales = ModelScales(**checkpoint["scales"])
     model = build_model(method, scales, **checkpoint.get("model_kwargs", {})).to(device)
@@ -502,7 +591,7 @@ def evaluate_saved_simulation_model(
         "world_size": int(template.get("world_size", 1)),
         "epochs_completed": epochs_completed,
         "best_epoch": int(checkpoint["epoch"]),
-        "best_validation_rmse_k": float(checkpoint["validation_rmse_k"]),
+        "best_validation_rmse_c": float(checkpoint["validation_rmse_c"]),
         "training_seconds": None if training_seconds is None else float(training_seconds),
         "parameter_count": parameter_count(model),
         "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device)
@@ -529,7 +618,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train a simulation-only candidate model")
     parser.add_argument(
         "--method",
-        choices=("mlp", "mlp_pinn", "lstm", "lstm_pinn", "deeponet", "deeponet_pinn"),
+        choices=(
+            "mlp",
+            "mlp_pinn",
+            "lstm",
+            "lstm_pinn",
+            "deeponet",
+            "deeponet_pinn",
+            "prc_lf",
+        ),
         default="mlp",
     )
     parser.add_argument("--seed", type=int, default=0)
@@ -547,6 +644,7 @@ def main() -> None:
     parser.add_argument("--hidden-size", type=int, default=96)
     parser.add_argument("--latent-dim", type=int, default=128)
     parser.add_argument("--blocks", type=int, default=3)
+    parser.add_argument("--modes", type=int, choices=(8, 16, 32), default=8)
     parser.add_argument("--physics-collocation", type=int, default=256)
     parser.add_argument("--physics-weight", type=float, default=1.0)
     args = parser.parse_args()
@@ -561,6 +659,13 @@ def main() -> None:
                 width=args.width,
                 latent_dim=args.latent_dim,
                 blocks=args.blocks,
+            )
+        elif args.method == "prc_lf":
+            model_kwargs.update(
+                modes=args.modes,
+                width=args.width,
+                depth=args.depth,
+                correction_variant="amplitude_time",
             )
         result = train_simulation_model(
             method=args.method,
@@ -579,7 +684,15 @@ def main() -> None:
     except PhysicsConfigurationError as error:
         parser.exit(2, f"BLOCKED_UNVERIFIED_PHYSICS: {error}\n")
     if result is not None:
-        print(json.dumps(result["test"]["aggregate"], indent=2))
+        print(
+            json.dumps(
+                {
+                    "best_validation_rmse_c": result["best_validation_rmse_c"],
+                    "test_status": result["test_status"],
+                },
+                indent=2,
+            )
+        )
 
 
 if __name__ == "__main__":

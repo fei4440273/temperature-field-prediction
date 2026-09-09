@@ -1,0 +1,25 @@
+schema_version: 1
+status: frozen
+protocol_id: hf_fixed_12_3_3_v4
+split_sha256: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+raw_manifest_sha256: ed7a5c15f605f40ebba5c7133872aff9fad7b3304edd17c3644cadae086c112e
+processed_manifest_sha256: 5b17c35f8b71458588538fb1a9a9186decd69689c1a547c3a69956d460117f82
+physics_config_sha256: c66b309ba793bfccaef879f86cc20e4053b6fdbfe83fad49922bad99bca9851c
+selection_metric_version: macro_v1
+code_commit: adcf37f1082a53e5bc1522e6c0eabdc8d05b3969-dirty
+frozen_model_configs:
+  configs/training.yaml: a481be3059ae5907559322fbf0fa8ecf4584cb03d4819b51963856ccf0e5fc43
+frozen_seeds:
+- 0
+- 1
+- 2
+- 3
+- 4
+frozen_checkpoint_sha256s:
+  reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed0/best.pt: 0764c7e78f45e3509f0f8a525965a8f9d77a789aed47ce10ea8d536673644f4b
+  reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed1/best.pt: cae7b3546d9c1358350d2866d87f773b10415290f62f88f38b007b79d7013906
+  reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed2/best.pt: a7dfffdea6c50fda21efd8c822d0585743aa3df9ae7ea1d363c3d221105b6802
+  reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed3/best.pt: 41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b
+  reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed4/best.pt: d27d0deb910580c5ca346a0c718efb92acbc971bbe10705a0e5fc61b9383f0ca
+test_access_purpose: final_evaluation_only
+historically_exposed_test: true

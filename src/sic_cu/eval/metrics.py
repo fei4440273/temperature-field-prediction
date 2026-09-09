@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Iterable
 
 import numpy as np
 
@@ -13,10 +13,10 @@ def _basic_metrics(target: np.ndarray, prediction: np.ndarray) -> dict[str, floa
     denominator = float(np.sum((target - target.mean()) ** 2))
     relative_denominator = float(np.linalg.norm(target))
     return {
-        "rmse_k": mse**0.5,
-        "mae_k": float(np.mean(np.abs(error))),
-        "mean_error_k": float(np.mean(error)),
-        "max_abs_error_k": float(np.max(np.abs(error))),
+        "rmse_c": mse**0.5,
+        "mae_c": float(np.mean(np.abs(error))),
+        "mean_error_c": float(np.mean(error)),
+        "max_abs_error_c": float(np.max(np.abs(error))),
         "r2": 1.0 - float(np.sum(error**2)) / denominator if denominator > 0 else float("nan"),
         "relative_l2": float(np.linalg.norm(error)) / relative_denominator
         if relative_denominator > 0
@@ -52,9 +52,9 @@ def field_metrics(
     target_max = target.max(axis=1)
     prediction_max = prediction.max(axis=1)
     result["tmax"] = {
-        "mae_k": float(np.mean(np.abs(prediction_max - target_max))),
-        "max_abs_error_k": float(np.max(np.abs(prediction_max - target_max))),
-        "final_error_k": float(prediction_max[-1] - target_max[-1]),
+        "mae_c": float(np.mean(np.abs(prediction_max - target_max))),
+        "max_abs_error_c": float(np.max(np.abs(prediction_max - target_max))),
+        "final_error_c": float(prediction_max[-1] - target_max[-1]),
     }
     if coordinates_rz_m is not None:
         coordinates = np.asarray(coordinates_rz_m, dtype=np.float64)
@@ -78,16 +78,79 @@ def curve_metrics(target: np.ndarray, prediction: np.ndarray) -> dict[str, float
         if denominator > 0
         else float("nan")
     )
-    result["max_rise_error"] = float(
+    result["max_rise_error_c"] = float(
         (np.max(prediction) - prediction[0]) - (np.max(target) - target[0])
     )
     return result
 
 
+def weighted_metrics(
+    target: np.ndarray,
+    prediction: np.ndarray,
+    weights: np.ndarray,
+) -> dict[str, float]:
+    target_values = np.asarray(target, dtype=np.float64).reshape(-1)
+    prediction_values = np.asarray(prediction, dtype=np.float64).reshape(-1)
+    weight_values = np.asarray(weights, dtype=np.float64).reshape(-1)
+    if not (
+        target_values.shape == prediction_values.shape == weight_values.shape
+        and len(target_values) > 0
+    ):
+        raise ValueError("target, prediction, and weights must be aligned nonempty arrays")
+    if not np.isfinite(weight_values).all() or np.any(weight_values < 0.0):
+        raise ValueError("weights must be finite and nonnegative")
+    denominator = float(weight_values.sum())
+    if denominator <= 0.0:
+        raise ValueError("weights must have a positive sum")
+    error = prediction_values - target_values
+    return {
+        "rmse_c": float(np.sqrt(np.sum(weight_values * error**2) / denominator)),
+        "mae_c": float(np.sum(weight_values * np.abs(error)) / denominator),
+        "mean_error_c": float(np.sum(weight_values * error) / denominator),
+        "max_abs_error_c": float(np.max(np.abs(error))),
+    }
+
+
+def macro_metric_summary(
+    records: Iterable[dict[str, Any]],
+    metric_names: Iterable[str] = ("rmse_c", "mae_c", "mean_error_c"),
+) -> dict[str, float]:
+    values = list(records)
+    if not values:
+        raise ValueError("At least one per-condition metric record is required")
+    summary = {
+        name: float(np.mean([float(record[name]) for record in values]))
+        for name in metric_names
+    }
+    if all("max_abs_error_c" in record for record in values):
+        summary["max_abs_error_c"] = float(
+            max(float(record["max_abs_error_c"]) for record in values)
+        )
+    if all("rmse_c" in record for record in values):
+        summary["equal_power_mse_rmse_c"] = float(
+            np.sqrt(np.mean([float(record["rmse_c"]) ** 2 for record in values]))
+        )
+    return summary
+
+
+def macro_v1_selection_score(
+    ir_macro_rmse_c: float,
+    ring_absolute_macro_rmse_c: float,
+    ring_delta_macro_rmse_c: float,
+) -> float:
+    values = np.asarray(
+        [ir_macro_rmse_c, ring_absolute_macro_rmse_c, ring_delta_macro_rmse_c],
+        dtype=np.float64,
+    )
+    if not np.isfinite(values).all():
+        raise ValueError("macro_v1 selection inputs must be finite")
+    return float((values[0] + 0.2 * values[1] + values[2]) / 2.2)
+
+
 def aggregate_field_records(records: list[dict[str, Any]]) -> dict[str, dict[str, float]]:
     if not records:
         raise ValueError("At least one field-metric record is required")
-    names = ("rmse_k", "mae_k", "r2", "relative_l2")
+    names = ("rmse_c", "mae_c", "r2", "relative_l2")
     return {
         name: {
             "mean": float(

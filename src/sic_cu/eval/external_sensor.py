@@ -57,13 +57,14 @@ def evaluate_external_sensors(
             )
     result = {
         "schema_version": 1,
+        "temperature_error_unit": "℃",
         "checkpoint": checkpoint,
         "training_use_of_external_powers": False,
         "powers_w": sorted(observed),
         "per_curve": records,
         "aggregate": {
-            "absolute_rmse_k": float(np.mean([item["absolute"]["rmse_k"] for item in records])),
-            "delta_rmse_k": float(np.mean([item["delta"]["rmse_k"] for item in records])),
+            "absolute_rmse_c": float(np.mean([item["absolute"]["rmse_c"] for item in records])),
+            "delta_rmse_c": float(np.mean([item["delta"]["rmse_c"] for item in records])),
         },
         "material_passport": {
             "measurement_scope": "two Cu bottom rings",

@@ -1,0 +1,89 @@
+schema_version: 1
+data_root: data
+raw_data_immutable: true
+simulation:
+  directory: Simulation_data
+  coordinate_columns: [x, y]
+  coordinate_interpretation: [r, z]
+  coordinate_unit: mm
+  coordinate_unit_status: confirmed_by_project_plan
+  temperature_column: temperature
+  temperature_unit: degC
+  temperature_unit_status: confirmed_by_project_plan
+  time_column: time_s
+  time_unit: s
+  time_unit_status: confirmed_by_header_and_project_plan
+experiment_ir:
+  directory: Experiment_data/Topdata
+  coordinate_columns: [x_mm, y_mm]
+  radial_column: r_mm
+  coordinate_unit: mm
+  coordinate_unit_status: confirmed_by_header_and_project_plan
+  temperature_column: temperature_c
+  temperature_unit: degC
+  temperature_unit_status: confirmed_by_header
+  center_x_mm: 0.0
+  center_y_mm: 0.0
+  center_status: verified_from_r_mm_equals_sqrt_x2_plus_y2
+  filename_50mm_meaning: sic_disc_diameter_50_mm
+  filename_50mm_status: user_confirmed_2026-09-03
+  emissivity_setting: unavailable_not_required_for_supplied_temperature_field
+  background_lens_calibration: unavailable_not_required_for_supplied_temperature_field
+  initial_temperature_synchronization: laser_on_is_t0_first_saved_ir_frame_is_5s
+  temperature_data_acceptance: supplied_temperature_c_is_authoritative_model_observation
+  raw_radiance_recalibration_required: false
+  metadata_source: user_confirmed_2026-09-03
+  all_pixels_recovered_flag_expected: true
+  observed_radial_bins_per_frame: 398
+  observed_rows_per_frame: 125629
+sensors:
+  hot_directory: Experiment_data/HotData
+  cold_directory: Experiment_data/ColdData
+  hot_radius_nominal_m: 0.028
+  cold_radius_nominal_m: 0.0415
+  coordinate_origin: laser_spot_center
+  coordinate_unit: m
+  coordinate_unit_status: verified
+  value_unit: degC
+  value_unit_status: verified
+  time_column_interpretation: elapsed_time_t_equals_index
+  time_unit: s
+  time_unit_status: verified
+  synchronized_start: true
+  synchronization_reference: laser_on
+  ring_temperature_is_uniform: true
+  metadata_source: user_confirmed_2026-09-02
+  aggregation_status: verified_exact_angular_duplicates
+  observed_hot_radius_mean_raw: 0.02800004376904269
+  observed_cold_radius_mean_raw: 0.0414999788494765
+  observed_max_angular_value_spread_raw: 0.0
+stable_time_labels_s:
+  "55.0": 50
+  "115.2": 100
+  "216.8": 120
+  "254.5": 130
+  "257.0": 90
+  "309.0": 140
+  "364.3": 150
+  "403.0": 126
+  "430.0": 105
+  "494.2": 145
+  "532.0": 120
+  "558.5": 142
+  "593.5": 160
+  "630.5": 150
+  "729.0": 140
+test:
+  role: final_test_only
+  training_allowed: false
+  model_selection_allowed: false
+  powers_w: [169, 339, 634]
+  experiment_ir_directory: test_Data/topdata
+  hot_directory: test_Data/hotdota
+  cold_directory: test_Data/colddata
+  expected_ir_frames: 62
+  coordinate_unit: mm
+  temperature_unit: degC
+  sensor_coordinate_unit: m
+  sensor_temperature_unit: degC
+  sensor_time_unit: s

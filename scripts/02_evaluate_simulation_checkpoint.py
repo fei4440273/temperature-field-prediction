@@ -17,6 +17,7 @@ def main() -> None:
     parser.add_argument("--batch-size", type=int, default=8192)
     parser.add_argument("--template-metrics")
     parser.add_argument("--training-seconds", type=float)
+    parser.add_argument("--release-manifest", required=True)
     args = parser.parse_args()
     result = evaluate_saved_simulation_model(
         args.checkpoint,
@@ -25,6 +26,7 @@ def main() -> None:
         batch_size=args.batch_size,
         template_metrics_path=args.template_metrics,
         training_seconds=args.training_seconds,
+        release_manifest_path=args.release_manifest,
     )
     print(json.dumps(result["test"]["aggregate"], indent=2))
 

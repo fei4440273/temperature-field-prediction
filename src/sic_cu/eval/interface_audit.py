@@ -45,22 +45,23 @@ def audit_simulation_interface(
         sic_index, copper_index = pairs[pair_index]
         record = {
             "power_w": float(power),
-            "mean_abs_jump_k": float(absolute.mean()),
-            "max_abs_jump_k": float(absolute[time_index, pair_index]),
-            "signed_jump_k_at_max": float(jumps[time_index, pair_index]),
+            "mean_abs_jump_c": float(absolute.mean()),
+            "max_abs_jump_c": float(absolute[time_index, pair_index]),
+            "signed_jump_c_at_max": float(jumps[time_index, pair_index]),
             "time_s_at_max": float(field.times_s[time_index]),
             "coordinate_rz_m_at_max": field.coordinates_rz_m[sic_index].tolist(),
             "sic_node_label": int(field.node_labels[sic_index]),
             "copper_node_label": int(field.node_labels[copper_index]),
         }
         records.append(record)
-        if record["max_abs_jump_k"] > global_max[0]:
-            global_max = (record["max_abs_jump_k"], record)
+        if record["max_abs_jump_c"] > global_max[0]:
+            global_max = (record["max_abs_jump_c"], record)
     result = {
         "schema_version": 1,
+        "temperature_difference_unit": "℃",
         "paired_same_coordinate_nodes": pair_count,
         "power_count": len(records),
-        "global_max_abs_jump_k": global_max[0],
+        "global_max_abs_jump_c": global_max[0],
         "global_max_record": global_max[1],
         "per_power": records,
         "interpretation": (

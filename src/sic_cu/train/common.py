@@ -9,6 +9,7 @@ import torch.distributed as dist
 from torch import nn
 
 from sic_cu.config import PROJECT_ROOT
+from sic_cu.physics.resolution import write_resolved_physics
 
 
 CONFIG_FILES = (
@@ -18,6 +19,7 @@ CONFIG_FILES = (
     "configs/data_metadata.yaml",
     "configs/splits.yaml",
     "configs/training.yaml",
+    "configs/release_manifest.yaml",
 )
 
 
@@ -33,9 +35,12 @@ def write_config_snapshot(output_directory: str | Path) -> Path:
         content = source.read_bytes()
         (destination / source.name).write_bytes(content)
         hashes[relative] = hashlib.sha256(content).hexdigest()
-    plan = PROJECT_ROOT / "SiC_Cu_temperature_prediction_project_plan.md"
+    plan = PROJECT_ROOT / "temperature_field_prediction_multifidelity_plan_v2.md"
+    if not plan.exists():
+        raise FileNotFoundError(f"Active multifidelity plan is missing: {plan}")
     hashes[plan.name] = hashlib.sha256(plan.read_bytes()).hexdigest()
     (destination / "sha256.json").write_text(json.dumps(hashes, indent=2), encoding="utf-8")
+    write_resolved_physics(destination / "resolved_physics.yaml")
     return destination
 
 

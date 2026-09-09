@@ -16,7 +16,6 @@ from torch.utils.data import DataLoader, DistributedSampler, TensorDataset
 from sic_cu.config import PROJECT_ROOT
 from sic_cu.data.fields import load_processed_field
 from sic_cu.data.splits import build_power_splits
-from sic_cu.eval.metrics import aggregate_field_records, field_metrics
 from sic_cu.models import GNOPINN, ModelScales
 from sic_cu.models.common import parameter_count
 from sic_cu.models.gno_pinn import knn_edges
@@ -278,7 +277,7 @@ def train_gno_model(
                         "scales": asdict(ModelScales()),
                         "train_powers_w": sorted(splits.simulation_train),
                         "validation_powers_w": sorted(splits.simulation_validation),
-                        "validation_rmse_k": best,
+                        "validation_rmse_c": best,
                         "material_passport": {
                             "simulation_data_used": True,
                             "experiment_data_used": False,
@@ -294,8 +293,8 @@ def train_gno_model(
         if rank == 0:
             record = {
                 "epoch": epoch,
-                "train_rmse_k": float(torch.sqrt(train_sums[0] / train_sums[1])),
-                "validation_rmse_k": validation_rmse,
+                "train_rmse_c": float(torch.sqrt(train_sums[0] / train_sums[1])),
+                "validation_rmse_c": validation_rmse,
                 "learning_rate": optimizer.param_groups[0]["lr"],
                 **{f"loss_{name}": value for name, value in physics_values.items()},
             }
@@ -315,48 +314,20 @@ def train_gno_model(
     if rank == 0:
         checkpoint = torch.load(output / "best.pt", map_location=device, weights_only=False)
         base_model.load_state_dict(checkpoint["model_state"])
-        records = []
-        for power in sorted(splits.simulation_test):
-            field = load_processed_field(power)
-            inference_started = time.perf_counter()
-            prediction = _predict_field(
-                base_model,
-                power,
-                field.times_s,
-                mesh,
-                material_ids,
-                edges,
-                device,
-            )
-            records.append(
-                {
-                    "power_w": power,
-                    "inference_seconds": time.perf_counter() - inference_started,
-                    "metrics": field_metrics(
-                        field.temperature_k,
-                        prediction,
-                        field.times_s,
-                        field.material_ids,
-                        field.coordinates_rz_m,
-                    ),
-                }
-            )
         result = {
             "method": checkpoint["method"],
             "seed": seed,
             "world_size": world_size,
             "epochs_completed": epoch,
             "best_epoch": best_epoch,
-            "best_validation_rmse_k": best,
+            "best_validation_rmse_c": best,
             "training_seconds": elapsed,
             "parameter_count": parameter_count(base_model),
             "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device)
             if device.type == "cuda"
             else 0,
-            "test": {
-                "aggregate": aggregate_field_records(records),
-                "per_power": records,
-            },
+            "test": None,
+            "test_status": "sealed_until_frozen_release",
             "configuration": {
                 "epochs": epochs,
                 "snapshots_per_power": snapshots_per_power,

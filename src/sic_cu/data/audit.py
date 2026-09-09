@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
@@ -10,7 +11,7 @@ from typing import Any, Callable, Iterable, TypeVar
 
 from sic_cu.config import PROJECT_ROOT, load_yaml, resolve_data_root
 
-from .common import bytes_to_gib, sha256_file
+from .common import bytes_to_gib, parse_power, sha256_file
 from .experiment import ExperimentFileAudit, audit_experiment_file, experiment_files
 from .sensors import SensorFileAudit, audit_sensor_file, sensor_files
 from .simulation import SimulationFileAudit, audit_simulation_file, simulation_files
@@ -53,6 +54,16 @@ def _file_inventory(paths: list[Path], workers: int, hash_files: bool) -> list[d
         }
         for path, digest in zip(paths, hashes, strict=True)
     ]
+
+
+def _inventory_sha256(files: list[dict[str, Any]]) -> str:
+    canonical = json.dumps(
+        files,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def _missing_physics_values() -> list[str]:
@@ -266,9 +277,9 @@ def _render_markdown(result: dict[str, Any]) -> str:
         f"- Cu/SiC 节点：`{sim['copper_nodes']}` / `{sim['sic_nodes']}`。",
         f"- 所有功率是否共用同一节点拓扑：`{sim['same_mesh_for_all_powers']}`。",
         f"- 原始 r 范围：`{sim['r_range_raw']}` mm；z 范围：`{sim['z_range_raw']}` mm。",
-        f"- 温度范围：`{sim['temperature_range_c']}` °C；空值：`{sim['null_values']}`。",
-        f"- 80 个功率的 t=0 初温范围：`{sim['initial_temperature_range_c']}` °C；"
-        f"单文件初温标准差上限：`{sim['initial_temperature_std_c_max']:.3e}` °C。",
+        f"- 温度范围：`{sim['temperature_range_c']}` ℃；空值：`{sim['null_values']}`。",
+        f"- 80 个功率的 t=0 初温范围：`{sim['initial_temperature_range_c']}` ℃；"
+        f"单文件初温标准差上限：`{sim['initial_temperature_std_c_max']:.3e}` ℃。",
         f"- 时间网格异常：`{sim['time_grid_anomalies']}`。590 W 的 6 s 帧存在约 "
         "0.00196 s 浮点偏差，预处理时只允许容差对齐并保留原始值记录。",
         "",
@@ -278,7 +289,7 @@ def _render_markdown(result: dict[str, Any]) -> str:
         f"- 每功率帧数：`{ir['frames_per_power']}`。",
         f"- 每帧像素行数：`{ir['rows_per_frame']}`；原始径向箱：`{ir['radial_bins']}`。",
         f"- 半径范围：`{ir['r_range_mm']}` mm；温度范围："
-        f"`{ir['temperature_range_c']}` °C。",
+        f"`{ir['temperature_range_c']}` ℃。",
         f"- 各功率首个 5 s 帧温度范围：`{ir['first_frame_temperature_range_c_per_power']}`；"
         "实验没有 t=0 帧，不能据此替代初始条件。",
         f"- r 与 sqrt(x^2+y^2) 最大误差："
@@ -308,7 +319,7 @@ def _render_markdown(result: dict[str, Any]) -> str:
         f"{cold['radius_std_raw_max']:.3e} | {cold['max_angular_spread_raw']:.3e} |",
         "",
         (
-            "- 用户已确认 X/Y 使用 m、数值使用 °C、`t=i` 表示激光开启后第 i 秒，"
+            "- 用户已确认 X/Y 使用 m、数值使用 ℃、`t=i` 表示激光开启后第 i 秒，"
             "坐标原点为光斑中心。"
             if result["gate"]["sensor_metadata_status"] == "VERIFIED"
             else "- 数值半径分别接近 0.028 和 0.0415，但这只是数值一致性证据，不能替代单位元数据。"
@@ -316,7 +327,7 @@ def _render_markdown(result: dict[str, Any]) -> str:
         "- 每个时间列在整圈坐标上完全相同，因此预处理必须压缩为每时刻一条 ring-average，"
         "不得把 148/218 个重复点作为独立监督。",
         (
-            "- Hot/Cold 传感器元数据状态：已验证，可转换到 SI/K 规范数据。"
+            "- Hot/Cold 传感器元数据状态：已验证；对外统一使用 ℃，物理计算内部转换为 SI/K。"
             if result["gate"]["sensor_metadata_status"] == "VERIFIED"
             else "- `t=1` 的含义、时间单位、数值单位和同步方式仍未确认。"
         ),
@@ -336,11 +347,11 @@ def _render_markdown(result: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
-            "## 审计判定",
-            "",
-            "数据文件结构、温度观测语义和方案中的数量假设通过审计。用户侧输入已经完整；"
-            "下一步由模型在训练折内辨识发射率与接触热阻。辨识和可辨识性检查完成前，"
-            "不能报告正式 PINN 物理结果。",
+        "## 审计判定",
+        "",
+        "数据文件结构、温度观测语义和方案中的数量假设通过审计。用户侧输入已经完整；"
+        "训练可使用 `resolved_physics.yaml` 中明确标记的名义情景和有效初始化。"
+        "发射率与接触热阻仍不是已测量或唯一辨识的真值，正式结果必须保留该限定。",
             "",
         ]
     )
@@ -351,6 +362,7 @@ def run_audit(
     metadata_path: str = "configs/data_metadata.yaml",
     output_json: str = "reports/data_audit.json",
     output_markdown: str = "reports/data_audit.md",
+    protocol_inventory_json: str = "reports/current_protocol/data_inventory.json",
     workers: int = 4,
     hash_files: bool = True,
 ) -> dict[str, Any]:
@@ -383,22 +395,25 @@ def run_audit(
         [(path, "hot") for path in hot_paths] + [(path, "cold") for path in cold_paths],
         workers,
     )
-    test_experiments = _parallel_map(
-        audit_experiment_file, test_ir_paths, workers
-    )
-    test_sensors = _parallel_map(
-        lambda item: audit_sensor_file(*item),
-        [(path, "hot") for path in test_hot_paths]
-        + [(path, "cold") for path in test_cold_paths],
-        workers,
-    )
     summary = _audit_summary(simulations, experiments, sensors)
-    test_summary = _audit_summary(
-        simulations[:1], test_experiments, test_sensors
-    )
     summary["test_data"] = {
-        "experiment_ir": test_summary["experiment_ir"],
-        "sensors": test_summary["sensors"],
+        "experiment_ir": {
+            "file_count": len(test_ir_paths),
+            "powers_w": sorted({parse_power(path) for path in test_ir_paths}),
+            "temperature_statistics": "sealed_not_computed",
+        },
+        "sensors": {
+            "hot": {
+                "file_count": len(test_hot_paths),
+                "powers_w": sorted({parse_power(path) for path in test_hot_paths}),
+                "temperature_statistics": "sealed_not_computed",
+            },
+            "cold": {
+                "file_count": len(test_cold_paths),
+                "powers_w": sorted({parse_power(path) for path in test_cold_paths}),
+                "temperature_statistics": "sealed_not_computed",
+            },
+        },
     }
     structural_checks = [
         summary["simulation"]["file_count"] == 80,
@@ -465,6 +480,55 @@ def run_audit(
         item for item in blocking_unknowns if item not in IDENTIFIABLE_PHYSICS_PATHS
     )
     inventory = _file_inventory(all_paths, workers, hash_files)
+    contexts: dict[str, dict[str, Any]] = {}
+
+    def add_context(
+        paths: Iterable[Path], source: str, modality: str, split_lookup: dict[float, str]
+    ) -> None:
+        for path in paths:
+            power = round(parse_power(path), 4)
+            contexts[_rel(path)] = {
+                "source": source,
+                "power_w": power,
+                "modality": modality,
+                "split": split_lookup[power],
+                "run_id": None,
+                "run_id_status": "unknown_not_in_source_metadata",
+            }
+
+    simulation_split = {
+        **{power: "train" for power in splits.simulation_train},
+        **{power: "validation" for power in splits.simulation_validation},
+        **{power: "test" for power in splits.simulation_test},
+    }
+    experiment_split = {
+        **{power: "train" for power in splits.hf_train},
+        **{power: "validation" for power in splits.hf_validation},
+    }
+    test_split = {power: "test" for power in splits.hf_test}
+    add_context(sim_paths, "simulation", "full_field", simulation_split)
+    add_context(ir_paths, "experiment", "top_ir", experiment_split)
+    add_context(hot_paths, "experiment", "hot_ring", experiment_split)
+    add_context(cold_paths, "experiment", "cold_ring", experiment_split)
+    add_context(test_ir_paths, "test", "top_ir", test_split)
+    add_context(test_hot_paths, "test", "hot_ring", test_split)
+    add_context(test_cold_paths, "test", "cold_ring", test_split)
+    inventory = [record | contexts[record["path"]] for record in inventory]
+    inventory_hash = _inventory_sha256(inventory)
+    paths_by_hash: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for record in inventory:
+        if record["sha256"] is not None:
+            paths_by_hash[record["sha256"]].append(record)
+    duplicate_groups = [
+        {
+            "sha256": digest,
+            "paths": [record["path"] for record in records],
+            "powers_w": sorted({record["power_w"] for record in records}),
+            "splits": sorted({record["split"] for record in records}),
+        }
+        for digest, records in paths_by_hash.items()
+        if len(records) > 1
+    ]
     result: dict[str, Any] = {
         "schema_version": 1,
         "generated_on": date.today().isoformat(),
@@ -483,7 +547,7 @@ def run_audit(
         },
         "gate": {
             "structural_status": "PASS" if all(structural_checks) else "FAIL",
-            "physics_training_status": "BLOCKED_UNVERIFIED_METADATA",
+            "physics_training_status": "READY_WITH_DECLARED_INITIALIZATIONS",
             "parameter_identification_status": (
                 "READY" if not user_input_unknowns else "BLOCKED_MISSING_USER_INPUT"
             ),
@@ -500,27 +564,61 @@ def run_audit(
             "total_gib": bytes_to_gib(sum(record["bytes"] for record in inventory)),
             "sha256_computed": hash_files,
             "files": inventory,
+            "inventory_sha256": inventory_hash,
         },
         "records": {
             "simulation": [record.to_dict() | {"path": _rel(record.path)} for record in simulations],
             "experiment_ir": [record.to_dict() | {"path": _rel(record.path)} for record in experiments],
             "sensors": [record.to_dict() | {"path": _rel(record.path)} for record in sensors],
             "test_ir": [
-                record.to_dict() | {"path": _rel(record.path)}
-                for record in test_experiments
+                {"path": _rel(path), "power_w": parse_power(path), "labels": "sealed"}
+                for path in test_ir_paths
             ],
             "test_sensors": [
-                record.to_dict() | {"path": _rel(record.path)}
-                for record in test_sensors
+                {
+                    "path": _rel(path),
+                    "power_w": parse_power(path),
+                    "sensor_type": sensor_type,
+                    "labels": "sealed",
+                }
+                for sensor_type, paths in (
+                    ("hot", test_hot_paths),
+                    ("cold", test_cold_paths),
+                )
+                for path in paths
             ],
         },
     }
     json_path = PROJECT_ROOT / output_json
     markdown_path = PROJECT_ROOT / output_markdown
+    protocol_inventory_path = PROJECT_ROOT / protocol_inventory_json
     json_path.parent.mkdir(parents=True, exist_ok=True)
     markdown_path.parent.mkdir(parents=True, exist_ok=True)
+    protocol_inventory_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
     markdown_path.write_text(_render_markdown(result), encoding="utf-8")
+    protocol_inventory_path.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "protocol_id": "hf_fixed_12_3_3_v4",
+                "generated_on": result["generated_on"],
+                "sha256_computed": hash_files,
+                "test_temperature_statistics_included": False,
+                "file_count": len(inventory),
+                "total_bytes": sum(record["bytes"] for record in inventory),
+                "inventory_sha256": inventory_hash,
+                "duplicate_sha256_groups": duplicate_groups,
+                "cross_power_duplicate_sha256_groups": [
+                    group for group in duplicate_groups if len(group["powers_w"]) > 1
+                ],
+                "files": inventory,
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
     return result
 
 
@@ -529,6 +627,10 @@ def main() -> None:
     parser.add_argument("--metadata", default="configs/data_metadata.yaml")
     parser.add_argument("--output-json", default="reports/data_audit.json")
     parser.add_argument("--output-markdown", default="reports/data_audit.md")
+    parser.add_argument(
+        "--protocol-inventory-json",
+        default="reports/current_protocol/data_inventory.json",
+    )
     parser.add_argument("--workers", type=int, default=4)
     parser.add_argument("--skip-hash", action="store_true")
     args = parser.parse_args()
@@ -536,6 +638,7 @@ def main() -> None:
         metadata_path=args.metadata,
         output_json=args.output_json,
         output_markdown=args.output_markdown,
+        protocol_inventory_json=args.protocol_inventory_json,
         workers=args.workers,
         hash_files=not args.skip_hash,
     )

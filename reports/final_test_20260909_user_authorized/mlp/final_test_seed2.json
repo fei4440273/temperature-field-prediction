@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "split": "test",
+  "powers_w": [
+    169.0,
+    339.0,
+    634.0
+  ],
+  "used_for_gradient_updates": false,
+  "used_for_model_selection": false,
+  "selection_metric_version": "macro_v1",
+  "weighting": "arithmetic mean of per-condition metrics; equal top/hot/cold and power weighting",
+  "per_power": [
+    {
+      "power_w": 169.0,
+      "modalities": {
+        "top_surface": {
+          "mean_error_c": -2.5803105382636042,
+          "mae_c": 2.7942521690142037,
+          "rmse_c": 3.2414774019930985,
+          "max_abs_error_c": 5.045623779296875
+        },
+        "hot": {
+          "mean_error_c": 2.177425808376736,
+          "mae_c": 2.2579115879388505,
+          "rmse_c": 2.2948374634783324,
+          "max_abs_error_c": 3.259674072265625
+        },
+        "cold": {
+          "mean_error_c": 1.7357887268066405,
+          "mae_c": 1.9374710083007813,
+          "rmse_c": 2.0520278229293965,
+          "max_abs_error_c": 2.459625244140625
+        }
+      },
+      "combined": {
+        "mean_error_c": 0.4443013323065908,
+        "mae_c": 2.329878255084612,
+        "rmse_c": 2.5294475628002755,
+        "max_abs_error_c": 5.045623779296875
+      }
+    },
+    {
+      "power_w": 339.0,
+      "modalities": {
+        "top_surface": {
+          "mean_error_c": -2.026851706929726,
+          "mae_c": 2.07647697524269,
+          "rmse_c": 2.345796195943956,
+          "max_abs_error_c": 7.048675537109375
+        },
+        "hot": {
+          "mean_error_c": 1.2858810424804688,
+          "mae_c": 1.2858810424804688,
+          "rmse_c": 1.3162930287966954,
+          "max_abs_error_c": 1.64886474609375
+        },
+        "cold": {
+          "mean_error_c": 2.1604153442382814,
+          "mae_c": 2.1604153442382814,
+          "rmse_c": 2.2415175078676586,
+          "max_abs_error_c": 3.057342529296875
+        }
+      },
+      "combined": {
+        "mean_error_c": 0.47314822659634137,
+        "mae_c": 1.8409244539871468,
+        "rmse_c": 1.9678689108694367,
+        "max_abs_error_c": 7.048675537109375
+      }
+    },
+    {
+      "power_w": 634.0,
+      "modalities": {
+        "top_surface": {
+          "mean_error_c": -1.953536876141859,
+          "mae_c": 4.254962864975066,
+          "rmse_c": 4.986228514850687,
+          "max_abs_error_c": 14.7781982421875
+        },
+        "hot": {
+          "mean_error_c": 0.8765369121844951,
+          "mae_c": 0.9032477745643028,
+          "rmse_c": 1.0560513224038468,
+          "max_abs_error_c": 1.61053466796875
+        },
+        "cold": {
+          "mean_error_c": 2.2254596416766828,
+          "mae_c": 2.2258286696213943,
+          "rmse_c": 2.36778680303061,
+          "max_abs_error_c": 3.27496337890625
+        }
+      },
+      "combined": {
+        "mean_error_c": 0.3828198925731063,
+        "mae_c": 2.4613464363869206,
+        "rmse_c": 2.803355546761715,
+        "max_abs_error_c": 14.7781982421875
+      }
+    }
+  ],
+  "aggregate": {
+    "rmse_c": 2.433557340143809,
+    "mae_c": 2.21071638181956,
+    "mean_error_c": 0.4334231504920128,
+    "max_abs_error_c": 14.7781982421875,
+    "equal_power_mse_rmse_c": 2.4582795708165763
+  },
+  "selection": null,
+  "checkpoint": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed2/best.pt",
+  "seed": 2,
+  "checkpoint_training_powers_w": [
+    55.0,
+    216.8,
+    254.5,
+    257.0,
+    309.0,
+    364.3,
+    430.0,
+    494.2,
+    532.0,
+    558.5,
+    593.5,
+    729.0
+  ],
+  "checkpoint_validation_powers_w": [
+    115.2,
+    403.0,
+    630.5
+  ],
+  "physics_diagnostics": {
+    "used_for_model_selection": false,
+    "collocation_count_per_component": 2048,
+    "seed": 260908,
+    "losses": {
+      "pde": 0.009230775758624077,
+      "initial": 0.0,
+      "boundary": 0.020143358036875725,
+      "interface": 0.0076270923018455505,
+      "physics_total": 0.03700122609734535
+    }
+  },
+  "temperature_error_unit": "℃"
+}

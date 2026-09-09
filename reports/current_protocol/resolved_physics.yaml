@@ -1,0 +1,44 @@
+schema_version: 1
+source_config: configs/boundary_conditions.yaml
+physics_config_sha256: c66b309ba793bfccaef879f86cc20e4053b6fdbfe83fad49922bad99bca9851c
+values:
+  ambient_temperature_k:
+    value: 295.15
+    status: confirmed
+  initial_temperature_k:
+    value: 295.15
+    status: confirmed
+  laser_absorption_fraction:
+    value: 0.8
+    status: confirmed
+  laser_beam_radius_m:
+    value: 0.02
+    status: confirmed
+  top_convection_coefficient_w_m2_k:
+    value: 9.0
+    status: effective_initialization
+  bottom_convection_coefficient_w_m2_k:
+    value: 4.3
+    status: effective_initialization
+  silicon_carbide_emissivity:
+    value: 0.5
+    status: assumed_scenario
+  copper_emissivity:
+    value: 0.5
+    status: assumed_scenario
+  contact_resistance_m2_k_w:
+    value: 7.34072435302768e-05
+    status: effective_initialization
+  cooling_outer_radius_temperature_k:
+    value: 295.15
+    status: confirmed
+geometry_convention:
+  z_direction: negative_depth
+  sic_top_z_m: 0.0
+  sic_bottom_z_m: -0.012
+  copper_bottom_z_m: -0.0175
+  cooling_surface: copper_outer_cylindrical_surface
+unresolved_claims:
+- emissivities_are_not_material_measurements
+- contact_resistance_is_not_a_unique_true_value
+- gaussian_power_finite_disc_convention_requires_simulation_cross_check

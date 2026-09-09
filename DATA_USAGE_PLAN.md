@@ -2,7 +2,7 @@
 
 > 版本：v4.0  
 > 日期：2026-09-08  
-> 状态：配置、预处理、训练加载器和测试入口已实现
+> 状态：配置、来源指纹、训练加载器、冻结发布和测试门禁已实现
 
 ## 1. 核心规则
 
@@ -74,10 +74,16 @@ python scripts/03_train_multifidelity.py \
 模型结构、损失权重、轮数策略和检查点全部冻结后，单独运行一次 test_Data：
 
 ```bash
+python scripts/06_freeze_release.py --release-id RELEASE_ID \
+  --checkpoint CHECKPOINT_SEED0 --checkpoint CHECKPOINT_SEED1 \
+  --checkpoint CHECKPOINT_SEED2 --checkpoint CHECKPOINT_SEED3 \
+  --checkpoint CHECKPOINT_SEED4 --model-config configs/training.yaml \
+  --command 'RECORDED_TRAINING_COMMAND'
 python scripts/06_evaluate_test_data.py \
-  --checkpoint reports/runs/multifidelity_fixed_split_seed0/best.pt \
-  --output-json reports/test_three_power_comparison.json \
-  --output-csv reports/test_three_power_comparison.csv
+  --checkpoint CHECKPOINT_SEED0 --checkpoint CHECKPOINT_SEED1 \
+  --checkpoint CHECKPOINT_SEED2 --checkpoint CHECKPOINT_SEED3 \
+  --checkpoint CHECKPOINT_SEED4 \
+  --release-manifest reports/releases/RELEASE_ID/release_manifest.yaml
 ```
 
 最终结果对 169、339、634 W 分别输出 Top/Hot/Cold 的有符号平均误差、MAE、RMSE、最大

@@ -16,9 +16,16 @@ from torch.utils.data import DataLoader, DistributedSampler, TensorDataset
 
 from sic_cu.config import PROJECT_ROOT
 from sic_cu.data.splits import build_power_splits
+from sic_cu.data.processed import load_processed_ir_observations
 from sic_cu.models import ModelScales, SurfaceResidualMLP
 from sic_cu.models.common import parameter_count
 from sic_cu.models.interpolation import interpolate_simulation_power
+from sic_cu.eval.protocol_checks import (
+    checkpoint_provenance,
+    current_protocol_fingerprints,
+    validate_hf_checkpoint_provenance,
+    validate_release_checkpoint,
+)
 from sic_cu.train.simulation import distributed_context, set_seed
 from sic_cu.train.common import write_config_snapshot
 
@@ -59,11 +66,19 @@ def _lf_surface(frame: pl.DataFrame, simulation_powers: list[float]) -> np.ndarr
 
 
 def _dataset(frame: pl.DataFrame, simulation_powers: list[float]) -> TensorDataset:
+    frame = frame.with_columns(
+        (
+            pl.col("frame_weight")
+            / pl.col("frame_weight").sum().over("power_w")
+        )
+        .cast(pl.Float32)
+        .alias("condition_weight")
+    )
     lf = _lf_surface(frame, simulation_powers)
     inputs = frame.select("r_m", "time_s", "power_w").to_numpy().astype(np.float32)
     target = frame["temperature_mean_k"].to_numpy().astype(np.float32)
     residual = target - lf
-    weight = frame["frame_weight"].to_numpy().astype(np.float32)
+    weight = frame["condition_weight"].to_numpy().astype(np.float32)
     return TensorDataset(
         torch.from_numpy(inputs),
         torch.from_numpy(lf[:, None]),
@@ -136,15 +151,15 @@ def _per_power_metrics(
         records.append(
             {
                 "power_w": float(power),
-                "rmse_k": float(torch.sqrt((weight * error.pow(2)).sum() / denominator)),
-                "mae_k": float((weight * error.abs()).sum() / denominator),
-                "peak_mae_k": float(np.mean(np.abs(peak_errors))),
-                "peak_max_abs_error_k": float(np.max(np.abs(peak_errors))),
+                "rmse_c": float(torch.sqrt((weight * error.pow(2)).sum() / denominator)),
+                "mae_c": float((weight * error.abs()).sum() / denominator),
+                "peak_mae_c": float(np.mean(np.abs(peak_errors))),
+                "peak_max_abs_error_c": float(np.max(np.abs(peak_errors))),
                 "peak_mean_relative_error_percent": float(
                     np.mean(peak_relative_errors)
                 ),
                 "peak_max_relative_error_percent": float(np.max(peak_relative_errors)),
-                "radial_gradient_mae_k_per_mm": float(np.mean(gradient_absolute)),
+                "radial_gradient_mae_c_per_mm": float(np.mean(gradient_absolute)),
             }
         )
     return records
@@ -161,6 +176,10 @@ def train_surface_residual(
     depth: int = 4,
     evaluate_test: bool = False,
 ) -> dict[str, Any] | None:
+    if evaluate_test:
+        raise ValueError(
+            "Training-time test evaluation is disabled; freeze a release before test access"
+        )
     rank, local_rank, world_size = distributed_context()
     set_seed(seed)
     device = torch.device("cuda", local_rank) if torch.cuda.is_available() else torch.device("cpu")
@@ -168,14 +187,14 @@ def train_surface_residual(
         torch.cuda.set_device(local_rank)
         torch.cuda.reset_peak_memory_stats(device)
     splits = build_power_splits()
+    fingerprints = current_protocol_fingerprints()
     simulation_powers = sorted(splits.simulation_train)
-    ir = pl.read_parquet(PROJECT_ROOT / "data/processed/experiment_ir_radial.parquet")
+    ir = load_processed_ir_observations()
     train_frame = ir.filter(pl.col("split") == "train")
     validation_frame = ir.filter(pl.col("split") == "validation")
     train_data = _dataset(train_frame, simulation_powers)
     validation_data = _dataset(validation_frame, simulation_powers)
     train_sampler = DistributedSampler(train_data, world_size, rank, True, seed) if world_size > 1 else None
-    validation_sampler = DistributedSampler(validation_data, world_size, rank, False) if world_size > 1 else None
     train_loader = DataLoader(
         train_data,
         batch_size=batch_size,
@@ -186,7 +205,6 @@ def train_surface_residual(
     validation_loader = DataLoader(
         validation_data,
         batch_size=batch_size,
-        sampler=validation_sampler,
         pin_memory=device.type == "cuda",
     )
     scales = ModelScales()
@@ -242,7 +260,13 @@ def train_surface_residual(
                         "simulation_train_powers_w": simulation_powers,
                         "hf_train_powers_w": sorted(splits.hf_train),
                         "hf_validation_powers_w": sorted(splits.hf_validation),
-                        "validation_rmse_k": best,
+                        "validation_rmse_c": best,
+                        "provenance": checkpoint_provenance(
+                            role="surface_multifidelity",
+                            train_powers_w=splits.hf_train,
+                            validation_powers_w=splits.hf_validation,
+                            fingerprints=fingerprints,
+                        ),
                         "scope": "SiC top surface only",
                         "material_passport": {
                             "simulation_data_used": True,
@@ -259,11 +283,11 @@ def train_surface_residual(
         if rank == 0:
             record = {
                 "epoch": epoch,
-                "train_residual_rmse_k": float(
+                "train_residual_rmse_c": float(
                     torch.sqrt(train_weighted_sse[0] / train_weighted_sse[1])
                 ),
-                "validation_surface_rmse_k": validation_rmse,
-                "validation_surface_mae_k": validation_mae,
+                "validation_surface_rmse_c": validation_rmse,
+                "validation_surface_mae_c": validation_mae,
                 "learning_rate": optimizer.param_groups[0]["lr"],
             }
             with (output / "training.jsonl").open("a", encoding="utf-8") as handle:
@@ -277,15 +301,11 @@ def train_surface_residual(
     if rank == 0:
         checkpoint = torch.load(output / "best.pt", map_location=device, weights_only=False)
         base_model.load_state_dict(checkpoint["model_state"])
-        test = (
-            _per_power_metrics(
-                base_model,
-                ir.filter(pl.col("split") == "test"),
-                simulation_powers,
-                device,
-            )
-            if evaluate_test
-            else None
+        validation_records = _per_power_metrics(
+            base_model,
+            validation_frame,
+            simulation_powers,
+            device,
         )
         result = {
             "method": "deterministic_multifidelity_surface_residual",
@@ -294,26 +314,40 @@ def train_surface_residual(
             "world_size": world_size,
             "epochs_completed": epoch,
             "best_epoch": best_epoch,
-            "best_validation_rmse_k": best,
+            "best_validation_rmse_c": best,
             "training_seconds": time.perf_counter() - started,
             "parameter_count": parameter_count(base_model),
             "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device) if device.type == "cuda" else 0,
-            "test": None if test is None else {
-                "aggregate_rmse_k": float(np.mean([item["rmse_k"] for item in test])),
-                "aggregate_mae_k": float(np.mean([item["mae_k"] for item in test])),
-                "aggregate_peak_mae_k": float(
-                    np.mean([item["peak_mae_k"] for item in test])
+            "validation": {
+                "aggregate_rmse_c": float(
+                    np.mean([item["rmse_c"] for item in validation_records])
+                ),
+                "aggregate_mae_c": float(
+                    np.mean([item["mae_c"] for item in validation_records])
+                ),
+                "aggregate_peak_mae_c": float(
+                    np.mean([item["peak_mae_c"] for item in validation_records])
                 ),
                 "aggregate_peak_relative_error_percent": float(
                     np.mean(
-                        [item["peak_mean_relative_error_percent"] for item in test]
+                        [
+                            item["peak_mean_relative_error_percent"]
+                            for item in validation_records
+                        ]
                     )
                 ),
-                "aggregate_radial_gradient_mae_k_per_mm": float(
-                    np.mean([item["radial_gradient_mae_k_per_mm"] for item in test])
+                "aggregate_radial_gradient_mae_c_per_mm": float(
+                    np.mean(
+                        [
+                            item["radial_gradient_mae_c_per_mm"]
+                            for item in validation_records
+                        ]
+                    )
                 ),
-                "per_power": test,
+                "per_power": validation_records,
             },
+            "test": None,
+            "test_status": "sealed_until_frozen_release",
             "material_passport": {
                 "simulation_role": "low-fidelity surface baseline",
                 "experiment_role": "SiC top-surface correction",
@@ -331,12 +365,17 @@ def train_surface_residual(
     return result
 
 
-def recompute_surface_run_metrics(output_directory: str) -> dict[str, Any]:
+def recompute_surface_run_metrics(
+    output_directory: str,
+    release_manifest_path: str,
+) -> dict[str, Any]:
     """Re-evaluate a saved run on the untouched test powers using current metrics."""
     output = PROJECT_ROOT / output_directory
     metrics_path = output / "metrics.json"
     result = json.loads(metrics_path.read_text(encoding="utf-8"))
     checkpoint = torch.load(output / "best.pt", map_location="cpu", weights_only=False)
+    validate_hf_checkpoint_provenance(checkpoint)
+    validate_release_checkpoint(release_manifest_path, output / "best.pt")
     scales = ModelScales(**checkpoint["scales"])
     kwargs = checkpoint["model_kwargs"]
     model = SurfaceResidualMLP(scales, **kwargs)
@@ -357,9 +396,7 @@ def recompute_surface_run_metrics(output_directory: str) -> dict[str, Any]:
         raise RuntimeError(
             "Surface checkpoint does not match the current fixed train/validation protocol"
         )
-    test_frame = pl.read_parquet(
-        PROJECT_ROOT / "data/processed/experiment_ir_radial.parquet"
-    ).filter(pl.col("split") == "test")
+    test_frame = load_processed_ir_observations("test")
     records = _per_power_metrics(
         model,
         test_frame,
@@ -367,14 +404,14 @@ def recompute_surface_run_metrics(output_directory: str) -> dict[str, Any]:
         torch.device("cpu"),
     )
     result["test"] = {
-        "aggregate_rmse_k": float(np.mean([item["rmse_k"] for item in records])),
-        "aggregate_mae_k": float(np.mean([item["mae_k"] for item in records])),
-        "aggregate_peak_mae_k": float(np.mean([item["peak_mae_k"] for item in records])),
+        "aggregate_rmse_c": float(np.mean([item["rmse_c"] for item in records])),
+        "aggregate_mae_c": float(np.mean([item["mae_c"] for item in records])),
+        "aggregate_peak_mae_c": float(np.mean([item["peak_mae_c"] for item in records])),
         "aggregate_peak_relative_error_percent": float(
             np.mean([item["peak_mean_relative_error_percent"] for item in records])
         ),
-        "aggregate_radial_gradient_mae_k_per_mm": float(
-            np.mean([item["radial_gradient_mae_k_per_mm"] for item in records])
+        "aggregate_radial_gradient_mae_c_per_mm": float(
+            np.mean([item["radial_gradient_mae_c_per_mm"] for item in records])
         ),
         "per_power": records,
     }
@@ -392,11 +429,6 @@ def main() -> None:
     parser.add_argument("--patience", type=int, default=200)
     parser.add_argument("--width", type=int, default=128)
     parser.add_argument("--depth", type=int, default=4)
-    parser.add_argument(
-        "--evaluate-test",
-        action="store_true",
-        help="Explicitly evaluate test_Data after the model is frozen.",
-    )
     args = parser.parse_args()
     result = train_surface_residual(
         args.output,
@@ -407,10 +439,10 @@ def main() -> None:
         args.patience,
         args.width,
         args.depth,
-        args.evaluate_test,
+        False,
     )
     if result is not None:
-        print(json.dumps(result["test"] or {"status": "trained_without_test_evaluation"}, indent=2))
+        print(json.dumps(result["validation"], indent=2))
 
 
 if __name__ == "__main__":

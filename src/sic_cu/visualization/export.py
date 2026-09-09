@@ -62,13 +62,14 @@ def export_prediction(
     np.savez_compressed(
         output / "field_rzt.npz",
         power_w=np.asarray(prediction.power_w),
+        temperature_unit=np.asarray("\u2103"),
         times_s=prediction.times_s,
         coordinates_rz_m=prediction.coordinates_rz_m,
         material_ids=prediction.material_ids,
-        mean_temperature_k=prediction.mean_temperature_k,
-        q05_temperature_k=prediction.q05_temperature_k,
-        q95_temperature_k=prediction.q95_temperature_k,
-        max_temperature_k=prediction.max_temperature_k,
+        mean_temperature_c=prediction.mean_temperature_c,
+        q05_temperature_c=prediction.q05_temperature_c,
+        q95_temperature_c=prediction.q95_temperature_c,
+        max_temperature_c=prediction.max_temperature_c,
     )
     (output / "metadata.json").write_text(metadata_json(prediction), encoding="utf-8")
     hot_index = _nearest_bottom_node(prediction, 0.028)
@@ -107,8 +108,8 @@ def _export_figures(prediction: Prediction, directory: Path) -> list[str]:
     directory.mkdir(parents=True, exist_ok=True)
     paths: list[str] = []
     fig, axis = plt.subplots(figsize=(7, 4))
-    axis.plot(prediction.times_s, prediction.max_temperature_k - 273.15)
-    axis.set(xlabel="Time (s)", ylabel="Maximum temperature (degC)")
+    axis.plot(prediction.times_s, prediction.max_temperature_c)
+    axis.set(xlabel="Time (s)", ylabel="Maximum temperature (\u2103)")
     axis.grid(alpha=0.25)
     path = directory / "maximum_temperature.png"
     fig.tight_layout()
@@ -132,7 +133,7 @@ def _export_figures(prediction: Prediction, directory: Path) -> list[str]:
             levels=30,
             cmap="inferno",
         )
-        fig.colorbar(contour, ax=axis, label="Temperature (degC)")
+        fig.colorbar(contour, ax=axis, label="Temperature (\u2103)")
         axis.set(
             xlabel="r (mm)",
             ylabel="z (mm)",

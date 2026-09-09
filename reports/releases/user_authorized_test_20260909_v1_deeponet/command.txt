@@ -1,0 +1,1 @@
+User-authorized final test comparison requested 2026-09-09; current dirty snapshot preserved by fingerprints and checkpoint hashes.

@@ -24,7 +24,14 @@ def main() -> None:
     parser.add_argument("--initial-temperature-c", type=float, default=22.0)
     parser.add_argument("--cooling-radius-m", type=float, default=0.05834)
     parser.add_argument("--cooling-radius-tolerance-m", type=float, default=1e-7)
-    parser.add_argument("--temperature-tolerance-k", type=float, default=1e-5)
+    parser.add_argument(
+        "--temperature-tolerance-c",
+        "--temperature-tolerance-k",
+        dest="temperature_tolerance_c",
+        type=float,
+        default=1e-5,
+        help="Temperature-difference tolerance in \u2103",
+    )
     parser.add_argument("--theta-resolution", type=int, default=72)
     args = parser.parse_args()
 
@@ -35,12 +42,12 @@ def main() -> None:
         times = field["times_s"]
         coordinates = field["coordinates_rz_m"]
         materials = field["material_ids"]
-        temperature = field["mean_temperature_k"]
-        q05 = field["q05_temperature_k"]
-        q95 = field["q95_temperature_k"]
-        maximum = field["max_temperature_k"]
+        temperature = field["mean_temperature_c"]
+        q05 = field["q05_temperature_c"]
+        q95 = field["q95_temperature_c"]
+        maximum = field["max_temperature_c"]
 
-    expected_k = args.initial_temperature_c + 273.15
+    expected_c = args.initial_temperature_c
     outer_copper = (materials == 0) & np.isclose(
         coordinates[:, 0],
         args.cooling_radius_m,
@@ -63,20 +70,20 @@ def main() -> None:
         "all_finite": bool(np.isfinite(temperature).all()),
         "strictly_increasing_times": bool(np.all(np.diff(times) > 0)),
         "initial_condition": bool(
-            np.max(np.abs(temperature[0] - expected_k)) <= args.temperature_tolerance_k
+            np.max(np.abs(temperature[0] - expected_c)) <= args.temperature_tolerance_c
         ),
         "temperature_floor": bool(
-            temperature.min() >= expected_k - args.temperature_tolerance_k
+            temperature.min() >= expected_c - args.temperature_tolerance_c
         ),
         "cooling_boundary_found": bool(outer_copper.any()),
         "cooling_boundary": bool(
             outer_copper.any()
-            and np.max(np.abs(temperature[:, outer_copper] - expected_k))
-            <= args.temperature_tolerance_k
+            and np.max(np.abs(temperature[:, outer_copper] - expected_c))
+            <= args.temperature_tolerance_c
         ),
         "quantiles_ordered": bool(np.all(q05 <= temperature) and np.all(temperature <= q95)),
         "maximum_curve_consistent": bool(
-            np.allclose(maximum, temperature.max(axis=1), atol=args.temperature_tolerance_k)
+            np.allclose(maximum, temperature.max(axis=1), atol=args.temperature_tolerance_c)
         ),
         "hot_cold_row_count": bool(hot_cold_rows == len(times)),
         "vtk_point_counts": bool(
@@ -97,14 +104,15 @@ def main() -> None:
             "power_w": float(metadata["power_w"]),
             "time_count": int(len(times)),
             "node_count": int(len(coordinates)),
-            "temperature_c_min": float(temperature.min() - 273.15),
-            "temperature_c_max": float(temperature.max() - 273.15),
-            "initial_max_abs_error_k": float(np.max(np.abs(temperature[0] - expected_k))),
+            "temperature_unit": "\u2103",
+            "temperature_c_min": float(temperature.min()),
+            "temperature_c_max": float(temperature.max()),
+            "initial_max_abs_error_c": float(np.max(np.abs(temperature[0] - expected_c))),
             "cooling_node_count": int(outer_copper.sum()),
-            "cooling_max_abs_error_k": float(
-                np.max(np.abs(temperature[:, outer_copper] - expected_k))
+            "cooling_max_abs_error_c": float(
+                np.max(np.abs(temperature[:, outer_copper] - expected_c))
             ),
-            "last_tmax_change_k": float(abs(maximum[-1] - maximum[-2])),
+            "last_tmax_change_c": float(abs(maximum[-1] - maximum[-2])),
             "stable_time_s": metadata["stable_time_s"],
             "stable_time_display": (
                 f">{times[-1]:g} s" if metadata["stable_time_s"] is None else metadata["stable_time_s"]

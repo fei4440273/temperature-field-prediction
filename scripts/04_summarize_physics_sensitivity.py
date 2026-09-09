@@ -10,7 +10,7 @@ from typing import Any
 SCENARIOS = ("low", "mid", "high")
 
 
-def summarize(paths: list[Path], insensitivity_threshold_k: float) -> dict[str, Any]:
+def summarize(paths: list[Path], insensitivity_threshold_c: float) -> dict[str, Any]:
     if len(paths) != len(SCENARIOS):
         raise ValueError("Exactly low, mid, and high sensitivity runs are required")
     records = []
@@ -32,7 +32,7 @@ def summarize(paths: list[Path], insensitivity_threshold_k: float) -> dict[str, 
                 "path": str(path),
                 "seed": int(metrics["seed"]),
                 "best_epoch": int(metrics["best_epoch"]),
-                "validation_ir_rmse_k": float(metrics["best_validation_ir_rmse_k"]),
+                "validation_ir_rmse_c": float(metrics["best_validation_ir_rmse_c"]),
                 "silicon_carbide_emissivity": float(
                     values["silicon_carbide_emissivity"]
                 ),
@@ -44,11 +44,11 @@ def summarize(paths: list[Path], insensitivity_threshold_k: float) -> dict[str, 
         )
     if len(seeds) != 1:
         raise ValueError("Sensitivity runs must use one common seed")
-    validation_values = [record["validation_ir_rmse_k"] for record in records]
+    validation_values = [record["validation_ir_rmse_c"] for record in records]
     spread = max(validation_values) - min(validation_values)
-    insensitive = spread <= insensitivity_threshold_k
+    insensitive = spread <= insensitivity_threshold_c
     selected = "mid" if insensitive else min(
-        records, key=lambda record: record["validation_ir_rmse_k"]
+        records, key=lambda record: record["validation_ir_rmse_c"]
     )["scenario"]
     return {
         "schema_version": 1,
@@ -56,8 +56,8 @@ def summarize(paths: list[Path], insensitivity_threshold_k: float) -> dict[str, 
         "test_powers_accessed": False,
         "common_seed": next(iter(seeds)),
         "runs": records,
-        "validation_rmse_spread_k": spread,
-        "insensitivity_threshold_k": insensitivity_threshold_k,
+        "validation_rmse_spread_c": spread,
+        "insensitivity_threshold_c": insensitivity_threshold_c,
         "emissivity_sensitivity_classification": (
             "INSENSITIVE_WITHIN_SCREEN" if insensitive else "VALIDATION_SENSITIVE"
         ),
@@ -74,7 +74,7 @@ def render_markdown(summary: dict[str, Any]) -> str:
         f"| {run['scenario']} | {run['silicon_carbide_emissivity']:.3f} | "
         f"{run['copper_emissivity']:.3f} | "
         f"{run['contact_resistance_m2_k_w']:.8e} | "
-        f"{run['best_epoch']} | {run['validation_ir_rmse_k']:.6f} |"
+        f"{run['best_epoch']} | {run['validation_ir_rmse_c']:.6f} |"
         for run in summary["runs"]
     )
     return f"""# 固定物理参数敏感性筛选
@@ -83,12 +83,12 @@ def render_markdown(summary: dict[str, Any]) -> str:
 测试集：未访问  
 共同随机种子：`{summary['common_seed']}`
 
-| 场景 | SiC 辐射率 | Cu 辐射率 | Rc (m²·K/W) | 最佳 epoch | 验证 IR RMSE (K) |
+| 场景 | SiC 辐射率 | Cu 辐射率 | Rc (m²·K/W) | 最佳 epoch | 验证 IR RMSE (℃) |
 |---|---:|---:|---:|---:|---:|
 {rows}
 
-三组验证 RMSE 的最大差为 `{summary['validation_rmse_spread_k']:.6f} K`，判定阈值为
-`{summary['insensitivity_threshold_k']:.3f} K`，因此分类为
+三组验证 RMSE 的最大差为 `{summary['validation_rmse_spread_c']:.6f} ℃`，判定阈值为
+`{summary['insensitivity_threshold_c']:.3f} ℃`，因此分类为
 `{summary['emissivity_sensitivity_classification']}`。
 
 名义模型锁定 `{summary['selected_nominal_scenario']}` 场景。该选择的含义是：在当前观测和
@@ -117,7 +117,7 @@ def main() -> None:
         "--output-markdown", type=Path, default=Path("reports/physics_sensitivity.md")
     )
     args = parser.parse_args()
-    result = summarize(args.paths, args.insensitivity_threshold_k)
+    result = summarize(args.paths, args.insensitivity_threshold_c)
     args.output_json.parent.mkdir(parents=True, exist_ok=True)
     args.output_markdown.parent.mkdir(parents=True, exist_ok=True)
     args.output_json.write_text(json.dumps(result, indent=2), encoding="utf-8")

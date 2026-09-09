@@ -17,7 +17,6 @@ from torch.utils.data import TensorDataset
 from sic_cu.config import PROJECT_ROOT
 from sic_cu.data.fields import load_processed_field
 from sic_cu.data.splits import build_power_splits
-from sic_cu.eval.metrics import aggregate_field_records, field_metrics
 from sic_cu.eval.pod_analysis import run_pod_analysis
 from sic_cu.models import MaterialWisePODPINN, ModelScales, PODPINN, load_pod_basis
 from sic_cu.models.common import parameter_count
@@ -292,7 +291,7 @@ def train_pod_model(
                         "scales": asdict(base_model.scales),
                         "train_powers_w": sorted(splits.simulation_train),
                         "validation_powers_w": sorted(splits.simulation_validation),
-                        "validation_field_rmse_k": best,
+                        "validation_field_rmse_c": best,
                         "validation_coefficient_rmse": validation_coefficient_rmse,
                         "material_passport": {
                             "simulation_data_used": True,
@@ -311,7 +310,7 @@ def train_pod_model(
                 "epoch": epoch,
                 "train_coefficient_rmse": float(torch.sqrt(train_sums[0] / train_sums[1])),
                 "validation_coefficient_rmse": validation_coefficient_rmse,
-                "validation_field_rmse_k": validation_field_rmse,
+                "validation_field_rmse_c": validation_field_rmse,
                 "learning_rate": optimizer.param_groups[0]["lr"],
                 **{f"loss_{name}": value for name, value in physics_values.items()},
             }
@@ -331,31 +330,13 @@ def train_pod_model(
     if rank == 0:
         checkpoint = torch.load(output / "best.pt", map_location=device, weights_only=False)
         base_model.load_state_dict(checkpoint["model_state"])
-        records = []
-        for power in sorted(splits.simulation_test):
-            field = load_processed_field(power)
-            inference_started = time.perf_counter()
-            prediction = _predict_mesh(base_model, power, field.times_s, device)
-            records.append(
-                {
-                    "power_w": power,
-                    "inference_seconds": time.perf_counter() - inference_started,
-                    "metrics": field_metrics(
-                        field.temperature_k,
-                        prediction,
-                        field.times_s,
-                        field.material_ids,
-                        field.coordinates_rz_m,
-                    ),
-                }
-            )
         result = {
             "method": checkpoint["method"],
             "seed": seed,
             "world_size": world_size,
             "epochs_completed": epoch,
             "best_epoch": best_epoch,
-            "best_validation_field_rmse_k": best,
+            "best_validation_field_rmse_c": best,
             "best_validation_coefficient_rmse": checkpoint[
                 "validation_coefficient_rmse"
             ],
@@ -364,10 +345,8 @@ def train_pod_model(
             "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device)
             if device.type == "cuda"
             else 0,
-            "test": {
-                "aggregate": aggregate_field_records(records),
-                "per_power": records,
-            },
+            "test": None,
+            "test_status": "sealed_until_frozen_release",
             "configuration": {
                 "epochs": epochs,
                 "batch_size_per_rank": batch_size,

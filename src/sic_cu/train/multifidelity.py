@@ -17,8 +17,17 @@ from torch.utils.data import DataLoader, DistributedSampler, TensorDataset
 
 from sic_cu.config import PROJECT_ROOT, load_yaml
 from sic_cu.data.sensors import load_canonical_sensor_observations
+from sic_cu.data.common import sha256_file
+from sic_cu.data.processed import load_processed_ir_observations
 from sic_cu.data.splits import assert_no_hf_leakage, build_power_splits
-from sic_cu.eval.metrics import curve_metrics
+from sic_cu.eval.protocol_checks import (
+    checkpoint_provenance,
+    current_protocol_fingerprints,
+    validate_hf_checkpoint_provenance,
+    validate_lf_checkpoint_provenance,
+    validate_release_checkpoint,
+)
+from sic_cu.eval.metrics import curve_metrics, macro_metric_summary, weighted_metrics
 from sic_cu.eval.validation import (
     build_three_power_comparison,
     write_three_power_comparison,
@@ -28,13 +37,18 @@ from sic_cu.eval.residual_interpolation import (
     fit_surface_temperature_interpolator,
 )
 from sic_cu.losses import PhysicsLossComputer, PhysicsLossWeights
-from sic_cu.models import AdditiveCorrectionModel, ModelScales
+from sic_cu.models import AdditiveCorrectionModel, ModelScales, PRCMultifidelityModel
 from sic_cu.models.residual_interpolation import (
     ChebyshevSurfaceResidualGuide,
     fit_chebyshev_surface_residual_guide,
 )
 from sic_cu.models.common import parameter_count
-from sic_cu.physics import load_boundary_conditions, sample_collocation
+from sic_cu.physics import (
+    load_boundary_conditions,
+    load_resolved_boundary_conditions,
+    resolved_boundary_snapshot,
+    sample_collocation,
+)
 from sic_cu.physics.materials import PhysicsConfigurationError, load_materials
 from sic_cu.physics.trainable_parameters import TrainableBoundaryParameters
 from sic_cu.train.simulation import build_model, distributed_context, load_sampled_points, set_seed
@@ -77,9 +91,19 @@ def _ir_dataset(
     powers_w: Iterable[float] | None = None,
 ) -> TensorDataset:
     frame = _filter_observations(
-        pl.read_parquet(PROJECT_ROOT / "data/processed/experiment_ir_radial.parquet"),
+        load_processed_ir_observations(split),
         split,
         powers_w,
+    )
+    if frame.is_empty():
+        raise ValueError("IR selection is empty")
+    frame = frame.with_columns(
+        (
+            pl.col("frame_weight")
+            / pl.col("frame_weight").sum().over("power_w")
+        )
+        .cast(pl.Float32)
+        .alias("condition_weight")
     )
     coordinates = np.column_stack(
         (
@@ -91,7 +115,7 @@ def _ir_dataset(
         )
     ).astype(np.float32)
     target = frame["temperature_mean_k"].to_numpy().astype(np.float32)[:, None]
-    weight = frame["frame_weight"].to_numpy().astype(np.float32)[:, None]
+    weight = frame["condition_weight"].to_numpy().astype(np.float32)[:, None]
     return TensorDataset(
         torch.from_numpy(coordinates),
         torch.from_numpy(target),
@@ -109,9 +133,7 @@ def _surface_teacher_dataset(
 ) -> TensorDataset:
     if power_count < 2 or radial_count < 2 or time_step_s <= 0.0:
         raise ValueError("Invalid surface teacher grid configuration")
-    frame = pl.read_parquet(
-        PROJECT_ROOT / "data/processed/experiment_ir_radial.parquet"
-    )
+    frame = load_processed_ir_observations()
     training = sorted(round(float(value), 4) for value in training_powers_w)
     predictor = fit_residual_interpolator(frame, training, simulation_powers_w)
     powers = np.linspace(training[0], training[-1], power_count, dtype=np.float32)
@@ -150,7 +172,7 @@ def _sensor_tensors(
     powers_w: Iterable[float] | None = None,
 ) -> tuple[Tensor, ...]:
     frame = _filter_observations(
-        load_canonical_sensor_observations(), split, powers_w
+        load_canonical_sensor_observations(split=split), split, powers_w
     )
     geometry = load_yaml("configs/geometry.yaml")
     bottom = float(geometry["embedding"]["copper_bottom_z_m"])
@@ -177,6 +199,40 @@ def _sensor_tensors(
     )
 
 
+def _macro_sensor_training_losses(
+    prediction: Tensor,
+    target: Tensor,
+    delta: Tensor,
+    baseline: Tensor,
+    coordinates: Tensor,
+    temperature_scale_k: float,
+) -> tuple[Tensor, Tensor]:
+    """Return equal-curve MSEs instead of record-count-weighted losses."""
+    predicted_delta = prediction - prediction[baseline]
+    group_keys = torch.stack(
+        (
+            torch.round(coordinates[:, 3] * 10_000),
+            torch.round(coordinates[:, 0] * 1_000_000),
+        ),
+        dim=1,
+    )
+    absolute_losses = []
+    delta_losses = []
+    for key in torch.unique(group_keys, dim=0):
+        mask = (group_keys == key).all(dim=1)
+        absolute_losses.append(
+            ((prediction[mask] - target[mask]) / temperature_scale_k).pow(2).mean()
+        )
+        delta_losses.append(
+            ((predicted_delta[mask] - delta[mask]) / temperature_scale_k)
+            .pow(2)
+            .mean()
+        )
+    if not absolute_losses:
+        raise RuntimeError("Sensor selection contains no complete curves")
+    return torch.stack(absolute_losses).mean(), torch.stack(delta_losses).mean()
+
+
 @torch.no_grad()
 def _sensor_validation(
     model: nn.Module,
@@ -186,27 +242,67 @@ def _sensor_validation(
     coordinates, target, delta, baseline = sensor
     prediction = model(coordinates)
     predicted_delta = prediction - prediction[baseline]
+    records = []
+    group_keys = torch.stack(
+        (
+            torch.round(coordinates[:, 3] * 10_000),
+            torch.round(coordinates[:, 0] * 1_000_000),
+        ),
+        dim=1,
+    )
+    for key in torch.unique(group_keys, dim=0):
+        mask = (group_keys == key).all(dim=1)
+        absolute_error = prediction[mask] - target[mask]
+        delta_error = predicted_delta[mask] - delta[mask]
+        records.append(
+            {
+                "absolute_rmse_c": float(torch.sqrt(absolute_error.pow(2).mean())),
+                "absolute_mae_c": float(absolute_error.abs().mean()),
+                "delta_rmse_c": float(torch.sqrt(delta_error.pow(2).mean())),
+                "delta_mae_c": float(delta_error.abs().mean()),
+            }
+        )
     return {
-        "absolute_rmse_k": float(torch.sqrt((prediction - target).pow(2).mean())),
-        "delta_rmse_k": float(torch.sqrt((predicted_delta - delta).pow(2).mean())),
+        name: float(np.mean([record[name] for record in records]))
+        for name in (
+            "absolute_rmse_c",
+            "absolute_mae_c",
+            "delta_rmse_c",
+            "delta_mae_c",
+        )
     }
 
 
 @torch.no_grad()
 def _weighted_validation(model: nn.Module, loader: DataLoader, device: torch.device) -> Tensor:
+    """Return rank-0 full-dataset macro metrics, broadcast to every rank."""
     model.eval()
-    sums = torch.zeros(3, dtype=torch.float64, device=device)
-    for coordinates, target, weight in loader:
-        coordinates = coordinates.to(device, non_blocking=True)
-        target = target.to(device, non_blocking=True)
-        weight = weight.to(device, non_blocking=True)
-        error = model(coordinates) - target
-        sums[0] += (weight.double() * error.double().pow(2)).sum()
-        sums[1] += (weight.double() * error.double().abs()).sum()
-        sums[2] += weight.double().sum()
+    by_power: dict[float, list[float]] = {}
+    if not dist.is_initialized() or dist.get_rank() == 0:
+        for coordinates, target, weight in loader:
+            coordinates = coordinates.to(device, non_blocking=True)
+            target = target.to(device, non_blocking=True)
+            weight = weight.to(device, non_blocking=True)
+            error = model(coordinates) - target
+            for power in torch.unique(coordinates[:, 3]):
+                mask = torch.isclose(coordinates[:, 3], power, atol=1e-4, rtol=0.0)
+                key = round(float(power), 4)
+                sums = by_power.setdefault(key, [0.0, 0.0, 0.0])
+                sums[0] += float((weight[mask].double() * error[mask].double().pow(2)).sum())
+                sums[1] += float((weight[mask].double() * error[mask].double().abs()).sum())
+                sums[2] += float(weight[mask].double().sum())
+    result = torch.zeros(3, dtype=torch.float64, device=device)
+    if not dist.is_initialized() or dist.get_rank() == 0:
+        if not by_power or any(values[2] <= 0.0 for values in by_power.values()):
+            raise RuntimeError("Validation contains an empty or zero-weight power condition")
+        per_power_rmse = [(values[0] / values[2]) ** 0.5 for values in by_power.values()]
+        per_power_mae = [values[1] / values[2] for values in by_power.values()]
+        result[0] = float(np.mean(per_power_rmse))
+        result[1] = float(np.mean(per_power_mae))
+        result[2] = float(np.sqrt(np.mean(np.square(per_power_rmse))))
     if dist.is_initialized():
-        dist.all_reduce(sums)
-    return sums
+        dist.broadcast(result, src=0)
+    return result
 
 
 @torch.no_grad()
@@ -218,6 +314,14 @@ def _predict_batches(model: nn.Module, coordinates: Tensor, device: torch.device
     return np.concatenate(output).reshape(-1)
 
 
+def _gradient_l2(parameters: Iterable[nn.Parameter]) -> float:
+    squared = 0.0
+    for parameter in parameters:
+        if parameter.grad is not None:
+            squared += float(parameter.grad.detach().double().pow(2).sum())
+    return squared**0.5
+
+
 @torch.no_grad()
 def _evaluate_ir_model(
     model: nn.Module,
@@ -226,7 +330,7 @@ def _evaluate_ir_model(
     powers_w: Iterable[float] | None = None,
 ) -> dict[str, Any]:
     frame = _filter_observations(
-        pl.read_parquet(PROJECT_ROOT / "data/processed/experiment_ir_radial.parquet"),
+        load_processed_ir_observations(split),
         split,
         powers_w,
     )
@@ -241,64 +345,56 @@ def _evaluate_ir_model(
     records = []
     for power in np.unique(powers):
         power_mask = np.isclose(powers, power, atol=1e-4)
-        denominator = float(weights[power_mask].sum())
+        condition_metrics = weighted_metrics(
+            target_values[power_mask], prediction[power_mask], weights[power_mask]
+        )
         peak_errors = []
-        for time_s in np.unique(times[power_mask]):
+        peak_rise_relative_errors = []
+        condition_times = np.unique(times[power_mask])
+        first_peak_k = float(target_values[power_mask & np.isclose(times, condition_times[0], atol=1e-5)].max())
+        for time_s in condition_times:
             frame_mask = power_mask & np.isclose(times, time_s, atol=1e-5)
-            peak_errors.append(
-                float(prediction[frame_mask].max() - target_values[frame_mask].max())
+            peak_error = float(
+                prediction[frame_mask].max() - target_values[frame_mask].max()
+            )
+            peak_errors.append(peak_error)
+            peak_rise_k = float(target_values[frame_mask].max()) - first_peak_k
+            if peak_rise_k >= 1.0:
+                peak_rise_relative_errors.append(abs(peak_error) / peak_rise_k * 100.0)
+        time_windows: dict[str, Any] = {}
+        for name, lower, upper in (
+            ("time_0_30_s", 0.0, 30.0),
+            ("time_30_100_s", 30.0, 100.0),
+            ("time_100_200_s", 100.0, 200.0 + np.finfo(float).eps),
+        ):
+            mask = power_mask & (times >= lower) & (times < upper)
+            time_windows[name] = (
+                weighted_metrics(target_values[mask], prediction[mask], weights[mask])
+                if bool(mask.any())
+                else None
             )
         records.append(
             {
                 "power_w": float(power),
-                "rmse_k": float(
-                    np.sqrt(np.sum(weights[power_mask] * error[power_mask] ** 2) / denominator)
+                **condition_metrics,
+                "peak_mae_c": float(np.mean(np.abs(peak_errors))),
+                "peak_max_abs_error_c": float(np.max(np.abs(peak_errors))),
+                "peak_rise_relative_error_percent": (
+                    float(np.mean(peak_rise_relative_errors))
+                    if peak_rise_relative_errors
+                    else None
                 ),
-                "mae_k": float(
-                    np.sum(weights[power_mask] * np.abs(error[power_mask])) / denominator
-                ),
-                "mean_error_k": float(
-                    np.sum(weights[power_mask] * error[power_mask]) / denominator
-                ),
-                "max_abs_error_k": float(np.max(np.abs(error[power_mask]))),
-                "peak_mae_k": float(np.mean(np.abs(peak_errors))),
-                "peak_max_abs_error_k": float(np.max(np.abs(peak_errors))),
-                "peak_mean_relative_error_percent": float(
-                    np.mean(
-                        [
-                            abs(error_k)
-                            / max(
-                                float(
-                                    target_values[
-                                        power_mask
-                                        & np.isclose(times, time_s, atol=1e-5)
-                                    ].max()
-                                    - 273.15
-                                ),
-                                np.finfo(float).eps,
-                            )
-                            * 100.0
-                            for error_k, time_s in zip(
-                                peak_errors,
-                                np.unique(times[power_mask]),
-                                strict=True,
-                            )
-                        ]
-                    )
-                ),
+                "time_windows": time_windows,
             }
         )
+    macro = macro_metric_summary(records)
     return {
         "split": split,
-        "rmse_k": float(np.sqrt(np.sum(weights * error**2) / weights.sum())),
-        "mae_k": float(np.sum(weights * np.abs(error)) / weights.sum()),
-        "mean_error_k": float(np.sum(weights * error) / weights.sum()),
-        "max_abs_error_k": float(np.max(np.abs(error))),
-        "peak_mae_k": float(np.mean([record["peak_mae_k"] for record in records])),
-        "peak_mean_relative_error_percent": float(
-            np.mean(
-                [record["peak_mean_relative_error_percent"] for record in records]
-            )
+        "selection_metric_version": "macro_v1",
+        **macro,
+        "peak_mae_c": float(np.mean([record["peak_mae_c"] for record in records])),
+        "peak_max_abs_error_c": float(
+            max(record["peak_max_abs_error_c"] for record in records)
         ),
         "per_power": records,
     }
@@ -312,7 +408,7 @@ def _evaluate_sensor_model(
     powers_w: Iterable[float] | None = None,
 ) -> dict[str, Any]:
     frame = _filter_observations(
-        load_canonical_sensor_observations(),
+        load_canonical_sensor_observations(split=split),
         split,
         powers_w,
     )
@@ -350,14 +446,18 @@ def _evaluate_sensor_model(
             )
     return {
         "split": split,
-        "absolute_rmse_k": float(
-            np.mean([record["absolute"]["rmse_k"] for record in records])
+        "selection_metric_version": "macro_v1",
+        "absolute_rmse_c": float(
+            np.mean([record["absolute"]["rmse_c"] for record in records])
         ),
-        "absolute_mae_k": float(
-            np.mean([record["absolute"]["mae_k"] for record in records])
+        "absolute_mae_c": float(
+            np.mean([record["absolute"]["mae_c"] for record in records])
         ),
-        "delta_rmse_k": float(
-            np.mean([record["delta"]["rmse_k"] for record in records])
+        "delta_rmse_c": float(
+            np.mean([record["delta"]["rmse_c"] for record in records])
+        ),
+        "delta_mae_c": float(
+            np.mean([record["delta"]["mae_c"] for record in records])
         ),
         "per_curve": records,
     }
@@ -396,9 +496,15 @@ def train_multifidelity(
     hard_surface_residual_guide: bool = False,
     surface_guide_degree_r: int = 20,
     surface_guide_degree_t: int = 20,
+    simulation_supervision_target: str = "low_fidelity",
 ) -> dict[str, Any] | None:
     if correction_epochs < 0 or joint_epochs < 0 or correction_epochs + joint_epochs < 1:
         raise ValueError("At least one correction or joint epoch is required")
+    if evaluate_test:
+        raise ValueError(
+            "Training-time test evaluation is disabled; freeze a release and use "
+            "scripts/06_evaluate_test_data.py"
+        )
     if freeze_physics_parameters and not identify_physics_parameters:
         raise ValueError(
             "freeze_physics_parameters requires identify_physics_parameters so that "
@@ -408,8 +514,17 @@ def train_multifidelity(
         raise ValueError("surface_teacher_weight must be nonnegative")
     if checkpoint_selection not in {"validation", "final_epoch"}:
         raise ValueError("checkpoint_selection must be 'validation' or 'final_epoch'")
+    if simulation_supervision_target not in {"low_fidelity", "high_fidelity_pullback"}:
+        raise ValueError(
+            "simulation_supervision_target must be 'low_fidelity' or "
+            "'high_fidelity_pullback'"
+        )
     materials = load_materials()
-    boundaries = load_boundary_conditions(allow_unidentified=identify_physics_parameters)
+    boundaries = (
+        load_boundary_conditions(allow_unidentified=True)
+        if identify_physics_parameters
+        else load_resolved_boundary_conditions()
+    )
     rank, local_rank, world_size = distributed_context()
     set_seed(seed)
     device = torch.device("cuda", local_rank) if torch.cuda.is_available() else torch.device("cpu")
@@ -502,15 +617,15 @@ def train_multifidelity(
         trainable_parameters=trainable_physics,
     )
     low_fidelity, lf_checkpoint = _load_low_fidelity(low_fidelity_checkpoint, device)
+    fingerprints = current_protocol_fingerprints()
+    validate_lf_checkpoint_provenance(lf_checkpoint, splits, fingerprints)
     expected_lf_train = sorted(splits.simulation_train)
     if sorted(float(value) for value in lf_checkpoint.get("train_powers_w", [])) != expected_lf_train:
         raise RuntimeError("Low-fidelity checkpoint does not use the fixed simulation training powers")
     scales = ModelScales(**lf_checkpoint["scales"])
     surface_residual_guide = None
     if hard_surface_residual_guide:
-        ir_frame = pl.read_parquet(
-            PROJECT_ROOT / "data/processed/experiment_ir_radial.parquet"
-        )
+        ir_frame = load_processed_ir_observations()
         surface_predictor = fit_surface_temperature_interpolator(
             ir_frame,
             hf_train_powers,
@@ -527,7 +642,7 @@ def train_multifidelity(
         scales,
         width=width,
         depth=depth,
-        freeze_low_fidelity=False,
+        freeze_low_fidelity=True,
         hard_initial_temperature_k=(
             boundaries.initial_temperature_k if hard_deployment_constraints else None
         ),
@@ -558,11 +673,6 @@ def train_multifidelity(
         if world_size > 1
         else None
     )
-    validation_sampler = (
-        DistributedSampler(validation_data, world_size, rank, shuffle=False)
-        if validation_data is not None and world_size > 1
-        else None
-    )
     train_loader = DataLoader(
         train_data,
         batch_size=batch_size,
@@ -576,7 +686,7 @@ def train_multifidelity(
         else DataLoader(
             validation_data,
             batch_size=batch_size,
-            sampler=validation_sampler,
+            shuffle=False,
             pin_memory=device.type == "cuda",
         )
     )
@@ -663,6 +773,13 @@ def train_multifidelity(
     best: float | None = None
     best_epoch = 0
     epochs_without_improvement = 0
+    data_consumption = {
+        "hf_ir_points": 0,
+        "hf_sensor_points": 0,
+        "surface_teacher_points": 0,
+        "lf_simulation_points": 0,
+        "lf_simulation_material_points": {"copper": 0, "silicon_carbide": 0},
+    }
     total_epochs = correction_epochs + joint_epochs
     simulation_iterator = None
     simulation_loader = None
@@ -671,8 +788,11 @@ def train_multifidelity(
         stage = "correction" if epoch <= correction_epochs else "joint"
         if epoch == correction_epochs + 1:
             epochs_without_improvement = 0
+            base_model.freeze_low_fidelity(False)
+            if world_size > 1:
+                model = DistributedDataParallel(base_model, device_ids=[local_rank])
             optimizer = make_optimizer(
-                base_model.parameters(),
+                [parameter for parameter in base_model.parameters() if parameter.requires_grad],
                 float(training["optimizer"]["joint_learning_rate"]),
             )
             simulation_data = load_sampled_points(
@@ -713,12 +833,17 @@ def train_multifidelity(
             if sensor is not None:
                 sensor_coordinates, sensor_target, sensor_delta, baseline = sensor
                 sensor_prediction = model(sensor_coordinates)
-                predicted_delta = sensor_prediction - sensor_prediction[baseline]
+                sensor_absolute_loss, sensor_delta_loss = _macro_sensor_training_losses(
+                    sensor_prediction,
+                    sensor_target,
+                    sensor_delta,
+                    baseline,
+                    sensor_coordinates,
+                    scales.temperature_scale_k,
+                )
                 sensor_loss = (
-                    float(loss_cfg["sensor_absolute"])
-                    * ((sensor_prediction - sensor_target) / scales.temperature_scale_k).pow(2).mean()
-                    + float(loss_cfg["sensor_delta"])
-                    * ((predicted_delta - sensor_delta) / scales.temperature_scale_k).pow(2).mean()
+                    float(loss_cfg["sensor_absolute"]) * sensor_absolute_loss
+                    + float(loss_cfg["sensor_delta"]) * sensor_delta_loss
                 )
                 total = total + sensor_loss
             teacher_loss = torch.zeros((), device=device)
@@ -745,14 +870,38 @@ def train_multifidelity(
                     lf_coordinates, lf_target = next(simulation_iterator)
                 lf_coordinates = lf_coordinates.to(device, non_blocking=True)
                 lf_target = lf_target.to(device, non_blocking=True)
-                lf_loss = ((model(lf_coordinates) - lf_target) / scales.temperature_scale_k).pow(2).mean()
+                lf_prediction = (
+                    model(lf_coordinates, fidelity="low")
+                    if simulation_supervision_target == "low_fidelity"
+                    else model(lf_coordinates, fidelity="high")
+                )
+                lf_loss = (
+                    (lf_prediction - lf_target) / scales.temperature_scale_k
+                ).pow(2).mean()
                 total = total + float(loss_cfg["low_fidelity"]) * lf_loss
             total.backward()
+            lf_gradient_norm = _gradient_l2(base_model.low_fidelity_model.parameters())
+            hf_gradient_norm = _gradient_l2(base_model.correction.parameters())
             optimizer.step()
             sums["ir"] += float(ir_loss.detach())
             sums["sensor"] += float(sensor_loss.detach())
             sums["teacher"] += float(teacher_loss.detach())
             sums["low_fidelity"] += float(lf_loss.detach())
+            data_consumption["hf_ir_points"] += int(len(coordinates))
+            if sensor is not None:
+                data_consumption["hf_sensor_points"] += int(len(sensor[0]))
+            if teacher_loader is not None:
+                data_consumption["surface_teacher_points"] += int(
+                    len(teacher_coordinates)
+                )
+            if stage == "joint" and simulation_loader is not None:
+                data_consumption["lf_simulation_points"] += int(len(lf_coordinates))
+                data_consumption["lf_simulation_material_points"]["copper"] += int(
+                    (lf_coordinates[:, 4] < 0.5).sum()
+                )
+                data_consumption["lf_simulation_material_points"][
+                    "silicon_carbide"
+                ] += int((lf_coordinates[:, 4] >= 0.5).sum())
             batches += 1
         collocation = sample_collocation(
             physics_collocation,
@@ -771,13 +920,13 @@ def train_multifidelity(
         validation_selection_score = None
         save_checkpoint = checkpoint_selection == "final_epoch" and epoch == total_epochs
         if validation_loader is not None:
-            validation = _weighted_validation(model, validation_loader, device)
-            validation_rmse = float(torch.sqrt(validation[0] / validation[2]))
-            validation_mae = float(validation[1] / validation[2])
+            validation = _weighted_validation(base_model, validation_loader, device)
+            validation_rmse = float(validation[0])
+            validation_mae = float(validation[1])
             validation_sensor_metrics = (
                 None
                 if validation_sensor is None
-                else _sensor_validation(model, validation_sensor)
+                else _sensor_validation(base_model, validation_sensor)
             )
             selection_numerator = (
                 float(selection_weights["ir_rmse"]) * validation_rmse
@@ -785,10 +934,10 @@ def train_multifidelity(
             selection_denominator = float(selection_weights["ir_rmse"])
             if validation_sensor_metrics is not None:
                 selection_numerator += float(selection_weights["sensor_absolute_rmse"]) * (
-                    validation_sensor_metrics["absolute_rmse_k"]
+                    validation_sensor_metrics["absolute_rmse_c"]
                 )
                 selection_numerator += float(selection_weights["sensor_delta_rmse"]) * (
-                    validation_sensor_metrics["delta_rmse_k"]
+                    validation_sensor_metrics["delta_rmse_c"]
                 )
                 selection_denominator += float(selection_weights["sensor_absolute_rmse"])
                 selection_denominator += float(selection_weights["sensor_delta_rmse"])
@@ -856,9 +1005,20 @@ def train_multifidelity(
                         "hf_train_powers_w": sorted(hf_train_powers),
                         "hf_validation_powers_w": sorted(hf_validation_powers),
                         "hf_test_powers_w": sorted(hf_test_powers),
+                        "provenance": checkpoint_provenance(
+                            role="high_fidelity_multifidelity",
+                            train_powers_w=hf_train_powers,
+                            validation_powers_w=hf_validation_powers,
+                            fingerprints=fingerprints,
+                        )
+                        | {
+                            "lf_checkpoint_sha256": sha256_file(low_fidelity_checkpoint),
+                            "lf_checkpoint_provenance": lf_checkpoint["provenance"],
+                        },
+                        "resolved_physics": resolved_boundary_snapshot(boundaries),
                         "sensors_used": not skip_sensors,
-                        "validation_rmse_k": validation_rmse,
-                        "validation_selection_score_k": validation_selection_score,
+                        "validation_rmse_c": validation_rmse,
+                        "validation_selection_score_c": validation_selection_score,
                         "validation_sensor": validation_sensor_metrics,
                         "material_passport": {
                             "simulation_data_used": True,
@@ -889,21 +1049,30 @@ def train_multifidelity(
             record = {
                 "epoch": epoch,
                 "stage": stage,
-                "validation_ir_rmse_k": validation_rmse,
-                "validation_ir_mae_k": validation_mae,
-                "validation_selection_score_k": validation_selection_score,
+                "validation_ir_rmse_c": validation_rmse,
+                "validation_ir_mae_c": validation_mae,
+                "validation_selection_score_c": validation_selection_score,
                 "learning_rate": optimizer.param_groups[0]["lr"],
+                "lf_gradient_l2": lf_gradient_norm,
+                "hf_gradient_l2": hf_gradient_norm,
+                "lf_parameters_frozen": stage == "correction",
+                "epoch_hf_ir_points": int(len(train_data)),
+                "epoch_lf_simulation_points": int(
+                    0
+                    if stage != "joint" or simulation_loader is None
+                    else len(simulation_loader.dataset)
+                ),
                 **{f"loss_{name}": value / max(batches, 1) for name, value in sums.items()},
                 **{f"loss_{name}": float(value.detach()) for name, value in physics_components.items()},
             }
             if validation_sensor_metrics is not None:
                 record.update(
                     {
-                        "validation_sensor_absolute_rmse_k": validation_sensor_metrics[
-                            "absolute_rmse_k"
+                        "validation_sensor_absolute_rmse_c": validation_sensor_metrics[
+                            "absolute_rmse_c"
                         ],
-                        "validation_sensor_delta_rmse_k": validation_sensor_metrics[
-                            "delta_rmse_k"
+                        "validation_sensor_delta_rmse_c": validation_sensor_metrics[
+                            "delta_rmse_c"
                         ],
                     }
                 )
@@ -930,6 +1099,16 @@ def train_multifidelity(
         if bool(stop.item()):
             break
     training_seconds = time.perf_counter() - started
+    if joint_epochs > 0:
+        material_points = data_consumption["lf_simulation_material_points"]
+        if (
+            data_consumption["lf_simulation_points"] == 0
+            or material_points["copper"] == 0
+            or material_points["silicon_carbide"] == 0
+        ):
+            raise RuntimeError(
+                "Joint training declared LF replay but did not consume both materials"
+            )
     elapsed = torch.tensor(training_seconds, dtype=torch.float64, device=device)
     if dist.is_initialized():
         dist.all_reduce(elapsed, op=dist.ReduceOp.MAX)
@@ -1001,8 +1180,8 @@ def train_multifidelity(
         result = {
             "seed": seed,
             "best_epoch": best_epoch,
-            "best_validation_selection_score_k": best,
-            "best_validation_ir_rmse_k": checkpoint["validation_rmse_k"],
+            "best_validation_selection_score_c": best,
+            "best_validation_ir_rmse_c": checkpoint["validation_rmse_c"],
             "best_validation_sensor": checkpoint.get("validation_sensor"),
             "world_size": world_size,
             "epochs_completed": epoch,
@@ -1012,6 +1191,8 @@ def train_multifidelity(
                 torch.cuda.max_memory_allocated(device) if device.type == "cuda" else 0
             ),
             "sensors_used": not skip_sensors,
+            "lf_checkpoint_sha256": sha256_file(low_fidelity_checkpoint),
+            "data_consumption_rank0": data_consumption,
             "identified_physics_parameters": (
                 None if trainable_physics is None else trainable_physics.snapshot()
             ),
@@ -1053,6 +1234,7 @@ def train_multifidelity(
                 "hard_surface_residual_guide": hard_surface_residual_guide,
                 "surface_guide_degree_r": surface_guide_degree_r,
                 "surface_guide_degree_t": surface_guide_degree_t,
+                "simulation_supervision_target": simulation_supervision_target,
             },
             "status": "completed",
             "material_passport": {
@@ -1093,27 +1275,33 @@ def _load_multifidelity_model(
     if not checkpoint_file.is_absolute():
         checkpoint_file = PROJECT_ROOT / checkpoint_file
     payload = torch.load(checkpoint_file, map_location=device, weights_only=False)
-    if payload.get("method") != "multifidelity_correction":
-        raise ValueError("Checkpoint is not a multifidelity correction model")
+    if payload.get("method") not in {"multifidelity_correction", "prc_multifidelity"}:
+        raise ValueError("Checkpoint is not a recognized multifidelity model")
+    validate_hf_checkpoint_provenance(payload)
     scales = ModelScales(**payload["scales"])
-    low_fidelity = build_model(
-        str(payload["low_fidelity_method"]),
-        scales,
-        **payload.get("low_fidelity_model_kwargs", {}),
-    )
-    surface_guide_spec = payload.get("surface_residual_guide_spec")
-    surface_guide = (
-        None
-        if surface_guide_spec is None
-        else ChebyshevSurfaceResidualGuide.from_spec(surface_guide_spec)
-    )
-    model = AdditiveCorrectionModel(
-        low_fidelity,
-        scales,
-        freeze_low_fidelity=False,
-        surface_residual_guide=surface_guide,
-        **payload["correction_model_kwargs"],
-    ).to(device)
+    if payload["method"] == "prc_multifidelity":
+        model = PRCMultifidelityModel(
+            scales, **payload["model_kwargs"]
+        ).to(device)
+    else:
+        low_fidelity = build_model(
+            str(payload["low_fidelity_method"]),
+            scales,
+            **payload.get("low_fidelity_model_kwargs", {}),
+        )
+        surface_guide_spec = payload.get("surface_residual_guide_spec")
+        surface_guide = (
+            None
+            if surface_guide_spec is None
+            else ChebyshevSurfaceResidualGuide.from_spec(surface_guide_spec)
+        )
+        model = AdditiveCorrectionModel(
+            low_fidelity,
+            scales,
+            freeze_low_fidelity=False,
+            surface_residual_guide=surface_guide,
+            **payload["correction_model_kwargs"],
+        ).to(device)
     model.load_state_dict(payload["model_state"])
     model.eval()
     return checkpoint_file, payload, model
@@ -1121,11 +1309,13 @@ def _load_multifidelity_model(
 
 def evaluate_multifidelity_checkpoint(
     checkpoint_path: str | Path,
+    release_manifest_path: str | Path,
     powers_w: Iterable[float] | None = None,
     output_path: str | Path | None = None,
     device_name: str | None = None,
 ) -> dict[str, Any]:
     """Evaluate a selected MF checkpoint only on its declared held-out powers."""
+    validate_release_checkpoint(release_manifest_path, checkpoint_path)
     device = torch.device(
         device_name if device_name is not None else ("cuda" if torch.cuda.is_available() else "cpu")
     )
@@ -1164,6 +1354,7 @@ def evaluate_multifidelity_checkpoint(
         )
     result = {
         "schema_version": 1,
+        "temperature_error_unit": "℃",
         "checkpoint": str(checkpoint_file.relative_to(PROJECT_ROOT)),
         "seed": int(payload["seed"]),
         "test_powers_w": sorted(requested),
@@ -1248,6 +1439,7 @@ def evaluate_multifidelity_validation(
 
 def evaluate_multifidelity_test_data(
     checkpoint_path: str | Path,
+    release_manifest_path: str | Path,
     output_json: str | Path = "reports/test_three_power_comparison.json",
     output_csv: str | Path = "reports/test_three_power_comparison.csv",
     device_name: str | None = None,
@@ -1256,6 +1448,7 @@ def evaluate_multifidelity_test_data(
     device = torch.device(
         device_name if device_name is not None else ("cuda" if torch.cuda.is_available() else "cpu")
     )
+    validate_release_checkpoint(release_manifest_path, checkpoint_path)
     checkpoint_file, payload, model = _load_multifidelity_model(
         checkpoint_path, device
     )
@@ -1288,6 +1481,29 @@ def evaluate_multifidelity_test_data(
         raise RuntimeError(
             "Three-power test requires a checkpoint trained with the Hot/Cold branch"
         )
+    training = load_yaml("configs/training.yaml")
+    evaluation_config = training["evaluation"]
+    boundaries = load_resolved_boundary_conditions()
+    loss_weights = training["loss_weights"]
+    physics = PhysicsLossComputer(
+        load_materials(),
+        boundaries,
+        PhysicsLossWeights(
+            pde=float(loss_weights["pde"]),
+            boundary=float(loss_weights["boundary"]),
+            initial=float(loss_weights["initial"]),
+            interface=float(loss_weights["interface"]),
+        ),
+    )
+    collocation = sample_collocation(
+        int(evaluation_config["physics_collocation"]),
+        device,
+        seed=int(evaluation_config["physics_seed"]),
+    )
+    physics_diagnostics = {
+        name: float(value.detach())
+        for name, value in physics(model, collocation).items()
+    }
     test_ir = _evaluate_ir_model(model, "test", device, test_powers)
     test_sensor = _evaluate_sensor_model(model, "test", device, test_powers)
     comparison = build_three_power_comparison(
@@ -1296,8 +1512,17 @@ def evaluate_multifidelity_test_data(
     comparison.update(
         {
             "checkpoint": str(checkpoint_file.relative_to(PROJECT_ROOT)),
+            "seed": int(payload["seed"]),
             "checkpoint_training_powers_w": sorted(trained),
             "checkpoint_validation_powers_w": sorted(validated),
+            "physics_diagnostics": {
+                "used_for_model_selection": False,
+                "collocation_count_per_component": int(
+                    evaluation_config["physics_collocation"]
+                ),
+                "seed": int(evaluation_config["physics_seed"]),
+                "losses": physics_diagnostics,
+            },
         }
     )
     write_three_power_comparison(comparison, output_json, output_csv)
@@ -1344,9 +1569,10 @@ def main() -> None:
     parser.add_argument("--copper-emissivity-initial", type=float, default=0.5)
     parser.add_argument("--contact-resistance-initial", type=float)
     parser.add_argument(
-        "--evaluate-test",
-        action="store_true",
-        help="Explicitly evaluate test_Data after training; normally use 06_evaluate_test_data.py instead.",
+        "--simulation-supervision-target",
+        choices=("low_fidelity", "high_fidelity_pullback"),
+        default="low_fidelity",
+        help="Use high_fidelity_pullback only as the named ablation.",
     )
     parser.add_argument(
         "--freeze-physics-parameters",
@@ -1381,7 +1607,7 @@ def main() -> None:
             ),
             copper_emissivity_initial=args.copper_emissivity_initial,
             contact_resistance_initial_m2_k_w=args.contact_resistance_initial,
-            evaluate_test=args.evaluate_test,
+            evaluate_test=False,
             freeze_physics_parameters=args.freeze_physics_parameters,
             sensor_absolute_weight=args.sensor_absolute_weight,
             sensor_delta_weight=args.sensor_delta_weight,
@@ -1397,6 +1623,7 @@ def main() -> None:
             hard_surface_residual_guide=args.hard_surface_residual_guide,
             surface_guide_degree_r=args.surface_guide_degree_r,
             surface_guide_degree_t=args.surface_guide_degree_t,
+            simulation_supervision_target=args.simulation_supervision_target,
         )
     except PhysicsConfigurationError as error:
         parser.exit(2, f"BLOCKED_UNVERIFIED_METADATA: {error}\n")

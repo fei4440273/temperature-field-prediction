@@ -1,0 +1,58 @@
+schema_version: 1
+verified: false
+ambient_temperature_k: 295.15
+initial_temperature_k: 295.15
+user_reported_initial_temperature_k: 295.15
+user_reported_initial_temperature_status: confirmed_2026-09-02
+observed_simulation_initial_temperature_k: 295.15
+observed_simulation_initial_temperature_status: confirmed_from_all_80_t0_fields_not_boundary_condition
+laser:
+  profile: gaussian
+  incidence: normal_to_sic_top_surface
+  absorption_fraction: 0.8
+  beam_radius_m: 0.02
+  beam_radius_definition: one_over_e_squared_intensity_radius
+  constant_during_heating: true
+cooling:
+  kind: fixed_temperature
+  surface: outer_radius
+  fixed_temperature_k: 295.15
+  heat_transfer_coefficient_w_m2_k: null
+  application_scope: copper_outer_cylindrical_surface
+  exact_boundary_faces: r_equals_0.05834_m
+external_surface:
+  convection_model: effective_constant_from_horizontal_plate_natural_convection
+  top_convection_coefficient_w_m2_k: 9.0
+  bottom_convection_coefficient_w_m2_k: 4.3
+  side_convection_coefficient_w_m2_k: null
+  coefficient_basis: reports/natural_convection_parameter_basis.md
+  radiation_enabled: true
+  silicon_carbide_emissivity: null
+  copper_emissivity: null
+  emissivity_parameter_status: pending_joint_inverse_identification
+  emissivity_parameterization: sigmoid_0_1
+  emissivity_physical_bounds: [0.0, 1.0]
+  low_fidelity_balance_status: not_identifiable_boundary_model_mismatch
+  sensitivity_scenarios:
+    low: {silicon_carbide: 0.2, copper: 0.1}
+    mid: {silicon_carbide: 0.5, copper: 0.5}
+    high: {silicon_carbide: 0.8, copper: 0.9}
+  nominal_modeling_values:
+    silicon_carbide: 0.5
+    copper: 0.5
+    status: sensitivity_neutral_not_material_property_identification
+    selection_evidence: reports/physics_sensitivity.json
+interface:
+  kind: identified_contact_resistance
+  contact_resistance_m2_k_w: null
+  contact_resistance_initialization_m2_k_w: 0.0000734072435302768
+  initialization_source: reports/physics_parameter_identification.json
+  initialization_scope: low_fidelity_training_powers_only
+  initialization_validation_normalized_residual_rmse: 0.0028498
+  parameter_status: low_fidelity_initialization_available
+  positivity_parameterization: log10
+  hard_bounds: null
+  observed_same_coordinate_pair_count: 38
+  observed_global_max_temperature_jump_k: 95.90103149414062
+  observed_global_max_power_w: 800.0
+  interpretation_status: confirmed_contact_resistance_pending_value_identification

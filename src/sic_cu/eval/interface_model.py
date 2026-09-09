@@ -11,6 +11,10 @@ from sic_cu.config import PROJECT_ROOT
 from sic_cu.data.fields import load_processed_field
 from sic_cu.data.splits import build_power_splits
 from sic_cu.eval.interface_audit import _paired_interface_nodes
+from sic_cu.eval.protocol_checks import (
+    validate_lf_checkpoint_provenance,
+    validate_release_checkpoint,
+)
 from sic_cu.models import ModelScales
 from sic_cu.train.simulation import build_model, predict_field
 
@@ -18,11 +22,11 @@ from sic_cu.train.simulation import build_model, predict_field
 def _metrics(target: np.ndarray, prediction: np.ndarray) -> dict[str, float]:
     error = np.asarray(prediction, dtype=np.float64) - np.asarray(target, dtype=np.float64)
     return {
-        "mae_k": float(np.mean(np.abs(error))),
-        "rmse_k": float(np.sqrt(np.mean(error**2))),
-        "max_abs_error_k": float(np.max(np.abs(error))),
-        "target_mean_abs_jump_k": float(np.mean(np.abs(target))),
-        "prediction_mean_abs_jump_k": float(np.mean(np.abs(prediction))),
+        "mae_c": float(np.mean(np.abs(error))),
+        "rmse_c": float(np.sqrt(np.mean(error**2))),
+        "max_abs_error_c": float(np.max(np.abs(error))),
+        "target_mean_abs_jump_c": float(np.mean(np.abs(target))),
+        "prediction_mean_abs_jump_c": float(np.mean(np.abs(prediction))),
     }
 
 
@@ -31,6 +35,7 @@ def evaluate_pointwise_interface_checkpoint(
     output_path: str | Path,
     powers: list[float] | None = None,
     device: str = "cpu",
+    release_manifest_path: str | None = None,
 ) -> dict[str, Any]:
     checkpoint = PROJECT_ROOT / checkpoint_path
     payload = torch.load(checkpoint, map_location=device, weights_only=False)
@@ -51,11 +56,21 @@ def evaluate_pointwise_interface_checkpoint(
     ).to(device)
     model.load_state_dict(payload["model_state"])
 
-    test_powers = powers or sorted(build_power_splits().simulation_test)
+    splits = build_power_splits()
+    evaluation_powers = powers or sorted(splits.simulation_validation)
+    reads_test = bool(
+        {round(float(power), 4) for power in evaluation_powers}
+        & {round(float(power), 4) for power in splits.simulation_test}
+    )
+    if reads_test:
+        if release_manifest_path is None:
+            raise RuntimeError("Simulation test evaluation requires a frozen release")
+        validate_lf_checkpoint_provenance(payload)
+        validate_release_checkpoint(release_manifest_path, checkpoint)
     per_power: list[dict[str, Any]] = []
     all_target: list[np.ndarray] = []
     all_prediction: list[np.ndarray] = []
-    for power in test_powers:
+    for power in evaluation_powers:
         field = load_processed_field(power)
         prediction, _ = predict_field(model, power, torch.device(device))
         pairs = _paired_interface_nodes(field.coordinates_rz_m, field.material_ids)
@@ -79,12 +94,17 @@ def evaluate_pointwise_interface_checkpoint(
     prediction = np.concatenate([values.reshape(-1) for values in all_prediction])
     result = {
         "schema_version": 1,
+        "temperature_error_unit": "℃",
         "checkpoint": str(Path(checkpoint_path)),
         "method": method,
         "seed": int(payload["seed"]),
         "material_aware": bool(payload.get("model_kwargs", {}).get("include_material", False)),
-        "evaluation_domain": "locked simulation test powers, same-coordinate material-side pairs",
-        "test_powers_w": [float(power) for power in test_powers],
+        "evaluation_domain": (
+            "frozen simulation test powers, same-coordinate material-side pairs"
+            if reads_test
+            else "simulation validation powers, same-coordinate material-side pairs"
+        ),
+        "evaluation_powers_w": [float(power) for power in evaluation_powers],
         "aggregate": _metrics(target, prediction),
         "per_power": per_power,
         "interpretation": (

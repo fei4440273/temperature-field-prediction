@@ -14,11 +14,13 @@ def main() -> None:
     parser.add_argument("--checkpoint", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--device", default="cpu")
+    parser.add_argument("--release-manifest")
     args = parser.parse_args()
     result = evaluate_pointwise_interface_checkpoint(
         args.checkpoint,
         args.output,
         device=args.device,
+        release_manifest_path=args.release_manifest,
     )
     print(json.dumps(result["aggregate"], indent=2))
 

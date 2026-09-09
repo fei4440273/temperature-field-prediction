@@ -146,6 +146,13 @@ def test_processed_manifest_has_no_hf_leakage() -> None:
         for item in manifest["test_ir"]
     )
     ir = pl.read_parquet(DATA_ROOT / "processed/experiment_ir_radial.parquet")
+    test_ir = pl.read_parquet(DATA_ROOT / "processed/test_ir_radial.parquet")
+    sensors = pl.read_parquet(DATA_ROOT / "processed/sensor_ring_raw.parquet")
+    test_sensors = pl.read_parquet(DATA_ROOT / "processed/test_sensor_ring_raw.parquet")
+    assert set(ir["source_dataset"].unique()) == {"experiment"}
+    assert set(sensors["source_dataset"].unique()) == {"experiment"}
+    assert set(test_ir["source_dataset"].unique()) == {"test"}
+    assert set(test_sensors["source_dataset"].unique()) == {"test"}
     frame_weights = ir.group_by("power_w", "time_s").agg(pl.col("frame_weight").sum())
     assert np.allclose(frame_weights["frame_weight"].to_numpy(), 1.0, atol=1e-6)
 
@@ -153,7 +160,10 @@ def test_processed_manifest_has_no_hf_leakage() -> None:
 def test_audit_report_is_complete() -> None:
     audit = json.loads((PROJECT_ROOT / "reports/data_audit.json").read_text())
     assert audit["gate"]["structural_status"] == "PASS"
-    assert audit["gate"]["physics_training_status"] == "BLOCKED_UNVERIFIED_METADATA"
+    assert (
+        audit["gate"]["physics_training_status"]
+        == "READY_WITH_DECLARED_INITIALIZATIONS"
+    )
     assert audit["gate"]["parameter_identification_status"] == "READY"
     assert audit["gate"]["user_input_status"] == "COMPLETE"
     assert audit["gate"]["experiment_ir_metadata_status"] == "VERIFIED"
@@ -166,3 +176,12 @@ def test_audit_report_is_complete() -> None:
     assert audit["inventory"]["file_count"] == 543
     assert audit["inventory"]["sha256_computed"] is True
     assert all(record["sha256"] for record in audit["inventory"]["files"])
+    assert (
+        audit["summary"]["test_data"]["experiment_ir"]["temperature_statistics"]
+        == "sealed_not_computed"
+    )
+    assert all(
+        audit["summary"]["test_data"]["sensors"][name]["temperature_statistics"]
+        == "sealed_not_computed"
+        for name in ("hot", "cold")
+    )

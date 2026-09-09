@@ -1,0 +1,42 @@
+[
+  {
+    "path": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed0/best.pt",
+    "sha256": "09e00118eaa7b292b95085c0029e2510279c20833fb0dd5159db7f5be6a7e167",
+    "method": "multifidelity_correction",
+    "seed": 0,
+    "role": "high_fidelity_multifidelity",
+    "validation_score_c": 2.082652628384499
+  },
+  {
+    "path": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed1/best.pt",
+    "sha256": "c565b740c7786dde732ee628e4007949edd7b41fc654a17eb7f03a8093478863",
+    "method": "multifidelity_correction",
+    "seed": 1,
+    "role": "high_fidelity_multifidelity",
+    "validation_score_c": 2.0310360174906066
+  },
+  {
+    "path": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed2/best.pt",
+    "sha256": "b7e3e379b2d7493e6b3a0aba8cde885b189fb7d3fd0b997e1625893a4ba99ca2",
+    "method": "multifidelity_correction",
+    "seed": 2,
+    "role": "high_fidelity_multifidelity",
+    "validation_score_c": 1.6644247589484475
+  },
+  {
+    "path": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed3/best.pt",
+    "sha256": "5e28284c7405b57e13ccfc3f15765640424b5d2ddad11a6682ee6bbcabc3c8da",
+    "method": "multifidelity_correction",
+    "seed": 3,
+    "role": "high_fidelity_multifidelity",
+    "validation_score_c": 1.8716661225965394
+  },
+  {
+    "path": "reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/mlp_pinn_mf_seed4/best.pt",
+    "sha256": "3a761b2b4f721554d3b131f65ee799dd6695f4f1fe058b16dcf95fa8d7797a0d",
+    "method": "multifidelity_correction",
+    "seed": 4,
+    "role": "high_fidelity_multifidelity",
+    "validation_score_c": 2.1152706989029046
+  }
+]

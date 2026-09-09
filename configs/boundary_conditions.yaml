@@ -53,6 +53,6 @@ interface:
   positivity_parameterization: log10
   hard_bounds: null
   observed_same_coordinate_pair_count: 38
-  observed_global_max_temperature_jump_k: 95.90103149414062
+  observed_global_max_temperature_jump_c: 95.90103149414062
   observed_global_max_power_w: 800.0
   interpretation_status: confirmed_contact_resistance_pending_value_identification

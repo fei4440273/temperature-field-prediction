@@ -18,6 +18,7 @@ from sic_cu.models import (
     MaterialWisePODPINN,
     ModelScales,
     PODPINN,
+    PRCMultifidelityModel,
     load_pod_basis,
 )
 from sic_cu.models.gno_pinn import knn_edges
@@ -37,6 +38,9 @@ class PredictionMetadata:
     source: str
     support_domain: str
     ir_coverage: str
+    lf_power_coverage: str
+    hf_power_coverage: str
+    time_support: str
     deterministic: bool
     warnings: tuple[str, ...]
 
@@ -57,6 +61,18 @@ class Prediction:
     @property
     def mean_temperature_c(self) -> np.ndarray:
         return self.mean_temperature_k - 273.15
+
+    @property
+    def q05_temperature_c(self) -> np.ndarray:
+        return self.q05_temperature_k - 273.15
+
+    @property
+    def q95_temperature_c(self) -> np.ndarray:
+        return self.q95_temperature_k - 273.15
+
+    @property
+    def max_temperature_c(self) -> np.ndarray:
+        return self.max_temperature_k - 273.15
 
     def rotate(
         self,
@@ -103,7 +119,7 @@ def _time_interpolate(field: SimulationField, times_s: np.ndarray) -> np.ndarray
 def stable_time_from_maximum(
     times_s: np.ndarray,
     maximum_temperature_k: np.ndarray,
-    tolerance_k: float = 0.01,
+    tolerance_c: float = 0.01,
 ) -> float | None:
     """Earliest time after which every adjacent Tmax change stays within tolerance."""
     times = np.asarray(times_s, dtype=np.float64)
@@ -112,7 +128,7 @@ def stable_time_from_maximum(
         raise ValueError("times and maximum temperature must be aligned 1D arrays")
     if len(times) == 1:
         return None
-    stable_transitions = np.abs(np.diff(maximum)) <= float(tolerance_k)
+    stable_transitions = np.abs(np.diff(maximum)) <= float(tolerance_c)
     suffix = np.logical_and.accumulate(stable_transitions[::-1])[::-1]
     indices = np.flatnonzero(suffix)
     return float(times[indices[0]]) if len(indices) else None
@@ -224,11 +240,71 @@ class Predictor:
                     surface_residual_guide=surface_guide,
                     **payload["correction_model_kwargs"],
                 ).to(self.device)
+            elif method == "prc_multifidelity":
+                self.model = PRCMultifidelityModel(
+                    scales,
+                    **payload["model_kwargs"],
+                ).to(self.device)
+            elif method == "prc_lf":
+                self.model = PRCMultifidelityModel(
+                    scales,
+                    **payload["model_kwargs"],
+                ).to(self.device)
             else:
                 raise ValueError(f"Unsupported deployment checkpoint method: {method}")
             self.model.load_state_dict(payload["model_state"])
             self.model.eval()
             self.method = method
+
+    @property
+    def supports_point_queries(self) -> bool:
+        return self.model is not None and not isinstance(
+            self.model, (PODPINN, MaterialWisePODPINN, GNOPINN)
+        )
+
+    @torch.no_grad()
+    def predict_points(
+        self,
+        coordinates: np.ndarray | torch.Tensor,
+        *,
+        fidelity: str = "high",
+        batch_size: int = 65536,
+    ) -> np.ndarray:
+        """Query a pointwise checkpoint at [r,z,t,power,material_id] coordinates."""
+        if not self.supports_point_queries:
+            raise RuntimeError(
+                "Direct point queries require a pointwise model checkpoint; "
+                "grid/FEM methods must use their explicit interpolator"
+            )
+        if fidelity not in {"low", "high"}:
+            raise ValueError("fidelity must be 'low' or 'high'")
+        values = (
+            coordinates.detach().cpu().numpy()
+            if isinstance(coordinates, torch.Tensor)
+            else np.asarray(coordinates)
+        )
+        if values.ndim != 2 or values.shape[1] != 5 or len(values) == 0:
+            raise ValueError(
+                "coordinates must be a nonempty [N,5] array of [r,z,t,power,material_id]"
+            )
+        if not np.isfinite(values).all():
+            raise ValueError("coordinates must be finite")
+        if np.any(values[:, 0] < 0.0) or np.any(values[:, 2:4] < 0.0):
+            raise ValueError("radius, time, and power must be nonnegative")
+        if not set(np.unique(values[:, 4])).issubset({0.0, 1.0}):
+            raise ValueError("material_id must be Cu=0 or SiC=1")
+        outputs: list[np.ndarray] = []
+        for offset in range(0, len(values), batch_size):
+            batch = torch.from_numpy(
+                values[offset : offset + batch_size].astype(np.float32, copy=False)
+            ).to(self.device)
+            if isinstance(self.model, (AdditiveCorrectionModel, PRCMultifidelityModel)):
+                effective_fidelity = "low" if self.method == "prc_lf" else fidelity
+                prediction = self.model(batch, fidelity=effective_fidelity)
+            else:
+                prediction = self.model(batch)
+            outputs.append(prediction.cpu().numpy())
+        return np.concatenate(outputs, axis=0)
 
     @torch.no_grad()
     def _model_field(
@@ -310,7 +386,14 @@ class Predictor:
         output: list[np.ndarray] = []
         for offset in range(0, len(coordinates), 65536):
             batch = torch.from_numpy(coordinates[offset : offset + 65536]).to(self.device)
-            output.append(self.model(batch).cpu().numpy())
+            if isinstance(self.model, PRCMultifidelityModel):
+                prediction = self.model(
+                    batch,
+                    fidelity="low" if self.method == "prc_lf" else "high",
+                )
+            else:
+                prediction = self.model(batch)
+            output.append(prediction.cpu().numpy())
         return np.concatenate(output).reshape(len(evaluation_times), -1).astype(np.float32)
 
     def predict(
@@ -403,14 +486,32 @@ class Predictor:
             if IR_MIN_POWER_W <= power <= IR_MAX_POWER_W
             else "outside_ir_power_range"
         )
+        lf_power_coverage = (
+            "zero_power_anchor"
+            if power == 0.0
+            else "inside_lf_training_range"
+            if SIMULATION_MIN_POWER_W <= power <= SIMULATION_MAX_POWER_W
+            else "outside_lf_training_range"
+        )
+        uses_hf = bool(self.material_passport.get("experiment_data_used", False))
+        hf_power_coverage = (
+            "not_applicable_no_hf_training"
+            if self.model is None or not uses_hf
+            else "inside_hf_training_range"
+            if IR_MIN_POWER_W <= power <= IR_MAX_POWER_W
+            else "outside_hf_training_range"
+        )
         if ir_coverage == "outside_ir_power_range":
-            warnings.append("Power is outside the IR experiment range 115.2-630.5 W.")
+            warnings.append("Power is outside the HF experiment training range 55-729 W.")
         if n_samples != 1:
             warnings.append("The selected predictor is deterministic; requested samples are identical.")
         metadata = PredictionMetadata(
             source=source,
             support_domain=support_domain,
             ir_coverage=ir_coverage,
+            lf_power_coverage=lf_power_coverage,
+            hf_power_coverage=hf_power_coverage,
+            time_support="inside_declared_0_200_s_model_domain",
             deterministic=True,
             warnings=tuple(warnings),
         )
@@ -441,6 +542,8 @@ def predict(
 def metadata_json(prediction: Prediction) -> str:
     payload = asdict(prediction.metadata) | {
         "power_w": prediction.power_w,
+        "temperature_unit": "\u2103",
+        "internal_physics_temperature_unit": "K",
         "stable_time_s": prediction.stable_time_s,
         "time_count": int(len(prediction.times_s)),
         "node_count": int(len(prediction.coordinates_rz_m)),
