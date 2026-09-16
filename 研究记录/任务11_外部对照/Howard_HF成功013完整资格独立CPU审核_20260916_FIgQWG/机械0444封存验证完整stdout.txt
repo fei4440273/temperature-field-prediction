@@ -1,0 +1,1 @@
+{"source82与四父三HF五LF当前零漂移": true, "档案成员0444及逐件fresh_SHA核对PASS": true, "封存清单绑定成员数": 29, "PT反序列化数": 0, "CUDA_is_initialized": false, "五HFmean": null, "五HFstd": null, "结束": "完成即停，不读HF4，不新实验。"}

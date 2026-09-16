@@ -92,6 +92,33 @@ def assert_no_hf_leakage(
         raise RuntimeError(f"High-fidelity power leakage detected: {leaked}")
 
 
+def resolve_hf_training_subset(
+    powers_w: Iterable[float],
+    splits: PowerSplits | None = None,
+) -> frozenset[float]:
+    """Validate a nested HF training subset without weakening the global protocol."""
+    active = splits or build_power_splits()
+    selected = _as_set(powers_w)
+    if not selected:
+        raise ValueError("High-fidelity training subset cannot be empty")
+    outside = selected - active.hf_train
+    if outside:
+        raise RuntimeError(
+            f"High-fidelity training subset contains non-training powers: {sorted(outside)}"
+        )
+    return selected
+
+
+def assert_development_label_split(split: str) -> str:
+    """Reject test-label access from development and diagnostic entry points."""
+    if split not in {"train", "validation"}:
+        raise RuntimeError(
+            "Development diagnostics may read only train/validation labels; "
+            f"received split={split!r}"
+        )
+    return split
+
+
 def logo_folds(*_args, **_kwargs):
     raise RuntimeError("LOGO is disabled; use the fixed train/validation/test protocol")
 

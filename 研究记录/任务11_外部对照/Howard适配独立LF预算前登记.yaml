@@ -1,0 +1,137 @@
+schema_version: 1
+登记时间: '2026-09-16T17:17:27+08:00'
+阶段: fresh_howard_adapted_low_fidelity
+ROOT门禁标签: TASK11_HOWARD_LF_GATE:v1
+实施性质: 原文modified DeepONet LF数学结构的独立空初始化、共同有限预算预训练适配；不是作者代码移植或三网同时联合精确复现
+旧固定TEST温度读取: false
+模拟测试功率温度读取: false
+HF训练许可: false
+新HF训练许可: false
+原文精确三网联合训练复现: false
+旧LF/HF权重读取: false
+源码冻结tar: 研究记录/任务11_外部对照/任11_Howard独立LF35普通源事前冻结_20260916T171319+0800.tar.gz
+源码冻结tarSHA256: 42e1c376358f915e38625d9a197ae99606f24ff4af0e51a59e176fcba3d258bc
+真实模拟70源目录: 研究记录/任务11_外部对照/任11_Howard独立LF共同70真实源目录_20260916T171319+0800.json
+真实模拟70源目录SHA256: 573550239566a5f1f0e7f6889fa40f99dde83379e7c2ebf7e89eae1c375da367
+正式预算:
+  seeds:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  method: task11_howard_lf_teacher
+  epochs: 2000
+  samples_per_power: 8192
+  validation_samples_per_power: 8192
+  batch_size: 8192
+  learning_rate: 0.001
+  patience: 200
+  physics_collocation: 256
+  physics_weight: 1.0
+  lf_physics_mode: original
+  sampling_mode: material_time
+  device: cuda
+  world_size: 1
+  model_kwargs:
+    width: 128
+    depth: 4
+    latent_dim: 128
+    final_activation: false
+LF模型构造参数:
+  width: 128
+  depth: 4
+  latent_dim: 128
+  final_activation: false
+LF参数量: 100864
+模型尺度:
+  r_max_m: 0.05834
+  z_min_m: -0.0175
+  time_max_s: 200.0
+  power_max_w: 800.0
+  temperature_offset_k: 295.15
+  temperature_scale_k: 250.0
+最小改善_摄氏度: 0.0001
+AdamW固定参数:
+  lr: 0.001
+  weight_decay: 1.0e-06
+  betas:
+  - 0.9
+  - 0.999
+  eps: 1.0e-08
+  amsgrad: false
+  maximize: false
+  capturable: false
+  differentiable: false
+  foreach: null
+  fused: null
+源码普通成员SHA256:
+  src/sic_cu/train/task11_howard_lf_formal.py: 10c04e466fca4c95005e61bdb06b3cb5d2205db4d53df2b653723a01b6c4e815
+  scripts/54_run_task11_howard_lf_formal.py: d034327a7cc01e00ea7e967686eabec07c148984580215f5ba3cd37972451a15
+  tests/test_task11_howard_lf_formal.py: 208809a673d99c56704df2d0de8bfe2f370f40c45273603c50ff5cd79c5cc6f9
+  src/sic_cu/models/task11_howard_composite.py: 16d4621faebb8a57e8940d24e941e784f8f7a361c51e76a22a735453b9490d36
+  src/sic_cu/train/task11_mlp_lf_formal.py: 8a7cff0cb6f15f53ab79a0cbf542160a3b6968f289898d92ec43e33aa80e2e11
+  src/sic_cu/train/simulation.py: 206dca232f43e0cbf94ae1547368346e4898815c5b418531837f27be37c7835a
+  src/sic_cu/train/common.py: ae39dd8cd44928933f73a260fe395d19caece206e75b1ee2293fff26c8856030
+  src/sic_cu/data/fields.py: c098c7fdef43ba24ce79d80e250eb4df9c79c3619318e77187d0613f9cb8efe5
+  src/sic_cu/data/common.py: be5d81654dfaa96de33ab44ba4cc034cff13e618603635fbc0eed52690c0551e
+  src/sic_cu/data/balanced_sampler.py: 3db9838422138167f4f77300fe233165c92b12383cc284afa4b33fa08c0a52ec
+  src/sic_cu/data/splits.py: 9545e59458614a0e00b3631d6a004bda7ba99ad97374df28850ac51475326a9d
+  src/sic_cu/eval/protocol_checks.py: 55357852d91732e6e20e7a74b523ffd25b47ff770e4bc8897f6c4aec00f376fc
+  src/sic_cu/models/mlp_pinn.py: eb3a00321e0089a2711649407eada07cb18ea501332225779c39249e719c945e
+  src/sic_cu/models/__init__.py: 843ebcfaaf264556c6786a19e0e619342a6e9de1ea1cc711f156fb2e948758c0
+  src/sic_cu/models/common.py: 4e99edc4d470330d42d4bd92e36c4d7ad73f10ba71195606e0ef1e1e2d171a41
+  src/sic_cu/losses/physics.py: 43167eda808f97cf2ab49d2b6a4eef394e01cc1ea9c878772cc8d8fe966af7a6
+  src/sic_cu/losses/__init__.py: 1d74ca70955374368393dccbcdd7b8f998ca57637e3cf230ac8ac6d56374880c
+  src/sic_cu/physics/materials.py: 1533ca6feaaa0c32685d9a81574c5516c43394f4995354f42b9d97e6d4aacae5
+  src/sic_cu/physics/boundary.py: 006c9d216b9b87c2633fd38b82c0d5002cdc94234ba72f57d75ba69be4ad9f6f
+  src/sic_cu/physics/configuration.py: 15bb1b3da70f06c02389ea1995aaf5326cd22430116df47a9748d3683d6af4e5
+  src/sic_cu/physics/heat_equation.py: 3b90de1cdaf92c91b5e06a327922354ecff038db64c7910570a3154d4a27e39b
+  src/sic_cu/physics/interface.py: e7eeeb5b4eca7f2037aa9de1cb872a5aa76e39f0d67e9d8d3d51c6b52681743b
+  src/sic_cu/physics/trainable_parameters.py: 5b4a5299a6512b429d239e76dffbc0a4a7998522849dce28f3414388662f69b0
+  src/sic_cu/physics/resolution.py: fa06543c0d15fee00af54faddaaf2a39c77e7090cf1c35b5dca308cfdab10d89
+  src/sic_cu/physics/collocation.py: 97ed2202ce276adbc34fdf065694c70fb9cdf0db266b8e3c44e4cfe7fa98688c
+  src/sic_cu/config.py: 32d566768363fd5a6f10ee66afa43ec2bace5aaa2d0fe2852c5f2a361f25ac9d
+  configs/splits.yaml: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+  configs/training.yaml: 4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41
+  configs/geometry.yaml: a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0
+  configs/materials.yaml: 2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e
+  configs/boundary_conditions.yaml: fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f
+  configs/data_metadata.yaml: eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d
+  configs/release_manifest.yaml: 0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288
+  data/processed/manifest.json: 1ea58fded68b8950d89c9012d879a7b6197dbb2b12c3c3ccc44af474843d8a82
+  reports/current_protocol/data_inventory.json: 2fbefd24541ba6a9368da867cb401e3779570bccb5b87e5b238262a99d0607f7
+数据与消费口径:
+  LF训练功率数: 60
+  LF合法验证功率数: 10
+  各功率固定采样点数: 8192
+  LF每轮观测优化步: 60
+  LF每轮物理优化步: 1
+  LF每轮物理配点: 256
+  采样方式: material_time；训练seed本人，验证seed10000
+  模拟TEST原件: 仅清单身份核对；不读取温度、不参与构造或验证
+  共同catalog用途历史标签: 保留冻结collect_task11_mlp_lf_sources元数据原值以逐字复核，不表示读取任何旧MLP权重
+  有限预算停止: 每seed最多2000轮或验证无改善达到200轮，min_delta=0.0001℃，不补早停预算
+  每次会话: 单真CUDA、1至200轮，本人同seed最近完整状态恢复；禁止CPU回退/多卡/跨seed接续
+模型与论文差异:
+  LF子网: Modified DeepONet，branch 1输入，trunk 4输入，width128/depth4/latent128，LF末层无tanh
+  HF子网: 本阶段不存在；不得生成HF指标、选定PH/QH、三网HF参数或解释能源收益
+  物理: 共同原LF名义平方物理loss，每轮一个256配点AdamW更新；不是原文平均绝对物理目标
+  正则: 共同AdamW全参数weight_decay=1e-6，不冒称原文仅LF/NL branch显式L2的精确优化
+  数据域: 本项目标量激光功率和SiC/Cu轴对称输入，不冒称论文原始函数输入/几何/数据域
+  参数量比较: Howard LF100864参数与新MLP LF66945参数不同；共同数据/上限不表示同参数量/同起点严格单因素
+事务和成本合同:
+  完整状态: 初始、逐轮最近、观测最佳、真实训练末保存模型/真实AdamW/四RNG/可训练状态/采样轮次/当前日志SHA
+  每段提交: 连续编号收据及不可覆盖的日志前缀/最近阶段/最佳阶段/最佳模型；只恢复本人已提交阶段_最近.pt
+  成本口径: 与新MLP同边界：训练/每轮验证/完整阶段保存之和；加载构建恢复、导出源核验另列，总墙钟三项闭合；收据后只读资格审计不计
+  峰值: 各真实会话torch.cuda.max_memory_allocated，身份全过程取max；不把seed峰值相加
+  GPU资格限界: CPU数学/状态回归不是已完成真CUDA训练，也未另外执行连续全预算CUDA与分段位级等价对照
+输出限制:
+  固定运行父目录: 研究记录/任务11_外部对照/正式Howard适配公平训练
+  五seed子目录:
+  - 正式Howard_LF_seed0
+  - 正式Howard_LF_seed1
+  - 正式Howard_LF_seed2
+  - 正式Howard_LF_seed3
+  - 正式Howard_LF_seed4
+  写入范围: 仅本项目；全新本人seed目录；不改旧B0/MLP/历史源码归档或TEST原件

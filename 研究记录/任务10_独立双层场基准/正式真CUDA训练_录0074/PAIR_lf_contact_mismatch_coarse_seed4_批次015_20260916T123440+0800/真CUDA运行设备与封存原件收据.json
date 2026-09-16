@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "正式GPU专属包装器": true,
+  "运行状态": "成功",
+  "设备": {
+    "类型": "cuda",
+    "可见CUDA设备数": 1,
+    "实际设备序号": 0,
+    "名称": "NVIDIA GeForce RTX 4090 D",
+    "计算能力": [
+      8,
+      9
+    ],
+    "总显存字节": 25363087360,
+    "PyTorch版本": "2.5.1",
+    "CUDA运行时版本": "12.1"
+  },
+  "训练": {
+    "arm": "PAIR",
+    "随机种子": 4,
+    "LF来源": "lf_contact_mismatch_coarse",
+    "真正训练耗时_秒": 35.077705756004434,
+    "CUDA峰值分配MiB": 18.34033203125,
+    "旧冻结训练CLI_SHA256": "b7ed35d95e53d2211cb15c07ef1f1eefa271deefe7f68fde188b2f27e0293cd3",
+    "开始训练凭据_SHA256": "7e33304aacd6937f90e530b74891eb76bef8e006a68c2bacdcc97a51c2f160a6",
+    "运行摘要_SHA256": "43e1484e825f53fcbde2dbad3f3d50675e21a578a28ad70f4e7df20e3dd5ae2e",
+    "旧CLI标准输出_SHA256": "0013d9d61e5cef4546ac81fd281ca9e24d92279727d60b82942aa7cca070aa37",
+    "旧CLI标准错误_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "模型原件": {
+    "F2": {
+      "模型目录": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/正式真CUDA训练_录0074/PAIR_lf_contact_mismatch_coarse_seed4_批次015_20260916T123440+0800/F2",
+      "真实训练日志_SHA256": "82ccaaeabca0d842efad08c5c5af34c7ccde3c267e1a8c944c18004e5f43e493",
+      "合法验证_SHA256": "a5c36c18fa31f5992cac6b45c571905ea6b5d1f055635019f55d764373b2b1e5",
+      "单模型锁_SHA256": "248f94b0c650402821f382cfc662b883e33cd7e593e29071a083744cd14d26f8",
+      "最佳模型_SHA256": "516e74212b4ac9205a0e7cd4d31ba660ba7b7c9698f661e5694d6b00c0a02ae9",
+      "终态模型_SHA256": "6ec9f4c37f732483c5d319eadb681b0b26fcc23b2e56399d1aacacbd0b9a90ba",
+      "最佳HF四类随机态_SHA256": "61c0c026d18357a14ba6b0f7818ffe902f7a8e2ba2ce8433f8af5e9ecc415b0f",
+      "终态HF四类随机态_SHA256": "61c0c026d18357a14ba6b0f7818ffe902f7a8e2ba2ce8433f8af5e9ecc415b0f",
+      "共享LF四类采样随机态_SHA256": "b25e58ef14e710d3a62a69c584f3540e3b504ab722b29544071f72ea9500b104"
+    },
+    "F3": {
+      "模型目录": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/正式真CUDA训练_录0074/PAIR_lf_contact_mismatch_coarse_seed4_批次015_20260916T123440+0800/F3",
+      "真实训练日志_SHA256": "5b6fd12c3b64f3bdeced1ac1aa3371d62094c4663f1936f85ef29a7d46099e31",
+      "合法验证_SHA256": "1e0aa0d24f764a901338f6f05bb38fcbe6cc097d2fbb646e33e31e609ffb8188",
+      "单模型锁_SHA256": "803db66227d16ced47f256cb57e6604ca5f6b14332b38876480a90ef045b533a",
+      "最佳模型_SHA256": "e6d9e27e14673cfb4b2208f42140b7a2cb8fe0c6c7c136c79137365a82d8fa73",
+      "终态模型_SHA256": "1690c430e86f3e8614b9dbee7c3d2deb9f775c7e396877700eb0d785400d11d6",
+      "最佳HF四类随机态_SHA256": "61c0c026d18357a14ba6b0f7818ffe902f7a8e2ba2ce8433f8af5e9ecc415b0f",
+      "终态HF四类随机态_SHA256": "61c0c026d18357a14ba6b0f7818ffe902f7a8e2ba2ce8433f8af5e9ecc415b0f",
+      "共享LF四类采样随机态_SHA256": "b25e58ef14e710d3a62a69c584f3540e3b504ab722b29544071f72ea9500b104"
+    }
+  },
+  "失败目录不恢复且新批次重跑": true,
+  "完整HF温度已读取": false,
+  "收据时刻": "2026-09-16T12:38:41.199318+08:00"
+}

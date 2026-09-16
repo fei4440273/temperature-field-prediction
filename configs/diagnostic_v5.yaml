@@ -1,0 +1,33 @@
+schema_version: 1
+round_id: development_v5_m2
+allow_training: false
+allow_optimizer: false
+allow_test_labels: false
+allow_logo: false
+allow_e1_e2: false
+baseline_run: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2
+output_root: reports/development_v5
+seeds: [0, 1, 2, 3, 4]
+primary_seed: 0
+energy:
+  powers_w: [55.0, 364.3, 729.0, 115.2, 403.0, 630.5]
+  times_s: [1.0, 10.0, 50.0, 100.0, 200.0]
+  initial_quadrature_orders: [16, 32, 64]
+  fallback_quadrature_orders: [96, 128]
+  convergence_relative_to_absorbed_power: 0.01
+  divergence_identity_relative_tolerance: 0.01
+  outer_flux_epsilon_m: 1.0e-6
+  outer_limit_epsilons_m: [1.0e-3, 3.0e-4, 1.0e-4, 3.0e-5, 1.0e-5, 3.0e-6, 1.0e-6]
+  hard_cooling_tolerance_m: 1.0e-7
+  derivative_batch_size: 4096
+  cooling_limit_quadrature_order: 64
+low_fidelity:
+  prediction_batch_size: 65536
+  time_windows_s:
+    - {name: all_0_200_s, lower: 0.0, upper: 200.0, lower_closed: true, upper_closed: true}
+    - {name: time_0_30_s, lower: 0.0, upper: 30.0, lower_closed: true, upper_closed: true}
+    - {name: time_30_100_s, lower: 30.0, upper: 100.0, lower_closed: false, upper_closed: true}
+    - {name: time_100_200_s, lower: 100.0, upper: 200.0, lower_closed: false, upper_closed: true}
+  direct_call_check_points: 2048
+  spot_check_nodes_per_material: 3
+

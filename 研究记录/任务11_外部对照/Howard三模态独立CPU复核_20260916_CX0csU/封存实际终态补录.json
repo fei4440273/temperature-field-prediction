@@ -1,0 +1,28 @@
+{
+  "证据性质": "封存CPU证据.py最后实际工具调用终态补录；不重跑，不覆盖",
+  "完整实际规范化命令所在": "独立复核汇总机器证据.json:本机械封存完整规范化实际命令",
+  "实际退出码": 0,
+  "stderr": "",
+  "实际终态stdout要点": {
+    "ARCHIVE_SOURCE_AND_PARENT_ZERO_DRIFT": {
+      "候选自身3": true,
+      "全部93源码": true,
+      "固定父原件": true,
+      "旧OBS72": true,
+      "父HF82": true,
+      "父闭包87": true,
+      "能源自身3": true
+    },
+    "INDEPENDENT_REVIEW_ARCHIVE": {
+      "文件": "独立复核汇总机器证据.json",
+      "字节": 104600,
+      "SHA256": "6675595ea758f60b98d3b93a77a69c97f360b4115b00eb7b816f534eb18a2a2f"
+    },
+    "INDEPENDENT_REVIEW_REPORT": {
+      "文件": "独立复核中文报告.md",
+      "字节": 9171,
+      "SHA256": "ea3be6a6500540e6f581637e177bd59a099627d60519cd2f00792d714f9d2273"
+    }
+  },
+  "终验性质": "之后只读鲜验，不重新声称正式模型或GPU资格"
+}

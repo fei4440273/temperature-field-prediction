@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 import argparse
+import copy
+import hashlib
 import json
+import os
 import time
 from dataclasses import asdict
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -19,7 +23,11 @@ from sic_cu.config import PROJECT_ROOT, load_yaml
 from sic_cu.data.sensors import load_canonical_sensor_observations
 from sic_cu.data.common import sha256_file
 from sic_cu.data.processed import load_processed_ir_observations
-from sic_cu.data.splits import assert_no_hf_leakage, build_power_splits
+from sic_cu.data.splits import (
+    assert_no_hf_leakage,
+    build_power_splits,
+    resolve_hf_training_subset,
+)
 from sic_cu.eval.protocol_checks import (
     checkpoint_provenance,
     current_protocol_fingerprints,
@@ -27,7 +35,10 @@ from sic_cu.eval.protocol_checks import (
     validate_lf_checkpoint_provenance,
     validate_release_checkpoint,
 )
-from sic_cu.eval.metrics import curve_metrics, macro_metric_summary, weighted_metrics
+from sic_cu.eval.metrics import (
+    curve_metrics, macro_metric_summary, observation_time_window_mask, weighted_metrics,
+)
+from sic_cu.eval.energy_v5 import AxisymmetricGeometry, deterministic_energy_terms
 from sic_cu.eval.validation import (
     build_three_power_comparison,
     write_three_power_comparison,
@@ -50,9 +61,18 @@ from sic_cu.physics import (
     sample_collocation,
 )
 from sic_cu.physics.materials import PhysicsConfigurationError, load_materials
+from sic_cu.physics.resolution import load_resolved_boundary_conditions
 from sic_cu.physics.trainable_parameters import TrainableBoundaryParameters
 from sic_cu.train.simulation import build_model, distributed_context, load_sampled_points, set_seed
-from sic_cu.train.common import physics_optimizer_step, write_config_snapshot
+from sic_cu.train.common import (
+    CONFIG_FILES,
+    load_training_state,
+    physics_backward,
+    physics_optimizer_step,
+    save_training_state,
+    split_collocation,
+    write_config_snapshot,
+)
 
 
 def _load_low_fidelity(path: str | Path, device: torch.device) -> tuple[nn.Module, dict[str, Any]]:
@@ -62,6 +82,371 @@ def _load_low_fidelity(path: str | Path, device: torch.device) -> tuple[nn.Modul
     model = build_model(method, scales, **checkpoint.get("model_kwargs", {})).to(device)
     model.load_state_dict(checkpoint["model_state"])
     return model, checkpoint
+
+
+def validate_locked_b0_start(
+    high_fidelity_checkpoint: str | Path,
+    low_fidelity_checkpoint: str | Path,
+    *,
+    seed: int,
+) -> dict[str, Any]:
+    manifest = load_yaml("reports/development_v4/baseline_manifest.yaml")
+    entries = [entry for entry in manifest["checkpoints"] if entry["seed"] == seed]
+    if len(entries) != 1:
+        raise ValueError("No uniquely locked B0 checkpoint for this seed")
+    entry = entries[0]
+    hf_path = Path(high_fidelity_checkpoint).resolve()
+    lf_path = Path(low_fidelity_checkpoint).resolve()
+    if hf_path != (PROJECT_ROOT / entry["hf_checkpoint"]).resolve() or lf_path != (
+        PROJECT_ROOT / entry["lf_checkpoint"]
+    ).resolve():
+        raise ValueError("Paths are not the manifest-locked B0 and LF pair")
+    if sha256_file(hf_path) != entry["hf_checkpoint_sha256"] or sha256_file(lf_path) != (
+        entry["lf_checkpoint_sha256"]
+    ):
+        raise ValueError("Manifest-locked B0 or LF checkpoint hash has changed")
+    for filename in ("geometry.yaml", "materials.yaml"):
+        current_bytes = (PROJECT_ROOT / "configs" / filename).read_bytes()
+        for historical_path in (hf_path, lf_path):
+            old_bytes = (historical_path.parent / "config_snapshot" / filename).read_bytes()
+            if current_bytes != old_bytes:
+                raise ValueError(f"Locked B0 {filename} differs from the historical snapshot")
+    payload = torch.load(hf_path, map_location="cpu", weights_only=False)
+    lf_payload = torch.load(lf_path, map_location="cpu", weights_only=False)
+    historical = manifest["data_and_protocol_hashes"]["checkpoint_training_provenance"]
+    fingerprints = current_protocol_fingerprints()
+    for key in ("split_sha256", "raw_manifest_sha256", "processed_manifest_sha256"):
+        if fingerprints[key] != historical[key]:
+            raise ValueError(f"Locked B0 data protocol no longer matches: {key}")
+    for candidate in (payload, lf_payload):
+        provenance = candidate["provenance"]
+        if provenance["physics_config_sha256"] != historical["physics_config_sha256"]:
+            raise ValueError("Locked B0 physics provenance does not match its manifest")
+        if provenance["code_commit"] != entry["checkpoint_code_commit"]:
+            raise ValueError("Locked B0 source provenance does not match its manifest")
+        validation_fingerprints = fingerprints | {
+            "physics_config_sha256": provenance["physics_config_sha256"],
+            "code_commit": provenance["code_commit"],
+        }
+        if candidate is payload:
+            validate_hf_checkpoint_provenance(candidate, fingerprints=validation_fingerprints)
+        else:
+            validate_lf_checkpoint_provenance(candidate, fingerprints=validation_fingerprints)
+    old_config = load_yaml(str(hf_path.parent / "config_snapshot/boundary_conditions.yaml"))
+    current_config = load_yaml("configs/boundary_conditions.yaml")
+    old_jump = old_config["interface"].pop("observed_global_max_temperature_jump_k")
+    current_jump = current_config["interface"].pop("observed_global_max_temperature_jump_c")
+    if old_jump != current_jump or old_config != current_config:
+        raise ValueError("Locked B0 boundary definition has changed beyond diagnostic metadata")
+    if payload["resolved_physics"] != asdict(load_resolved_boundary_conditions()):
+        raise ValueError("Locked B0 resolved physics differs from the active training configuration")
+    if payload["seed"] != seed or payload["epoch"] != entry["hf_best_epoch"]:
+        raise ValueError("Locked B0 checkpoint seed or epoch differs from the manifest")
+    return payload
+
+
+def initialize_locked_hf_with_lf(
+    model: nn.Module, historical_hf_state: dict[str, Tensor], *, replace_lf: bool,
+) -> None:
+    active_lf = {
+        name: value.detach().clone()
+        for name, value in model.low_fidelity_model.state_dict().items()
+    } if replace_lf else None
+    model.load_state_dict(historical_hf_state, strict=True)
+    if active_lf is not None:
+        model.low_fidelity_model.load_state_dict(active_lf, strict=True)
+
+
+def validate_locked_hf_contract(
+    historical: dict[str, Any], *, width: int, depth: int,
+    correction_power_scaling: str, correction_direct_power_input: bool,
+    correction_power_reference_w: float, skip_sensors: bool,
+    hard_surface_residual_guide: bool, identify_physics_parameters: bool,
+    hard_deployment_constraints: bool, hf_training_subset_w: Iterable[float] | None,
+    surface_teacher_weight: float, sensor_absolute_loss_weight: float,
+    sensor_delta_loss_weight: float,
+) -> None:
+    locked = historical["correction_model_kwargs"]
+    if (
+        width != locked["width"] or depth != locked["depth"]
+        or correction_power_scaling != locked["correction_power_scaling"]
+        or correction_direct_power_input != locked["correction_direct_power_input"]
+        or correction_power_reference_w != locked["correction_power_reference_w"]
+        or skip_sensors == historical["sensors_used"]
+        or hard_surface_residual_guide or identify_physics_parameters
+        or not hard_deployment_constraints or hf_training_subset_w is not None
+        or surface_teacher_weight > 0.0
+        or sensor_absolute_loss_weight != 5.0 or sensor_delta_loss_weight != 1.0
+    ):
+        raise ValueError("Locked B0 continuation cannot change its model or observation contract")
+
+
+def validate_task03_lf_lineage(
+    checkpoint: dict[str, Any], checkpoint_path: str | Path,
+    historical_lf_path: str | Path, *, seed: int,
+) -> None:
+    candidate_path = Path(checkpoint_path).resolve()
+    historical_path = Path(historical_lf_path).resolve()
+    if candidate_path == historical_path or candidate_path.name != "best.pt":
+        raise ValueError("Task03 LF lineage requires a separate completed LF best.pt")
+    root = candidate_path.parent
+    try:
+        run = json.loads((root / "run_state.json").read_text(encoding="utf-8"))
+        initial = torch.load(root / "阶段_初始.pt", map_location="cpu", weights_only=False)
+        terminal = torch.load(root / "阶段_LF训练末.pt", map_location="cpu", weights_only=False)
+    except (OSError, json.JSONDecodeError, KeyError) as exc:
+        raise ValueError("Task03 LF lineage has no complete source and terminal state") from exc
+    origin_hash = sha256_file(historical_path)
+    configuration = run.get("configuration", {})
+    initial_metadata = initial.get("metadata", {})
+    terminal_metadata = terminal.get("metadata", {})
+    if (
+        run.get("seed") != seed or checkpoint.get("seed") != seed
+        or checkpoint.get("method") != "deeponet_pinn"
+        or run.get("method") != "deeponet_pinn"
+        or checkpoint.get("epoch") != run.get("best_epoch")
+        or checkpoint.get("validation_rmse_c") != run.get("best_validation_rmse_c")
+        or run.get("epochs_completed") != 300
+        or run.get("world_size") != 1
+        or run.get("stopping_reason") != "planned_budget_completed"
+        or configuration.get("epochs") != 300
+        or configuration.get("samples_per_power") != 8192
+        or configuration.get("validation_samples_per_power") != 8192
+        or configuration.get("validation_sampling_seed") != 10000
+        or configuration.get("batch_size_per_rank") != 8192
+        or configuration.get("learning_rate") != 0.0001
+        or configuration.get("patience") != 301
+        or configuration.get("lf_physics_mode") != "none"
+        or configuration.get("physics_enabled") is not False
+        or configuration.get("simulation_sampling_mode") not in {"material_time", "material_time_space"}
+        or configuration.get("locked_lf_start_sha256") != origin_hash
+        or configuration.get("historical_optimizer_restored") is not False
+        or initial.get("stage") != "low_fidelity" or initial.get("epoch") != 0
+        or initial.get("budget") != {"LF轮次": 300}
+        or initial_metadata.get("起点LF哈希") != origin_hash
+        or initial_metadata.get("采样方式") != configuration.get("simulation_sampling_mode")
+        or initial_metadata.get("物理模式") != "none"
+        or terminal.get("stage") != "low_fidelity" or terminal.get("epoch") != 300
+        or terminal.get("budget") != {"LF轮次": 300}
+        or terminal_metadata.get("实际结束轮次") != 300
+        or terminal_metadata.get("最佳LF验证RMSE") != checkpoint.get("validation_rmse_c")
+        or terminal_metadata.get("累计训练点") != 147456000
+        or terminal_metadata.get("累计优化步") != 18000
+        or run.get("data_consumption", {}).get("train_points") != 491520
+        or run.get("data_consumption", {}).get("validation_points") != 81920
+        or run.get("data_consumption", {}).get("total_train_points_exposed") != 147456000
+        or run.get("data_consumption", {}).get("total_optimizer_steps") != 18000
+        or configuration.get("model_kwargs") != checkpoint.get("model_kwargs")
+    ):
+        raise ValueError("Task03 LF lineage differs from the locked LF origin or 300-epoch source")
+    recorded = checkpoint.get("lf_lineage")
+    if recorded is not None and recorded != {
+        "locked_lf_start_sha256": origin_hash,
+        "simulation_sampling_mode": configuration["simulation_sampling_mode"],
+        "lf_physics_mode": "none", "logical_budget_epochs": 300,
+        "source_hashes": initial_metadata["源码哈希"],
+    }:
+        raise ValueError("Task03 LF lineage in best.pt differs from its initial state")
+    historical = torch.load(historical_path, map_location="cpu", weights_only=False)
+    if any(
+        not torch.equal(initial["model_state"][name], value)
+        for name, value in historical["model_state"].items()
+    ):
+        raise ValueError("Task03 LF lineage initial tensors differ from the locked origin")
+    log_epochs = [
+        json.loads(line)["epoch"] for line in (root / "training.jsonl").read_text(
+            encoding="utf-8"
+        ).splitlines()
+    ]
+    if log_epochs != list(range(1, 301)):
+        raise ValueError("Task03 LF lineage has an incomplete 300-epoch observation log")
+    declared_hash = run.get("best_checkpoint_sha256")
+    if declared_hash is None:
+        archived = json.loads((PROJECT_ROOT / (
+            "研究记录/任务03_低保真精度修复/"
+            "任务03_LF完整验证_20260915T184950+0800/来源与选取口径.json"
+        )).read_text(encoding="utf-8"))["起点与候选检查点"]
+        matches = [entry for name, entry in archived.items() if name != "原始LF_B0" and (
+            (PROJECT_ROOT / entry["路径"]).resolve() == candidate_path
+            and entry["最佳轮次"] == checkpoint["epoch"]
+        )]
+        if len(matches) != 1:
+            raise ValueError("Task03 LF lineage has no pre-HF locked checkpoint hash")
+        declared_hash = matches[0]["SHA256"]
+    if sha256_file(candidate_path) != declared_hash:
+        raise ValueError("Task03 LF lineage best.pt differs from its recorded checkpoint hash")
+    disk_checkpoint = torch.load(candidate_path, map_location="cpu", weights_only=False)
+    if checkpoint["model_state"].keys() != disk_checkpoint["model_state"].keys() or any(
+        not torch.equal(value.detach().cpu(), disk_checkpoint["model_state"][name])
+        for name, value in checkpoint["model_state"].items()
+    ):
+        raise ValueError("Task03 LF lineage in-memory weights differ from locked best.pt")
+    full_best = root / "阶段_LF观测最佳.pt"
+    if full_best.exists():
+        saved_best = torch.load(full_best, map_location="cpu", weights_only=False)
+        if saved_best.get("epoch") != checkpoint["epoch"] or any(
+            not torch.equal(value.detach().cpu(), saved_best["model_state"][name])
+            for name, value in checkpoint["model_state"].items()
+        ):
+            raise ValueError("Task03 LF lineage model-only best differs from full best state")
+
+
+def correction_resume_metadata(
+    historical_start_hash: str | None,
+    schedule: str,
+    source_hashes: dict[str, str],
+    *,
+    best: float | None = None,
+    best_epoch: int = 0,
+    physical_best: float | None = None,
+    stopping_count: int = 0,
+    consumption: dict[str, Any] | None = None,
+    lf_checkpoint_hash: str | None = None,
+) -> dict[str, Any]:
+    if consumption is None:
+        consumption = {
+            "hf_ir_points": 0, "hf_sensor_points": 0,
+            "surface_teacher_points": 0, "lf_simulation_points": 0,
+            "lf_simulation_material_points": {"copper": 0, "silicon_carbide": 0},
+        }
+    return {
+        "历史起点哈希": historical_start_hash,
+        "LF使用检查点哈希": lf_checkpoint_hash,
+        "排程": schedule, "源码哈希": source_hashes,
+        "观测最佳分数": best, "观测最佳轮次": best_epoch,
+        "物理最佳损失": physical_best, "停止计数": stopping_count,
+        "消费累计": consumption,
+    }
+
+
+def ensure_continuous_resume_state(path: str | Path) -> None:
+    if Path(path).name not in ("阶段_初始.pt", "阶段_最近.pt"):
+        raise ValueError("Only initial or latest continuous resume state can continue this run")
+
+
+def reconcile_correction_resume_log(
+    output: str | Path, *, epoch: int, state_file: str | Path | None = None,
+) -> int:
+    log_path = Path(output) / "training.jsonl"
+    if epoch == 0 and (log_path.parent / "阶段_最近.pt").exists():
+        raise ValueError("Initial state cannot resume when a committed latest state already exists")
+    original_bytes = log_path.read_bytes()
+    lines = original_bytes.splitlines(keepends=True)
+    try:
+        records = [json.loads(line) for line in lines]
+    except (ValueError, UnicodeDecodeError) as exc:
+        raise ValueError("Training resume log has invalid JSON lines") from exc
+    if any(record.get("epoch") != index for index, record in enumerate(records, start=1)):
+        raise ValueError("Training resume log has non-consecutive epochs")
+    if len(records) == epoch:
+        return epoch
+    if len(records) != epoch + 1:
+        raise ValueError("Training resume log and checkpoint epoch differ by more than one row")
+
+    # A row is committed only once the corresponding atomic latest-state save succeeds.
+    stamp = f"{datetime.now().astimezone().strftime('%Y%m%dT%H%M%S%z')}_{time.time_ns()}"
+    archive = log_path.with_name(f"training_中断尾行_{stamp}.jsonl")
+    with archive.open("xb") as handle:
+        handle.write(original_bytes)
+        handle.flush()
+        os.fsync(handle.fileno())
+    temporary = log_path.with_name(f"training_{stamp}.tmp")
+    with temporary.open("xb") as handle:
+        handle.write(b"".join(lines[:epoch]))
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, log_path)
+    report = {
+        "中文说明": "仅移走最新检查点后一条未提交尾行，原日志完整保存，不把该行的模型更新计为已恢复。",
+        "恢复依据轮次": epoch,
+        "尾行轮次": epoch + 1,
+        "原日志SHA256": hashlib.sha256(original_bytes).hexdigest(),
+        "备份路径": archive.name,
+        "有效日志SHA256": sha256_file(log_path),
+        "最近状态SHA256": None if state_file is None else sha256_file(state_file),
+    }
+    report_path = log_path.with_name(f"日志恢复记录_{stamp}.json")
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return epoch
+
+
+def write_resume_status(
+    path: str | Path,
+    *,
+    task: str,
+    run: str,
+    last_checkpoint: str,
+    reason: str,
+    next_action: str,
+) -> None:
+    destination = Path(path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    content = (
+        "# 当前接续状态\n\n"
+        f"- 更新时间：{datetime.now().astimezone().isoformat(timespec='seconds')}。\n"
+        f"- 当前任务：{task}。\n"
+        f"- 当前运行：{run}。\n"
+        f"- 已完成子项：详见当前运行的`training.jsonl`与阶段状态。\n"
+        f"- 最后有效检查点：{last_checkpoint}。\n"
+        f"- 暂停或失败原因：{reason}。\n"
+        f"- 下一条具体动作：{next_action}。\n"
+        "- 禁止操作：读取旧测试温度开发、覆盖旧B0或冻结发布、改变当前运行原预算后拼接日志。\n"
+    )
+    temporary = destination.with_name(destination.name + ".tmp")
+    temporary.write_text(content, encoding="utf-8")
+    os.replace(temporary, destination)
+
+
+def evaluate_schedule_guardrails(
+    model: nn.Module,
+    physics: PhysicsLossComputer,
+    materials: dict[int, Any],
+    boundaries: Any,
+    device: torch.device,
+    *,
+    order: int = 16,
+) -> dict[str, Any]:
+    model.eval()
+    independent = physics(
+        model, sample_collocation(256, device, seed=260908)
+    )
+    audit_model = copy.deepcopy(model).to(dtype=torch.float64)
+    audit_model.requires_grad_(False)
+    audit_model.eval()
+    geometry = AxisymmetricGeometry.from_config(load_yaml("configs/geometry.yaml"))
+    rows = []
+    for power in (55.0, 630.5):
+        for time_s in (10.0, 100.0):
+            energy, _ = deterministic_energy_terms(
+                audit_model, materials, boundaries, geometry, power, time_s, order,
+                outer_epsilon_m=1e-6, derivative_batch_size=2048, device=device,
+            )
+            rows.append(energy)
+    return {
+        "独立局部物理损失": {
+            key: float(value.detach()) for key, value in independent.items()
+        },
+        "能量四点原始值": rows,
+        "能量四点绝对平衡均值_瓦": float(np.mean([abs(row["balance_w"]) for row in rows])),
+        "能量四点绝对平衡95分位_瓦": float(np.percentile(
+            [abs(row["balance_w"]) for row in rows], 95
+        )),
+    }
+
+
+def independent_physical_stage_score(guardrails: dict[str, Any] | None) -> float | None:
+    if guardrails is None:
+        return None
+    return float(guardrails["独立局部物理损失"]["physics_total"])
+
+
+def physical_stage_improves(best: float | None, guardrails: dict[str, Any] | None) -> bool:
+    score = independent_physical_stage_score(guardrails)
+    return score is not None and (best is None or score < best)
+
+
+def is_session_paused(*, epoch: int, planned_epochs: int, early_stopped: bool) -> bool:
+    return epoch < planned_epochs and not early_stopped
 
 
 def _filter_observations(
@@ -362,12 +747,8 @@ def _evaluate_ir_model(
             if peak_rise_k >= 1.0:
                 peak_rise_relative_errors.append(abs(peak_error) / peak_rise_k * 100.0)
         time_windows: dict[str, Any] = {}
-        for name, lower, upper in (
-            ("time_0_30_s", 0.0, 30.0),
-            ("time_30_100_s", 30.0, 100.0),
-            ("time_100_200_s", 100.0, 200.0 + np.finfo(float).eps),
-        ):
-            mask = power_mask & (times >= lower) & (times < upper)
+        for name in ("time_0_30_s", "time_30_100_s", "time_100_200_s"):
+            mask = power_mask & observation_time_window_mask(times, name)
             time_windows[name] = (
                 weighted_metrics(target_values[mask], prediction[mask], weights[mask])
                 if bool(mask.any())
@@ -433,6 +814,21 @@ def _evaluate_sensor_model(
             )
             prediction = _predict_batches(model, coordinates, device)
             target = group["temperature_k"].to_numpy()
+            times = group["time_s"].to_numpy()
+            time_windows_absolute = {}
+            time_windows_delta = {}
+            window_counts = {}
+            for name in ("time_0_30_s", "time_30_100_s", "time_100_200_s"):
+                mask = observation_time_window_mask(times, name)
+                window_counts[name] = int(mask.sum())
+                time_windows_absolute[name] = (
+                    curve_metrics(target[mask], prediction[mask]) if mask.any() else None
+                )
+                time_windows_delta[name] = (
+                    curve_metrics(
+                        target[mask] - target[0], prediction[mask] - prediction[0]
+                    ) if mask.any() else None
+                )
             records.append(
                 {
                     "power_w": float(power),
@@ -442,6 +838,11 @@ def _evaluate_sensor_model(
                         target - target[0],
                         prediction - prediction[0],
                     ),
+                    "first_reference_time_s": float(times[0]),
+                    "observation_count": len(times),
+                    "window_observation_counts": window_counts,
+                    "time_windows_absolute": time_windows_absolute,
+                    "time_windows_delta": time_windows_delta,
                 }
             )
     return {
@@ -497,9 +898,33 @@ def train_multifidelity(
     surface_guide_degree_r: int = 20,
     surface_guide_degree_t: int = 20,
     simulation_supervision_target: str = "low_fidelity",
+    hf_training_subset_w: Iterable[float] | None = None,
+    start_checkpoint: str | None = None,
+    locked_historical_lf_checkpoint: str | None = None,
+    physics_schedule: str = "separate",
+    continuation_learning_rate: float | None = None,
+    validation_interval: int = 1,
+    resume_training_checkpoint: str | None = None,
+    session_epoch_limit: int | None = None,
 ) -> dict[str, Any] | None:
     if correction_epochs < 0 or joint_epochs < 0 or correction_epochs + joint_epochs < 1:
         raise ValueError("At least one correction or joint epoch is required")
+    if physics_schedule not in {"separate", "mixed_every_five"}:
+        raise ValueError("Unknown physical training schedule")
+    if physics_schedule == "mixed_every_five" and (start_checkpoint is None or joint_epochs):
+        raise ValueError("Mixed schedule requires locked B0 start and frozen LF throughout")
+    if start_checkpoint is not None and joint_epochs:
+        raise ValueError("Locked B0 continuation cannot enter the joint stage")
+    if locked_historical_lf_checkpoint is not None and start_checkpoint is None:
+        raise ValueError("Replacement LF requires a locked B0 HF correction checkpoint")
+    if continuation_learning_rate is not None and continuation_learning_rate <= 0.0:
+        raise ValueError("Continuation learning rate must be positive")
+    if validation_interval < 1:
+        raise ValueError("Validation interval must be positive")
+    if resume_training_checkpoint is not None and start_checkpoint is None:
+        raise ValueError("Training resume requires the locked B0 start and original LF pair")
+    if session_epoch_limit is not None and session_epoch_limit < 1:
+        raise ValueError("The session epoch limit must be positive")
     if evaluate_test:
         raise ValueError(
             "Training-time test evaluation is disabled; freeze a release and use "
@@ -526,6 +951,12 @@ def train_multifidelity(
         else load_resolved_boundary_conditions()
     )
     rank, local_rank, world_size = distributed_context()
+    if world_size > 1 and (
+        start_checkpoint is not None or resume_training_checkpoint is not None or session_epoch_limit is not None
+    ):
+        if dist.is_initialized():
+            dist.destroy_process_group()
+        raise ValueError("Locked B0 continuation currently requires one GPU for full random-state recovery")
     set_seed(seed)
     device = torch.device("cuda", local_rank) if torch.cuda.is_available() else torch.device("cpu")
     if device.type == "cuda":
@@ -552,7 +983,18 @@ def train_multifidelity(
         hf_validation_powers_w,
         hf_test_powers_w,
     )
-    if all(values is None for values in power_overrides):
+    if hf_training_subset_w is not None and any(
+        values is not None for values in power_overrides
+    ):
+        raise ValueError(
+            "hf_training_subset_w cannot be combined with explicit full-protocol power groups"
+        )
+    if hf_training_subset_w is not None:
+        hf_train_powers = resolve_hf_training_subset(hf_training_subset_w, splits)
+        hf_validation_powers = splits.hf_validation
+        hf_test_powers = splits.hf_test
+        hf_split_source = "fixed_global_protocol_with_nested_hf_training_subset"
+    elif all(values is None for values in power_overrides):
         hf_train_powers = splits.hf_train
         hf_validation_powers = splits.hf_validation
         hf_test_powers = splits.hf_test
@@ -618,7 +1060,44 @@ def train_multifidelity(
     )
     low_fidelity, lf_checkpoint = _load_low_fidelity(low_fidelity_checkpoint, device)
     fingerprints = current_protocol_fingerprints()
-    validate_lf_checkpoint_provenance(lf_checkpoint, splits, fingerprints)
+    locked_lf_path = locked_historical_lf_checkpoint or low_fidelity_checkpoint
+    is_replacement_lf = locked_historical_lf_checkpoint is not None and (
+        Path(low_fidelity_checkpoint).resolve() != Path(locked_lf_path).resolve()
+    )
+    b0_start = (
+        None
+        if start_checkpoint is None
+        else validate_locked_b0_start(start_checkpoint, locked_lf_path, seed=seed)
+    )
+    if b0_start is None:
+        validate_lf_checkpoint_provenance(lf_checkpoint, splits, fingerprints)
+    elif is_replacement_lf:
+        validate_lf_checkpoint_provenance(lf_checkpoint, splits, fingerprints)
+        validate_task03_lf_lineage(
+            lf_checkpoint, low_fidelity_checkpoint, locked_lf_path, seed=seed,
+        )
+        historical_lf = torch.load(locked_lf_path, map_location="cpu", weights_only=False)
+        if any(lf_checkpoint[name] != historical_lf[name] for name in (
+            "method", "model_kwargs", "scales", "train_powers_w", "validation_powers_w"
+        )):
+            raise ValueError("Task03 replacement LF cannot change the pretrained DeepONet contract")
+        if lf_checkpoint["provenance"].get("test_labels_consumed") is not False:
+            raise ValueError("Task03 replacement LF must not use fixed test labels")
+    if b0_start is not None:
+        validate_locked_hf_contract(
+            b0_start, width=width, depth=depth,
+            correction_power_scaling=correction_power_scaling,
+            correction_direct_power_input=correction_direct_power_input,
+            correction_power_reference_w=correction_power_reference_w,
+            skip_sensors=skip_sensors,
+            hard_surface_residual_guide=hard_surface_residual_guide,
+            identify_physics_parameters=identify_physics_parameters,
+            hard_deployment_constraints=hard_deployment_constraints,
+            hf_training_subset_w=hf_training_subset_w,
+            surface_teacher_weight=surface_teacher_weight,
+            sensor_absolute_loss_weight=float(loss_cfg["sensor_absolute"]),
+            sensor_delta_loss_weight=float(loss_cfg["sensor_delta"]),
+        )
     expected_lf_train = sorted(splits.simulation_train)
     if sorted(float(value) for value in lf_checkpoint.get("train_powers_w", [])) != expected_lf_train:
         raise RuntimeError("Low-fidelity checkpoint does not use the fixed simulation training powers")
@@ -657,6 +1136,15 @@ def train_multifidelity(
             "absolute_temperature" if hard_surface_residual_guide else "residual"
         ),
     ).to(device)
+    if b0_start is not None:
+        initialize_locked_hf_with_lf(
+            base_model, b0_start["model_state"], replace_lf=is_replacement_lf,
+        )
+    lf_initial_state = {
+        name: value.detach().clone()
+        for name, value in base_model.state_dict().items()
+        if name.startswith("low_fidelity_model.")
+    }
     model: nn.Module = (
         DistributedDataParallel(base_model, device_ids=[local_rank])
         if world_size > 1
@@ -761,30 +1249,94 @@ def train_multifidelity(
 
     optimizer = make_optimizer(
         correction_parameters,
-        float(training["optimizer"]["learning_rate"]),
+        float(
+            training["optimizer"]["learning_rate"]
+            if continuation_learning_rate is None
+            else continuation_learning_rate
+        ),
     )
+    tracked_sources = (
+        "src/sic_cu/train/common.py",
+        "src/sic_cu/train/multifidelity.py",
+        "src/sic_cu/losses/physics.py",
+    )
+    source_hashes = {name: sha256_file(PROJECT_ROOT / name) for name in tracked_sources}
+    historical_start_hash = None if b0_start is None else sha256_file(start_checkpoint)
+    chosen_lf_hash = sha256_file(low_fidelity_checkpoint)
+    initial_metadata = correction_resume_metadata(
+        historical_start_hash, physics_schedule, source_hashes,
+        lf_checkpoint_hash=chosen_lf_hash,
+    )
+    data_consumption = initial_metadata["消费累计"]
     output = PROJECT_ROOT / output_directory
-    if rank == 0:
+    if resume_training_checkpoint is None and output.exists():
+        raise FileExistsError(f"Training output already exists; refusing to overwrite: {output}")
+    if resume_training_checkpoint is not None and not output.is_dir():
+        raise FileNotFoundError(f"Training resume directory is missing: {output}")
+    if rank == 0 and resume_training_checkpoint is None:
         output.mkdir(parents=True, exist_ok=True)
         (output / "training.jsonl").write_text("", encoding="utf-8")
         write_config_snapshot(output)
+        save_training_state(
+            output / "阶段_初始.pt", base_model, optimizer,
+            stage="correction", epoch=0,
+            samplers={} if train_sampler is None else {"观测": train_sampler},
+            budget={"校正轮次": correction_epochs, "联合轮次": joint_epochs},
+            metadata=initial_metadata | {
+                "旧优化器": "不可恢复，重新创建AdamW" if b0_start is not None else "新训练",
+            },
+        )
     if dist.is_initialized():
         dist.barrier()
     best: float | None = None
     best_epoch = 0
+    physical_best: float | None = None
     epochs_without_improvement = 0
-    data_consumption = {
-        "hf_ir_points": 0,
-        "hf_sensor_points": 0,
-        "surface_teacher_points": 0,
-        "lf_simulation_points": 0,
-        "lf_simulation_material_points": {"copper": 0, "silicon_carbide": 0},
-    }
+    resume_epoch = 0
+    if resume_training_checkpoint is not None:
+        state_file = Path(resume_training_checkpoint)
+        if not state_file.is_absolute():
+            state_file = PROJECT_ROOT / state_file
+        if state_file.resolve().parent != output.resolve():
+            raise ValueError("Training resume checkpoint must belong to the same output directory")
+        ensure_continuous_resume_state(state_file)
+        snapshot = json.loads((output / "config_snapshot/sha256.json").read_text(encoding="utf-8"))
+        if any(sha256_file(PROJECT_ROOT / name) != snapshot[name] for name in CONFIG_FILES):
+            raise ValueError("Training resume configuration has changed since this run began")
+        saved = load_training_state(
+            state_file, base_model, optimizer,
+            samplers={} if train_sampler is None else {"观测": train_sampler},
+        )
+        resume_epoch = int(saved["epoch"])
+        if (
+            saved["stage"] != "correction"
+            or saved["budget"] != {"校正轮次": correction_epochs, "联合轮次": joint_epochs}
+            or saved["metadata"].get("历史起点哈希") != historical_start_hash
+            or saved["metadata"].get("排程") != physics_schedule
+            or saved["metadata"].get("源码哈希") != source_hashes
+            or saved["metadata"].get("LF使用检查点哈希") != chosen_lf_hash
+        ):
+            raise ValueError("Training resume state does not match its locked budget, model or schedule")
+        reconcile_correction_resume_log(output, epoch=resume_epoch, state_file=state_file)
+        best = saved["metadata"].get("观测最佳分数")
+        best_epoch = saved["metadata"].get("观测最佳轮次", 0)
+        physical_best = saved["metadata"].get("物理最佳损失")
+        epochs_without_improvement = saved["metadata"].get("停止计数", 0)
+    if resume_training_checkpoint is not None:
+        data_consumption = saved["metadata"]["消费累计"]
     total_epochs = correction_epochs + joint_epochs
     simulation_iterator = None
     simulation_loader = None
     started = time.perf_counter()
-    for epoch in range(1, total_epochs + 1):
+    session_final_epoch = (
+        total_epochs
+        if session_epoch_limit is None
+        else min(total_epochs, resume_epoch + session_epoch_limit)
+    )
+    early_stopped = False
+    if resume_epoch >= total_epochs:
+        raise ValueError("Training resume has already reached its original budget")
+    for epoch in range(resume_epoch + 1, session_final_epoch + 1):
         stage = "correction" if epoch <= correction_epochs else "joint"
         if epoch == correction_epochs + 1:
             epochs_without_improvement = 0
@@ -795,6 +1347,13 @@ def train_multifidelity(
                 [parameter for parameter in base_model.parameters() if parameter.requires_grad],
                 float(training["optimizer"]["joint_learning_rate"]),
             )
+            if rank == 0:
+                save_training_state(
+                    output / "阶段_联合开始.pt", base_model, optimizer,
+                    stage="joint", epoch=epoch - 1,
+                    samplers={} if train_sampler is None else {"观测": train_sampler},
+                    budget={"校正轮次": correction_epochs, "联合轮次": joint_epochs},
+                )
             simulation_data = load_sampled_points(
                 sorted(splits.simulation_train),
                 samples_per_power=2048,
@@ -821,6 +1380,21 @@ def train_multifidelity(
         model.train()
         sums = {"ir": 0.0, "sensor": 0.0, "teacher": 0.0, "low_fidelity": 0.0}
         batches = 0
+        optimizer_steps = 0
+        physics_steps = 0
+        physics_points = 0
+        physics_components: dict[str, float] = {}
+        collocation = sample_collocation(
+            physics_collocation,
+            device,
+            seed=seed * 1_000_000 + epoch * world_size + rank,
+        )
+        packages = (
+            split_collocation(collocation, (len(train_loader) + 4) // 5)
+            if physics_schedule == "mixed_every_five"
+            else []
+        )
+        package_index = 0
         for coordinates, target, weight in train_loader:
             coordinates = coordinates.to(device, non_blocking=True)
             target = target.to(device, non_blocking=True)
@@ -880,9 +1454,20 @@ def train_multifidelity(
                 ).pow(2).mean()
                 total = total + float(loss_cfg["low_fidelity"]) * lf_loss
             total.backward()
+            if packages and ((batches + 1) % 5 == 0 or batches + 1 == len(train_loader)):
+                subbatch, fraction = packages[package_index]
+                components = physics_backward(model, optimizer, physics, subbatch, fraction)
+                for name, value in components.items():
+                    physics_components[name] = physics_components.get(name, 0.0) + (
+                        fraction * float(value.detach())
+                    )
+                physics_points += len(subbatch.interior)
+                physics_steps += 1
+                package_index += 1
             lf_gradient_norm = _gradient_l2(base_model.low_fidelity_model.parameters())
             hf_gradient_norm = _gradient_l2(base_model.correction.parameters())
             optimizer.step()
+            optimizer_steps += 1
             sums["ir"] += float(ir_loss.detach())
             sums["sensor"] += float(sensor_loss.detach())
             sums["teacher"] += float(teacher_loss.detach())
@@ -903,23 +1488,20 @@ def train_multifidelity(
                     "silicon_carbide"
                 ] += int((lf_coordinates[:, 4] >= 0.5).sum())
             batches += 1
-        collocation = sample_collocation(
-            physics_collocation,
-            device,
-            seed=seed * 1_000_000 + epoch * world_size + rank,
-        )
-        physics_components = physics_optimizer_step(
-            model,
-            optimizer,
-            physics,
-            collocation,
-        )
+        if not packages:
+            components = physics_optimizer_step(model, optimizer, physics, collocation)
+            physics_components = {name: float(value.detach()) for name, value in components.items()}
+            physics_points = len(collocation.interior)
+            physics_steps = 1
+            optimizer_steps += 1
+        elif package_index != len(packages) or physics_points != len(collocation.interior):
+            raise RuntimeError("Mixed schedule did not consume the entire paired collocation pack")
         validation_rmse = None
         validation_mae = None
         validation_sensor_metrics = None
         validation_selection_score = None
         save_checkpoint = checkpoint_selection == "final_epoch" and epoch == total_epochs
-        if validation_loader is not None:
+        if validation_loader is not None and (epoch % validation_interval == 0 or epoch == total_epochs):
             validation = _weighted_validation(base_model, validation_loader, device)
             validation_rmse = float(validation[0])
             validation_mae = float(validation[1])
@@ -1012,6 +1594,12 @@ def train_multifidelity(
                             fingerprints=fingerprints,
                         )
                         | {
+                            "global_hf_train_powers_w": sorted(splits.hf_train),
+                            "hf_training_subset_w": (
+                                None
+                                if hf_training_subset_w is None
+                                else sorted(hf_train_powers)
+                            ),
                             "lf_checkpoint_sha256": sha256_file(low_fidelity_checkpoint),
                             "lf_checkpoint_provenance": lf_checkpoint["provenance"],
                         },
@@ -1043,9 +1631,55 @@ def train_multifidelity(
                     },
                     output / "best.pt",
                 )
+                save_training_state(
+                    output / "阶段_观测最佳.pt", base_model, optimizer,
+                    stage=stage, epoch=epoch,
+                    samplers={} if train_sampler is None else {"观测": train_sampler},
+                    budget={"校正轮次": correction_epochs, "联合轮次": joint_epochs},
+                    metadata={"验证分数_摄氏度": validation_selection_score},
+                )
         elif checkpoint_selection == "validation":
             epochs_without_improvement += 1
+        if rank == 0 and epoch == correction_epochs:
+            save_training_state(
+                output / "阶段_校正末.pt", base_model, optimizer,
+                stage=stage, epoch=epoch,
+                samplers={} if train_sampler is None else {"观测": train_sampler},
+                budget={"校正轮次": correction_epochs, "联合轮次": joint_epochs},
+            )
         if rank == 0:
+            guardrails = None
+            if epoch % 10 == 0 or epoch == total_epochs:
+                if b0_start is not None:
+                    if any(
+                        not torch.equal(value, lf_initial_state[name].to(value.device))
+                        for name, value in base_model.state_dict().items()
+                        if name.startswith("low_fidelity_model.")
+                    ):
+                        raise RuntimeError("Frozen LF state changed during the B0 schedule comparison")
+                    guardrails = evaluate_schedule_guardrails(
+                        base_model, physics, materials, boundaries, device,
+                    )
+                else:
+                    base_model.eval()
+                    independent = physics(
+                        base_model, sample_collocation(256, device, seed=260908)
+                    )
+                    guardrails = {"独立局部物理损失": {
+                        name: float(value.detach()) for name, value in independent.items()
+                    }}
+            if physical_stage_improves(physical_best, guardrails):
+                physical_best = independent_physical_stage_score(guardrails)
+                save_training_state(
+                    output / "阶段_物理最佳.pt", base_model, optimizer,
+                    stage=stage, epoch=epoch,
+                    samplers={} if train_sampler is None else {"观测": train_sampler},
+                    budget={"校正轮次": correction_epochs, "联合轮次": joint_epochs},
+                    metadata={
+                        "物理损失": physical_best,
+                        "物理最佳依据": "独立固定256点的PDE/初态/边界/界面总损失",
+                    },
+                )
             record = {
                 "epoch": epoch,
                 "stage": stage,
@@ -1057,13 +1691,26 @@ def train_multifidelity(
                 "hf_gradient_l2": hf_gradient_norm,
                 "lf_parameters_frozen": stage == "correction",
                 "epoch_hf_ir_points": int(len(train_data)),
+                "data_optimizer_steps": batches,
+                "physics_optimizer_steps": physics_steps,
+                "total_optimizer_steps": optimizer_steps,
+                "physics_collocation_points": physics_points,
+                "physics_schedule": physics_schedule,
+                "lf_frozen_state_matches_b0": (
+                    not is_replacement_lf if b0_start is not None else None
+                ),
+                "lf_frozen_state_matches_initial": True if b0_start is not None else None,
+                "lf_validation_source": (
+                    "task03_simulation_validation_only" if is_replacement_lf
+                    else "unchanged_V5_LF_checkpoint_metrics" if b0_start is not None else None
+                ),
                 "epoch_lf_simulation_points": int(
                     0
                     if stage != "joint" or simulation_loader is None
                     else len(simulation_loader.dataset)
                 ),
                 **{f"loss_{name}": value / max(batches, 1) for name, value in sums.items()},
-                **{f"loss_{name}": float(value.detach()) for name, value in physics_components.items()},
+                **{f"loss_{name}": value for name, value in physics_components.items()},
             }
             if validation_sensor_metrics is not None:
                 record.update(
@@ -1076,6 +1723,8 @@ def train_multifidelity(
                         ],
                     }
                 )
+            if guardrails is not None:
+                record.update(guardrails)
             if trainable_physics is not None:
                 record.update(
                     {
@@ -1085,6 +1734,20 @@ def train_multifidelity(
                 )
             with (output / "training.jsonl").open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(record) + "\n")
+            save_training_state(
+                output / "阶段_最近.pt", base_model, optimizer,
+                stage=stage, epoch=epoch,
+                samplers={} if train_sampler is None else {"观测": train_sampler},
+                budget={"校正轮次": correction_epochs, "联合轮次": joint_epochs},
+                metadata=correction_resume_metadata(
+                    historical_start_hash, physics_schedule, source_hashes,
+                    lf_checkpoint_hash=chosen_lf_hash,
+                    best=best, best_epoch=best_epoch,
+                    physical_best=physical_best,
+                    stopping_count=epochs_without_improvement,
+                    consumption=data_consumption,
+                ),
+            )
         may_stop = (
             checkpoint_selection == "validation"
             and (stage == "joint" or joint_epochs == 0)
@@ -1097,8 +1760,36 @@ def train_multifidelity(
         if dist.is_initialized():
             dist.broadcast(stop, src=0)
         if bool(stop.item()):
+            early_stopped = True
             break
     training_seconds = time.perf_counter() - started
+    if rank == 0 and not is_session_paused(
+        epoch=epoch, planned_epochs=total_epochs, early_stopped=early_stopped,
+    ):
+        save_training_state(
+            output / ("阶段_联合末.pt" if stage == "joint" else "阶段_训练末.pt"),
+            base_model, optimizer, stage=stage, epoch=epoch,
+            samplers={} if train_sampler is None else {"观测": train_sampler},
+            budget={"校正轮次": correction_epochs, "联合轮次": joint_epochs},
+            metadata={
+                "最终观测最佳轮次": best_epoch, "最终观测最佳分数": best,
+                "实际结束轮次": epoch,
+                "终止原因": "提前停止" if early_stopped else "预算轮次执行完毕",
+            },
+        )
+    if is_session_paused(epoch=epoch, planned_epochs=total_epochs, early_stopped=early_stopped):
+        paused = {
+            "status": "paused_with_complete_training_state",
+            "seed": seed,
+            "last_epoch": epoch,
+            "planned_epochs": total_epochs,
+            "last_checkpoint": str(output / "阶段_最近.pt"),
+            "training_seconds_this_session": training_seconds,
+        }
+        if dist.is_initialized():
+            dist.barrier()
+            dist.destroy_process_group()
+        return paused if rank == 0 else None
     if joint_epochs > 0:
         material_points = data_consumption["lf_simulation_material_points"]
         if (
@@ -1185,6 +1876,8 @@ def train_multifidelity(
             "best_validation_sensor": checkpoint.get("validation_sensor"),
             "world_size": world_size,
             "epochs_completed": epoch,
+            "planned_epochs": total_epochs,
+            "stopping_reason": "validation_patience" if early_stopped else "planned_budget_completed",
             "training_seconds": float(elapsed.item()),
             "parameter_count": parameter_count(base_model),
             "peak_gpu_memory_bytes": (
@@ -1220,6 +1913,10 @@ def train_multifidelity(
                 "hard_deployment_constraints": hard_deployment_constraints,
                 "hf_split_source": hf_split_source,
                 "hf_train_powers_w": sorted(hf_train_powers),
+                "global_hf_train_powers_w": sorted(splits.hf_train),
+                "hf_training_subset_w": (
+                    None if hf_training_subset_w is None else sorted(hf_train_powers)
+                ),
                 "hf_validation_powers_w": sorted(hf_validation_powers),
                 "hf_test_powers_w": sorted(hf_test_powers),
                 "sensor_absolute_weight": float(loss_cfg["sensor_absolute"]),
@@ -1235,6 +1932,10 @@ def train_multifidelity(
                 "surface_guide_degree_r": surface_guide_degree_r,
                 "surface_guide_degree_t": surface_guide_degree_t,
                 "simulation_supervision_target": simulation_supervision_target,
+                "历史起点哈希": None if b0_start is None else sha256_file(start_checkpoint),
+                "物理排程": physics_schedule,
+                "续训学习率": continuation_learning_rate,
+                "验证间隔轮次": validation_interval,
             },
             "status": "completed",
             "material_passport": {
@@ -1532,6 +2233,19 @@ def evaluate_multifidelity_test_data(
 def main() -> None:
     parser = argparse.ArgumentParser(description="Train the common additive multi-fidelity corrector")
     parser.add_argument("--lf-checkpoint", required=True)
+    parser.add_argument("--start-checkpoint", help="Only manifest-locked V4 B0 is accepted")
+    parser.add_argument(
+        "--locked-historical-lf-checkpoint",
+        help="任-03接新LF时仍以旧V4配对LF校验历史HF校正器来源",
+    )
+    parser.add_argument(
+        "--physics-schedule", choices=("separate", "mixed_every_five"), default="separate",
+    )
+    parser.add_argument("--continuation-learning-rate", type=float)
+    parser.add_argument("--validation-interval", type=int, default=1)
+    parser.add_argument("--resume-training-checkpoint")
+    parser.add_argument("--session-epoch-limit", type=int)
+    parser.add_argument("--task-id", default="训练入口")
     parser.add_argument("--output", default="reports/runs/multifidelity_seed0")
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--correction-epochs", type=int, default=1500)
@@ -1546,6 +2260,15 @@ def main() -> None:
     parser.add_argument("--hf-train-powers", type=float, nargs="+")
     parser.add_argument("--hf-validation-powers", type=float, nargs="+")
     parser.add_argument("--hf-test-powers", type=float, nargs="+")
+    parser.add_argument(
+        "--hf-training-subset",
+        type=float,
+        nargs="+",
+        help=(
+            "Nested subset of the fixed 12 HF training powers. Validation/test groups "
+            "remain globally fixed and test labels remain unavailable to training."
+        ),
+    )
     parser.add_argument(
         "--correction-power-scaling", choices=("none", "linear"), default="none"
     )
@@ -1614,6 +2337,7 @@ def main() -> None:
             hf_train_powers_w=args.hf_train_powers,
             hf_validation_powers_w=args.hf_validation_powers,
             hf_test_powers_w=args.hf_test_powers,
+            hf_training_subset_w=args.hf_training_subset,
             correction_power_scaling=args.correction_power_scaling,
             correction_power_reference_w=args.correction_power_reference_w,
             correction_direct_power_input=not args.no_correction_direct_power_input,
@@ -1624,10 +2348,42 @@ def main() -> None:
             surface_guide_degree_r=args.surface_guide_degree_r,
             surface_guide_degree_t=args.surface_guide_degree_t,
             simulation_supervision_target=args.simulation_supervision_target,
+            start_checkpoint=args.start_checkpoint,
+            locked_historical_lf_checkpoint=args.locked_historical_lf_checkpoint,
+            physics_schedule=args.physics_schedule,
+            continuation_learning_rate=args.continuation_learning_rate,
+            validation_interval=args.validation_interval,
+            resume_training_checkpoint=args.resume_training_checkpoint,
+            session_epoch_limit=args.session_epoch_limit,
         )
     except PhysicsConfigurationError as error:
         parser.exit(2, f"BLOCKED_UNVERIFIED_METADATA: {error}\n")
+    except (Exception, KeyboardInterrupt) as error:
+        output = PROJECT_ROOT / args.output
+        checkpoint = next(
+            (
+                str(output / name)
+                for name in ("阶段_最近.pt", "阶段_初始.pt")
+                if (output / name).is_file()
+            ),
+            "无可恢复状态",
+        )
+        write_resume_status(
+            PROJECT_ROOT / "研究记录/当前接续状态.md",
+            task=args.task_id, run=args.output, last_checkpoint=checkpoint,
+            reason=f"训练入口异常：{type(error).__name__}: {error}",
+            next_action="核对已登记预算、来源和日志，修复异常后仅从对应完整阶段状态续跑；不可覆盖旧工件",
+        )
+        raise
     if result is not None:
+        if result.get("status") == "paused_with_complete_training_state":
+            write_resume_status(
+                PROJECT_ROOT / "研究记录/当前接续状态.md",
+                task=args.task_id, run=args.output,
+                last_checkpoint=result["last_checkpoint"],
+                reason=f"按会话上限暂停于第{result['last_epoch']}轮，原上限{result['planned_epochs']}轮",
+                next_action="用相同起点、预算、配置和输出目录，指定--resume-training-checkpoint阶段_最近.pt续跑",
+            )
         print(json.dumps(result, indent=2))
 
 

@@ -1,0 +1,39 @@
+{
+  "实际命令argv": [
+    "/home/phl/anaconda3/envs/PINN/bin/python",
+    "-B",
+    "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seal_013_archive.py"
+  ],
+  "外层argv": [
+    "研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/capture_named_013.py",
+    "seal"
+  ],
+  "实际工作目录": "/home/phl/lyf/Temperature Field Prediction",
+  "actual_exit_code": 0,
+  "实际完整stdout": "{\"source82与四父三HF五LF当前零漂移\": true, \"档案成员0444及逐件fresh_SHA核对PASS\": true, \"封存清单绑定成员数\": 29, \"PT反序列化数\": 0, \"CUDA_is_initialized\": false, \"五HFmean\": null, \"五HFstd\": null, \"结束\": \"完成即停，不读HF4，不新实验。\"}\n",
+  "实际完整stderr": "",
+  "实际stdout字节": 289,
+  "实际stderr字节": 0,
+  "实际stdoutSHA256": "70dc55d08d414a6ce9c095acd074cce4feac8bd6860f311d95a1648b9799d772",
+  "实际stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "实际外层墙钟秒": 1.6838295449852012,
+  "完整resolved实际环境": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONPATH": "/home/phl/lyf/Temperature Field Prediction/src:/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "TMPDIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/临时文件",
+    "TMP": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/临时文件",
+    "TEMP": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/临时文件",
+    "CUDA_CACHE_PATH": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/GPU缓存",
+    "XDG_CACHE_HOME": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/应用缓存",
+    "MPLCONFIGDIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/绘图缓存",
+    "TORCH_EXTENSIONS_DIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/Torch扩展缓存",
+    "TORCHINDUCTOR_CACHE_DIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/Inductor缓存",
+    "WORLD_SIZE": "1",
+    "RANK": "0",
+    "LOCAL_RANK": "0"
+  }
+}

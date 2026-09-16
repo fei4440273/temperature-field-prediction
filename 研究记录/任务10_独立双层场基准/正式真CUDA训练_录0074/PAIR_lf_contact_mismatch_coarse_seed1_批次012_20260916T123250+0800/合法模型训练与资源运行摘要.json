@@ -1,0 +1,40 @@
+{
+  "阶段": "同板新模型受限训练及合法探针验证，无内部HF评价",
+  "方法成绩仅合法三探针": [
+    {
+      "方法": "F2",
+      "随机种子": 1,
+      "LF来源": "lf_contact_mismatch_coarse",
+      "实际HF优化步数": 800,
+      "共享LF真实优化步数": 300,
+      "体内PDE实际调用": 0,
+      "合法两档三探针RMSE_K": 1.8680967092514038,
+      "选定模型_SHA256": "217697d41127dec7ae2b31b369d4488e2c4de424e96fe2dec66512eb446ad92f",
+      "真实训练日志_SHA256": "723184227994feb0bede49d9dec5ff1bb876ddbb4e013c74debc8a8bea94c078",
+      "合法探针验证_SHA256": "9a75f578faad2239e5e102eb9e08008d261da72123f55a71ed002c54b5be61c8",
+      "真实HF逐步CSV_SHA256": "b2e17333febb4302c6b98b46d595715aa8cca81debf0d6e0cde60aca2ff8598d",
+      "已锁模型_SHA256文件_SHA256": "67367f6d9d3bb5bd42d9c0b2c28597049fa9f0cb0815180abfbc64a5b1504ace"
+    },
+    {
+      "方法": "F3",
+      "随机种子": 1,
+      "LF来源": "lf_contact_mismatch_coarse",
+      "实际HF优化步数": 800,
+      "共享LF真实优化步数": 300,
+      "体内PDE实际调用": 800,
+      "合法两档三探针RMSE_K": 1.79608952999115,
+      "选定模型_SHA256": "cfcf416e44092f5c7ca961bedfc5f1178f3ca5aa28ac12c181cb23b6167f13fd",
+      "真实训练日志_SHA256": "77f03bde23893dc9cfba904ae022af0f71f4c2a5d883ffd28eb00762dae32d56",
+      "合法探针验证_SHA256": "044f9e84cb8c384a12bf86f7e305dd0cc82a63cb90161838fea1da2dc9d0930c",
+      "真实HF逐步CSV_SHA256": "4d716ebe1480c02f945f54123a1f28e920bfd36e15d8c523cda882991ddc9565",
+      "已锁模型_SHA256文件_SHA256": "d261c26da2cb15f952792a13a073b09abe4cde445c33eedf87e92113f8ae82da"
+    }
+  ],
+  "方法预算_SHA256": "cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94",
+  "方法源码tar_SHA256": "22e6df62cf1aaddf55a8a33e8d8a71e558d89110db96466dc904d1b10c03069d",
+  "真正训练耗时_秒": 35.24171116700745,
+  "进程峰值RSS_kB": 995060,
+  "CUDA峰值分配MiB": 18.34033203125,
+  "源场清单_SHA256": "b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb",
+  "完整内部场评价已计算": false
+}

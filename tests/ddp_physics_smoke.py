@@ -1,4 +1,4 @@
-"""Two-GPU optimizer smoke test with synthetic constants; not a scientific experiment."""
+"""CUDA optimizer smoke test with synthetic constants; not a scientific experiment."""
 
 from __future__ import annotations
 
@@ -74,7 +74,10 @@ def main() -> None:
                     "world_size": dist.get_world_size(),
                     "finite": all(torch.isfinite(value) for value in components.values()),
                     "parameter_checksums_equal": bool(
-                        torch.allclose(gathered[0], gathered[1], atol=1e-10)
+                        all(
+                            torch.allclose(gathered[0], value, atol=1e-10)
+                            for value in gathered[1:]
+                        )
                     ),
                     "scope": "synthetic_constants_software_test_only",
                 },

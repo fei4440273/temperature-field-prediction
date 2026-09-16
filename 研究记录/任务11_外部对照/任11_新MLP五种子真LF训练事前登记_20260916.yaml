@@ -1,0 +1,69 @@
+schema_version: 1
+阶段: fresh_mlp_low_fidelity
+登记日期: '2026-09-16'
+ROOT门禁标签: 'TASK11_NEW_MLP_LF_GATE:v1'
+用途: '新初始化MLP-PINN五种子低保真正式训练；非HF训练、非Howard复现、非现有DeepONet单因素比较'
+现有旧MLP五份LF起点: '现有五份best.pt虽标示未使用TEST，却与当前物理配置SHA和代码身份不一致；禁止重新贴SHA、接续或用于新HF'
+旧固定TEST温度读取: false
+模拟测试功率温度读取: false
+新HF训练许可: false
+HF后续解锁条件: '五个本登记新MLP LF seed分别真CUDA完成并各获完整状态/逐轮日志/全部真实分段成本收据及CPU资格审计；另行事前封存五个LF真权重SHA、新HF12/3观察预算/源码/能源，ROOT另行单独激活'
+独立能源口径: '低保真仅按全部真实会话墙钟秒之和与真实CUDA峰值占用核成本；新HF完整训练时间、LF复用成本及物理能量验收须在后续独立登记，不从此项冒领完成'
+公平比较限界: '新MLP需报出自身LF与HF双阶成本；与旧F2四个DeepONet冻结LF投影更新机制不同，不作同单因素因果排序；Howard作者版未知时不得冒称其复现'
+真实模拟70源目录原件: '研究记录/任务11_外部对照/任11_新MLP_LF真实模拟70源目录_事前20260916.json'
+真实模拟70源目录SHA256: '96a346c4eaa3fac63326a84d7e6ab8a1cee94d8b46083f5c41907db70be2c485'
+源码tar归档原件: '研究记录/任务11_外部对照/任11_新MLP五种子真LF源码事前冻结_20260916.tar.gz'
+来源选择: 'data/processed/manifest.json登记80个仿真功率；60训练、10合法验证的实际parquet普通文件各有真实行数/六列schema/文件SHA；10模拟TEST只核划分身份，不读取温度或归入训练采样'
+模型架构: 'sic_cu.models.mlp_pinn.MLPPINN：五输入含材料编码；宽度128、深度5、tanh；每个seed独立空网络初始化，全部MLP可更新参数用AdamW，weight_decay=1e-6'
+原物理路径: 'sic_cu.train.simulation._physics_ready与sample_collocation；原训练configs/training.yaml物理项权重、物性和边界原件全部受源码tar SHA锁；每轮256配点单独一次物理优化步'
+合法验证: '只使用10个sim-validation实际原场，每功率8192样本，固定采样seed10000；指标RMSE摄氏度；改善门槛1e-4，patience200；不能用完整HF参考或模拟TEST选模'
+真实成本判据: '每轮60×8192个真实模拟训练采样点、60观测优化步+1物理优化步；每次会话最多200轮，最多2000轮或验证耐心200合法终止；初始、最佳、最近、真实训练末状态含AdamW/RNG，保留每次收据/前次最近原SHA；完成且全部真实轮次/墙钟闭合才可进行后续LF来源资格CPU审计'
+正式预算:
+  seeds: [0, 1, 2, 3, 4]
+  method: mlp_pinn
+  epochs: 2000
+  samples_per_power: 8192
+  validation_samples_per_power: 8192
+  batch_size: 8192
+  learning_rate: 0.001
+  patience: 200
+  physics_collocation: 256
+  physics_weight: 1.0
+  lf_physics_mode: original
+  sampling_mode: material_time
+  device: cuda
+  world_size: 1
+源码普通成员SHA256:
+  src/sic_cu/train/task11_mlp_lf_formal.py: '8a7cff0cb6f15f53ab79a0cbf542160a3b6968f289898d92ec43e33aa80e2e11'
+  scripts/49_run_task11_mlp_lf_formal.py: 'e4a472b7396dae60d5681451bdc11bc9e6a9e75b7ddb3c0e153dde7c5f1efca4'
+  tests/test_task11_mlp_lf_formal.py: '2edb938e490cd18c0149e7b6f7d7120e2a9621cc3e1b1e8767750f2b8e6cc751'
+  src/sic_cu/train/simulation.py: '206dca232f43e0cbf94ae1547368346e4898815c5b418531837f27be37c7835a'
+  src/sic_cu/train/common.py: 'ae39dd8cd44928933f73a260fe395d19caece206e75b1ee2293fff26c8856030'
+  src/sic_cu/data/fields.py: 'c098c7fdef43ba24ce79d80e250eb4df9c79c3619318e77187d0613f9cb8efe5'
+  src/sic_cu/data/common.py: 'be5d81654dfaa96de33ab44ba4cc034cff13e618603635fbc0eed52690c0551e'
+  src/sic_cu/data/balanced_sampler.py: '3db9838422138167f4f77300fe233165c92b12383cc284afa4b33fa08c0a52ec'
+  src/sic_cu/data/splits.py: '9545e59458614a0e00b3631d6a004bda7ba99ad97374df28850ac51475326a9d'
+  src/sic_cu/eval/protocol_checks.py: '55357852d91732e6e20e7a74b523ffd25b47ff770e4bc8897f6c4aec00f376fc'
+  src/sic_cu/models/mlp_pinn.py: 'eb3a00321e0089a2711649407eada07cb18ea501332225779c39249e719c945e'
+  src/sic_cu/models/__init__.py: '843ebcfaaf264556c6786a19e0e619342a6e9de1ea1cc711f156fb2e948758c0'
+  src/sic_cu/models/common.py: '4e99edc4d470330d42d4bd92e36c4d7ad73f10ba71195606e0ef1e1e2d171a41'
+  src/sic_cu/losses/physics.py: '43167eda808f97cf2ab49d2b6a4eef394e01cc1ea9c878772cc8d8fe966af7a6'
+  src/sic_cu/losses/__init__.py: '1d74ca70955374368393dccbcdd7b8f998ca57637e3cf230ac8ac6d56374880c'
+  src/sic_cu/physics/materials.py: '1533ca6feaaa0c32685d9a81574c5516c43394f4995354f42b9d97e6d4aacae5'
+  src/sic_cu/physics/boundary.py: '006c9d216b9b87c2633fd38b82c0d5002cdc94234ba72f57d75ba69be4ad9f6f'
+  src/sic_cu/physics/configuration.py: '15bb1b3da70f06c02389ea1995aaf5326cd22430116df47a9748d3683d6af4e5'
+  src/sic_cu/physics/heat_equation.py: '3b90de1cdaf92c91b5e06a327922354ecff038db64c7910570a3154d4a27e39b'
+  src/sic_cu/physics/interface.py: 'e7eeeb5b4eca7f2037aa9de1cb872a5aa76e39f0d67e9d8d3d51c6b52681743b'
+  src/sic_cu/physics/trainable_parameters.py: '5b4a5299a6512b429d239e76dffbc0a4a7998522849dce28f3414388662f69b0'
+  src/sic_cu/physics/resolution.py: 'fa06543c0d15fee00af54faddaaf2a39c77e7090cf1c35b5dca308cfdab10d89'
+  src/sic_cu/physics/collocation.py: '97ed2202ce276adbc34fdf065694c70fb9cdf0db266b8e3c44e4cfe7fa98688c'
+  src/sic_cu/config.py: '32d566768363fd5a6f10ee66afa43ec2bace5aaa2d0fe2852c5f2a361f25ac9d'
+  configs/splits.yaml: '89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e'
+  configs/training.yaml: '4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41'
+  configs/geometry.yaml: 'a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0'
+  configs/materials.yaml: '2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e'
+  configs/boundary_conditions.yaml: 'fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f'
+  configs/data_metadata.yaml: 'eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d'
+  configs/release_manifest.yaml: '0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288'
+  data/processed/manifest.json: '1ea58fded68b8950d89c9012d879a7b6197dbb2b12c3c3ccc44af474843d8a82'
+  reports/current_protocol/data_inventory.json: '2fbefd24541ba6a9368da867cb401e3779570bccb5b87e5b238262a99d0607f7'

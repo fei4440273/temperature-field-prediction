@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/phl/anaconda3/envs/PINN/lib/python3.9/weakref.py", line 667, in _exitfunc
+    f()
+  File "/home/phl/anaconda3/envs/PINN/lib/python3.9/weakref.py", line 591, in __call__
+    return info.func(*info.args, **(info.kwargs or {}))
+  File "/home/phl/anaconda3/envs/PINN/lib/python3.9/tempfile.py", line 820, in _cleanup
+    cls._rmtree(name)
+  File "/home/phl/anaconda3/envs/PINN/lib/python3.9/tempfile.py", line 816, in _rmtree
+    _shutil.rmtree(name, onerror=onerror)
+  File "/home/phl/anaconda3/envs/PINN/lib/python3.9/shutil.py", line 734, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/home/phl/anaconda3/envs/PINN/lib/python3.9/shutil.py", line 688, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+  File "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/independent_failure_audit.py", line 68, in audit_io
+    raise RuntimeError("Read-only failure evidence outside own new archive: " + str(path))
+RuntimeError: Read-only failure evidence outside own new archive: /home/phl/lyf/Temperature Field Prediction/_remote_module_non_scriptable.py

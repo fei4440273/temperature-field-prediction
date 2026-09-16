@@ -1,0 +1,58 @@
+{
+  "method": "deeponet_pinn",
+  "seed": 0,
+  "world_size": 1,
+  "epochs_completed": 1,
+  "stopping_reason": "planned_budget_completed",
+  "best_epoch": 1,
+  "best_validation_rmse_c": 4.579378182471316,
+  "training_seconds": 0.14353994699195027,
+  "parameter_count": 232065,
+  "peak_gpu_memory_bytes": 94172160,
+  "configuration": {
+    "epochs": 1,
+    "samples_per_power": 128,
+    "validation_samples_per_power": 128,
+    "validation_sampling_seed": 10000,
+    "batch_size_per_rank": 8192,
+    "learning_rate": 0.0001,
+    "patience": 2,
+    "model_kwargs": {
+      "activation": "tanh",
+      "width": 128,
+      "latent_dim": 128,
+      "blocks": 3,
+      "include_material": true
+    },
+    "physics_enabled": false,
+    "physics_collocation_per_rank": 0,
+    "physics_weight": 0.0,
+    "balanced_simulation_sampling": true,
+    "locked_lf_start_sha256": "5ab23ffd5b7c4b99ba90b81236ec0fba4a9b109a730288124c647030036e42f2",
+    "simulation_sampling_mode": "material_time",
+    "lf_physics_mode": "none",
+    "historical_optimizer_restored": false
+  },
+  "data_consumption": {
+    "train_points": 7680,
+    "validation_points": 1280,
+    "train_material_points": {
+      "copper": 3900,
+      "silicon_carbide": 3780
+    },
+    "validation_material_points": {
+      "copper": 650,
+      "silicon_carbide": 630
+    },
+    "total_train_points_exposed": 7680,
+    "total_optimizer_steps": 1
+  },
+  "material_passport": {
+    "simulation_role": "low-fidelity training and frozen-power testing",
+    "simulation_data_used": true,
+    "experiment_data_used": false,
+    "sensor_data_used": false,
+    "physics_loss_used": false,
+    "internal_experiment_truth": "not available"
+  }
+}

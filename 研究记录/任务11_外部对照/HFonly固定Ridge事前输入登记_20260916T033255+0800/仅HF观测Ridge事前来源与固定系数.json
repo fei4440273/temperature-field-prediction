@@ -1,0 +1,18 @@
+{
+  "固定方法": "HF训练观测位置二次多项式Ridge；不读LF，不声称完整体场",
+  "degree": 2,
+  "alpha": 0.01,
+  "sklearn版本": "1.6.1",
+  "HF训练顶部IR字节SHA256": "dd8ef7e112bce2bd73dd3fe3ad5889131964db4af1b57c882b43f5b816d4b82d",
+  "HF训练两环字节SHA256": "c987bafd68a37d1ab30857a834783764bde1c10249e8c02147118c02b3162db4",
+  "固定功率划分SHA256": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+  "两环单位/时间语义SHA256": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+  "固定程序与测试逐字SHA256": {
+    "训练和合法评价": "ec7d111af755cbcbc79c15316de3aa26d4b95c4ad8e55e1772ae1ebd4fa83c21",
+    "分段CLI": "37ca7cadf6b06637d8303d3f12da407620457ee77e83e83ce7b70900db1f5642",
+    "拒绝泄漏TDD": "53354aef3fff244107669d7eb71d6dcc0fd504f54162782aba3ece11ba567fb1",
+    "正规HotCold读取": "3c69785380a92704f5c8a7866dcf613f7f30281c9616fb614e27388e8f640f61",
+    "Top及指标定义": "986310e200279346447502a52032db9353ca6a1a0247c57c5938c9d19ac5e4b3"
+  },
+  "旧test_Data温度标签读取": false
+}

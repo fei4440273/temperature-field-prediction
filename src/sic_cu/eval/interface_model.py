@@ -16,6 +16,7 @@ from sic_cu.eval.protocol_checks import (
     validate_release_checkpoint,
 )
 from sic_cu.models import ModelScales
+from sic_cu.train.common import resolve_device
 from sic_cu.train.simulation import build_model, predict_field
 
 
@@ -34,11 +35,12 @@ def evaluate_pointwise_interface_checkpoint(
     checkpoint_path: str | Path,
     output_path: str | Path,
     powers: list[float] | None = None,
-    device: str = "cpu",
+    device: str | torch.device | None = None,
     release_manifest_path: str | None = None,
 ) -> dict[str, Any]:
+    resolved_device = resolve_device(device)
     checkpoint = PROJECT_ROOT / checkpoint_path
-    payload = torch.load(checkpoint, map_location=device, weights_only=False)
+    payload = torch.load(checkpoint, map_location=resolved_device, weights_only=False)
     method = str(payload["method"])
     if method not in {
         "mlp",
@@ -53,7 +55,7 @@ def evaluate_pointwise_interface_checkpoint(
         method,
         ModelScales(**payload["scales"]),
         **payload.get("model_kwargs", {}),
-    ).to(device)
+    ).to(resolved_device)
     model.load_state_dict(payload["model_state"])
 
     splits = build_power_splits()
@@ -72,7 +74,7 @@ def evaluate_pointwise_interface_checkpoint(
     all_prediction: list[np.ndarray] = []
     for power in evaluation_powers:
         field = load_processed_field(power)
-        prediction, _ = predict_field(model, power, torch.device(device))
+        prediction, _ = predict_field(model, power, resolved_device)
         pairs = _paired_interface_nodes(field.coordinates_rz_m, field.material_ids)
         sic_indices = np.asarray([pair[0] for pair in pairs])
         copper_indices = np.asarray([pair[1] for pair in pairs])

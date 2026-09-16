@@ -10,7 +10,7 @@ import polars as pl
 from sic_cu.config import PROJECT_ROOT
 from sic_cu.data.splits import build_power_splits
 from sic_cu.data.processed import load_processed_ir_observations
-from sic_cu.eval.metrics import weighted_metrics
+from sic_cu.eval.metrics import observation_time_window_mask, weighted_metrics
 from sic_cu.eval.protocol_checks import validate_release_checkpoint
 from sic_cu.prediction import Predictor
 
@@ -98,12 +98,8 @@ def _power_metrics(frame: pl.DataFrame, predictor: Predictor) -> dict[str, Any]:
     target_proxy = np.zeros_like(error_values)
     overall = weighted_metrics(target_proxy, error_values, weight_values)
     time_windows: dict[str, Any] = {}
-    for name, lower, upper in (
-        ("time_0_30_s", 0.0, 30.0),
-        ("time_30_100_s", 30.0, 100.0),
-        ("time_100_200_s", 100.0, 200.0 + np.finfo(float).eps),
-    ):
-        mask = (time_values >= lower) & (time_values < upper)
+    for name in ("time_0_30_s", "time_30_100_s", "time_100_200_s"):
+        mask = observation_time_window_mask(time_values, name)
         time_windows[name] = (
             weighted_metrics(target_proxy[mask], error_values[mask], weight_values[mask])
             if bool(mask.any())

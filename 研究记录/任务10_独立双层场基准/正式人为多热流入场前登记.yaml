@@ -1,0 +1,59 @@
+schema_version: 1
+registered_at: '2026-09-16T02:53:03+08:00'
+stage: '任-10乙冻结后人为一维板多热流入场；非原装置零样本跨几何'
+original_numerical_control: '研究记录/任务10_独立双层场基准/纯数值控制前登记.yaml'
+original_numerical_control_sha256: '3011eba0cb6cd1c4bedbce4eb9c533a4247a105df603bd400083a16901879e81'
+original_solver_sha256: '2dd77a521891eba1b20578659ea9847b41e5de1e956a6e902effe9ef2697cf72'
+original_export_sha256: 'c9b339c23866d7385fadd4ed0ff2936e86deee0e63acbf2b7b0eee72565e7ac4'
+materials_source: 'configs/materials.yaml'
+materials_sha256: '2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e'
+geometry:
+  silicon_carbide_thickness_m: 0.012
+  copper_thickness_m: 0.0055
+  cross_section_area_m2: 0.0028274333882308137
+thermal_conditions:
+  initial_temperature_k: 295.15
+  bottom_fixed_temperature_k: 295.15
+  benchmark_contact_resistance_m2_k_w: 0.0001
+  coarse_mismatch_contact_multiplier: 0.7
+  input: '顶部恒定且均匀的面热通量；已吸收等效功率=q*A，约定等效吸收率为1；非原装置激光整束功率或吸收率'
+  shared_hf_physics: '上述材料常物性、厚度、初底温度及参考接触热阻向一维基准全部PINN方法平等开放；失配仅在第二人为LF来源'
+flux_splits_w_m2:
+  train: [20000, 35000, 50000, 65000, 80000]
+  validation: [30000, 70000]
+  hidden_test: [42000, 58000]
+observations:
+  allowed_depths_from_top_m: [0.0, 0.013, 0.016]
+  top_source: '独立FVM顶面温度；并非原装置顶部IR像素'
+  internal_sources: 'Cu内部13/16mm两个虚拟探针；并非原装置热端/冷端径向环温'
+  train_times_s: [0, 1, 2, 5, 10, 20, 30, 50, 75, 100, 125, 150, 175, 200]
+  validation_times_s: [0, 1, 2, 5, 10, 20, 30, 50, 75, 100, 125, 150, 175, 200]
+  hidden_evaluation: '选定参考细网格全部0..200秒、两材料所有单元中心；模型训练、校正、基提取、参数拟合和早停均不得打开'
+  nonoverlap_time_windows_s: ['[0,30]', '(30,100]', '(100,200]']
+low_fidelity_sources:
+  same_physics_coarse: {silicon_carbide_cells: 24, copper_cells: 11, time_step_s: 2.0, contact_multiplier: 1.0}
+  synthetic_contact_mismatch_coarse: {silicon_carbide_cells: 24, copper_cells: 11, time_step_s: 2.0, contact_multiplier: 0.7}
+  use: 'LF训练热流两种完整场可用于对应LF分支；LF测试温度不得作训练或选择；HF-only F1禁止消费任一LF场'
+reference_controls:
+  end_time_s: 200.0
+  comparison_times_s: [1, 2, 5, 10, 50, 100, 200]
+  comparison_depths_from_top_m: [0.0, 0.003, 0.009, 0.0119, 0.0121, 0.013, 0.016]
+  mesh_time_pairs:
+    - {silicon_carbide_cells: 24, copper_cells: 11, time_step_s: 2.0}
+    - {silicon_carbide_cells: 48, copper_cells: 22, time_step_s: 1.0}
+    - {silicon_carbide_cells: 96, copper_cells: 44, time_step_s: 0.5}
+    - {silicon_carbide_cells: 192, copper_cells: 88, time_step_s: 0.25}
+    - {silicon_carbide_cells: 384, copper_cells: 176, time_step_s: 0.125}
+    - {silicon_carbide_cells: 768, copper_cells: 352, time_step_s: 0.0625}
+  per_flux_max_adjacent_difference_c: 0.1
+  rule: '从96/44与192/88开始逐热流比较；差值未小于0.1℃只使用下一已登记网格/时间步；最后仍失败不封存该热流参考、不改变阈值或测试折'
+  additional_limit: '固定时刻/深度加密通过不代表所有内部点已达到0.1℃；正式模型差值还须显著大于实际数值差，否则限制比较结论'
+  analytic_steady_top: 'T_bottom + q*(L_SiC/k_SiC + R_contact + L_Cu/k_Cu)'
+  dimensional_balance: '每步每平方米的储热率+底部外流-已知顶面热通量=0'
+data_isolation:
+  train: '仅训练折三个位置的probe-only温度与训练折配对LF完整场'
+  validation: '仅验证折三个位置的probe-only温度可用于配置选择和早停；不参加训练'
+  hidden_reference: '全内部HF场独立封存，训练与验证入口没有打开此档案的API'
+  hidden_test: '数值测试热流参考温度仅在有完整训练/验证证据、模型文件SHA锁定之后供最终评价，不用于任何方法选择'
+  original_hf_test_temperature: '禁止读取旧test_Data温度'
+method_boundary: '同一一维板重新训练F1/F2/F3及冻结E0方法；任06无增强收益不存在F4；旧圆柱B0/任08仅CPU F2不可直接输入该数值场或冒称零样本泛化；方法新预算须训练前另登记'

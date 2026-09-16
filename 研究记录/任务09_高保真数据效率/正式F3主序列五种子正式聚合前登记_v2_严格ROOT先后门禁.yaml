@@ -1,0 +1,61 @@
+schema_version: 2
+任务: 任09仅F3主序列五种子合法观测及双能源正式聚合_v2严格ROOT先后修订
+事前身份数量: 15
+本登记不运行正式聚合: true
+本登记不读取旧固定TEST温度: true
+旧固定TEST温度读取: false
+旧v1事前登记SHA256: ae19ab85d6c7e8833986d84e65343b1b54af8fecbd9cc4988c1462d1e6d54131
+旧v1五源冻结tar_SHA256: 5334745d8eb052db114e0f3e56981cd7917ba44db693e40947fff324edf9a827
+旧v1中文报告_SHA256: 7089327b6186c1008a76392216744dbde42ae1b6cd85329642878701b0e096e1
+旧v1门禁保留仅作历史凭据_不能激活正式清单或聚合: true
+ROOT第二列激活字段须精确为status_active: true
+ROOT前登记同时先于证据的账行编号与文件行序: true
+HF主曲线训练功率_瓦:
+  3: [55.0, 364.3, 729.0]
+  6: [55.0, 216.8, 364.3, 494.2, 593.5, 729.0]
+  9: [55.0, 216.8, 254.5, 364.3, 430.0, 494.2, 558.5, 593.5, 729.0]
+主序列十五身份:
+  - {HF功率数: 3, seed: 0, 序列: primary, 来源: v2, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3_primary_HF3_seed0_20260916T064515+0800}
+  - {HF功率数: 3, seed: 1, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed1_录0078_20260916T071500+0800}
+  - {HF功率数: 3, seed: 2, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed2_录0078_20260916T071500+0800}
+  - {HF功率数: 3, seed: 3, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed3_录0078_20260916T071500+0800}
+  - {HF功率数: 3, seed: 4, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed4_录0078_20260916T071500+0800}
+  - {HF功率数: 6, seed: 0, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed0_录0078_20260916T071500+0800}
+  - {HF功率数: 6, seed: 1, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed1_录0078_20260916T071500+0800}
+  - {HF功率数: 6, seed: 2, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed2_录0078_20260916T071500+0800}
+  - {HF功率数: 6, seed: 3, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed3_录0078_20260916T071500+0800}
+  - {HF功率数: 6, seed: 4, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed4_录0078_20260916T071500+0800}
+  - {HF功率数: 9, seed: 0, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed0_录0078_20260916T071500+0800}
+  - {HF功率数: 9, seed: 1, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed1_录0078_20260916T071500+0800}
+  - {HF功率数: 9, seed: 2, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed2_录0078_20260916T071500+0800}
+  - {HF功率数: 9, seed: 3, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed3_录0078_20260916T071500+0800}
+  - {HF功率数: 9, seed: 4, 序列: primary, 来源: v3, canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed4_录0078_20260916T071500+0800}
+原录0059登记SHA256: 987ba4bfd9a5b964bff88fa3314413738fa5417b5445e71cf650acbaee7d85e9
+录0075_v2登记SHA256: a88ff62c1b24ac288214f20d6d50c642985f9375cd75562b07cfa394e9cf23dc
+录0075_v2源码归档SHA256: cef17d1111542c4dbeec3f2d7573dd40cd7d719c54ba31939b87a713b4d08d7a
+录0078_v3登记SHA256: 87816d50efe82fc7a5c218707b1323a1b0d4a8cfd9eceb7c7771bb63c9edfb28
+录0078_v3源码归档SHA256: 695e8b6c9ae9847ed2576609777dee5750c2f84c69f10667a69cd2a27a43765d
+HF12历史合法观测原件相对路径: 研究记录/任务07_正式五种子重训/正式五种子HF合法验证逐窗明细_20260916T022125+0800/五种子观测验证摘要.json
+HF12历史合法观测SHA256: f73f8a42bbdb7393770358809f28f59aedcb031658dd76641cc9d6e89ebac9c9
+十二HF仅任07乙历史参照: true
+十二HF不是新十五身份同轨迹: true
+同一目标误差阈值_摄氏度: null
+同一目标误差所需HF数量: null
+高保真数量节省比例: null
+五seed样本标准差分母: 4
+种子变异不得冒充子集变异: true
+非单调原点必须保留: true
+子集方差_额外嵌套序列结果缺席: null
+主曲线仅F3_F1受阻_F4不存在: true
+能源限定: best和训练final各30点16/64阶原能量与散度各60行、LF双材料四口径守住5%不等于工程能源合格
+训练终态门禁: HF3种子0录0077_v2冻结资格；其余14份录0078_V3完整事务会话链和真实JOINT终态下游final资格
+证据清单固定相对路径: 研究记录/任务09_高保真数据效率/正式F3主序列十五身份全原件证据清单.yaml
+证据清单生成前不得正式聚合: true
+证据清单须逐份固定训练原件与best_final双能源目录及原件SHA: true
+ROOT先激活事前YAML和tar唯一同行标志: TASK09_F3_MAIN_AGG_GATE:v2
+ROOT再激活完整证据清单SHA唯一同行标志: TASK09_F3_MAIN_EVIDENCE:v2
+正式结果源文件SHA256:
+  聚合模块: ab7fa8517a037774822c7e0e1caee4f827f16e8e2de585faa5dcf783595de0a2
+  唯一CLI: e9fd24aa0e05e16ebb7486a2530a194008b685ab306c07175bd4b17979d333b2
+  全身份证据清单生成器: 0446e1bdeb662d2fa5c6d45f8a5c96b8c081d2f25b6b82161f053576aa9f2bd8
+  合成与真实原件只读测试: ed3fa46600dea0e1cae24b76796fc502a85327cdee6f960a49b39dc58863eb33

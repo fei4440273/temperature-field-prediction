@@ -1,0 +1,41 @@
+schema_version: 1
+登记时间: '2026-09-16T05:58:38+08:00'
+阶段: '任10同板全25锁后现场LF配对暨最佳原锁独立后验v3事前冻结'
+目标: '补录0066没有按实际最佳/终态模型逐张量核F2/F3共享LF的证据缺口；不修订录0064方法或录0066纯数值后验指标'
+旧方法预算_SHA256: 'cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94'
+旧方法十一源tar_SHA256: '22e6df62cf1aaddf55a8a33e8d8a71e558d89110db96466dc904d1b10c03069d'
+旧二级预算_SHA256: '5e69e7b29aacd11e5a1923aff03974dd777d754676ee9463a2b15c4d810436da'
+旧二级十源tar_SHA256: '10777b6e0b99e6b8b4563b59e2d9d575505eda6cdea49235fca02ba1f1c54fb0'
+九档数值登记_SHA256: '0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13'
+九档受限源清单_SHA256: 'b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb'
+全25机件及旧二级门禁先决: true
+十组F2F3实际冻结LF张量逐位及现场SHA: true
+25份最佳PT与原锁SHA每档再核: true
+模型前向只接收时刻深度材料三字段: true
+完整HF只在双二级与整组完成后后验: true
+固定十组身份:
+  LF来源: ['lf_same_physics_coarse', 'lf_contact_mismatch_coarse']
+  同来源随机种子: [0, 1, 2, 3, 4]
+  每组方法: ['F2', 'F3']
+  F1只用HF探针五seed: true
+原SHA重算方式: '最佳及终态state_dict剔除low_model.前缀按name:dtype:shape加换行和cpu contiguous Tensor原字节排序SHA256；包括buffer；F2/F3、最佳/终态四份真实LF张量逐位相同，现场SHA与双方原真实训练日志声明初始LF张量SHA相等'
+每档原锁重载: '原旧组门禁与新逐25锁读原SHA一次，九功率每次重载最佳PT前后与锁/model原SHA比对，不信锁后修改或新SHA；真实完整HF温度不得传入模型前向'
+固定旧场和能源指标: '沿录0066两材料真实厚度加权RMSE、0.5mm探针附近排除和三非观测时窗；七时刻SiC/Cu界面、顶底网络通量、真实网格储热、名义(q已吸收W/m²×已登记面积m²)热预算W；九档25模型225场行、675窗行、1575能源行'
+原场参考限界: '仅原九档人为一维SiC/Cu板FVM源，最细两级小于0.1K只针对七时刻七深度，不证明全网格数值误差；不是旧圆柱装置真实实验HF内部温度'
+真实性限界: 'PT/CSV/RNG/优化器机件可离线伪造、旧单模型API非OS权限隔离；原HF校正起点只有训练源码seed加训练日志摘要，未独立保留逐张量预优化PT，v3不假称能仅凭最佳PT证明实际起点；旧固定TEST温度不得读取，隐藏热流不得反向调参'
+v3七源tar成员:
+  - '研究记录/任务10_独立双层场基准/正式同板全组后验真实LF配对v3前登记.yaml'
+  - '研究记录/任务10_独立双层场基准/正式同板全组后验指标及源码前登记.yaml'
+  - 'src/sic_cu/eval/task10_plate_posthoc.py'
+  - 'src/sic_cu/train/task10_plate_methods.py'
+  - 'src/sic_cu/eval/task10_plate_posthoc_v3.py'
+  - 'scripts/任务10_全组锁后独立一维HF后验审计_v3.py'
+  - 'tests/test_task10_plate_posthoc_v3.py'
+v3生效源码_SHA256:
+  '研究记录/任务10_独立双层场基准/正式同板全组后验指标及源码前登记.yaml': '5e69e7b29aacd11e5a1923aff03974dd777d754676ee9463a2b15c4d810436da'
+  'src/sic_cu/eval/task10_plate_posthoc.py': '78eecce5937639eb42707c0e22aa4975fbbe1582a39894ee20619854970fb3cb'
+  'src/sic_cu/train/task10_plate_methods.py': 'a6e5d1b9a47d33ede20b22a596eeb91408662f567b9b8d36f02cfc5498b8bf06'
+  'src/sic_cu/eval/task10_plate_posthoc_v3.py': 'fff8aa388d1e668c156ea4ddf15978f8ec5e6975acbdb9b172304ddd115de362'
+  'scripts/任务10_全组锁后独立一维HF后验审计_v3.py': '95bd721c0e8eb8bd83bc243cce535cbd854d0e00b03ce382ba0e6280d9c8bdf0'
+  'tests/test_task10_plate_posthoc_v3.py': 'fbaeb25fd51066c09a9b1f726191a2659c9d376a21f5b149eb11b88a9e3e8d42'
+唯一正式入口: 'scripts/任务10_全组锁后独立一维HF后验审计_v3.py仅在25真实CUDA方法原件全部锁、组身份SHA后来入总账、录0070预算与七源tar双SHA事前入总账后可正式开任一档完整HF温度'

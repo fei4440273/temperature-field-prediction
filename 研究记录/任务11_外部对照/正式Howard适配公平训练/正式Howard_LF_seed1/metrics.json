@@ -1,0 +1,56 @@
+{
+  "method": "task11_howard_lf_teacher",
+  "seed": 1,
+  "epochs_completed": 1282,
+  "stopping_reason": "validation_patience",
+  "best_epoch": 1082,
+  "best_validation_rmse_c": 2.4356793378243524,
+  "training_seconds": 166.21771931098192,
+  "training_seconds_contract": "与新MLP同口径：所有本人真实epoch训练/验证/阶段保存之和，加载及导出不混入",
+  "setup_seconds": 22.68916701505077,
+  "export_seconds": 0.3452249969996046,
+  "total_session_seconds": 189.2521113230323,
+  "parameter_count": 100864,
+  "LF参数量": 100864,
+  "peak_gpu_memory_bytes": 141754880,
+  "status": "completed_current_protocol_lf_only",
+  "configuration": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "method": "task11_howard_lf_teacher",
+    "epochs": 2000,
+    "samples_per_power": 8192,
+    "validation_samples_per_power": 8192,
+    "batch_size": 8192,
+    "learning_rate": 0.001,
+    "patience": 200,
+    "physics_collocation": 256,
+    "physics_weight": 1.0,
+    "lf_physics_mode": "original",
+    "sampling_mode": "material_time",
+    "device": "cuda",
+    "world_size": 1,
+    "model_kwargs": {
+      "width": 128,
+      "depth": 4,
+      "latent_dim": 128,
+      "final_activation": false
+    }
+  },
+  "source_identity": {
+    "YAML_SHA256": "0de2aa7b3e78d92d76ff90dfb2e9a1c6f5b4ba9f98ead462bd24e1f23dcc8c6c",
+    "TAR_SHA256": "42e1c376358f915e38625d9a197ae99606f24ff4af0e51a59e176fcba3d258bc",
+    "CATALOG_SHA256": "573550239566a5f1f0e7f6889fa40f99dde83379e7c2ebf7e89eae1c375da367"
+  },
+  "test": null,
+  "test_status": "sealed_until_frozen_release",
+  "原文精确三网联合训练复现": false,
+  "旧固定TEST温度读取": false,
+  "模拟测试功率温度读取": false,
+  "HF训练许可": false
+}

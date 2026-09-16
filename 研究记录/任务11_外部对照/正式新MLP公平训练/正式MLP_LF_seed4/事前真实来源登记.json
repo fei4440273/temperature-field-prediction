@@ -1,0 +1,8 @@
+{
+  "YAML_SHA256": "510ca066f221ae79d2015c1c0ccec60a8235dafca82432fc84c1026f13202c19",
+  "TAR_SHA256": "c70c82667fa8840f3a72078cc4be68dba9e47fc084de8cd06e6dca923e60c139",
+  "CATALOG_SHA256": "96a346c4eaa3fac63326a84d7e6ab8a1cee94d8b46083f5c41907db70be2c485",
+  "来源性质": "新MLP LF从空网络新初始化",
+  "旧MLP LF/HF权重读取": false,
+  "HF训练许可": false
+}

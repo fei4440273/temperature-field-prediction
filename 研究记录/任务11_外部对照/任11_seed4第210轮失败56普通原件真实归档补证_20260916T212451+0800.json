@@ -1,0 +1,147 @@
+{
+  "结构版本": 1,
+  "证据性质": "seed4真实第210轮失败后56普通原文件完整归档及逐member字节核验，不是成功完训/额外训练或五种子接受",
+  "前置真实原五尝试终态和只读现场证据": {
+    "原件": "研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json",
+    "字节": 901612,
+    "SHA256": "214d29a2e88b79f1d285b64d62950b7b2d59235a59c7e675d2af82fbaa890d64",
+    "原五全部真实尝试终态": true,
+    "成功种子": [
+      0,
+      1,
+      3
+    ],
+    "失败种子": [
+      2,
+      4
+    ],
+    "seed4durable": 209,
+    "seed4失败尝试轮次": 210
+  },
+  "归档完整实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 CUDA_VISIBLE_DEVICES='' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存'  /home/phl/anaconda3/envs/PINN/bin/python -B -c 'import os,sys,json; from pathlib import Path; root=Path(\"/home/phl/lyf/Temperature Field Prediction\"); blocked=[]\ndef guard(event,args):\n if event=='\\''open'\\'':\n  name,mode,flags=args; write=(isinstance(mode,str) and any(c in mode for c in '\\''wax+'\\'')) or (isinstance(flags,int) and bool(flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND))); targets=[name] if write and isinstance(name,(str,bytes,os.PathLike)) else []\n elif event in ('\\''os.mkdir'\\'','\\''os.remove'\\'','\\''os.rmdir'\\'','\\''os.chmod'\\'','\\''os.chown'\\'','\\''os.utime'\\'','\\''os.truncate'\\''): targets=[args[0]]\n elif event in ('\\''os.rename'\\'','\\''os.replace'\\'','\\''os.link'\\''): targets=list(args[:2])\n elif event=='\\''os.symlink'\\'': targets=[args[1]]\n else: return\n for value in targets:\n  if isinstance(value,int): continue\n  path=Path(os.fsdecode(value)).resolve()\n  if root not in path.parents:\n   blocked.append({'\\''事件'\\'':event,'\\''目标'\\'':str(path)}); raise PermissionError('\\''项目外写入已阻止'\\'')\nsys.addaudithook(guard)\n\nimport hashlib,tarfile,io,time,datetime,stat\nclock=time.perf_counter();directory=root/'\\''研究记录/任务11_外部对照/正式Howard适配公平训练/正式Howard_HF_seed4'\\''\nexpected=json.loads(\"{\\\"HF会话收据_0001.json\\\":\\\"5ae22cfc30a5422d81fe6d0f8afe843595dc2a6228bce83ae2139c5c62ac2da3\\\",\\\"best.pt\\\":\\\"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\\\",\\\"config_snapshot/boundary_conditions.yaml\\\":\\\"fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f\\\",\\\"config_snapshot/data_metadata.yaml\\\":\\\"eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d\\\",\\\"config_snapshot/geometry.yaml\\\":\\\"a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0\\\",\\\"config_snapshot/materials.yaml\\\":\\\"2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e\\\",\\\"config_snapshot/release_manifest.yaml\\\":\\\"0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288\\\",\\\"config_snapshot/resolved_physics.yaml\\\":\\\"d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144\\\",\\\"config_snapshot/sha256.json\\\":\\\"e242b9fb0dd0a533ac80da99f1c47844138c2825d50cf8fc36165dc1ee45725f\\\",\\\"config_snapshot/splits.yaml\\\":\\\"89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e\\\",\\\"config_snapshot/training.yaml\\\":\\\"4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41\\\",\\\"config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md\\\":\\\"8e9ba9c130f1d15fcba75b0d395b0a9c1b07ff68598c0b75bbed8eace56309a5\\\",\\\"training.jsonl\\\":\\\"1b3308f3ca918eefded1c6bb753c1654b08af32f961cfa57076f6408c03fecdc\\\",\\\"事前来源快照/HF开发目录.json\\\":\\\"7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18\\\",\\\"事前来源快照/LF目录.json\\\":\\\"b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de\\\",\\\"事前来源快照/源码.tar.gz\\\":\\\"61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249\\\",\\\"事前来源快照/登记.yaml\\\":\\\"ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33\\\",\\\"事前真实来源登记.json\\\":\\\"61c8204b3bcf7a1222329c6438420a40ba16c8a5ea02f59ffe6102688fe0df1d\\\",\\\"全局最佳历史_0010.pt\\\":\\\"61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308\\\",\\\"全局最佳历史_0030.pt\\\":\\\"604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6\\\",\\\"全局最佳历史_0040.pt\\\":\\\"110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012\\\",\\\"全局最佳历史_0050.pt\\\":\\\"03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785\\\",\\\"全局最佳历史_0060.pt\\\":\\\"5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583\\\",\\\"全局最佳历史_0080.pt\\\":\\\"2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123\\\",\\\"全局最佳历史_0130.pt\\\":\\\"546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89\\\",\\\"全局最佳历史_0140.pt\\\":\\\"75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784\\\",\\\"全局最佳历史_0160.pt\\\":\\\"87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b\\\",\\\"全局最佳历史_0180.pt\\\":\\\"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\\\",\\\"全局最佳模型历史_0010.pt\\\":\\\"8ab1226b26abbe03093d805708666fadfe48e7517faf02c6891f7186c8eafce8\\\",\\\"全局最佳模型历史_0030.pt\\\":\\\"e727479cefb15b658213fdf1b10b3c1616c31e539b4c2308edbf5927fe1e75a1\\\",\\\"全局最佳模型历史_0040.pt\\\":\\\"3d69255a8f077b794ac86c4a89b85aa3f69adf25a777c772c222d7ad2760b61f\\\",\\\"全局最佳模型历史_0050.pt\\\":\\\"4653177592be0f398221e2f3fa07f51f6d6a886133b37481e67fb8817625f583\\\",\\\"全局最佳模型历史_0060.pt\\\":\\\"8719c0b0b76467e6394488fefb7dd8196611b671bc38b23b8978fa60595fdfeb\\\",\\\"全局最佳模型历史_0080.pt\\\":\\\"835021e3f6bbc7054432c5db2dfa7b83c1dfd371436e0a29e5c1631477ceaadf\\\",\\\"全局最佳模型历史_0130.pt\\\":\\\"e7c0a796ab6c27cf22a62b9f2108a3920fca0a2685f2f75dfa9202497470c188\\\",\\\"全局最佳模型历史_0140.pt\\\":\\\"837d119dfcc11765c1b334fe9797f5986047377df9e62e274925aee113460288\\\",\\\"全局最佳模型历史_0160.pt\\\":\\\"b9147aa59b2d16c6a069d0ac68763cc459100f1e10b84f68c44f3138dfe62fc3\\\",\\\"全局最佳模型历史_0180.pt\\\":\\\"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\\\",\\\"已提交日志_0001.jsonl\\\":\\\"871a1e548d72eb7ea0335d67badeb876291b0bf68e92955f1ec30737a53faadb\\\",\\\"最佳视图提交历史_0001.pt\\\":\\\"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\\\",\\\"最近提交历史_0001.pt\\\":\\\"45f7b4b76c904d44edb1b10d33a7dfa9fd8ddc4f8091bb297b43d83bc00f5520\\\",\\\"观测最佳提交历史_0001.pt\\\":\\\"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\\\",\\\"阶段1_最佳.pt\\\":\\\"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\\\",\\\"阶段1_最佳历史_0010.pt\\\":\\\"61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308\\\",\\\"阶段1_最佳历史_0030.pt\\\":\\\"604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6\\\",\\\"阶段1_最佳历史_0040.pt\\\":\\\"110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012\\\",\\\"阶段1_最佳历史_0050.pt\\\":\\\"03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785\\\",\\\"阶段1_最佳历史_0060.pt\\\":\\\"5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583\\\",\\\"阶段1_最佳历史_0080.pt\\\":\\\"2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123\\\",\\\"阶段1_最佳历史_0130.pt\\\":\\\"546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89\\\",\\\"阶段1_最佳历史_0140.pt\\\":\\\"75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784\\\",\\\"阶段1_最佳历史_0160.pt\\\":\\\"87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b\\\",\\\"阶段1_最佳历史_0180.pt\\\":\\\"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\\\",\\\"阶段_初始.pt\\\":\\\"1460daf340b57bb649b4d0a5d4498973d1c7cb65e7d6086fa9a7affadf9b0706\\\",\\\"阶段_最近.pt\\\":\\\"1a78704bedf7e2b40abd5ff3052563a25393db51d2f160675a559bb53f8ddd84\\\",\\\"阶段_观测最佳.pt\\\":\\\"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\\\"}\")\ndef digest(p):return hashlib.sha256(p.read_bytes()).hexdigest()\nbefore={str(x.relative_to(directory)):digest(x) for x in sorted(directory.rglob('\\''*'\\'')) if x.is_file()}\nassert before==expected and len(before)==56\nassert all(not x.is_symlink() for x in directory.rglob('\\''*'\\''))\ndestination=root/\"研究记录/任务11_外部对照/Howard_HF_seed4第210轮数值失败完整普通字节归档_20260916T212312+0800.tar.gz\"\nassert not destination.exists()\nwith tarfile.open(destination,'\\''x:gz'\\'',format=tarfile.PAX_FORMAT) as archive:\n for name,sha in before.items():\n  source=directory/name;payload=source.read_bytes()\n  assert hashlib.sha256(payload).hexdigest()==sha and stat.S_ISREG(source.lstat().st_mode)\n  info=tarfile.TarInfo('\\''正式Howard_HF_seed4/'\\''+name);info.size=len(payload);info.mode=0o444;info.mtime=0\n  archive.addfile(info,io.BytesIO(payload))\nwith tarfile.open(destination,'\\''r:gz'\\'') as archive:\n members=archive.getmembers()\n assert len(members)==len(before) and len({m.name for m in members})==len(before)\n assert {m.name for m in members}=={'\\''正式Howard_HF_seed4/'\\''+n for n in before}\n for m in members:\n  assert m.isfile() and hashlib.sha256(archive.extractfile(m).read()).hexdigest()==before[m.name[len('\\''正式Howard_HF_seed4/'\\''):]]\ndestination.chmod(0o444)\nassert before=={str(x.relative_to(directory)):digest(x) for x in sorted(directory.rglob('\\''*'\\'')) if x.is_file()} and not blocked\nprint(json.dumps({'\\''实际归档核验时间'\\'':datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).isoformat(),'\\''PID'\\'':os.getpid(),'\\''实际归档与逐member字节复核墙钟秒'\\'':time.perf_counter()-clock,'\\''原件'\\'':str(destination.relative_to(root)),'\\''字节'\\'':destination.stat().st_size,'\\''SHA256'\\'':digest(destination),'\\''普通源成员数'\\'':len(before),'\\''权限'\\'':'\\''0o444'\\'','\\''全部失败4真实原文件SHA'\\'':before,'\\''原目录前后零漂移'\\'':True,'\\''无删除_覆盖_重训或伪收据'\\'':True,'\\''没有PT反序列化或温度_GPU_训练'\\'':True,'\\''项目外Python写入阻止记录'\\'':blocked},ensure_ascii=False))\n'",
+  "exec_command真实初返回": {
+    "chunk_id": "6661f9",
+    "wall_time_seconds": 1.000845452,
+    "session_id": 88972,
+    "original_token_count": 0,
+    "output": ""
+  },
+  "write_stdin真实终态退出0": {
+    "chunk_id": "0d2c63",
+    "wall_time_seconds": 0.00000162,
+    "exit_code": 0,
+    "original_token_count": 1573,
+    "output": "{\"实际归档核验时间\": \"2026-09-16T21:24:51.625423+08:00\", \"PID\": 1901240, \"实际归档与逐member字节复核墙钟秒\": 3.576038962986786, \"原件\": \"研究记录/任务11_外部对照/Howard_HF_seed4第210轮数值失败完整普通字节归档_20260916T212312+0800.tar.gz\", \"字节\": 103291013, \"SHA256\": \"6b0934dfd7a23dfb8067c111404817cf03affd0c0b6c9d0d2199ec1b6de3bd6e\", \"普通源成员数\": 56, \"权限\": \"0o444\", \"全部失败4真实原文件SHA\": {\"HF会话收据_0001.json\": \"5ae22cfc30a5422d81fe6d0f8afe843595dc2a6228bce83ae2139c5c62ac2da3\", \"best.pt\": \"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\", \"config_snapshot/boundary_conditions.yaml\": \"fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f\", \"config_snapshot/data_metadata.yaml\": \"eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d\", \"config_snapshot/geometry.yaml\": \"a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0\", \"config_snapshot/materials.yaml\": \"2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e\", \"config_snapshot/release_manifest.yaml\": \"0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288\", \"config_snapshot/resolved_physics.yaml\": \"d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144\", \"config_snapshot/sha256.json\": \"e242b9fb0dd0a533ac80da99f1c47844138c2825d50cf8fc36165dc1ee45725f\", \"config_snapshot/splits.yaml\": \"89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e\", \"config_snapshot/training.yaml\": \"4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41\", \"config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md\": \"8e9ba9c130f1d15fcba75b0d395b0a9c1b07ff68598c0b75bbed8eace56309a5\", \"training.jsonl\": \"1b3308f3ca918eefded1c6bb753c1654b08af32f961cfa57076f6408c03fecdc\", \"事前来源快照/HF开发目录.json\": \"7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18\", \"事前来源快照/LF目录.json\": \"b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de\", \"事前来源快照/源码.tar.gz\": \"61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249\", \"事前来源快照/登记.yaml\": \"ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33\", \"事前真实来源登记.json\": \"61c8204b3bcf7a1222329c6438420a40ba16c8a5ea02f59ffe6102688fe0df1d\", \"全局最佳历史_0010.pt\": \"61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308\", \"全局最佳历史_0030.pt\": \"604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6\", \"全局最佳历史_0040.pt\": \"110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012\", \"全局最佳历史_0050.pt\": \"03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785\", \"全局最佳历史_0060.pt\": \"5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583\", \"全局最佳历史_0080.pt\": \"2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123\", \"全局最佳历史_0130.pt\": \"546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89\", \"全局最佳历史_0140.pt\": \"75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784\", \"全局最佳历史_0160.pt\": \"87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b\", \"全局最佳历史_0180.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"全局最佳模型历史_0010.pt\": \"8ab1226b26abbe03093d805708666fadfe48e7517faf02c6891f7186c8eafce8\", \"全局最佳模型历史_0030.pt\": \"e727479cefb15b658213fdf1b10b3c1616c31e539b4c2308edbf5927fe1e75a1\", \"全局最佳模型历史_0040.pt\": \"3d69255a8f077b794ac86c4a89b85aa3f69adf25a777c772c222d7ad2760b61f\", \"全局最佳模型历史_0050.pt\": \"4653177592be0f398221e2f3fa07f51f6d6a886133b37481e67fb8817625f583\", \"全局最佳模型历史_0060.pt\": \"8719c0b0b76467e6394488fefb7dd8196611b671bc38b23b8978fa60595fdfeb\", \"全局最佳模型历史_0080.pt\": \"835021e3f6bbc7054432c5db2dfa7b83c1dfd371436e0a29e5c1631477ceaadf\", \"全局最佳模型历史_0130.pt\": \"e7c0a796ab6c27cf22a62b9f2108a3920fca0a2685f2f75dfa9202497470c188\", \"全局最佳模型历史_0140.pt\": \"837d119dfcc11765c1b334fe9797f5986047377df9e62e274925aee113460288\", \"全局最佳模型历史_0160.pt\": \"b9147aa59b2d16c6a069d0ac68763cc459100f1e10b84f68c44f3138dfe62fc3\", \"全局最佳模型历史_0180.pt\": \"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\", \"已提交日志_0001.jsonl\": \"871a1e548d72eb7ea0335d67badeb876291b0bf68e92955f1ec30737a53faadb\", \"最佳视图提交历史_0001.pt\": \"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\", \"最近提交历史_0001.pt\": \"45f7b4b76c904d44edb1b10d33a7dfa9fd8ddc4f8091bb297b43d83bc00f5520\", \"观测最佳提交历史_0001.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"阶段1_最佳.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"阶段1_最佳历史_0010.pt\": \"61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308\", \"阶段1_最佳历史_0030.pt\": \"604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6\", \"阶段1_最佳历史_0040.pt\": \"110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012\", \"阶段1_最佳历史_0050.pt\": \"03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785\", \"阶段1_最佳历史_0060.pt\": \"5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583\", \"阶段1_最佳历史_0080.pt\": \"2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123\", \"阶段1_最佳历史_0130.pt\": \"546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89\", \"阶段1_最佳历史_0140.pt\": \"75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784\", \"阶段1_最佳历史_0160.pt\": \"87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b\", \"阶段1_最佳历史_0180.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"阶段_初始.pt\": \"1460daf340b57bb649b4d0a5d4498973d1c7cb65e7d6086fa9a7affadf9b0706\", \"阶段_最近.pt\": \"1a78704bedf7e2b40abd5ff3052563a25393db51d2f160675a559bb53f8ddd84\", \"阶段_观测最佳.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\"}, \"原目录前后零漂移\": true, \"无删除_覆盖_重训或伪收据\": true, \"没有PT反序列化或温度_GPU_训练\": true, \"项目外Python写入阻止记录\": []}\n"
+  },
+  "原完整stdout": "{\"实际归档核验时间\": \"2026-09-16T21:24:51.625423+08:00\", \"PID\": 1901240, \"实际归档与逐member字节复核墙钟秒\": 3.576038962986786, \"原件\": \"研究记录/任务11_外部对照/Howard_HF_seed4第210轮数值失败完整普通字节归档_20260916T212312+0800.tar.gz\", \"字节\": 103291013, \"SHA256\": \"6b0934dfd7a23dfb8067c111404817cf03affd0c0b6c9d0d2199ec1b6de3bd6e\", \"普通源成员数\": 56, \"权限\": \"0o444\", \"全部失败4真实原文件SHA\": {\"HF会话收据_0001.json\": \"5ae22cfc30a5422d81fe6d0f8afe843595dc2a6228bce83ae2139c5c62ac2da3\", \"best.pt\": \"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\", \"config_snapshot/boundary_conditions.yaml\": \"fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f\", \"config_snapshot/data_metadata.yaml\": \"eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d\", \"config_snapshot/geometry.yaml\": \"a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0\", \"config_snapshot/materials.yaml\": \"2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e\", \"config_snapshot/release_manifest.yaml\": \"0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288\", \"config_snapshot/resolved_physics.yaml\": \"d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144\", \"config_snapshot/sha256.json\": \"e242b9fb0dd0a533ac80da99f1c47844138c2825d50cf8fc36165dc1ee45725f\", \"config_snapshot/splits.yaml\": \"89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e\", \"config_snapshot/training.yaml\": \"4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41\", \"config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md\": \"8e9ba9c130f1d15fcba75b0d395b0a9c1b07ff68598c0b75bbed8eace56309a5\", \"training.jsonl\": \"1b3308f3ca918eefded1c6bb753c1654b08af32f961cfa57076f6408c03fecdc\", \"事前来源快照/HF开发目录.json\": \"7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18\", \"事前来源快照/LF目录.json\": \"b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de\", \"事前来源快照/源码.tar.gz\": \"61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249\", \"事前来源快照/登记.yaml\": \"ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33\", \"事前真实来源登记.json\": \"61c8204b3bcf7a1222329c6438420a40ba16c8a5ea02f59ffe6102688fe0df1d\", \"全局最佳历史_0010.pt\": \"61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308\", \"全局最佳历史_0030.pt\": \"604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6\", \"全局最佳历史_0040.pt\": \"110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012\", \"全局最佳历史_0050.pt\": \"03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785\", \"全局最佳历史_0060.pt\": \"5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583\", \"全局最佳历史_0080.pt\": \"2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123\", \"全局最佳历史_0130.pt\": \"546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89\", \"全局最佳历史_0140.pt\": \"75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784\", \"全局最佳历史_0160.pt\": \"87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b\", \"全局最佳历史_0180.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"全局最佳模型历史_0010.pt\": \"8ab1226b26abbe03093d805708666fadfe48e7517faf02c6891f7186c8eafce8\", \"全局最佳模型历史_0030.pt\": \"e727479cefb15b658213fdf1b10b3c1616c31e539b4c2308edbf5927fe1e75a1\", \"全局最佳模型历史_0040.pt\": \"3d69255a8f077b794ac86c4a89b85aa3f69adf25a777c772c222d7ad2760b61f\", \"全局最佳模型历史_0050.pt\": \"4653177592be0f398221e2f3fa07f51f6d6a886133b37481e67fb8817625f583\", \"全局最佳模型历史_0060.pt\": \"8719c0b0b76467e6394488fefb7dd8196611b671bc38b23b8978fa60595fdfeb\", \"全局最佳模型历史_0080.pt\": \"835021e3f6bbc7054432c5db2dfa7b83c1dfd371436e0a29e5c1631477ceaadf\", \"全局最佳模型历史_0130.pt\": \"e7c0a796ab6c27cf22a62b9f2108a3920fca0a2685f2f75dfa9202497470c188\", \"全局最佳模型历史_0140.pt\": \"837d119dfcc11765c1b334fe9797f5986047377df9e62e274925aee113460288\", \"全局最佳模型历史_0160.pt\": \"b9147aa59b2d16c6a069d0ac68763cc459100f1e10b84f68c44f3138dfe62fc3\", \"全局最佳模型历史_0180.pt\": \"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\", \"已提交日志_0001.jsonl\": \"871a1e548d72eb7ea0335d67badeb876291b0bf68e92955f1ec30737a53faadb\", \"最佳视图提交历史_0001.pt\": \"accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac\", \"最近提交历史_0001.pt\": \"45f7b4b76c904d44edb1b10d33a7dfa9fd8ddc4f8091bb297b43d83bc00f5520\", \"观测最佳提交历史_0001.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"阶段1_最佳.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"阶段1_最佳历史_0010.pt\": \"61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308\", \"阶段1_最佳历史_0030.pt\": \"604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6\", \"阶段1_最佳历史_0040.pt\": \"110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012\", \"阶段1_最佳历史_0050.pt\": \"03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785\", \"阶段1_最佳历史_0060.pt\": \"5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583\", \"阶段1_最佳历史_0080.pt\": \"2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123\", \"阶段1_最佳历史_0130.pt\": \"546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89\", \"阶段1_最佳历史_0140.pt\": \"75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784\", \"阶段1_最佳历史_0160.pt\": \"87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b\", \"阶段1_最佳历史_0180.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\", \"阶段_初始.pt\": \"1460daf340b57bb649b4d0a5d4498973d1c7cb65e7d6086fa9a7affadf9b0706\", \"阶段_最近.pt\": \"1a78704bedf7e2b40abd5ff3052563a25393db51d2f160675a559bb53f8ddd84\", \"阶段_观测最佳.pt\": \"450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4\"}, \"原目录前后零漂移\": true, \"无删除_覆盖_重训或伪收据\": true, \"没有PT反序列化或温度_GPU_训练\": true, \"项目外Python写入阻止记录\": []}\n",
+  "结构化原stdout": {
+    "实际归档核验时间": "2026-09-16T21:24:51.625423+08:00",
+    "PID": 1901240,
+    "实际归档与逐member字节复核墙钟秒": 3.576038962986786,
+    "原件": "研究记录/任务11_外部对照/Howard_HF_seed4第210轮数值失败完整普通字节归档_20260916T212312+0800.tar.gz",
+    "字节": 103291013,
+    "SHA256": "6b0934dfd7a23dfb8067c111404817cf03affd0c0b6c9d0d2199ec1b6de3bd6e",
+    "普通源成员数": 56,
+    "权限": "0o444",
+    "全部失败4真实原文件SHA": {
+      "HF会话收据_0001.json": "5ae22cfc30a5422d81fe6d0f8afe843595dc2a6228bce83ae2139c5c62ac2da3",
+      "best.pt": "accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac",
+      "config_snapshot/boundary_conditions.yaml": "fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f",
+      "config_snapshot/data_metadata.yaml": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+      "config_snapshot/geometry.yaml": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+      "config_snapshot/materials.yaml": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+      "config_snapshot/release_manifest.yaml": "0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288",
+      "config_snapshot/resolved_physics.yaml": "d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144",
+      "config_snapshot/sha256.json": "e242b9fb0dd0a533ac80da99f1c47844138c2825d50cf8fc36165dc1ee45725f",
+      "config_snapshot/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+      "config_snapshot/training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+      "config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md": "8e9ba9c130f1d15fcba75b0d395b0a9c1b07ff68598c0b75bbed8eace56309a5",
+      "training.jsonl": "1b3308f3ca918eefded1c6bb753c1654b08af32f961cfa57076f6408c03fecdc",
+      "事前来源快照/HF开发目录.json": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18",
+      "事前来源快照/LF目录.json": "b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de",
+      "事前来源快照/源码.tar.gz": "61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249",
+      "事前来源快照/登记.yaml": "ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33",
+      "事前真实来源登记.json": "61c8204b3bcf7a1222329c6438420a40ba16c8a5ea02f59ffe6102688fe0df1d",
+      "全局最佳历史_0010.pt": "61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308",
+      "全局最佳历史_0030.pt": "604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6",
+      "全局最佳历史_0040.pt": "110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012",
+      "全局最佳历史_0050.pt": "03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785",
+      "全局最佳历史_0060.pt": "5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583",
+      "全局最佳历史_0080.pt": "2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123",
+      "全局最佳历史_0130.pt": "546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89",
+      "全局最佳历史_0140.pt": "75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784",
+      "全局最佳历史_0160.pt": "87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b",
+      "全局最佳历史_0180.pt": "450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4",
+      "全局最佳模型历史_0010.pt": "8ab1226b26abbe03093d805708666fadfe48e7517faf02c6891f7186c8eafce8",
+      "全局最佳模型历史_0030.pt": "e727479cefb15b658213fdf1b10b3c1616c31e539b4c2308edbf5927fe1e75a1",
+      "全局最佳模型历史_0040.pt": "3d69255a8f077b794ac86c4a89b85aa3f69adf25a777c772c222d7ad2760b61f",
+      "全局最佳模型历史_0050.pt": "4653177592be0f398221e2f3fa07f51f6d6a886133b37481e67fb8817625f583",
+      "全局最佳模型历史_0060.pt": "8719c0b0b76467e6394488fefb7dd8196611b671bc38b23b8978fa60595fdfeb",
+      "全局最佳模型历史_0080.pt": "835021e3f6bbc7054432c5db2dfa7b83c1dfd371436e0a29e5c1631477ceaadf",
+      "全局最佳模型历史_0130.pt": "e7c0a796ab6c27cf22a62b9f2108a3920fca0a2685f2f75dfa9202497470c188",
+      "全局最佳模型历史_0140.pt": "837d119dfcc11765c1b334fe9797f5986047377df9e62e274925aee113460288",
+      "全局最佳模型历史_0160.pt": "b9147aa59b2d16c6a069d0ac68763cc459100f1e10b84f68c44f3138dfe62fc3",
+      "全局最佳模型历史_0180.pt": "accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac",
+      "已提交日志_0001.jsonl": "871a1e548d72eb7ea0335d67badeb876291b0bf68e92955f1ec30737a53faadb",
+      "最佳视图提交历史_0001.pt": "accf28e2ae89c74a065b7e3c9458f5cc234fd6a4688143664538d4d5c62eb0ac",
+      "最近提交历史_0001.pt": "45f7b4b76c904d44edb1b10d33a7dfa9fd8ddc4f8091bb297b43d83bc00f5520",
+      "观测最佳提交历史_0001.pt": "450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4",
+      "阶段1_最佳.pt": "450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4",
+      "阶段1_最佳历史_0010.pt": "61bb34fdfc6b374b0e66257a952f6443a0c25a0e4668bb33ea3a6efcdcec7308",
+      "阶段1_最佳历史_0030.pt": "604d96fa525abffdff218b74c8da65513226463700fda4df72a666b848de71e6",
+      "阶段1_最佳历史_0040.pt": "110e4adb263bdd889598bdb5f72fb545e9c40adabeda9d1967f6017994f57012",
+      "阶段1_最佳历史_0050.pt": "03bb4001e760d02c5fed8a8a51e03c3645e9f03c815a7935b8c18dd58a428785",
+      "阶段1_最佳历史_0060.pt": "5a0a23215504c189951c85fd548345f867f5c01f70460dbd958a5e55cbd4b583",
+      "阶段1_最佳历史_0080.pt": "2abc946a0a0cc6320e5e22d1ab06e3cacf1eca4ecf5a35b5b9a3fe637aa5e123",
+      "阶段1_最佳历史_0130.pt": "546878660a88a68b2a7474491aa2697d8c2b382055440a5bfd4bd9d9f3889f89",
+      "阶段1_最佳历史_0140.pt": "75e567a599d77b2d3b8fb8535590d164588a3c2cbdaa996057d20b7f965da784",
+      "阶段1_最佳历史_0160.pt": "87f16912ac1894462e756d6a949d72762d98355eca7048765c9a3f9f39a3f55b",
+      "阶段1_最佳历史_0180.pt": "450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4",
+      "阶段_初始.pt": "1460daf340b57bb649b4d0a5d4498973d1c7cb65e7d6086fa9a7affadf9b0706",
+      "阶段_最近.pt": "1a78704bedf7e2b40abd5ff3052563a25393db51d2f160675a559bb53f8ddd84",
+      "阶段_观测最佳.pt": "450485afe8fe191634932944273a5f244e1507f6130c3eb99816ed77161296f4"
+    },
+    "原目录前后零漂移": true,
+    "无删除_覆盖_重训或伪收据": true,
+    "没有PT反序列化或温度_GPU_训练": true,
+    "项目外Python写入阻止记录": []
+  },
+  "seed2失败独立CPU完整审计三件": [
+    {
+      "原件": "研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立失败证据中文审核报告.md",
+      "字节": 11665,
+      "SHA256": "91c042917582db2a13d94ae3cdaf8a27b5265f1e41e7d172fd5e5789ae1f2856"
+    },
+    {
+      "原件": "研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立失败证据审核机器证据.json",
+      "字节": 37971,
+      "SHA256": "63f7cbeef1c589f8d9f7426946736fbdf127bf8f8166a115d83537071931c42c"
+    },
+    {
+      "原件": "研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立CPU只读再核.command.json",
+      "字节": 269687,
+      "SHA256": "7ace9d23b40ba319a6976131aa5c3b46acdd0744ea610c0e1cf2e6b773f81af4"
+    }
+  ],
+  "四轮116既有五值组464数值原验": {
+    "原件": "研究记录/任务11_外部对照/任11暂停前既有116组与464数值中文四轮实核_20260916T211612+0800.json",
+    "字节": 343522,
+    "SHA256": "21c47d6fa00333e9c57e3f1a5afe46b960a15dc4b3684bbdc15ce3843265f77a"
+  },
+  "准确限制": {
+    "真实失败种子": [
+      2,
+      4
+    ],
+    "五全HF完训": false,
+    "五HF均值": null,
+    "五HF样本标准差": null,
+    "坏GPU动量具体参数数": null,
+    "失败额外段完整成本": null,
+    "CPU210重跑": false,
+    "正式Howard十能源": 0,
+    "正式Howard十OBS": false,
+    "B0替换": false,
+    "原总计划全部已完成": false
+  }
+}

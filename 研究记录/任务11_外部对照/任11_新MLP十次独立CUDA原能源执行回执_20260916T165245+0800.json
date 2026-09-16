@@ -1,0 +1,235 @@
+{
+  "中文说明": "全部十次均为冻结CLI52真实CUDA执行并观察退出0；根由各实际全新规范目录独立重算六工件SHA，而非以内部manifest自行产生外部身份。记录时间为调用前与完成观察时间，不冒充程序内部起止时钟；原件和摘要在被锁定六工件中完整保留。",
+  "登记时间": "2026-09-16T16:52:45+08:00",
+  "共同四原件SHA与冻结入口": {
+    "registry": "研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml",
+    "registry_sha": "3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7",
+    "source_tar": "研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz",
+    "source_tar_sha": "e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952",
+    "lf_catalog": "研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json",
+    "lf_catalog_sha": "37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956",
+    "hf_data_catalog": "研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json",
+    "hf_data_catalog_sha": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18"
+  },
+  "五HF能源前根独立完整资格": "研究记录/任务11_外部对照/任11_新MLP五种子HF完训根独立CPU资格_20260916T164008+0800.json",
+  "五HF能源前根独立完整资格SHA256": "c46609e96e530d978459f304440721226f2a02eb23a6693e26599206addd2834",
+  "实际成功数": 10,
+  "名义筛查两项皆通过状态数": 0,
+  "十次实际调用": [
+    {
+      "种子": 0,
+      "原状态标识": "best",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed0/独立原能源_观测最佳_20260916T164529+0800",
+      "调用前记录时间": "2026-09-16T16:45:29+08:00",
+      "完成观察时间": "首套已观察退出0，未单独落本时钟；第二套启动前确认无GPU进程",
+      "实际命令": "/home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed0' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed0/独立原能源_观测最佳_20260916T164529+0800' --seed 0 --state best --device cuda",
+      "实际工具输出": "{\"运行种子\": 0, \"审核状态\": \"best\", \"绝对平衡宏均值_瓦\": 776.3884960334419, \"绝对平衡95分位_瓦\": 1645.1926963920316, \"吸收功率归一宏均值\": 3.476206908606747, \"吸收功率归一95分位\": 8.15784390677744}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "6728af115537cbf25358158caebde2cc30fdc9753e0069b42291028c7f354a6a",
+        "物理分解.csv": "5e2362c98d18af5168f0ddf1c6755858bbb37b06f9bf5cd02e1ede6c43cdc7ff",
+        "原始能量.jsonl": "41e3dce7e8182357d970f28deac3414096bdc6385ea59e35324d18c2001f4c67",
+        "原始散度.jsonl": "e225a76ad1b7ff74cde717364fde4a0ca9a0a793f342e6253accf156b4427e77",
+        "汇总指标.json": "3234e3d7dbf58ae084c63ba9423b99bdd251a0e972e32fd0ba0cb3673f911e7c",
+        "审计工件SHA256.json": "dd85bcaa789927105bd5878c2758b46c60ffbe2d7dec32b3409e9424bc6f7ed6"
+      },
+      "选中模型SHA256": "1a120c75f8b05c827a9c0acf4b37d17754f0efc56eac716bb0ecb8f5457cec00",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 0,
+      "原状态标识": "final",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed0/独立原能源_训练末_20260916T164640+0800",
+      "调用前记录时间": "2026-09-16T16:46:40+08:00",
+      "完成观察时间": "2026-09-16T16:48:28+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed0' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed0/独立原能源_训练末_20260916T164640+0800' --seed 0 --state final --device cuda",
+      "实际工具输出": "{\"运行种子\": 0, \"审核状态\": \"final\", \"绝对平衡宏均值_瓦\": 955.5391740929467, \"绝对平衡95分位_瓦\": 1808.747356503267, \"吸收功率归一宏均值\": 4.508304235850158, \"吸收功率归一95分位\": 10.114636297003374}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "13a3a8b87b0d0dd86fedce7b040d9c9390f1203232687f17885498dd1ff7d007",
+        "物理分解.csv": "dc2c7efadef44d51c56de96e93334b66fd75abef529d9b65dacd72f34cd32023",
+        "原始能量.jsonl": "34075c52c229d26b659c9f1680fb431d85e00333dd4881398ea959d214ccabf1",
+        "原始散度.jsonl": "9e5fc15b606b54a8450c2239a599ce8fdfc33627a0f5491f9c33531b41e2e13f",
+        "汇总指标.json": "f2b80ddcb9fc5597a4d098777ab51ebac0a06ea1454c34402fe2670215de70f3",
+        "审计工件SHA256.json": "3e46b5ced334f9fc6aec9f9ff48d8d4ae393df4f529129cbf241d0dc5291876e"
+      },
+      "选中模型SHA256": "1f7b30e5fe43d2038bdfe793892afe18b2b416c493af0b04465d246fc57f454e",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 1,
+      "原状态标识": "best",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed1/独立原能源_观测最佳_20260916T164828+0800",
+      "调用前记录时间": "2026-09-16T16:48:28+08:00",
+      "完成观察时间": "2026-09-16T16:49:32+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed1' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed1/独立原能源_观测最佳_20260916T164828+0800' --seed 1 --state best --device cuda",
+      "实际工具输出": "{\"运行种子\": 1, \"审核状态\": \"best\", \"绝对平衡宏均值_瓦\": 1244.4575236786457, \"绝对平衡95分位_瓦\": 2268.05281544558, \"吸收功率归一宏均值\": 5.5489110226653215, \"吸收功率归一95分位\": 11.48410974039877}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "c51458e5d6f3dafbc993626aa1cb79b8739e5a654e845889509777ede2b91e17",
+        "物理分解.csv": "0a6317433d3101ed66de63815ca1110587cf1973ef870dcf8ee0bf711da24bd7",
+        "原始能量.jsonl": "dac705a560efc953b25fdc5efcb0b7ed672bec81aa10d1e19f7ed566488a2000",
+        "原始散度.jsonl": "ed6f5652878bdcbc90e0a634bdf46837f61c9103c010eae06d22104984cc0982",
+        "汇总指标.json": "66392e7bcaeb356c1dee93e39ffbc3302d287cf8bb5371fdc8f820f64a42a5c1",
+        "审计工件SHA256.json": "8533c4f817159913eaac110454acc6254e5786d3a21da374738d7e63f3b65432"
+      },
+      "选中模型SHA256": "29712a2af739e3ec5b68755fd523108c45e676d63fc796c6bbefb8f3832e9842",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 1,
+      "原状态标识": "final",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed1/独立原能源_训练末_20260916T164932+0800",
+      "调用前记录时间": "2026-09-16T16:49:32+08:00",
+      "完成观察时间": "2026-09-16T16:49:47+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed1' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed1/独立原能源_训练末_20260916T164932+0800' --seed 1 --state final --device cuda",
+      "实际工具输出": "{\"运行种子\": 1, \"审核状态\": \"final\", \"绝对平衡宏均值_瓦\": 1147.5230079898256, \"绝对平衡95分位_瓦\": 2606.646511650852, \"吸收功率归一宏均值\": 4.372817774204511, \"吸收功率归一95分位\": 7.448036553810323}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "d22e8abaf7eedc4af07f8a1fb13b13ddd9cc3c1aa1d6d4ca34cc6362b53bf2d5",
+        "物理分解.csv": "b3b6bc5a64dde60ac352c382555db02c67af68df1e4e99939226434a7a744b5d",
+        "原始能量.jsonl": "5310495a4794b96efdca38c077fa4f008112b25b159429dc3c6d6b35b4e8e16d",
+        "原始散度.jsonl": "d4b59d6d6ce2479a7b6ce0068e0ebe2843deee8ff6c1e569315d999cbaf5099d",
+        "汇总指标.json": "13745c3881e0417d364f794b70d19956f26df5436ee4fa49f02928c1f39a53a4",
+        "审计工件SHA256.json": "da9aaeb1160cc17191b1065fe3e2caedd4803048810f349a8318dc6584bf88a4"
+      },
+      "选中模型SHA256": "94c7bb0887d098a5a21310526844071a24539846a464d1c0132ba1a69ac25a07",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 2,
+      "原状态标识": "best",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed2/独立原能源_观测最佳_20260916T164947+0800",
+      "调用前记录时间": "2026-09-16T16:49:47+08:00",
+      "完成观察时间": "2026-09-16T16:50:01+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed2' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed2/独立原能源_观测最佳_20260916T164947+0800' --seed 2 --state best --device cuda",
+      "实际工具输出": "{\"运行种子\": 2, \"审核状态\": \"best\", \"绝对平衡宏均值_瓦\": 927.459641735418, \"绝对平衡95分位_瓦\": 1968.854183644557, \"吸收功率归一宏均值\": 3.455203569808736, \"吸收功率归一95分位\": 6.08821441285313}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "d1bfdb2f35f8b658c4ac052a993d5df8656e58510d9fe1da0e634a076dc7f4d6",
+        "物理分解.csv": "5d6a464f1026483914834509bc5cc8caee807e24f60c82bdc07651926772d357",
+        "原始能量.jsonl": "1c87de22d9eb0048432b0a0a111c3f38a45b1cc7db1dcaf657a425df7a4e1aa2",
+        "原始散度.jsonl": "8f883bcc73ace9a3437b10f21f971e6f68bc99977bd539fe4818ace4dc270b2a",
+        "汇总指标.json": "ef618b37c174e03831998e2ed7afc919761c2b95460446a3dc540d9877e265aa",
+        "审计工件SHA256.json": "0534c6f41b16a82ef24a6a3fb2ef4a5e2710b0714a0034abfc26c20f58339c3d"
+      },
+      "选中模型SHA256": "dcd484e42e30466e2f83ab8f42a712fc8bead7ee108ee288d2bb3812595dde7c",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 2,
+      "原状态标识": "final",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed2/独立原能源_训练末_20260916T165001+0800",
+      "调用前记录时间": "2026-09-16T16:50:01+08:00",
+      "完成观察时间": "2026-09-16T16:50:15+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed2' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed2/独立原能源_训练末_20260916T165001+0800' --seed 2 --state final --device cuda",
+      "实际工具输出": "{\"运行种子\": 2, \"审核状态\": \"final\", \"绝对平衡宏均值_瓦\": 859.5574469970554, \"绝对平衡95分位_瓦\": 1910.854909379315, \"吸收功率归一宏均值\": 3.3146144086257787, \"吸收功率归一95分位\": 6.566023761231129}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "dbb3bf112d9773f0e414fef265ffd5a75998909acab5a371e9043d0ffba1c0b7",
+        "物理分解.csv": "5f6d8b03c71fb5b8152b512cb14db335d72fb747610af4696893eac5bacf740c",
+        "原始能量.jsonl": "324a44dfab2b083fc76f2b68976580816f9632dc02b68b1cd95582eb0be6dd59",
+        "原始散度.jsonl": "1df2bb164a03b13e0e8396c190fa0890775b7c9a9fbd758640243eb8ef5ff63f",
+        "汇总指标.json": "bb92e226cb451e0c41db5d1be50914ad60afb104cb9e2a4a755bab42b9288ce3",
+        "审计工件SHA256.json": "5c1036942c78aedba86568f0d3416ffe5b343e7c1922e43e769bafcccfa349c0"
+      },
+      "选中模型SHA256": "c37cdf6446a4e7a87811b9736d8194f6f8b616e6e5b4e00f157239293bd4c2f8",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 3,
+      "原状态标识": "best",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed3/独立原能源_观测最佳_20260916T165015+0800",
+      "调用前记录时间": "2026-09-16T16:50:15+08:00",
+      "完成观察时间": "2026-09-16T16:50:29+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed3' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed3/独立原能源_观测最佳_20260916T165015+0800' --seed 3 --state best --device cuda",
+      "实际工具输出": "{\"运行种子\": 3, \"审核状态\": \"best\", \"绝对平衡宏均值_瓦\": 705.4504265770415, \"绝对平衡95分位_瓦\": 1711.3531160745074, \"吸收功率归一宏均值\": 3.1949704960726932, \"吸收功率归一95分位\": 7.911215998931702}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "7f2b524d5fc119c6d4e050f78f49f3eb817fef078707d1fad03bf629ba5edf01",
+        "物理分解.csv": "a05254b8381e66df87d8ea61735acc56eca0c6d9cbcb938680cc87c9970bc600",
+        "原始能量.jsonl": "58d4f2f3d2a4b6c76b46f84297d73adb60637920a5c4fab1215c3a064188e5d0",
+        "原始散度.jsonl": "4e1cdbed8ef47b39b8451340f82496a0c589604325978fd0ddec17baf8672c7c",
+        "汇总指标.json": "8ef3818d1182f05f12a9538a0f552fa3c06c14fb3a7d997095a31ee23ad0f4e3",
+        "审计工件SHA256.json": "1499585a2a9aa68a1f9f7f95fc824f9607d92c6e97ef863fdf5689d044feeaad"
+      },
+      "选中模型SHA256": "3acb9287d655824ab8b09a8306ead1698a721579689b21966b6e5c633690901d",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 3,
+      "原状态标识": "final",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed3/独立原能源_训练末_20260916T165029+0800",
+      "调用前记录时间": "2026-09-16T16:50:29+08:00",
+      "完成观察时间": "2026-09-16T16:50:43+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed3' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed3/独立原能源_训练末_20260916T165029+0800' --seed 3 --state final --device cuda",
+      "实际工具输出": "{\"运行种子\": 3, \"审核状态\": \"final\", \"绝对平衡宏均值_瓦\": 699.6731781640127, \"绝对平衡95分位_瓦\": 1565.1045750726278, \"吸收功率归一宏均值\": 3.2280981529980712, \"吸收功率归一95分位\": 7.7614412744344765}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "37d2256629489f63a17689c359867a725040a7732443ba37b3c51ed44e515667",
+        "物理分解.csv": "a08cefe4b4d95cd5986dabca8a483b1a2e4a2626b512b4128833f0462f546ee6",
+        "原始能量.jsonl": "ffda6da0094f8b57f75248dff30d5f8c9a68be0b119fb3bb3a74c9fc2eb1312c",
+        "原始散度.jsonl": "a7fc3792ccd5cc63f37a0d4072fdbc36f1cc78363a7afffb5f90446707ebb411",
+        "汇总指标.json": "c2084d0eba9442e8bd1d8e1ca1b0bed13954248373e6cee2f7b659f5c9d9db4e",
+        "审计工件SHA256.json": "56ce6cb87eb9b1c204bc9bf2cfc5346fa0b5f058ca71fd2b66bd2e2456ed1a69"
+      },
+      "选中模型SHA256": "61ec3fb5d6543fb38cc92768e09cd9a87337044eb76169b3b2b879ec805e1ae5",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 4,
+      "原状态标识": "best",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed4/独立原能源_观测最佳_20260916T165043+0800",
+      "调用前记录时间": "2026-09-16T16:50:43+08:00",
+      "完成观察时间": "2026-09-16T16:50:57+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed4' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed4/独立原能源_观测最佳_20260916T165043+0800' --seed 4 --state best --device cuda",
+      "实际工具输出": "{\"运行种子\": 4, \"审核状态\": \"best\", \"绝对平衡宏均值_瓦\": 1170.8041577803872, \"绝对平衡95分位_瓦\": 2585.930896722448, \"吸收功率归一宏均值\": 5.064711189986616, \"吸收功率归一95分位\": 11.679488898488644}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "72e108eddafdeeafd3ce86a415113d847b04aa0d2211f2888121b927ae77ba52",
+        "物理分解.csv": "c15cea4951fbe0553d1cc3e7c50b224a405b4c7a88ad02fc6d2f017f511c59dd",
+        "原始能量.jsonl": "34903e9829b8d62cf01263c0abc60ab328d46dcbb3717c76bc4be10174fefd59",
+        "原始散度.jsonl": "cd7c9accc8273c12b96655d1586e5841ad41fc51b8e3311b60d324b087bde632",
+        "汇总指标.json": "3916be060b36d016dcecafd69616401cb01578a4b2c72c27946fb1d1e956000a",
+        "审计工件SHA256.json": "aeb57a449969eaf5e3fb64f99ea0e49da46cba30fbea85f41395675723f62dd2"
+      },
+      "选中模型SHA256": "dab55f42b7a3d463e8aa10ad957980c5efe7c0c1a88fdd69abbab0f5868b13ff",
+      "只读全部训练原件前后SHA一致": true
+    },
+    {
+      "种子": 4,
+      "原状态标识": "final",
+      "原输出目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed4/独立原能源_训练末_20260916T165057+0800",
+      "调用前记录时间": "2026-09-16T16:50:57+08:00",
+      "完成观察时间": "2026-09-16T16:51:12+08:00",
+      "实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/MLP独立能源执行环境_20260916T164008+0800/应用缓存' /home/phl/anaconda3/envs/PINN/bin/python -B scripts/52_audit_task11_mlp_hf_energy.py --registry '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合事前登记_20260916T154637+0800.yaml' --registry-sha '3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7' --source-tar '研究记录/任务11_外部对照/任11_新MLP五种子HF校正全LF联合67源事前冻结_20260916T154637+0800.tar.gz' --source-tar-sha 'e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952' --lf-catalog '研究记录/任务11_外部对照/任11_新MLP五LF完训身份清单_20260916T153147.json' --lf-catalog-sha '37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956' --hf-data-catalog '研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json' --hf-data-catalog-sha '7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18' --run '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed4' --output '研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_HF_seed4/独立原能源_训练末_20260916T165057+0800' --seed 4 --state final --device cuda",
+      "实际工具输出": "{\"运行种子\": 4, \"审核状态\": \"final\", \"绝对平衡宏均值_瓦\": 1276.8274715716034, \"绝对平衡95分位_瓦\": 3416.040001762347, \"吸收功率归一宏均值\": 4.7462300258634516, \"吸收功率归一95分位\": 10.784136681410384}\n",
+      "退出码": 0,
+      "六工件独立SHA256": {
+        "指标明细.csv": "149a51284631bc89519b06af300e59df977dce83785ce43425dca3358cb6a95d",
+        "物理分解.csv": "52079e5b8876c907d56c9c96ea7310660e1a5a272f56918081c94674a450542c",
+        "原始能量.jsonl": "dc78f60041f91e28a819597aef0837e07754550de828b6f9fe5c20b5c10b14fb",
+        "原始散度.jsonl": "bb0cd73dfd8465359cc2b1656ed77ffc5e8606ce9d13b7eefb4a980bab32fc49",
+        "汇总指标.json": "a0ac9166cf2b56c02c68e3c63d81524e402c9db176531ed964a5a58847b43e7b",
+        "审计工件SHA256.json": "a9503fc9e42f56b8a1eebc2714be2b12df22bbd5254fc78d85756fd1f711d153"
+      },
+      "选中模型SHA256": "8a138e13edae811af12760ebfa71017cfca2070b4aded58ab00e8af0c9304d85",
+      "只读全部训练原件前后SHA一致": true
+    }
+  ],
+  "入口前调度失败": {
+    "次数": 2,
+    "实际错误": "failed to serialize JavaScript value: expected value at line 1 column 1",
+    "进程与工件核查": "未得到该两次调度的会话句柄；当时ps未见该Python驱动，GPU计算进程0、能源目录0。随后同冻结CLI52直接逐一执行，十个实际成功目录独立编号，不伪造失败审核结果。",
+    "冻结源码或预算修改": false
+  },
+  "报告限制": {
+    "工程安全主张": false,
+    "原RZ内部真实HF精度主张": false,
+    "能源回调重新训练或选模": false,
+    "旧固定TEST温度读取": false,
+    "仿真TEST温度读取": false,
+    "Howard正式训练模型数": 0,
+    "总goal完成主张": false
+  }
+}

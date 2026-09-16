@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from sic_cu.compat import strict_zip
+
 
 SCENARIOS = ("low", "mid", "high")
 
@@ -15,7 +17,7 @@ def summarize(paths: list[Path], insensitivity_threshold_c: float) -> dict[str, 
         raise ValueError("Exactly low, mid, and high sensitivity runs are required")
     records = []
     seeds = set()
-    for scenario, path in zip(SCENARIOS, paths, strict=True):
+    for scenario, path in strict_zip(SCENARIOS, paths):
         metrics = json.loads((path / "metrics.json").read_text(encoding="utf-8"))
         config = metrics["configuration"]
         if config.get("test_evaluation_enabled") is not False:

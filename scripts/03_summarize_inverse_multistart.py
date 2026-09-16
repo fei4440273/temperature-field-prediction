@@ -7,6 +7,8 @@ import math
 from pathlib import Path
 from typing import Any
 
+from sic_cu.compat import strict_zip
+
 
 def _load_run(path: Path) -> dict[str, Any]:
     metrics = json.loads((path / "metrics.json").read_text(encoding="utf-8"))
@@ -32,7 +34,7 @@ def summarize(paths: list[Path]) -> dict[str, Any]:
         raise ValueError("Multi-start diagnostic must use one common random seed")
 
     records = []
-    for label, path, run in zip(("low", "mid", "high"), paths, runs, strict=True):
+    for label, path, run in strict_zip(("low", "mid", "high"), paths, runs):
         config = run["configuration"]
         final = run["identified_physics_parameters"]
         initial_rc = float(config["contact_resistance_initial_m2_k_w"])

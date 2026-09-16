@@ -1,0 +1,124 @@
+{
+  "method": "mlp_pinn_additive",
+  "seed": 3,
+  "status": "completed_current_protocol_hf",
+  "configuration": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "method": "mlp_pinn_additive",
+    "correction_epochs": 1500,
+    "joint_epochs": 500,
+    "hf_train_powers": 12,
+    "hf_validation_powers": 3,
+    "hf_ir_train_points": 29593,
+    "hf_ir_validation_points": 7272,
+    "hf_sensor_train_points": 2985,
+    "hf_sensor_validation_points": 752,
+    "hf_batch_size": 2048,
+    "hf_batches_per_epoch": 15,
+    "sensor_repetitions_per_epoch": 15,
+    "physics_collocation": 256,
+    "physics_steps_per_epoch": 1,
+    "joint_lf_train_powers": 60,
+    "joint_lf_samples_per_power": 2048,
+    "joint_lf_batches_per_epoch": 60,
+    "joint_lf_update": "all_mlp_parameters",
+    "correction_lf_frozen": true,
+    "correction_learning_rate": 0.001,
+    "joint_learning_rate": 0.0001,
+    "weight_decay": 1e-06,
+    "patience": 200,
+    "min_delta": 0.0001,
+    "validation_interval": 10,
+    "selection_metric": "macro_v1",
+    "selection_weights": {
+      "ir_rmse": 1.0,
+      "sensor_absolute_rmse": 0.2,
+      "sensor_delta_rmse": 1.0
+    },
+    "loss_weights": {
+      "low_fidelity": 1.0,
+      "ir": 1.0,
+      "sensor_absolute": 5.0,
+      "sensor_delta": 1.0,
+      "pde": 1.0,
+      "boundary": 1.0,
+      "initial": 1.0,
+      "interface": 1.0
+    },
+    "lf_model_kwargs": {
+      "width": 128,
+      "depth": 5,
+      "activation": "tanh",
+      "include_material": true
+    },
+    "correction_model_kwargs": {
+      "width": 128,
+      "depth": 4,
+      "activation": "tanh",
+      "include_material": true,
+      "hard_initial_temperature_k": 295.15,
+      "initial_ramp_time_s": 0.05,
+      "correction_calibration_range_w": [
+        55.0,
+        800.0
+      ],
+      "correction_support_range_w": [
+        0.0,
+        800.0
+      ],
+      "correction_extrapolation_exponent": 2.0,
+      "correction_power_scaling": "none",
+      "correction_power_reference_w": 400.0,
+      "correction_direct_power_input": true,
+      "silicon_carbide_height_m": 0.012,
+      "surface_guide_output": "residual"
+    },
+    "scales": {
+      "r_max_m": 0.05834,
+      "z_min_m": -0.0175,
+      "time_max_s": 200.0,
+      "power_max_w": 800.0,
+      "temperature_offset_k": 295.15,
+      "temperature_scale_k": 250.0
+    },
+    "session_epoch_limit": 200,
+    "device": "cuda",
+    "world_size": 1
+  },
+  "source_identity": {
+    "YAML_SHA256": "3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7",
+    "TAR_SHA256": "e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952",
+    "LF_CATALOG_SHA256": "37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956",
+    "HF_DATA_CATALOG_SHA256": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18",
+    "seed": 3,
+    "LF最佳检查点SHA256": "7f9cecaf37acd2224bb4cd65426cd495b9e2ee9c24e5bd71f686e46a6a853614",
+    "LF初始张量SHA256": "bc1d7e6e32e6cc22f69534db2ff435ca5be6082b75a44c25d781bfea7705c233"
+  },
+  "correction_epochs_completed": 710,
+  "joint_epochs_completed": 300,
+  "best_epoch": 810,
+  "best_validation_selection_score_c": 2.2200481847096722,
+  "training_seconds": 415.11768555201706,
+  "training_seconds_contract": "本人所有真实HF会话之和；LF成本另列",
+  "lf_training_seconds": 30.059991451038513,
+  "stopping_reason": "joint_validation_patience",
+  "consumption": {
+    "HF观测点": 29888930,
+    "HF传感器点": 45222750,
+    "HF观测优化步": 15150,
+    "物理优化步": 1010,
+    "物理配点": 258560,
+    "LF回放点": 36864000,
+    "LF回放小批": 18000
+  },
+  "test": null,
+  "旧固定TEST温度读取": false,
+  "模拟测试功率温度读取": false,
+  "energy_used_for_selection": false
+}

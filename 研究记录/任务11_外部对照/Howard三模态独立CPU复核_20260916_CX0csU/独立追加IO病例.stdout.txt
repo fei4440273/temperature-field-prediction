@@ -1,0 +1,1018 @@
+============================= test session starts ==============================
+platform linux -- Python 3.9.18, pytest-8.3.5, pluggy-1.6.0
+rootdir: /home/phl/lyf/Temperature Field Prediction
+configfile: pyproject.toml
+collected 29 items
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py E [  3%]
+E...EEEEEEEEEEEEEEEE........                                             [100%]INDEPENDENT_CPU_SAFETY {"cuda_initialization_attempts": 0, "cuda_initialized": false, "outside_data_io_denied": 0, "pytest_exitstatus": 1, "synthetic_parquet_reads": 0, "synthetic_torch_loads": 12}
+
+
+==================================== ERRORS ====================================
+_ ERROR at setup of test_independent_full_float32_radial_ulp_and_time_boundaries _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_csv_inverse_variance_parquet_raw_weights_and_window_statistics _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_____ ERROR at setup of test_true_writer_all182_pins_full_io_and_manifest ______
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_complete_original_and_additional_pins_reject_before_output[source] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_complete_original_and_additional_pins_reject_before_output[model] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_complete_original_and_additional_pins_reject_before_output[parent] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_complete_original_and_additional_pins_reject_before_output[root] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_complete_original_and_additional_pins_reject_before_output[extra_hf] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_complete_original_and_additional_pins_reject_before_output[extra_lf] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_complete_original_and_additional_pins_reject_before_output[data] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-source] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-model] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-extra_lf] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-data] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-source] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-model] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-extra_lf] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+_ ERROR at setup of test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-data] _
+
+tmp_path_factory = TempPathFactory(_given_basetemp=PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_...rediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO'), _retention_count=3, _retention_policy='all')
+
+    @pytest.fixture(scope="module")
+    def io_frames(tmp_path_factory):
+        root = tmp_path_factory.mktemp("纯合成原始CSV与Parquet")
+        raw = root / "原始合成CSV"
+        raw.mkdir()
+        top_frames, raw_rings = [], []
+        checked_variance = []
+        for power, count, ring_count in ((115.2, 19, 100), (403., 24, 126), (630.5, 29, 150)):
+            times = np.linspace(35, 200, count, dtype=np.float32)
+            times[np.argmin(abs(times - 100))] = np.float32(100)
+            for index, time in enumerate(times):
+                radii_mm = np.arange(101, dtype=np.float64) * .25
+                spread = .11 + (np.arange(101) % 11) * (.02 + .006 * index) + .002 * index * (np.arange(101) % 5)
+                center = 40 + float(time) * .05 + radii_mm * .1
+                path = raw / f"{power}W-{float(time):.17g}s.csv"
+                pl.DataFrame({"r_mm": np.repeat(radii_mm, 2),
+                    "temperature_c": np.column_stack((center - spread, center + spread)).reshape(-1)}).write_csv(path)
+                native = radial_observations(path)
+                expected_raw = np.clip(1 / (spread ** 2 + .01), .1, 10).astype(np.float32)
+                np.testing.assert_allclose(native["reliability_weight_raw"].to_numpy(), expected_raw, rtol=1e-6, atol=1e-7)
+                expected = (native["reliability_weight_raw"].to_numpy() / np.sum(
+                    native["reliability_weight_raw"].to_numpy(), dtype=np.float32)).astype(np.float32)
+>               np.testing.assert_allclose(native["frame_weight"].to_numpy(), expected, rtol=2e-7, atol=1e-9)
+
+研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (<function assert_allclose.<locals>.compare at 0x754d742b90d0>, array([0.02196535, 0.02196535, 0.0188907 , 0.0110737 ,...271, 0.00422576,
+       0.00424908, 0.00321884, 0.00252132, 0.00202764, 0.02196535,
+       0.02196535], dtype=float32))
+kwds = {'equal_nan': True, 'err_msg': '', 'header': 'Not equal to tolerance rtol=2e-07, atol=1e-09', 'strict': False, ...}
+
+    @wraps(func)
+    def inner(*args, **kwds):
+        with self._recreate_cm():
+>           return func(*args, **kwds)
+E           AssertionError: 
+E           Not equal to tolerance rtol=2e-07, atol=1e-09
+E           
+E           Mismatched elements: 22 / 101 (21.8%)
+E           Max absolute difference among violations: 5.5879354e-09
+E           Max relative difference among violations: 2.543978e-07
+E            ACTUAL: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+E            DESIRED: array([0.021965, 0.021965, 0.018891, 0.011074, 0.007231, 0.007283,
+E                  0.005109, 0.003777, 0.002904, 0.002301, 0.00231 , 0.021965,
+E                  0.021965, 0.016754, 0.010079, 0.010164, 0.006741, 0.004787,...
+
+../../anaconda3/envs/PINN/lib/python3.9/contextlib.py:79: AssertionError
+==================================== PASSES ====================================
+_______ test_true_ten_pt_catalog_and_strict_factory_precedes_cpu_device ________
+----------------------------- Captured stdout call -----------------------------
+TEN_SYNTHETIC_PT_REAL_LOADS_STRICT_THEN_CPU_MOVE 10
+=========================== short test summary info ============================
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_ten_pt_catalog_and_strict_factory_precedes_cpu_device
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_invalid_saved_dtype_rejected_without_device_repair[query32]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_invalid_saved_dtype_rejected_without_device_repair[parameter64]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_ordinary_source90_tar_boundary[hardlink]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_ordinary_source90_tar_boundary[directory]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_ordinary_source90_tar_boundary[missing]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_model_catalog_ten_views_cannot_alias[cross_seed]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_model_catalog_ten_views_cannot_alias[lf_path]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_model_catalog_ten_views_cannot_alias[bool_seed]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_model_catalog_ten_views_cannot_alias[duplicate_view]
+PASSED 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_root_active_pin_append_inside_own_short_window_rejected
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_independent_full_float32_radial_ulp_and_time_boundaries
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_csv_inverse_variance_parquet_raw_weights_and_window_statistics
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_all182_pins_full_io_and_manifest
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_complete_original_and_additional_pins_reject_before_output[source]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_complete_original_and_additional_pins_reject_before_output[model]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_complete_original_and_additional_pins_reject_before_output[parent]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_complete_original_and_additional_pins_reject_before_output[root]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_complete_original_and_additional_pins_reject_before_output[extra_hf]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_complete_original_and_additional_pins_reject_before_output[extra_lf]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_complete_original_and_additional_pins_reject_before_output[data]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-source]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-model]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-extra_lf]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[csv_after_actual_rows-data]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-source]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-model]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-extra_lf]
+ERROR 研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/test_independent_obs_review.py::test_true_writer_csv_and_manifest_hash_byte_drift_retained[manifest_during_actual_hash-data]
+======================== 11 passed, 18 errors in 3.33s =========================

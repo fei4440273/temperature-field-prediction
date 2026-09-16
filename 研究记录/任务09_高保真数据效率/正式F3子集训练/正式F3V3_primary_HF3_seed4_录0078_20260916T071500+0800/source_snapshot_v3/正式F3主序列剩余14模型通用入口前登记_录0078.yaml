@@ -1,0 +1,179 @@
+ROOT主台账预留条目: 录0078
+ROOT录0078前GPU禁止: true
+fresh空AdamW与独立四RNG: true
+primary三档HF功率:
+  3:
+  - 55.0
+  - 364.3
+  - 729.0
+  6:
+  - 55.0
+  - 216.8
+  - 364.3
+  - 494.2
+  - 593.5
+  - 729.0
+  9:
+  - 55.0
+  - 216.8
+  - 254.5
+  - 364.3
+  - 430.0
+  - 494.2
+  - 558.5
+  - 593.5
+  - 729.0
+primary三档真实每轮来源预算:
+  3:
+    Cold真行: 340
+    Hot真行: 340
+    IR真实2048批: 4
+    IR真行: 6868
+    LF60公平分组:
+    - 15
+    - 15
+    - 15
+    - 15
+  6:
+    Cold真行: 765
+    Hot真行: 765
+    IR真实2048批: 8
+    IR真行: 15150
+    LF60公平分组:
+    - 8
+    - 8
+    - 8
+    - 8
+    - 7
+    - 7
+    - 7
+    - 7
+  9:
+    Cold真行: 1142
+    Hot真行: 1142
+    IR真实2048批: 12
+    IR真行: 22624
+    LF60公平分组:
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+    - 5
+schema_version: 1
+v2修订登记SHA256: a88ff62c1b24ac288214f20d6d50c642985f9375cd75562b07cfa394e9cf23dc
+v2已确认AdamW语义复用: true
+不足200只许阶段精确短剩余: true
+五seed曲线或能源结论: false
+任务: 任09主序列剩余14模型通用正式v3入口
+会话收据链要求: 每段排他新收据绑定起止轮次、recent、日志、两份阶段报告及前收据SHA
+冻结依赖SHA256:
+  35_run_task09_subset_formal.py: e7768f7414e5908483a37249406bbc8a98f31aee69b0b1e783e8464eeb9b8132
+  38_audit_task09_energy.py: 9c77cdee4e1ed894180b3f2b881e326da802305a91ad609b940668044b61d213
+  42_run_task09_subset_formal_v2.py: d8a41eb65a2d4ecb3f92b430606f128edf13d829dae845fae59bf5504df0a3f2
+  task09_energy.py: a9d3f2759794986f1135c1b2e251499e1d187bddb05f9b2944fd850bd24faaad
+  task09_subset_formal.py: 3e304eb4b2fd6c351375b7e4176ae344057b809c9c8394d62bc5c110cd0cf375
+  task09_subset_formal_v2.py: 5173ab1df25340a5d583d455f321a81409097b4c9620541763683be3e663566d
+剩余14模型数学上限轮次非承诺: 28000
+剩余正式身份:
+- HF功率数: 3
+  seed: 1
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed1_录0078_20260916T071500+0800
+- HF功率数: 3
+  seed: 2
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed2_录0078_20260916T071500+0800
+- HF功率数: 3
+  seed: 3
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed3_录0078_20260916T071500+0800
+- HF功率数: 3
+  seed: 4
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed4_录0078_20260916T071500+0800
+- HF功率数: 6
+  seed: 0
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed0_录0078_20260916T071500+0800
+- HF功率数: 6
+  seed: 1
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed1_录0078_20260916T071500+0800
+- HF功率数: 6
+  seed: 2
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed2_录0078_20260916T071500+0800
+- HF功率数: 6
+  seed: 3
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed3_录0078_20260916T071500+0800
+- HF功率数: 6
+  seed: 4
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed4_录0078_20260916T071500+0800
+- HF功率数: 9
+  seed: 0
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed0_录0078_20260916T071500+0800
+- HF功率数: 9
+  seed: 1
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed1_录0078_20260916T071500+0800
+- HF功率数: 9
+  seed: 2
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed2_录0078_20260916T071500+0800
+- HF功率数: 9
+  seed: 3
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed3_录0078_20260916T071500+0800
+- HF功率数: 9
+  seed: 4
+  序列: primary
+  项目内唯一固定canonical目录: 研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF9_seed4_录0078_20260916T071500+0800
+剩余正式身份数: 14
+单次正式会话硬上限轮次: 200
+原录0059四十七源tar_SHA256: 0091e55a2f57077f70c1008344aff9d15c73d2e78b0070327b93f8bb172698ef
+原录0059正式登记SHA256: 987ba4bfd9a5b964bff88fa3314413738fa5417b5445e71cf650acbaee7d85e9
+合法HF验证三功率完整不缩:
+- 115.2
+- 403.0
+- 630.5
+同canonical跨进程排他: 身份固定普通lock文件自预检前至收据提交后持有LOCK_EX_NONBLOCK
+同seed原LF完整权重: true
+失败孤儿目录处理: 原样保留且固定路径不复用；只能另行事前登记恢复或废弃
+排除已完成身份: primary/HF3/seed0
+新v3源码SHA256:
+  CLI_v3: eb3ec260e1d03497ae2d93f481da7bc22f0ff49f115a9308726c4bd437d14a54
+  energy_CLI_v3: 76fe717f55e54856b8e494db7efb7e3eb7273aa006266e8a077b743608d92666
+  registration_generator_v3: 7398c9f2f34f2066667b40e1a231eca4db932b5921b38f42522d6077e4762762
+  tests_v3: 7528a1fb86556e76549bb61424653346efe6da9614d86642694d2483f560d158
+  trainer_v3: be6b6ccfe22e983f6147fa41c0f25ca9db872601558d50c78e6d85137e4e45f4
+新六输入HF校正器: true
+旧v1或五个pilot产物资格: false
+旧固定TEST温度读取: false
+本登记已激活GPU: false
+本登记已训练模型数: 0
+校正_联合上限轮次:
+- 1500
+- 500
+校正早停恰逢会话边界: 逐张量核recent与terminal后仅原子补交terminal SHA，不增加轮次
+正式入口实际读取录0078同行YAML_tar双SHA: true
+每轮独立物理配点_优化步:
+- 256
+- 1
+联合每个LF2048小批损失系数: 0.25
+联合每轮LF真实回放batch_每批点:
+- 60
+- 2048
+能源与最终资格入口: 必须先核V3 manifest、完整会话收据链和训练末态
+输出目录不得覆盖: true
+阶段事务要求: 活动日志必须恰等最近完整checkpoint；未提交尾行禁止自动裁剪
+首次正式会话最低请求轮次: 200

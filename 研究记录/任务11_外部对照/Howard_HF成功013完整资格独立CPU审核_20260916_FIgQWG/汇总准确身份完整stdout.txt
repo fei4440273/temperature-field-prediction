@@ -1,0 +1,1 @@
+{"完成seed": [0, 1, 3], "原完整资格actualexit": 0, "纯收尾actualexit": 0, "PT真实读入": {"LF01234前提": 624, "HF013": 208}, "Parquet实际collect": {"HF开发结构": 12, "LF训练验证仅行数": 4200}, "SOURCE82及四父三HF五LF当前零漂移": true, "原q浮点5.0保真": true, "CUDA_is_initialized": false, "五HFmean": null, "五HFstd": null}

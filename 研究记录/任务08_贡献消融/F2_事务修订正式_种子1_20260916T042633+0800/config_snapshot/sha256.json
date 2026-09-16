@@ -1,0 +1,11 @@
+{
+  "configs/geometry.yaml": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+  "configs/materials.yaml": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+  "configs/boundary_conditions.yaml": "fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f",
+  "configs/data_metadata.yaml": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+  "configs/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+  "configs/training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+  "configs/release_manifest.yaml": "0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288",
+  "temperature_field_prediction_multifidelity_plan_v2.md": "50e04cf1db035ef91191d9f9eed2d42d7759768c5416556edb0c8958c7e51d6e",
+  "\u591a\u4fdd\u771fDeepONet\u9884\u6d4b\u7cbe\u5ea6\u4f18\u5316\u603b\u8ba1\u5212\u4e0e\u6267\u884c\u53f0\u8d26.md": "7a0bcdee22891e43b1a8bec47f44803f384acd45a490b11b4409144011aad1be"
+}

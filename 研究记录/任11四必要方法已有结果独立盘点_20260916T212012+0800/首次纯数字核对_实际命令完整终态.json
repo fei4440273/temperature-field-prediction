@@ -1,0 +1,21 @@
+{
+  "开始时间": "2026-09-16T21:24:16.932606+08:00",
+  "结束时间": "2026-09-16T21:24:17.190030+08:00",
+  "PID": 1900976,
+  "实际cwd": "/home/phl/lyf/Temperature Field Prediction",
+  "实际argv": [
+    "/home/phl/anaconda3/envs/PINN/bin/python",
+    "-B",
+    "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/只读已有四方法结果核对.py",
+    "--模式",
+    "核对",
+    "--前缀",
+    "首次纯数字核对"
+  ],
+  "实际子退出码": 1,
+  "完整stdout": "",
+  "完整stderr": "Traceback (most recent call last):\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/只读已有四方法结果核对.py\", line 521, in <module>\n    raise SystemExit(main())\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/只读已有四方法结果核对.py\", line 502, in main\n    return check_all(output)\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/只读已有四方法结果核对.py\", line 320, in check_all\n    aggregate['五种子累计总量']['LF加HF训练成本_秒'])\nKeyError: 'LF加HF训练成本_秒'\n",
+  "仅盘点脚本墙钟秒_不是训练或推断成本": 0.25744994898559526,
+  "盘点脚本SHA256": "b4df05d9973d38a3b269e97c021465aa641019e69267db92223fae37e295d32c",
+  "机器证据实际存在": false
+}

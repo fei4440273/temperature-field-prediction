@@ -1,0 +1,211 @@
+ # 任08 F2正式五seed事前登记。旧F3热冷环和LF70历史逐文件SHA未留存，仅限同路径与本轮逐字锁定。
+ schema_version: 1
+ 事前台账记录编号: 录-0047
+ 运行臂: F2_仅移除HF体内PDE软损失
+ 种子:
+ - 0
+ - 1
+ - 2
+ - 3
+ - 4
+ V4_B0来源清单SHA256: 423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de
+ 五种子配对来源:
+   0:
+     LF检查点SHA256: 5ab23ffd5b7c4b99ba90b81236ec0fba4a9b109a730288124c647030036e42f2
+     历史HF架构视图SHA256: 0764c7e78f45e3509f0f8a525965a8f9d77a789aed47ce10ea8d536673644f4b
+     LF初始张量SHA256: c01575e2b845c25097f14d5d2cddb0a0f2763d02c9d467af0d25cbc6790ef5f8
+     来源协议SHA256: 1c196255e8341b186df0599479d6bd24a54850209d223b1b3330297acab01252
+   1:
+     LF检查点SHA256: e187044bac9175052604f7d77a213954d45655b2237739a0bb8bbea67fcfdbfb
+     历史HF架构视图SHA256: cae7b3546d9c1358350d2866d87f773b10415290f62f88f38b007b79d7013906
+     LF初始张量SHA256: 10d465b0007a15bb1c773c6f08f00948f642ff43e032107c28f29736f6e5d2f6
+     来源协议SHA256: ca0322a5c2febf85bfb4764fb873e5661376a1f82185ad491f4b905860424463
+   2:
+     LF检查点SHA256: f3e6be959e185f7844fbceda220e12e91fbf0642b84aaf01990b8d3aca6ce252
+     历史HF架构视图SHA256: a7dfffdea6c50fda21efd8c822d0585743aa3df9ae7ea1d363c3d221105b6802
+     LF初始张量SHA256: 0efa2645dbfd0d268acefb926ba879e4c3fd081569bfe8abc5a282036a082514
+     来源协议SHA256: f8a53c4a6ca6ce72e38c0decb6a1cd63a8e3f63b19589889c51308a23901c127
+   3:
+     LF检查点SHA256: f5378dead4dc770dae3a3ebef781314e3d38445c6cbac54f097e06755e5ff68d
+     历史HF架构视图SHA256: 41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b
+     LF初始张量SHA256: 885002fc42c8a8b8321c519999faf1f3152b66e9d571508b2190e442e1ff7c2a
+     来源协议SHA256: 826d00d7393cc2d77e8de4caae858e768826ea04c11a6d3367d3a5d67a609b7c
+   4:
+     LF检查点SHA256: bd4c3be31f730eeaac538bbb3c9ce13e74c3ab39bc29fe1716698c527d53b34e
+     历史HF架构视图SHA256: d27d0deb910580c5ca346a0c718efb92acbc971bbe10705a0e5fc61b9383f0ca
+     LF初始张量SHA256: 6b19842e7678e1ddde0e0121b362941c06a206ac2f9fbb5834b029fbe9d15668
+     来源协议SHA256: 86013341f97dca86ad590dd4a02bdb5e524f6c115370988ff590965ef84265b1
+ 入口源码SHA256:
+   来源: 54dcbdab5c7ea624cd885baefc5390baf66489fb95020c4d52e1fbdd16ec2642
+   F2训练: f798ef01e19cf016753ac4313ce89ce5b716f1aa4d9f85bc41847f6ccf28efce
+   F2命令行: 5ef736d582faa60d72452181bf389fec2a0dd68af2490fbb25aa683065abbd52
+   F2状态和能源独立审核: fb3c3f6a3da776eeb7f2f73a66a2ed3468cdac0a0bc3d017b4619f9e24ecc816
+   F2训练TDD回归: bb8aeb40a74b30c401559727d7e0c9e6f003af9b4710171c16790cfd11b3325d
+   F2独立审核TDD回归: aad6986c4ab9b388376163f714e5cc39e9365d25d7986d6d9822300a4c25f137
+   共享物理默认True及F2 False: 43167eda808f97cf2ab49d2b6a4eef394e01cc1ea9c878772cc8d8fe966af7a6
+   F3冻结入口仅作血缘: 3b2160492cce7bf40c8e9c9953e3e5d99bff6ecb5e69923260e8171d3a52cc21
+   F2 CPU入场只作来源: 842e223282718902bcbdd23205770388d2fe6450724b50bb4029bd281c4e5ef1
+   F3工程能源原瓦数写出: 94286562a13d81de72c2ece4048c7db88db99b43ec35a3472715a5f51e443724
+   合法HF分窗核心: 986310e200279346447502a52032db9353ca6a1a0247c57c5938c9d19ac5e4b3
+   独立全项能源积分: 47cdc022572bf2467d8082d277cb2ffbeb47e1a5d9eb262af0cb2638f2d28b80
+ 共同配置SHA256:
+   configs/geometry.yaml: a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0
+   configs/materials.yaml: 2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e
+   configs/boundary_conditions.yaml: fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f
+   configs/data_metadata.yaml: eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d
+   configs/splits.yaml: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+   configs/training.yaml: 4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41
+   configs/release_manifest.yaml: 0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288
+ 冻结任07乙报告SHA256: dc85dff9711bf7071bcef13bfdd10e0258ef36810f83ce0dbba2571854e9921b
+ 固定HF展示分窗原V4配置SHA256: 59c1e7f569ba846effc5b3fd7f1776d55f4c2341b25f012809e60b4c6b913334
+ 独立双阶能源沿用事前配置SHA256:
+   任04: b464eddd752000694a513da0e4a1b4b0f7447e31b85d19726e243396a0864710
+   任06: 7a418d94493ddafd9c78e5070bca0739ab2de30aecdc22ef322ef69bc7e03b19
+ 训练与合法验证真实输入原件SHA256:
+   合法HF顶部IR原件字节SHA256: dd8ef7e112bce2bd73dd3fe3ad5889131964db4af1b57c882b43f5b816d4b82d
+   合法HF热冷环原件字节SHA256: c987bafd68a37d1ab30857a834783764bde1c10249e8c02147118c02b3162db4
+   处理manifest原件字节SHA256: 1ea58fded68b8950d89c9012d879a7b6197dbb2b12c3c3ccc44af474843d8a82
+   LF60训练真场parquet逐文件SHA256:
+     data/processed/simulation/10W.parquet: 979e648e5ae795eb08e15eefdf03b9638f00d733dea8726f69c84ae05ad380d9
+     data/processed/simulation/20W.parquet: 22c57f62267e45414eca14cde95faebe826c413590811aa1ac00a1c46f93f48a
+     data/processed/simulation/30W.parquet: 643ec94bdab2c91a0dbf3ce8867bd9f206e06621bc2385b1a4c02a1654b6a490
+     data/processed/simulation/40W.parquet: 284545b3d9a0735c93eb5bb18d69c48a917ed102b91824cdd3ddc7ad5a85722e
+     data/processed/simulation/60W.parquet: c20183c22f0814ae77d3489858b6527effaa54420b04eeb812ce2eba2d0ddf44
+     data/processed/simulation/70W.parquet: ddf621fda390aa4ae93b32b9aadd0f2555d0c595fa4b3654335814dc1aa71394
+     data/processed/simulation/80W.parquet: 3eab99aaeda9430607e2162661edc60af3d8bf14b8808684bb0060bb78d6f69c
+     data/processed/simulation/100W.parquet: 7e0e74631c26fce14e1f2d801c08080f5d28f65c57e727ace406304c4de57e4a
+     data/processed/simulation/110W.parquet: 48de96cfa9e716b39ce267e2f3274c183f6ee154c5ce4691deffd6555b52610e
+     data/processed/simulation/120W.parquet: 17d3b3042ae54378a31220115f5bf6897682c92a00aadaeb653850f5ed7f0480
+     data/processed/simulation/140W.parquet: f69fdeadd917af560adb16ec4740d0bc8595bb18ab344d1355088b8665647854
+     data/processed/simulation/150W.parquet: f0cf6427fda6a3bdaad01738637aeea2cb612cad3ec663de8d0ae19158deb95f
+     data/processed/simulation/160W.parquet: c4b322337b848ae1453592f00386e076874fe9b3a5b1714210a87b7873992bb2
+     data/processed/simulation/180W.parquet: c257fcafd5f49c0ea9fbca3ff41df87bcf63bb1a32a94b6e22e2b90e5a8ae5c4
+     data/processed/simulation/190W.parquet: 02bb2514eec039cdb92a87852eb729b2de69e875e99ccd9222762bcdd7a77498
+     data/processed/simulation/200W.parquet: f8cf020444d7ff82057ebd8cd5b50c22266429d02f98e10117e4ba4309957f24
+     data/processed/simulation/220W.parquet: f1abcec008a96a30c4a31588e63193c51f04667e15326522ff8a91685270c0d8
+     data/processed/simulation/230W.parquet: d8dafeab4dfc57f7a7be64eab982ef9d4148e7cb57cdcd6f3c6fbd0816441bdd
+     data/processed/simulation/240W.parquet: 248074a621f9cb4c48861be656f231e7d44615ee54931cf8922cc4f8e11b2257
+     data/processed/simulation/260W.parquet: 729bcdba9cc4d125df3ae46c4f1e2654310ba2da81bff85c846f5d20ae19bc87
+     data/processed/simulation/270W.parquet: ac23a2319e0f9391efa72e942dca7ec5f292b9766d07332a804ee0c6b7c7e8d6
+     data/processed/simulation/280W.parquet: 4475b90ef02d248ae9ea686f58edaf12107e1ae1b8b4d5858891c81807fa97c6
+     data/processed/simulation/300W.parquet: 8d2c446c27458d20fbce2d4d8f5a0c0d98700d384561be216aa90584ae5dbefa
+     data/processed/simulation/310W.parquet: cc6a2bc1d92c2853d06c2543173dd51b7bf5b7e8e432d14103e8581272f9b143
+     data/processed/simulation/320W.parquet: 239743f160531504143502ddd5e5819866ea1e47c6cbf44a16f380ba9f4ce1ab
+     data/processed/simulation/340W.parquet: 165f1bc393c33cdcb7106f0bed835c4045ee663a795d8d25b54efe8509da4698
+     data/processed/simulation/350W.parquet: 0f628abd2164fca55d2c88e2b68ee6a098bcd826aaf17dd8fbacffe82bda410c
+     data/processed/simulation/360W.parquet: 13c61b163c7419b9bd3fc9c566ada7f0ebd04388ba3349708f13ba893dd44a5d
+     data/processed/simulation/380W.parquet: bb5b58f791a284725424d382e42326a02a9c838cefd41ef8546c32f084caed5c
+     data/processed/simulation/390W.parquet: 9f5fee5fc521a40128f43b01a7a2a69e50c3e78e9108a40a8f3453be34975826
+     data/processed/simulation/400W.parquet: cb1703d7e270d29a5c2c5a85f7c340919a6d1395dbe762f3b885e4d91a08d803
+     data/processed/simulation/420W.parquet: e88c196b5289abba44e5baaf57685e8b09d48764576876da07ba4b36bada3889
+     data/processed/simulation/430W.parquet: c7ebb0cf9bdab2a4ff54d339a8336e108601dccfbad99b3e5ba071ef91fe016b
+     data/processed/simulation/440W.parquet: 908c8c32d8ebdf6d1f2b3b29a8e3706f9352e160c35e058f622dae84b990bbf0
+     data/processed/simulation/460W.parquet: ed364b3efc993ab5ec8433a1bf459c4ff890df03bbde0c13be08105e7f924eb4
+     data/processed/simulation/470W.parquet: 908caa1e64e18b930df9257542d5933fc5063a87cc32552dc131cc999d5d3e9d
+     data/processed/simulation/480W.parquet: 1b86930695ee5bc5c375be4280f6f72e2a6b0a845f8770fc29a58c0a6b22c7bb
+     data/processed/simulation/500W.parquet: 97160006d1efbbceb136ebce28065af391a854e7fe3f102b69992188ae802c18
+     data/processed/simulation/510W.parquet: dbf5211f9ce62d76626cb1a2768017356c14333201f1b85050b3597e36270521
+     data/processed/simulation/520W.parquet: 9ef08ebca14c9ca92cecaf799baf3fc47496500e381cd7dc54aff4ac55b0473b
+     data/processed/simulation/540W.parquet: b2319426208d52f99e89dc60faf1bffd9d2a134c17b890d4651308c7e4cf3f49
+     data/processed/simulation/550W.parquet: fa686085111815621eab77da4a37da730aae362a385cf8c9f0cffed89afa7efb
+     data/processed/simulation/560W.parquet: 0f798e7b45db9bb7f868831305edf1d95a0f2127bc46d0cdf4f476725678f5a1
+     data/processed/simulation/580W.parquet: 3758dae9d7ede6b29524d66ebfd14259cb146a753fbe89e2913f07c3b545325f
+     data/processed/simulation/590W.parquet: b4b578effd6af82d3580261401dcc8a836201723ab90741590d2becaf325f695
+     data/processed/simulation/600W.parquet: c7a36da48a3fcfdd994de9d4d82f21f8991ecc6045cdf632fbec7d738aa04c45
+     data/processed/simulation/620W.parquet: f5d42f1d473d018c3acc1318f84f56f048b381bd1caf14cd94e86bf0040cde33
+     data/processed/simulation/630W.parquet: c2d82ad569ce67a1c3fe4df189b03eeba3104ed29a79b8a7c67076a3ca4b18b7
+     data/processed/simulation/640W.parquet: e8fc9dd8929e6b48869f33d509f7f8cddfa5583199da072e47fc515f203b6f0b
+     data/processed/simulation/660W.parquet: 52b786f2f3ea0297594aa79321d2fee846ee09af9c2b7abc1ca5440bdfec7641
+     data/processed/simulation/670W.parquet: 7c167573bfea0ea50fe9769be1cb85797b803f06ffa1bac4b13d656e8b916879
+     data/processed/simulation/680W.parquet: f5593d6cec419ddcd113aea495a77b2db6c9743b433350696befdd821dabea36
+     data/processed/simulation/700W.parquet: 0d2ada52f0382a29b9baa2de58a3f0892ac5ba0ad7dfe23c5d23b5a8ef1fc04c
+     data/processed/simulation/710W.parquet: 45c721945b60567a946d5ab100a0cc459140c4a2a69919d5e4e2751cf4470a74
+     data/processed/simulation/720W.parquet: 2896afbf88601b58b791f7a2174c84b1ff3b22895129ea969acf3b6c3b680832
+     data/processed/simulation/740W.parquet: 904bbfe30f83d62780f0aae8eecd0a397c5bbad35a1543b258d5f410f4efb4b1
+     data/processed/simulation/750W.parquet: c205d5e6dd59fe9a96c90e3d94722d86a0b481390e7fc72663e0c4d7cefd3d19
+     data/processed/simulation/760W.parquet: 35df7167ab745be8a817beb4ed726c83172e6980843ff3ccefec9f90ad32b316
+     data/processed/simulation/780W.parquet: 5284b0200338b67fa94089d29fbe0c3c03708358294c4388a27a2b8b54b68525
+     data/processed/simulation/790W.parquet: fb6fac925e9ac380cd749ecdd982eb32bb4429122335a58e73fb2f0d7b5cafd5
+   LF10验证真场parquet逐文件SHA256:
+     data/processed/simulation/90W.parquet: 6fa7092b4b568d52f9b834300fd0d397b2ce4d8a87a0e2093aff703f2593af46
+     data/processed/simulation/170W.parquet: e08ef1021bc37eee3a3f5381cdb22844b6bf916f9ca75282af02a950ea496453
+     data/processed/simulation/250W.parquet: 2c22ad64b4bac7a54d86df07afda8855c1bc8bfd45050c0b27927bf040b6f404
+     data/processed/simulation/330W.parquet: a4c0a0fb194f6855d93cdd627cd4f57f7718796099c572ab43773201c6a947d3
+     data/processed/simulation/410W.parquet: a1f8b1ff08ca50d87d450d3600d3519d4756db8790c818fceb46dec42f5cc31a
+     data/processed/simulation/490W.parquet: 5635bcf3a157c87ff213d03e818b287ef35cfc8815d87841e7e2bd9609b4f804
+     data/processed/simulation/570W.parquet: 20989d3b2e643e004a36506583db66f7892e2275cac19a52943dd483c38fdab5
+     data/processed/simulation/650W.parquet: 5c88b673e869fb715e0d05d8eab9dcf3213d64a827ba505d39ebba3efaaf5d34
+     data/processed/simulation/730W.parquet: 40835958c32a1265594449a07696878941f806c72763f0bb4602077b41501733
+     data/processed/simulation/800W.parquet: a4ebaf9f190f769053d2863cbebfdc3839aff2a8fef652f054cf1e27247dbcb6
+ 任07原合法HF顶部IR与处理manifest来源登记SHA256: e5c4795952abb02662fe3172d5a32b5a8024926a32bd63db01447051d14e3c2d
+ F3旧HF热冷环与LF70逐文件历史SHA未留存_单PDE因果限界: true
+ 事前源码tar与成员SHA256:
+   路径: 研究记录/任务08_贡献消融/F2_正式五种子事前源码快照_20260916T031552+0800.tar.gz
+   源码tar实际字节SHA256: 6bdbc036a0c2bb01e95fc2cb56afc0d30a54885c6e8302b1b02676ffb4d4838d
+   源码tar成员逐文件SHA256:
+     configs/boundary_conditions.yaml: fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f
+     configs/data_metadata.yaml: eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d
+     configs/geometry.yaml: a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0
+     configs/materials.yaml: 2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e
+     configs/optimization_v4.yaml: 59c1e7f569ba846effc5b3fd7f1776d55f4c2341b25f012809e60b4c6b913334
+     configs/release_manifest.yaml: 0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288
+     configs/splits.yaml: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+     configs/training.yaml: 4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41
+     scripts/21_audit_task04_energy.py: 94286562a13d81de72c2ece4048c7db88db99b43ec35a3472715a5f51e443724
+     scripts/32_run_task08_f2_formal.py: 5ef736d582faa60d72452181bf389fec2a0dd68af2490fbb25aa683065abbd52
+     scripts/33_audit_task08_f2_states.py: fb3c3f6a3da776eeb7f2f73a66a2ed3468cdac0a0bc3d017b4619f9e24ecc816
+     src/sic_cu/eval/development_v4.py: 986310e200279346447502a52032db9353ca6a1a0247c57c5938c9d19ac5e4b3
+     src/sic_cu/eval/energy_v5.py: 47cdc022572bf2467d8082d277cb2ffbeb47e1a5d9eb262af0cb2638f2d28b80
+     src/sic_cu/losses/physics.py: 43167eda808f97cf2ab49d2b6a4eef394e01cc1ea9c878772cc8d8fe966af7a6
+     src/sic_cu/train/task07_formal.py: 3b2160492cce7bf40c8e9c9953e3e5d99bff6ecb5e69923260e8171d3a52cc21
+     src/sic_cu/train/task07_source.py: 54dcbdab5c7ea624cd885baefc5390baf66489fb95020c4d52e1fbdd16ec2642
+     src/sic_cu/train/task08_f2_formal.py: f798ef01e19cf016753ac4313ce89ce5b716f1aa4d9f85bc41847f6ccf28efce
+     src/sic_cu/train/task08_f2_no_pde.py: 842e223282718902bcbdd23205770388d2fe6450724b50bb4029bd281c4e5ef1
+     tests/test_task08_f2_formal.py: bb8aeb40a74b30c401559727d7e0c9e6f003af9b4710171c16790cfd11b3325d
+     tests/test_task08_f2_states_audit.py: aad6986c4ab9b388376163f714e5cc39e9365d25d7986d6d9822300a4c25f137
+     研究记录/任务04_联合微调/有效运行配置.yaml: b464eddd752000694a513da0e4a1b4b0f7447e31b85d19726e243396a0864710
+     研究记录/任务06_时间响应特征/HF三臂先导有效配置.yaml: 7a418d94493ddafd9c78e5070bca0739ab2de30aecdc22ef322ef69bc7e03b19
+     研究记录/任务07_正式五种子重训/修复版五种子合法验证稳定性与双轨能源验收.md: dc85dff9711bf7071bcef13bfdd10e0258ef36810f83ce0dbba2571854e9921b
+ 固定训练合同:
+   HF训练功率数: 12
+   HF合法验证功率数: 3
+   LF低保真回放功率数: 60
+   LF合法验证功率数: 10
+   HF观测每轮batch数: 15
+   HF观测batch大小: 2048
+   HF每轮真实观测点: 29593
+   每轮独立物理优化步: 1
+   每轮独立物理配点: 256
+   LF每训练功率回放点: 2048
+   真实传感器绝对权重: 5.0
+   真实传感器差分权重: 1.0
+   校正阶段上限: 1500
+   联合阶段上限: 500
+   HF校正学习率: 0.001
+   联合HF学习率: 0.0001
+   联合LF末投影学习率: 1.0e-05
+   受限联合仅LF四末投影:
+   - low_fidelity_model.branch_projection.bias
+   - low_fidelity_model.branch_projection.weight
+   - low_fidelity_model.trunk_projection.bias
+   - low_fidelity_model.trunk_projection.weight
+   选分: macro_v1
+   合法验证周期轮数: 10
+   早停耐心轮数: 200
+   早停改善阈值: 0.0001
+   LF两材料节点与体积四口径恶化百分比上限: 5.0
+   唯一训练软约束差异:
+     体内PDE权重: 0.0
+     体内PDE实际计算: false
+     初值权重: 1.0
+     边界权重: 1.0
+     界面权重: 1.0
+     训练PDE分项: null
+     独立全项物理审核PDE权重: 1.0
+     独立全项物理参与优化梯度: false
+     全局能源参与优化梯度: false
+   六能源固定功率五时刻两阶原瓦数独立审核: true
+   五种子合法观测模态行数: 45
+   五种子合法观测窗口行数: 135
+   旧test_Data温度标签读取: false
+   F3冻结资格: 乙；只能比较合法观测，不能声称原能源或内部物理可信

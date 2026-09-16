@@ -18,8 +18,10 @@ from torch.nn.parallel import DistributedDataParallel
 from torch.utils.data import TensorDataset
 
 from sic_cu.config import PROJECT_ROOT, load_yaml
+from sic_cu.data.common import sha256_file
 from sic_cu.data.balanced_sampler import (
     balanced_material_time_indices,
+    balanced_material_time_space_indices,
     material_sample_counts,
 )
 from sic_cu.data.fields import load_processed_field
@@ -43,7 +45,10 @@ from sic_cu.models.common import parameter_count
 from sic_cu.physics.collocation import sample_collocation
 from sic_cu.physics.materials import PhysicsConfigurationError, load_materials
 from sic_cu.physics.resolution import load_resolved_boundary_conditions
-from sic_cu.train.common import physics_optimizer_step, write_config_snapshot
+from sic_cu.train.common import (
+    CONFIG_FILES, load_training_state, physics_optimizer_step, resolve_device,
+    save_training_state, write_config_snapshot,
+)
 
 
 VALIDATION_SAMPLING_SEED = 10_000
@@ -140,13 +145,36 @@ def _simulation_forward(model: nn.Module, coordinates: Tensor) -> Tensor:
     )
 
 
+def validate_locked_lf_start(path: str | Path, *, seed: int) -> dict[str, Any]:
+    manifest = load_yaml("reports/development_v4/baseline_manifest.yaml")
+    entries = [item for item in manifest["checkpoints"] if item["seed"] == seed]
+    if len(entries) != 1:
+        raise ValueError("No uniquely locked B0 and LF checkpoint for this seed")
+    from sic_cu.train.multifidelity import validate_locked_b0_start
+
+    validate_locked_b0_start(
+        PROJECT_ROOT / entries[0]["hf_checkpoint"], path, seed=seed,
+    )
+    return torch.load(path, map_location="cpu", weights_only=False)
+
+
+def lf_physics_enabled(method: str, mode: str) -> bool:
+    if mode not in {"original", "none"}:
+        raise ValueError(f"Unknown LF physics mode: {mode}")
+    return method.endswith("_pinn") and mode == "original"
+
+
 def load_sampled_points(
     powers: list[float],
     samples_per_power: int,
     seed: int,
     *,
     balanced: bool = True,
+    sampling_mode: str | None = None,
 ) -> TensorDataset:
+    mode = sampling_mode or ("material_time" if balanced else "uniform")
+    if mode not in {"uniform", "material_time", "material_time_space"}:
+        raise ValueError(f"Unknown LF simulation sampling mode: {mode}")
     rng = np.random.default_rng(seed)
     coordinates: list[np.ndarray] = []
     temperatures: list[np.ndarray] = []
@@ -164,16 +192,20 @@ def load_sampled_points(
             ],
         )
         sample_count = min(samples_per_power, frame.height)
-        indices = (
-            balanced_material_time_indices(
+        if mode == "material_time_space":
+            indices = balanced_material_time_space_indices(
+                frame["material_id"].to_numpy(), frame["time_s"].to_numpy(),
+                frame["r_m"].to_numpy(), frame["z_m"].to_numpy(), sample_count, rng,
+            )
+        elif mode == "material_time":
+            indices = balanced_material_time_indices(
                 frame["material_id"].to_numpy(),
                 frame["time_s"].to_numpy(),
                 sample_count,
                 rng,
             )
-            if balanced
-            else rng.choice(frame.height, size=sample_count, replace=False)
-        )
+        else:
+            indices = rng.choice(frame.height, size=sample_count, replace=False)
         sampled = frame[indices]
         coordinates.append(
             sampled.select("r_m", "z_m", "time_s", "power_w", "material_id").to_numpy()
@@ -299,10 +331,27 @@ def train_simulation_model(
     model_kwargs: dict[str, Any] | None = None,
     physics_collocation: int = 256,
     physics_weight: float = 1.0,
+    initial_checkpoint: str | None = None,
+    sampling_mode: str = "material_time",
+    lf_physics_mode: str = "original",
+    resume_training_checkpoint: str | None = None,
+    session_epoch_limit: int | None = None,
 ) -> dict[str, Any] | None:
-    use_physics = method.endswith("_pinn")
+    if initial_checkpoint is not None and (method != "deeponet_pinn" or lf_physics_mode != "none"):
+        raise ValueError("Locked LF continuation keeps the DeepONet and disables nominal HF physics")
+    if (resume_training_checkpoint is not None or session_epoch_limit is not None) and initial_checkpoint is None:
+        raise ValueError("LF training resume or session limit requires a locked LF start")
+    if session_epoch_limit is not None and session_epoch_limit < 1:
+        raise ValueError("LF session epoch limit must be positive")
+    if sampling_mode not in {"material_time", "material_time_space"}:
+        raise ValueError("LF sampling must use original material/time or space-balanced strata")
+    use_physics = lf_physics_enabled(method, lf_physics_mode)
     physics_loss = _physics_ready() if use_physics else None
     rank, local_rank, world_size = distributed_context()
+    if initial_checkpoint is not None and world_size > 1:
+        if dist.is_initialized():
+            dist.destroy_process_group()
+        raise ValueError("Locked LF continuation currently requires one GPU for full random-state recovery")
     set_seed(seed)
     if not torch.cuda.is_available():
         device = torch.device("cpu")
@@ -312,9 +361,14 @@ def train_simulation_model(
         torch.cuda.reset_peak_memory_stats(device)
     splits = build_power_splits()
     fingerprints = current_protocol_fingerprints()
+    historical_lf = (
+        None if initial_checkpoint is None else validate_locked_lf_start(initial_checkpoint, seed=seed)
+    )
     train_powers = sorted(splits.simulation_train)
     validation_powers = sorted(splits.simulation_validation)
-    train_dataset = load_sampled_points(train_powers, samples_per_power, seed)
+    train_dataset = load_sampled_points(
+        train_powers, samples_per_power, seed, sampling_mode=sampling_mode,
+    )
     validation_dataset = load_sampled_points(
         validation_powers,
         validation_samples_per_power,
@@ -324,13 +378,22 @@ def train_simulation_model(
     validation_coordinates, validation_target = (
         tensor.to(device) for tensor in validation_dataset.tensors
     )
-    scales = ModelScales()
-    kwargs = dict(model_kwargs or {})
+    scales = (
+        ModelScales() if historical_lf is None else ModelScales(**historical_lf["scales"])
+    )
+    kwargs = dict(
+        model_kwargs or {}
+        if historical_lf is None else historical_lf["model_kwargs"]
+    )
+    if historical_lf is not None and model_kwargs is not None and model_kwargs != kwargs:
+        raise ValueError("Locked LF continuation cannot change pretrained DeepONet architecture")
     if method == "prc_lf":
         kwargs.pop("include_material", None)
     else:
         kwargs.setdefault("include_material", True)
     base_model = build_model(method, scales, **kwargs).to(device)
+    if historical_lf is not None:
+        base_model.load_state_dict(historical_lf["model_state"])
     model: nn.Module = (
         DistributedDataParallel(base_model, device_ids=[local_rank]) if world_size > 1 else base_model
     )
@@ -345,16 +408,81 @@ def train_simulation_model(
     output_root = PROJECT_ROOT / output_directory
     checkpoint_path = output_root / "best.pt"
     log_path = output_root / "training.jsonl"
+    if historical_lf is not None:
+        if resume_training_checkpoint is None and output_root.exists():
+            raise FileExistsError(f"Locked LF output already exists: {output_root}")
+        if resume_training_checkpoint is not None and not output_root.is_dir():
+            raise FileNotFoundError(f"Locked LF resume directory is missing: {output_root}")
+    source_hashes = {
+        name: sha256_file(PROJECT_ROOT / name) for name in (
+            "src/sic_cu/train/simulation.py",
+            "src/sic_cu/data/balanced_sampler.py",
+            "src/sic_cu/train/common.py",
+        )
+    } if historical_lf is not None else {}
+    origin_hash = None if historical_lf is None else sha256_file(initial_checkpoint)
+    total_train_exposure = 0
+    total_optimizer_steps = 0
     if rank == 0:
-        output_root.mkdir(parents=True, exist_ok=True)
-        log_path.write_text("", encoding="utf-8")
-        write_config_snapshot(output_root)
+        if resume_training_checkpoint is None:
+            output_root.mkdir(parents=True, exist_ok=True)
+            log_path.write_text("", encoding="utf-8")
+            write_config_snapshot(output_root)
+            if historical_lf is not None:
+                save_training_state(
+                    output_root / "阶段_初始.pt", base_model, optimizer,
+                    stage="low_fidelity", epoch=0, budget={"LF轮次": epochs},
+                    metadata={
+                        "起点LF哈希": origin_hash, "源码哈希": source_hashes,
+                        "采样方式": sampling_mode, "物理模式": lf_physics_mode,
+                        "LF最佳验证RMSE": None, "无改善轮次": 0,
+                        "累计训练点": 0, "累计优化步": 0,
+                    },
+                )
     if dist.is_initialized():
         dist.barrier()
     best_rmse = float("inf")
     epochs_without_improvement = 0
+    resume_epoch = 0
+    if resume_training_checkpoint is not None:
+        checkpoint_file = Path(resume_training_checkpoint)
+        if not checkpoint_file.is_absolute():
+            checkpoint_file = PROJECT_ROOT / checkpoint_file
+        if checkpoint_file.resolve().parent != output_root.resolve() or checkpoint_file.name not in (
+            "阶段_初始.pt", "阶段_最近.pt"
+        ):
+            raise ValueError("LF resume must use initial or latest state in its original run")
+        hashes = json.loads((output_root / "config_snapshot/sha256.json").read_text(encoding="utf-8"))
+        if any(sha256_file(PROJECT_ROOT / name) != hashes[name] for name in CONFIG_FILES):
+            raise ValueError("LF continuation configuration changed after the run started")
+        saved = load_training_state(checkpoint_file, base_model, optimizer)
+        if (
+            saved["stage"] != "low_fidelity" or saved["budget"] != {"LF轮次": epochs}
+            or saved["metadata"].get("起点LF哈希") != origin_hash
+            or saved["metadata"].get("源码哈希") != source_hashes
+            or saved["metadata"].get("采样方式") != sampling_mode
+            or saved["metadata"].get("物理模式") != lf_physics_mode
+        ):
+            raise ValueError("LF resume state differs from its fixed budget or checkpoint")
+        from sic_cu.train.multifidelity import reconcile_correction_resume_log
+
+        resume_epoch = int(saved["epoch"])
+        reconcile_correction_resume_log(
+            output_root, epoch=resume_epoch, state_file=checkpoint_file,
+        )
+        previous_best = saved["metadata"]["LF最佳验证RMSE"]
+        best_rmse = float("inf") if previous_best is None else float(previous_best)
+        epochs_without_improvement = int(saved["metadata"]["无改善轮次"])
+        total_train_exposure = int(saved["metadata"]["累计训练点"])
+        total_optimizer_steps = int(saved["metadata"]["累计优化步"])
+        if resume_epoch >= epochs:
+            raise ValueError("LF run has already reached its registered budget")
+    session_last_epoch = (
+        epochs if session_epoch_limit is None else min(epochs, resume_epoch + session_epoch_limit)
+    )
     start_time = time.perf_counter()
-    for epoch in range(1, epochs + 1):
+    early_stopped = False
+    for epoch in range(resume_epoch + 1, session_last_epoch + 1):
         model.train()
         train_sse = torch.zeros(2, dtype=torch.float64, device=device)
         indices = _rank_indices(
@@ -366,6 +494,7 @@ def train_simulation_model(
             seed=seed * 1_000_000 + epoch,
             equal_length=True,
         )
+        epoch_optimizer_steps = 0
         for offset in range(0, len(indices), batch_size):
             batch_indices = indices[offset : offset + batch_size]
             coordinates = train_coordinates.index_select(0, batch_indices)
@@ -375,6 +504,7 @@ def train_simulation_model(
             loss = ((prediction - target) / scales.temperature_scale_k).pow(2).mean()
             loss.backward()
             optimizer.step()
+            epoch_optimizer_steps += 1
             train_sse[0] += (prediction.detach().double() - target.double()).pow(2).sum()
             train_sse[1] += target.numel()
         physics_values: dict[str, float] = {}
@@ -391,6 +521,7 @@ def train_simulation_model(
                 collocation,
                 physics_weight,
             )
+            epoch_optimizer_steps += 1
             for name, value in components.items():
                 reduced = value.detach().double()
                 if dist.is_initialized():
@@ -441,12 +572,33 @@ def train_simulation_model(
                             "physics_loss_used": use_physics,
                             "internal_experiment_truth": "not available",
                         },
+                        **({"lf_lineage": {
+                            "locked_lf_start_sha256": origin_hash,
+                            "simulation_sampling_mode": sampling_mode,
+                            "lf_physics_mode": lf_physics_mode,
+                            "logical_budget_epochs": epochs,
+                            "source_hashes": source_hashes,
+                        }} if historical_lf is not None else {}),
                     },
                     checkpoint_path,
                 )
+                if historical_lf is not None:
+                    save_training_state(
+                        output_root / "阶段_LF观测最佳.pt", base_model, optimizer,
+                        stage="low_fidelity", epoch=epoch, budget={"LF轮次": epochs},
+                        metadata={
+                            "起点LF哈希": origin_hash, "源码哈希": source_hashes,
+                            "采样方式": sampling_mode, "物理模式": lf_physics_mode,
+                            "最佳LF验证RMSE": best_rmse,
+                            "累计训练点": total_train_exposure + len(indices),
+                            "累计优化步": total_optimizer_steps + epoch_optimizer_steps,
+                        },
+                    )
         else:
             epochs_without_improvement += 1
         if rank == 0:
+            total_train_exposure += len(indices)
+            total_optimizer_steps += epoch_optimizer_steps
             with log_path.open("a", encoding="utf-8") as handle:
                 handle.write(
                     json.dumps(
@@ -456,10 +608,32 @@ def train_simulation_model(
                             "validation_rmse_c": validation_rmse,
                             "validation_mae_c": validation_mae,
                             "learning_rate": optimizer.param_groups[0]["lr"],
+                            **({
+                                "LF采样方式": sampling_mode,
+                                "LF物理模式": lf_physics_mode,
+                                "训练样本暴露": len(indices),
+                                "观测优化步": epoch_optimizer_steps - int(use_physics),
+                                "物理优化步": int(use_physics),
+                                "累计训练点": total_train_exposure,
+                                "累计优化步": total_optimizer_steps,
+                            } if historical_lf is not None else {}),
                             **{f"loss_{name}": value for name, value in physics_values.items()},
                         }
                     )
                     + "\n"
+                )
+            if historical_lf is not None:
+                save_training_state(
+                    output_root / "阶段_最近.pt", base_model, optimizer,
+                    stage="low_fidelity", epoch=epoch, budget={"LF轮次": epochs},
+                    metadata={
+                        "起点LF哈希": origin_hash, "源码哈希": source_hashes,
+                        "采样方式": sampling_mode, "物理模式": lf_physics_mode,
+                        "LF最佳验证RMSE": best_rmse,
+                        "无改善轮次": epochs_without_improvement,
+                        "累计训练点": total_train_exposure,
+                        "累计优化步": total_optimizer_steps,
+                    },
                 )
         stop = torch.tensor(
             int(epochs_without_improvement >= patience), dtype=torch.int32, device=device
@@ -467,8 +641,31 @@ def train_simulation_model(
         if dist.is_initialized():
             dist.broadcast(stop, src=0)
         if bool(stop.item()):
+            early_stopped = True
             break
     elapsed = time.perf_counter() - start_time
+    if historical_lf is not None and rank == 0 and (
+        early_stopped or epoch == epochs
+    ):
+        save_training_state(
+            output_root / "阶段_LF训练末.pt", base_model, optimizer,
+            stage="low_fidelity", epoch=epoch, budget={"LF轮次": epochs},
+            metadata={
+                "实际结束轮次": epoch,
+                "终止原因": "验证耐心提前停止" if early_stopped else "预算轮次执行完毕",
+                "最佳LF验证RMSE": best_rmse,
+                "累计训练点": total_train_exposure,
+                "累计优化步": total_optimizer_steps,
+            },
+        )
+    if historical_lf is not None and epoch < epochs and not early_stopped:
+        paused = {
+            "status": "paused_with_complete_training_state",
+            "seed": seed, "last_epoch": epoch, "planned_epochs": epochs,
+            "last_checkpoint": str(output_root / "阶段_最近.pt"),
+            "training_seconds_this_session": elapsed,
+        }
+        return paused if rank == 0 else None
     elapsed_tensor = torch.tensor(elapsed, dtype=torch.float64, device=device)
     if dist.is_initialized():
         dist.all_reduce(elapsed_tensor, op=dist.ReduceOp.MAX)
@@ -482,8 +679,11 @@ def train_simulation_model(
             "seed": seed,
             "world_size": world_size,
             "epochs_completed": epoch,
+            "stopping_reason": "validation_patience" if early_stopped else "planned_budget_completed",
             "best_epoch": checkpoint["epoch"],
             "best_validation_rmse_c": checkpoint["validation_rmse_c"],
+            **({"best_checkpoint_sha256": sha256_file(checkpoint_path)}
+               if historical_lf is not None else {}),
             "training_seconds": float(elapsed_tensor.item()),
             "parameter_count": parameter_count(base_model),
             "peak_gpu_memory_bytes": torch.cuda.max_memory_allocated(device)
@@ -502,6 +702,12 @@ def train_simulation_model(
                 "physics_collocation_per_rank": physics_collocation if use_physics else 0,
                 "physics_weight": physics_weight if use_physics else 0.0,
                 "balanced_simulation_sampling": True,
+                **({
+                    "locked_lf_start_sha256": origin_hash,
+                    "simulation_sampling_mode": sampling_mode,
+                    "lf_physics_mode": lf_physics_mode,
+                    "historical_optimizer_restored": False,
+                } if historical_lf is not None else {}),
             },
             "data_consumption": {
                 "train_points": int(len(train_coordinates)),
@@ -512,6 +718,10 @@ def train_simulation_model(
                 "validation_material_points": material_sample_counts(
                     validation_coordinates.detach().cpu().numpy()
                 ),
+                **({
+                    "total_train_points_exposed": total_train_exposure,
+                    "total_optimizer_steps": total_optimizer_steps,
+                } if historical_lf is not None else {}),
             },
             "material_passport": {
                 "simulation_role": "low-fidelity training and frozen-power testing",
@@ -543,13 +753,13 @@ def evaluate_saved_simulation_model(
     checkpoint_path: str,
     output_directory: str,
     *,
-    device_name: str = "cpu",
+    device_name: str | None = None,
     batch_size: int = 8192,
     template_metrics_path: str | None = None,
     training_seconds: float | None = None,
     release_manifest_path: str,
 ) -> dict[str, Any]:
-    device = torch.device(device_name)
+    device = resolve_device(device_name)
     if device.type == "cuda":
         device = torch.device("cuda", 0 if device.index is None else device.index)
         torch.cuda.set_device(device)

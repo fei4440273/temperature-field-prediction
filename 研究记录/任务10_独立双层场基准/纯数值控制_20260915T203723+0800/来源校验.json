@@ -1,0 +1,14 @@
+{
+  "结论": "纯数值求解器、预登记与人为源场溯源；尚无任-07后完整场模型对比资格。",
+  "预登记配置_SHA256": "3011eba0cb6cd1c4bedbce4eb9c533a4247a105df603bd400083a16901879e81",
+  "材料配置_SHA256": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+  "求解器源码_SHA256": "2dd77a521891eba1b20578659ea9847b41e5de1e956a6e902effe9ef2697cf72",
+  "封存入口源码_SHA256": "c9b339c23866d7385fadd4ed0ff2936e86deee0e63acbf2b7b0eee72565e7ac4",
+  "中文控制报告_SHA256": "fc638b2f1146668dc766dc9e9bde07ae0c4987294784cc09869e1bd4cd78d7d5",
+  "数值场SHA256": {
+    "封存独立参考_完整场.npz": "b5b1281e3dbe24208e03938c26f15a5c945b7e11954eb6d70930de560cf24bc3",
+    "人为LF_同物理粗网格.npz": "26495ecaaa045d3e4eddbcc866148d1e9a94b0427abb8d584e38db62951941aa",
+    "人为LF_接触失配粗网格.npz": "21007204eaa256e964a4c95986fdc021b3da1e28c3bc27f66268e4e9e35983e2"
+  },
+  "旧test_Data标签读取": false
+}

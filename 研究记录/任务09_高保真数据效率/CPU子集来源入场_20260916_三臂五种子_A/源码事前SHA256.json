@@ -1,0 +1,13 @@
+{
+  "性质": "只读CPU元数据扫描和LF初态前的源码归档",
+  "源码与配置原件SHA256": {
+    "task09_subset_gate.py": "6d4016b5c51da43ff815e6c93addf260fb1161354b41eb5cfcee79bab788ca53",
+    "34_check_task09_subset_gate.py": "56724fd2e17667f23d27e44754853ff1ffb3cd5f49eafcd5b0a314770d0e5501",
+    "test_task09_subset_gate.py": "1592e703bd15202666e6601778c12d81d9beafa6f8b591066336d2b9abffeaac",
+    "额外功率覆盖序列前登记.yaml": "206b91e3ea981ec81c0ed1074ea4688a16567e32cab9098b8c134ae683becd6a",
+    "splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+    "training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+    "任07有效运行配置.yaml": "f92abf2cc2f97aa6bddcd16768707ee581470bbe0f9d3eb191598dbf7bbc0dba",
+    "V4_B0来源清单.yaml": "423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de"
+  }
+}

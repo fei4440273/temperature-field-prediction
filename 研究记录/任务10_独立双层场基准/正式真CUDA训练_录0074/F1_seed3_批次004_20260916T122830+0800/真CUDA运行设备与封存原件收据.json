@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "正式GPU专属包装器": true,
+  "运行状态": "成功",
+  "设备": {
+    "类型": "cuda",
+    "可见CUDA设备数": 1,
+    "实际设备序号": 0,
+    "名称": "NVIDIA GeForce RTX 4090 D",
+    "计算能力": [
+      8,
+      9
+    ],
+    "总显存字节": 25363087360,
+    "PyTorch版本": "2.5.1",
+    "CUDA运行时版本": "12.1"
+  },
+  "训练": {
+    "arm": "F1",
+    "随机种子": 3,
+    "LF来源": null,
+    "真正训练耗时_秒": 13.656696209975053,
+    "CUDA峰值分配MiB": 17.671875,
+    "旧冻结训练CLI_SHA256": "b7ed35d95e53d2211cb15c07ef1f1eefa271deefe7f68fde188b2f27e0293cd3",
+    "开始训练凭据_SHA256": "f1b54d44cc7f3e0031bc61b2cceaeb7d07738cd0264420f2b9f63d9306428328",
+    "运行摘要_SHA256": "03b24d0f629e6866182efa6f7992fab9405e47e8ac35897e1fdc2afa784bffff",
+    "旧CLI标准输出_SHA256": "98a106b4949a0934eed6a16f7dcd63eada6f769068b6dd19648f66b638268d78",
+    "旧CLI标准错误_SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "模型原件": {
+    "F1": {
+      "模型目录": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/正式真CUDA训练_录0074/F1_seed3_批次004_20260916T122830+0800/F1",
+      "真实训练日志_SHA256": "64dd06bfb934e0509bd2921c7885d335fb852f5a9acdb782f1129fd91ade6b2b",
+      "合法验证_SHA256": "9525e387f5baba1203461a0bbfd1c42b02c640470b9a76d08aa22e695ce040cf",
+      "单模型锁_SHA256": "ff300356cfea0dd1d7475ed904e9bb4062922a7ac234dbee88bbb50570047add",
+      "最佳模型_SHA256": "119219a1d1a7bf472a7eb7dacbd4ee2291aed240cf2d2ca5daa70007d6bf9061",
+      "终态模型_SHA256": "119219a1d1a7bf472a7eb7dacbd4ee2291aed240cf2d2ca5daa70007d6bf9061",
+      "最佳HF四类随机态_SHA256": "ce9a5867e5344994728f1cb34434d50dad6da7acb178bfc6705315ebea2974bf",
+      "终态HF四类随机态_SHA256": "ce9a5867e5344994728f1cb34434d50dad6da7acb178bfc6705315ebea2974bf"
+    }
+  },
+  "失败目录不恢复且新批次重跑": true,
+  "完整HF温度已读取": false,
+  "收据时刻": "2026-09-16T12:29:34.054947+08:00"
+}

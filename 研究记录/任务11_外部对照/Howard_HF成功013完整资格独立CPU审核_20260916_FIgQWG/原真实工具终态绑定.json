@@ -1,0 +1,26 @@
+{
+  "说明": "直接工具实际元数据绑定；完整内层stdout/stderr及外层工具stdout文本由原Python终态JSON保存，不JS改写资格合同或数值。",
+  "原完整资格": {
+    "exec_command_chunk_id": "c99fb0",
+    "session_id": 44921,
+    "完成write_stdin_chunk_id": "063118",
+    "actual_exit_code": 0,
+    "最后一次poll_wall_time_seconds": 3.730242256,
+    "最后一次poll_original_token_count": 1437,
+    "完整外层工具stdout文本文件": "真实原资格命令与完整进程终态.json",
+    "完整原子stdout文本文件": "原真实资格进程完整stdout.txt",
+    "完整原子stderr文本文件": "原真实资格进程完整stderr.txt"
+  },
+  "纯收尾": {
+    "exec_command_chunk_id": "c64386",
+    "session_id": 48435,
+    "完成write_stdin_chunk_id": "669566",
+    "actual_exit_code": 0,
+    "最后一次poll_wall_time_seconds": 0.000001713,
+    "最后一次poll_original_token_count": 744,
+    "完整外层工具stdout文本文件": "纯收尾实际命令与完整终态.json",
+    "完整原子stdout文本文件": "纯收尾交叉核对完整stdout.txt",
+    "完整原子stderr文本文件": "纯收尾交叉核对完整stderr.txt"
+  },
+  "禁止混淆": "最后一次工具poll等待不是全部审核时长；before-print计数不代表退出后全时；原Python数字表示原样保留。"
+}

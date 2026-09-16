@@ -1,0 +1,19 @@
+{
+  "source": "RZ_checkpoint_SHA256:65f4d587ff0c91944297fa53962ac9d85419f7d06fee206994ccfaab29ab0e60",
+  "support_domain": "registered_RZ_309W_HF_train_query",
+  "ir_coverage": "inside_ir_power_range",
+  "lf_power_coverage": "inside_lf_training_range",
+  "hf_power_coverage": "inside_hf_training_range",
+  "time_support": "inside_declared_0_200_s_model_domain",
+  "deterministic": true,
+  "warnings": [
+    "HF experimental internal ground truth unavailable; nominal energy audit failed.",
+    "Axisymmetric rotation is not azimuthal asymmetry or moving boundary."
+  ],
+  "power_w": 309.0,
+  "temperature_unit": "\u2103",
+  "internal_physics_temperature_unit": "K",
+  "stable_time_s": null,
+  "time_count": 101,
+  "node_count": 1159
+}

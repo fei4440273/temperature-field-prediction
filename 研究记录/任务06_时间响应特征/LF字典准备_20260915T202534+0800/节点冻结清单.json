@@ -1,0 +1,758 @@
+{
+  "独立冻结时间": "2026-09-15T20:25:34.797046+08:00",
+  "预登记源": "研究记录/任务06_时间响应特征/字典拟合前登记.yaml",
+  "预登记SHA256": "22b9a7a762d449ab083d7cbaed447d5c668761d063a94581b2e24635ae961cb5",
+  "LF分割SHA256": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+  "10W源SHA256": "979e648e5ae795eb08e15eefdf03b9638f00d733dea8726f69c84ae05ad380d9",
+  "60个LF训练parquet源与SHA256": [
+    {
+      "功率_W": 10.0,
+      "相对路径": "data/processed/simulation/10W.parquet",
+      "SHA256": "979e648e5ae795eb08e15eefdf03b9638f00d733dea8726f69c84ae05ad380d9",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 20.0,
+      "相对路径": "data/processed/simulation/20W.parquet",
+      "SHA256": "22c57f62267e45414eca14cde95faebe826c413590811aa1ac00a1c46f93f48a",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 30.0,
+      "相对路径": "data/processed/simulation/30W.parquet",
+      "SHA256": "643ec94bdab2c91a0dbf3ce8867bd9f206e06621bc2385b1a4c02a1654b6a490",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 40.0,
+      "相对路径": "data/processed/simulation/40W.parquet",
+      "SHA256": "284545b3d9a0735c93eb5bb18d69c48a917ed102b91824cdd3ddc7ad5a85722e",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 60.0,
+      "相对路径": "data/processed/simulation/60W.parquet",
+      "SHA256": "c20183c22f0814ae77d3489858b6527effaa54420b04eeb812ce2eba2d0ddf44",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 70.0,
+      "相对路径": "data/processed/simulation/70W.parquet",
+      "SHA256": "ddf621fda390aa4ae93b32b9aadd0f2555d0c595fa4b3654335814dc1aa71394",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 80.0,
+      "相对路径": "data/processed/simulation/80W.parquet",
+      "SHA256": "3eab99aaeda9430607e2162661edc60af3d8bf14b8808684bb0060bb78d6f69c",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 100.0,
+      "相对路径": "data/processed/simulation/100W.parquet",
+      "SHA256": "7e0e74631c26fce14e1f2d801c08080f5d28f65c57e727ace406304c4de57e4a",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 110.0,
+      "相对路径": "data/processed/simulation/110W.parquet",
+      "SHA256": "48de96cfa9e716b39ce267e2f3274c183f6ee154c5ce4691deffd6555b52610e",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 120.0,
+      "相对路径": "data/processed/simulation/120W.parquet",
+      "SHA256": "17d3b3042ae54378a31220115f5bf6897682c92a00aadaeb653850f5ed7f0480",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 140.0,
+      "相对路径": "data/processed/simulation/140W.parquet",
+      "SHA256": "f69fdeadd917af560adb16ec4740d0bc8595bb18ab344d1355088b8665647854",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 150.0,
+      "相对路径": "data/processed/simulation/150W.parquet",
+      "SHA256": "f0cf6427fda6a3bdaad01738637aeea2cb612cad3ec663de8d0ae19158deb95f",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 160.0,
+      "相对路径": "data/processed/simulation/160W.parquet",
+      "SHA256": "c4b322337b848ae1453592f00386e076874fe9b3a5b1714210a87b7873992bb2",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 180.0,
+      "相对路径": "data/processed/simulation/180W.parquet",
+      "SHA256": "c257fcafd5f49c0ea9fbca3ff41df87bcf63bb1a32a94b6e22e2b90e5a8ae5c4",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 190.0,
+      "相对路径": "data/processed/simulation/190W.parquet",
+      "SHA256": "02bb2514eec039cdb92a87852eb729b2de69e875e99ccd9222762bcdd7a77498",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 200.0,
+      "相对路径": "data/processed/simulation/200W.parquet",
+      "SHA256": "f8cf020444d7ff82057ebd8cd5b50c22266429d02f98e10117e4ba4309957f24",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 220.0,
+      "相对路径": "data/processed/simulation/220W.parquet",
+      "SHA256": "f1abcec008a96a30c4a31588e63193c51f04667e15326522ff8a91685270c0d8",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 230.0,
+      "相对路径": "data/processed/simulation/230W.parquet",
+      "SHA256": "d8dafeab4dfc57f7a7be64eab982ef9d4148e7cb57cdcd6f3c6fbd0816441bdd",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 240.0,
+      "相对路径": "data/processed/simulation/240W.parquet",
+      "SHA256": "248074a621f9cb4c48861be656f231e7d44615ee54931cf8922cc4f8e11b2257",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 260.0,
+      "相对路径": "data/processed/simulation/260W.parquet",
+      "SHA256": "729bcdba9cc4d125df3ae46c4f1e2654310ba2da81bff85c846f5d20ae19bc87",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 270.0,
+      "相对路径": "data/processed/simulation/270W.parquet",
+      "SHA256": "ac23a2319e0f9391efa72e942dca7ec5f292b9766d07332a804ee0c6b7c7e8d6",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 280.0,
+      "相对路径": "data/processed/simulation/280W.parquet",
+      "SHA256": "4475b90ef02d248ae9ea686f58edaf12107e1ae1b8b4d5858891c81807fa97c6",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 300.0,
+      "相对路径": "data/processed/simulation/300W.parquet",
+      "SHA256": "8d2c446c27458d20fbce2d4d8f5a0c0d98700d384561be216aa90584ae5dbefa",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 310.0,
+      "相对路径": "data/processed/simulation/310W.parquet",
+      "SHA256": "cc6a2bc1d92c2853d06c2543173dd51b7bf5b7e8e432d14103e8581272f9b143",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 320.0,
+      "相对路径": "data/processed/simulation/320W.parquet",
+      "SHA256": "239743f160531504143502ddd5e5819866ea1e47c6cbf44a16f380ba9f4ce1ab",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 340.0,
+      "相对路径": "data/processed/simulation/340W.parquet",
+      "SHA256": "165f1bc393c33cdcb7106f0bed835c4045ee663a795d8d25b54efe8509da4698",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 350.0,
+      "相对路径": "data/processed/simulation/350W.parquet",
+      "SHA256": "0f628abd2164fca55d2c88e2b68ee6a098bcd826aaf17dd8fbacffe82bda410c",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 360.0,
+      "相对路径": "data/processed/simulation/360W.parquet",
+      "SHA256": "13c61b163c7419b9bd3fc9c566ada7f0ebd04388ba3349708f13ba893dd44a5d",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 380.0,
+      "相对路径": "data/processed/simulation/380W.parquet",
+      "SHA256": "bb5b58f791a284725424d382e42326a02a9c838cefd41ef8546c32f084caed5c",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 390.0,
+      "相对路径": "data/processed/simulation/390W.parquet",
+      "SHA256": "9f5fee5fc521a40128f43b01a7a2a69e50c3e78e9108a40a8f3453be34975826",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 400.0,
+      "相对路径": "data/processed/simulation/400W.parquet",
+      "SHA256": "cb1703d7e270d29a5c2c5a85f7c340919a6d1395dbe762f3b885e4d91a08d803",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 420.0,
+      "相对路径": "data/processed/simulation/420W.parquet",
+      "SHA256": "e88c196b5289abba44e5baaf57685e8b09d48764576876da07ba4b36bada3889",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 430.0,
+      "相对路径": "data/processed/simulation/430W.parquet",
+      "SHA256": "c7ebb0cf9bdab2a4ff54d339a8336e108601dccfbad99b3e5ba071ef91fe016b",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 440.0,
+      "相对路径": "data/processed/simulation/440W.parquet",
+      "SHA256": "908c8c32d8ebdf6d1f2b3b29a8e3706f9352e160c35e058f622dae84b990bbf0",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 460.0,
+      "相对路径": "data/processed/simulation/460W.parquet",
+      "SHA256": "ed364b3efc993ab5ec8433a1bf459c4ff890df03bbde0c13be08105e7f924eb4",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 470.0,
+      "相对路径": "data/processed/simulation/470W.parquet",
+      "SHA256": "908caa1e64e18b930df9257542d5933fc5063a87cc32552dc131cc999d5d3e9d",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 480.0,
+      "相对路径": "data/processed/simulation/480W.parquet",
+      "SHA256": "1b86930695ee5bc5c375be4280f6f72e2a6b0a845f8770fc29a58c0a6b22c7bb",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 500.0,
+      "相对路径": "data/processed/simulation/500W.parquet",
+      "SHA256": "97160006d1efbbceb136ebce28065af391a854e7fe3f102b69992188ae802c18",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 510.0,
+      "相对路径": "data/processed/simulation/510W.parquet",
+      "SHA256": "dbf5211f9ce62d76626cb1a2768017356c14333201f1b85050b3597e36270521",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 520.0,
+      "相对路径": "data/processed/simulation/520W.parquet",
+      "SHA256": "9ef08ebca14c9ca92cecaf799baf3fc47496500e381cd7dc54aff4ac55b0473b",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 540.0,
+      "相对路径": "data/processed/simulation/540W.parquet",
+      "SHA256": "b2319426208d52f99e89dc60faf1bffd9d2a134c17b890d4651308c7e4cf3f49",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 550.0,
+      "相对路径": "data/processed/simulation/550W.parquet",
+      "SHA256": "fa686085111815621eab77da4a37da730aae362a385cf8c9f0cffed89afa7efb",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 560.0,
+      "相对路径": "data/processed/simulation/560W.parquet",
+      "SHA256": "0f798e7b45db9bb7f868831305edf1d95a0f2127bc46d0cdf4f476725678f5a1",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 580.0,
+      "相对路径": "data/processed/simulation/580W.parquet",
+      "SHA256": "3758dae9d7ede6b29524d66ebfd14259cb146a753fbe89e2913f07c3b545325f",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 590.0,
+      "相对路径": "data/processed/simulation/590W.parquet",
+      "SHA256": "b4b578effd6af82d3580261401dcc8a836201723ab90741590d2becaf325f695",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 600.0,
+      "相对路径": "data/processed/simulation/600W.parquet",
+      "SHA256": "c7a36da48a3fcfdd994de9d4d82f21f8991ecc6045cdf632fbec7d738aa04c45",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 620.0,
+      "相对路径": "data/processed/simulation/620W.parquet",
+      "SHA256": "f5d42f1d473d018c3acc1318f84f56f048b381bd1caf14cd94e86bf0040cde33",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 630.0,
+      "相对路径": "data/processed/simulation/630W.parquet",
+      "SHA256": "c2d82ad569ce67a1c3fe4df189b03eeba3104ed29a79b8a7c67076a3ca4b18b7",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 640.0,
+      "相对路径": "data/processed/simulation/640W.parquet",
+      "SHA256": "e8fc9dd8929e6b48869f33d509f7f8cddfa5583199da072e47fc515f203b6f0b",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 660.0,
+      "相对路径": "data/processed/simulation/660W.parquet",
+      "SHA256": "52b786f2f3ea0297594aa79321d2fee846ee09af9c2b7abc1ca5440bdfec7641",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 670.0,
+      "相对路径": "data/processed/simulation/670W.parquet",
+      "SHA256": "7c167573bfea0ea50fe9769be1cb85797b803f06ffa1bac4b13d656e8b916879",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 680.0,
+      "相对路径": "data/processed/simulation/680W.parquet",
+      "SHA256": "f5593d6cec419ddcd113aea495a77b2db6c9743b433350696befdd821dabea36",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 700.0,
+      "相对路径": "data/processed/simulation/700W.parquet",
+      "SHA256": "0d2ada52f0382a29b9baa2de58a3f0892ac5ba0ad7dfe23c5d23b5a8ef1fc04c",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 710.0,
+      "相对路径": "data/processed/simulation/710W.parquet",
+      "SHA256": "45c721945b60567a946d5ab100a0cc459140c4a2a69919d5e4e2751cf4470a74",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 720.0,
+      "相对路径": "data/processed/simulation/720W.parquet",
+      "SHA256": "2896afbf88601b58b791f7a2174c84b1ff3b22895129ea969acf3b6c3b680832",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 740.0,
+      "相对路径": "data/processed/simulation/740W.parquet",
+      "SHA256": "904bbfe30f83d62780f0aae8eecd0a397c5bbad35a1543b258d5f410f4efb4b1",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 750.0,
+      "相对路径": "data/processed/simulation/750W.parquet",
+      "SHA256": "c205d5e6dd59fe9a96c90e3d94722d86a0b481390e7fc72663e0c4d7cefd3d19",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 760.0,
+      "相对路径": "data/processed/simulation/760W.parquet",
+      "SHA256": "35df7167ab745be8a817beb4ed726c83172e6980843ff3ccefec9f90ad32b316",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 780.0,
+      "相对路径": "data/processed/simulation/780W.parquet",
+      "SHA256": "5284b0200338b67fa94089d29fbe0c3c03708358294c4388a27a2b8b54b68525",
+      "parquet_split": "train"
+    },
+    {
+      "功率_W": 790.0,
+      "相对路径": "data/processed/simulation/790W.parquet",
+      "SHA256": "fb6fac925e9ac380cd749ecdd982eb32bb4429122335a58e73fb2f0d7b5cafd5",
+      "parquet_split": "train"
+    }
+  ],
+  "Cu外圆定温零响应候选节点数_已排除": 19,
+  "Cu定温外圆半径_m": 0.05834000185132027,
+  "两材料冻结节点": [
+    {
+      "material_id": 0,
+      "node_label": 8,
+      "r_m": 0.02500000037252903,
+      "z_m": 0.0
+    },
+    {
+      "material_id": 0,
+      "node_label": 130,
+      "r_m": 0.0573296993970871,
+      "z_m": -0.017500000074505806
+    },
+    {
+      "material_id": 0,
+      "node_label": 42,
+      "r_m": 0.0,
+      "z_m": -0.01658329926431179
+    },
+    {
+      "material_id": 0,
+      "node_label": 661,
+      "r_m": 0.0573296993970871,
+      "z_m": -0.006000000052154064
+    },
+    {
+      "material_id": 0,
+      "node_label": 472,
+      "r_m": 0.02803090028464794,
+      "z_m": -0.010999999940395355
+    },
+    {
+      "material_id": 0,
+      "node_label": 108,
+      "r_m": 0.035103000700473785,
+      "z_m": -0.017500000074505806
+    },
+    {
+      "material_id": 0,
+      "node_label": 157,
+      "r_m": 0.04722670093178749,
+      "z_m": 0.0
+    },
+    {
+      "material_id": 0,
+      "node_label": 76,
+      "r_m": 0.04823699966073036,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 0,
+      "node_label": 672,
+      "r_m": 0.036113299429416656,
+      "z_m": -0.004999999888241291
+    },
+    {
+      "material_id": 0,
+      "node_label": 221,
+      "r_m": 0.017999999225139618,
+      "z_m": -0.015666700899600983
+    },
+    {
+      "material_id": 0,
+      "node_label": 31,
+      "r_m": 0.007000000216066837,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 0,
+      "node_label": 585,
+      "r_m": 0.04520609974861145,
+      "z_m": -0.00800000037997961
+    },
+    {
+      "material_id": 0,
+      "node_label": 185,
+      "r_m": 0.02500000037252903,
+      "z_m": -0.007000000216066837
+    },
+    {
+      "material_id": 0,
+      "node_label": 417,
+      "r_m": 0.04621639847755432,
+      "z_m": -0.015666700899600983
+    },
+    {
+      "material_id": 0,
+      "node_label": 789,
+      "r_m": 0.0573296993970871,
+      "z_m": -0.0020000000949949026
+    },
+    {
+      "material_id": 0,
+      "node_label": 363,
+      "r_m": 0.036113299429416656,
+      "z_m": -0.013833300210535526
+    },
+    {
+      "material_id": 0,
+      "node_label": 715,
+      "r_m": 0.04722670093178749,
+      "z_m": -0.004000000189989805
+    },
+    {
+      "material_id": 0,
+      "node_label": 800,
+      "r_m": 0.036113299429416656,
+      "z_m": -0.0010000000474974513
+    },
+    {
+      "material_id": 0,
+      "node_label": 533,
+      "r_m": 0.0573296993970871,
+      "z_m": -0.009999999776482582
+    },
+    {
+      "material_id": 0,
+      "node_label": 342,
+      "r_m": 0.0573296993970871,
+      "z_m": -0.013833300210535526
+    },
+    {
+      "material_id": 0,
+      "node_label": 20,
+      "r_m": 0.017999999225139618,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 0,
+      "node_label": 728,
+      "r_m": 0.02803090028464794,
+      "z_m": -0.003000000026077032
+    },
+    {
+      "material_id": 0,
+      "node_label": 52,
+      "r_m": 0.009999999776482582,
+      "z_m": -0.017500000074505806
+    },
+    {
+      "material_id": 0,
+      "node_label": 575,
+      "r_m": 0.035103000700473785,
+      "z_m": -0.00800000037997961
+    },
+    {
+      "material_id": 0,
+      "node_label": 483,
+      "r_m": 0.03914419934153557,
+      "z_m": -0.010999999940395355
+    },
+    {
+      "material_id": 0,
+      "node_label": 404,
+      "r_m": 0.02702059969305992,
+      "z_m": -0.014750000089406967
+    },
+    {
+      "material_id": 0,
+      "node_label": 1,
+      "r_m": 0.02500000037252903,
+      "z_m": -0.017500000074505806
+    },
+    {
+      "material_id": 0,
+      "node_label": 267,
+      "r_m": 0.008999999612569809,
+      "z_m": -0.014750000089406967
+    },
+    {
+      "material_id": 0,
+      "node_label": 39,
+      "r_m": 0.0,
+      "z_m": -0.013833300210535526
+    },
+    {
+      "material_id": 0,
+      "node_label": 775,
+      "r_m": 0.04318549856543541,
+      "z_m": -0.0020000000949949026
+    },
+    {
+      "material_id": 0,
+      "node_label": 593,
+      "r_m": 0.053288500756025314,
+      "z_m": -0.00800000037997961
+    },
+    {
+      "material_id": 0,
+      "node_label": 115,
+      "r_m": 0.04217519983649254,
+      "z_m": -0.017500000074505806
+    },
+    {
+      "material_id": 1,
+      "node_label": 26,
+      "r_m": 0.0,
+      "z_m": 0.0
+    },
+    {
+      "material_id": 1,
+      "node_label": 313,
+      "r_m": 0.02500000037252903,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 1,
+      "node_label": 1,
+      "r_m": 0.02500000037252903,
+      "z_m": 0.0
+    },
+    {
+      "material_id": 1,
+      "node_label": 338,
+      "r_m": 0.0,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 1,
+      "node_label": 169,
+      "r_m": 0.013000000268220901,
+      "z_m": -0.006000000052154064
+    },
+    {
+      "material_id": 1,
+      "node_label": 182,
+      "r_m": 0.0,
+      "z_m": -0.006000000052154064
+    },
+    {
+      "material_id": 1,
+      "node_label": 13,
+      "r_m": 0.013000000268220901,
+      "z_m": 0.0
+    },
+    {
+      "material_id": 1,
+      "node_label": 157,
+      "r_m": 0.02500000037252903,
+      "z_m": -0.006000000052154064
+    },
+    {
+      "material_id": 1,
+      "node_label": 325,
+      "r_m": 0.013000000268220901,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 1,
+      "node_label": 97,
+      "r_m": 0.007000000216066837,
+      "z_m": -0.003000000026077032
+    },
+    {
+      "material_id": 1,
+      "node_label": 85,
+      "r_m": 0.01899999938905239,
+      "z_m": -0.003000000026077032
+    },
+    {
+      "material_id": 1,
+      "node_label": 253,
+      "r_m": 0.007000000216066837,
+      "z_m": -0.008999999612569809
+    },
+    {
+      "material_id": 1,
+      "node_label": 241,
+      "r_m": 0.01899999938905239,
+      "z_m": -0.008999999612569809
+    },
+    {
+      "material_id": 1,
+      "node_label": 104,
+      "r_m": 0.0,
+      "z_m": -0.003000000026077032
+    },
+    {
+      "material_id": 1,
+      "node_label": 260,
+      "r_m": 0.0,
+      "z_m": -0.008999999612569809
+    },
+    {
+      "material_id": 1,
+      "node_label": 79,
+      "r_m": 0.02500000037252903,
+      "z_m": -0.003000000026077032
+    },
+    {
+      "material_id": 1,
+      "node_label": 235,
+      "r_m": 0.02500000037252903,
+      "z_m": -0.008999999612569809
+    },
+    {
+      "material_id": 1,
+      "node_label": 19,
+      "r_m": 0.007000000216066837,
+      "z_m": 0.0
+    },
+    {
+      "material_id": 1,
+      "node_label": 175,
+      "r_m": 0.007000000216066837,
+      "z_m": -0.006000000052154064
+    },
+    {
+      "material_id": 1,
+      "node_label": 331,
+      "r_m": 0.007000000216066837,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 1,
+      "node_label": 7,
+      "r_m": 0.01899999938905239,
+      "z_m": 0.0
+    },
+    {
+      "material_id": 1,
+      "node_label": 91,
+      "r_m": 0.013000000268220901,
+      "z_m": -0.003000000026077032
+    },
+    {
+      "material_id": 1,
+      "node_label": 163,
+      "r_m": 0.01899999938905239,
+      "z_m": -0.006000000052154064
+    },
+    {
+      "material_id": 1,
+      "node_label": 247,
+      "r_m": 0.013000000268220901,
+      "z_m": -0.008999999612569809
+    },
+    {
+      "material_id": 1,
+      "node_label": 319,
+      "r_m": 0.01899999938905239,
+      "z_m": -0.012000000104308128
+    },
+    {
+      "material_id": 1,
+      "node_label": 108,
+      "r_m": 0.02199999988079071,
+      "z_m": -0.004000000189989805
+    },
+    {
+      "material_id": 1,
+      "node_label": 186,
+      "r_m": 0.02199999988079071,
+      "z_m": -0.007000000216066837
+    },
+    {
+      "material_id": 1,
+      "node_label": 264,
+      "r_m": 0.02199999988079071,
+      "z_m": -0.009999999776482582
+    },
+    {
+      "material_id": 1,
+      "node_label": 30,
+      "r_m": 0.02199999988079071,
+      "z_m": -0.0010000000474974513
+    },
+    {
+      "material_id": 1,
+      "node_label": 282,
+      "r_m": 0.004000000189989805,
+      "z_m": -0.009999999776482582
+    },
+    {
+      "material_id": 1,
+      "node_label": 126,
+      "r_m": 0.004000000189989805,
+      "z_m": -0.004000000189989805
+    },
+    {
+      "material_id": 1,
+      "node_label": 204,
+      "r_m": 0.004000000189989805,
+      "z_m": -0.007000000216066837
+    }
+  ],
+  "温度差与归一化": "各原始LF曲线减t0；按max(0.1,max|delta_K|)缩放，训练60功率×两材料×32条等权，t2..200等权。"
+}

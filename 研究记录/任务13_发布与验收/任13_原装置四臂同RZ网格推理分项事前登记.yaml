@@ -1,0 +1,68 @@
+schema_version: 1
+实验对象: RZ原装置历史与新同网格推理成本
+登记性质: GPU计时之前的输入与固定预算；不含任何真实新CUDA成绩
+注册功率_W: 309.0
+功率性质: 原HF12训练功率之一；仅用于模型查询、不打开对应功率实验温度
+时间帧: 101
+起止时刻_s: [0.0, 200.0]
+时间步_s: 2.0
+每帧节点: 1159
+节点材料分配: {Cu: 821, SiC: 338}
+RZ网格原件: data/processed/simulation/10W.parquet
+RZ网格SHA256: 979e648e5ae795eb08e15eefdf03b9638f00d733dea8726f69c84ae05ad380d9
+读网格五列: [time_s, r_m, z_m, material_id, node_label]
+网格温度列读取: false
+batch_size: 2048
+预热重复: 2
+有效重复: 5
+输出: field_rzt.npz+metadata.json+hot_cold.csv+五档同分辨率vtk+四图
+旋转theta分辨率: 12
+vtk时刻_s: [0.0, 50.0, 100.0, 150.0, 200.0]
+计时分项: [同网格五列读取, checkpoint读取与GPU重载, 查询构造, GPU查询传输, 同步纯HF模型前向五次, GPU输出回读, 同格式导出一次]
+不许使用HF原件: [对应309W的实验温度, 旧固定TEST169W_339W_634W温度]
+静默回退LF或FEM: false
+任10人为一维板混合RZ排名: false
+原LF_FEM仿真生成成本: 缺原工程完整热预算与生成墙钟，不得冒称总成本已闭合
+旧B0发布清单SHA256: ac0090e0a54b5488edb11e9fb0a241f1ba5c96e24e1f21b95a74dcd813da9868
+旧MLP发布清单SHA256: 0e6d0dd3357216fdef220891683e5ee49491da175b0591e3117f80bca14c910f
+正式E0预登记配置SHA256: f92abf2cc2f97aa6bddcd16768707ee581470bbe0f9d3eb191598dbf7bbc0dba
+正式F2预登记配置SHA256: 36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9
+成本口径: 旧B0与MLP取历史一次1700轮完整训练会话；E0与F2取本次阶段报告最近真会话而非跨断点累积；对应LF网络预训只独立计一次、可复用
+模型:
+  B0:
+    - {checkpoint_sha256: 0764c7e78f45e3509f0f8a525965a8f9d77a789aed47ce10ea8d536673644f4b, receipt_sha256: ec92b5fd33382f2f59c57a7e2090bc93637f1bd2e86d0e0a45c119c2d56ea850}
+    - {checkpoint_sha256: cae7b3546d9c1358350d2866d87f773b10415290f62f88f38b007b79d7013906, receipt_sha256: 9f923b59f04bf5cd6e8a88c27b4f49af91aa1955ff881fe2a8de01918a977475}
+    - {checkpoint_sha256: a7dfffdea6c50fda21efd8c822d0585743aa3df9ae7ea1d363c3d221105b6802, receipt_sha256: b253477388860a325d9ad0eac64ea0868389aba98b496dc4acc55271d4bf71da}
+    - {checkpoint_sha256: 41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b, receipt_sha256: a01b90a8e0931974099ceb365fbe8c367325fe88c5faad6661a82016ba86a58e}
+    - {checkpoint_sha256: d27d0deb910580c5ca346a0c718efb92acbc971bbe10705a0e5fc61b9383f0ca, receipt_sha256: 532bf026c6c825e38340b8350d74396cdc2ef0d7afbca1ea8e09f92a6588ee9a}
+  MLP:
+    - {checkpoint_sha256: 09e00118eaa7b292b95085c0029e2510279c20833fb0dd5159db7f5be6a7e167, receipt_sha256: c5e4f93f0e4954c4b19c1724bdf8ef718ba061a42b25b4caa5f65520f5104359}
+    - {checkpoint_sha256: c565b740c7786dde732ee628e4007949edd7b41fc654a17eb7f03a8093478863, receipt_sha256: e62f0939211658b61d68c64051772c56d2725515e096cb6399e4053230ccd3e1}
+    - {checkpoint_sha256: b7e3e379b2d7493e6b3a0aba8cde885b189fb7d3fd0b997e1625893a4ba99ca2, receipt_sha256: b6545ffba46ab6bd378bec65c9d479331f1e4d89363fa4af8e7a623fd2e19c05}
+    - {checkpoint_sha256: 5e28284c7405b57e13ccfc3f15765640424b5d2ddad11a6682ee6bbcabc3c8da, receipt_sha256: 9112dd424b9a6c5681b9e159bfa6f14afd093c6d62b7b17e53827a6854f14c03}
+    - {checkpoint_sha256: 3a761b2b4f721554d3b131f65ee799dd6695f4f1fe058b16dcf95fa8d7797a0d, receipt_sha256: dd95c0a850f4b806fad0b7af2558fc075836c54ab3efd3d345405381207c6282}
+  E0:
+    - {checkpoint_sha256: 42aab603826e627f69181fb6c76253a98b68241ec204695a9c10584626cc6ea7, receipt_sha256: 3274beb0b913cb8567449f26742f014913c6c20c9e9114c6a05994fed8db26b7}
+    - {checkpoint_sha256: 87e64148abdbd6d24279215cb701de0e7f1308f2cd5129bca1a9753d72c772eb, receipt_sha256: 56181b9c87d0a94bf63fedc8afe32e87880684804b3da3ca00ed58714da05b8a}
+    - {checkpoint_sha256: bab0f88e74d27f3fb06a4e72a2240959b330128bbafb7216a72936ec980d8c5f, receipt_sha256: efae838c62b453b3c4fbd7c1e64d31e9a3b0190e9460d7451d328a378d7c47a4}
+    - {checkpoint_sha256: 49c01654bad3f4ecea61751ead78fa8938019e6438747c2b6dac937c6a2dbc83, receipt_sha256: a6bde3d7ee6d214b269487a8c5d317f1327446d3a0c78b9b165808f30a9ea60e}
+    - {checkpoint_sha256: 50185092de09b58a7398f1547a9ee4ed44d82ec448f71c17ba80e863478f2a14, receipt_sha256: c3c7d7c60db7823654906d3fbddc512e6cc3e78d4bc3c66217307213a9b027ec}
+  F2:
+    - {checkpoint_sha256: 63ee3a4db2c24d036440f580d646e353b1287d32abc427c70a137cff233a636d, receipt_sha256: 152a097f79e54cb4b97c0b6619e05bde303e116bf5a9d9a5d918d65040190180}
+    - {checkpoint_sha256: 62d2ec408ea0f85e8540450a39478b0abbd3be87b1fd68f6862f4bf44185782b, receipt_sha256: 61b105686e150be14ce24711c2853af87f501f64a7201296505baad4b4a8f49a}
+    - {checkpoint_sha256: 4faa900af62ee2a4500b15015e2dce0ee7f0aa9f52a425c52457b4ba5e1822a6, receipt_sha256: 237cd46340d0ddc8c4e75f0e925f1cbce1ec6caaf4d29eacdce812d06b2093a9}
+    - {checkpoint_sha256: 65f4d587ff0c91944297fa53962ac9d85419f7d06fee206994ccfaab29ab0e60, receipt_sha256: f1f566a2051bebbab0a5fefa9590ba4832ec6a9b42bb87aebc707637635df1e6}
+    - {checkpoint_sha256: 7b7ff3025b987f01fa930fc3cf751a8ed594cc15b0fabb2cece81717498ae772, receipt_sha256: 3f38bca53f323b2ffccc4600d6093c8c24bbc2bfc760af60cab906e002c4328c}
+LF来源:
+  deeponet_pinn:
+    - {checkpoint_sha256: 5ab23ffd5b7c4b99ba90b81236ec0fba4a9b109a730288124c647030036e42f2, receipt_sha256: e8744421e308de89712edd89d936080a360eca8d11aec573e7a3d7e0d3dae751}
+    - {checkpoint_sha256: e187044bac9175052604f7d77a213954d45655b2237739a0bb8bbea67fcfdbfb, receipt_sha256: 26dd06350f8e0ea34aae574e1aac8db0a2206be9fd681e119065ac548fa61696}
+    - {checkpoint_sha256: f3e6be959e185f7844fbceda220e12e91fbf0642b84aaf01990b8d3aca6ce252, receipt_sha256: 41ac7966ee1ae6d3f1734403e920cee7efb76d11db166aa276f9dcc7018611b1}
+    - {checkpoint_sha256: f5378dead4dc770dae3a3ebef781314e3d38445c6cbac54f097e06755e5ff68d, receipt_sha256: 2ea9466891fd4bc72e3e7b6a5410861bb8849214def084d5779ad57e48c7f384}
+    - {checkpoint_sha256: bd4c3be31f730eeaac538bbb3c9ce13e74c3ab39bc29fe1716698c527d53b34e, receipt_sha256: 467752249a86730fe396b64fe4bccb84d3eeea50cb7fa8cbf5f1cf293f200bcf}
+  mlp_pinn:
+    - {checkpoint_sha256: 73eb0418b27bdee2da0ee8215e1b424972c864e82e2b97688488b97b56563270, receipt_sha256: f0ef6ac4aeda87c86db53ade1c696261a58402347d81b082fea708301440fb0d}
+    - {checkpoint_sha256: 8bf868119204fcad7583615c7d1abecf5b0db86626d4e3de674486117439ecc2, receipt_sha256: 626cd25c6e8a12a78e182e0d83bbbe7547498df94c3fbcb1098aca934ef46e38}
+    - {checkpoint_sha256: b0fac579d740971f44cf44e955889457e96c4c6b6ccbe167d6387d79ac3e4cae, receipt_sha256: 5e3eaf2fee2b8f05db7f05d6f1330282720fdd6c57f27b27b0f62a744bf5c743}
+    - {checkpoint_sha256: 0686fc1d479b21d7e68ece55a8ec42b322c77b9e1799a9d5ce9a6f726f312d3d, receipt_sha256: 3456e604e500d2d8b51859685d083d50ce6dc76b97db780ef8bfdb99a5428293}
+    - {checkpoint_sha256: 152b6e08eb86d6954be1d6a7f2784a625926b2c7994bca01fa0b4c2c2d4eaa06, receipt_sha256: 7786750284730989ee2bfcfa31d1c4df89932135418a2b308749d4071e284b85}

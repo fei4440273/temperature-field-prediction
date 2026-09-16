@@ -1,0 +1,35 @@
+# 独立写出字段修订，仅将原汇总真分母标志交冻结任04 writer；旧0065不覆盖。
+schema_version: 1
+事前台账记录编号: 录-0067
+审核臂: F2_五种子best_physical_final各原定义双阶能源
+原0065能源登记SHA256: 3be6b25e34061745e7654920e7e1bf929f86651d0e3264182d1e0a7465106fbb
+原0065能源源码tarSHA256: 58f27b38ba2ff5cd04b7d886b0b9b4c1bec242e7a74f9ddaf705689c1b4f2241
+源录0065审核脚本SHA256: 8b7c6810ae1e62567eef2c683a9ef9aef52fb1f88391495aadaffe873562b59e
+源正式F2事前登记SHA256: 36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9
+双阶原定义相对平衡分母须从原汇总核真: true
+双阶原分母核验器: 冻结脚本26两阶60原行逐行原瓦数和B=V-J-D及64阶CSV由冻结脚本21第二次核
+审计模型副本dtype: torch.float64
+真训练阶段pt原dtype: torch.float32
+功率时间点数: 30
+求积阶数: [16, 64]
+原始能源和散度各行数: 60
+冻结真实来源身份: 原录0065锁五种子每个best_physical_final阶段pt、日志、报告及五种合法HF摘要全SHA
+新增字段性质: 非后验修改原能源汇总数值；payload原分母True直接取同一次原积分汇总且须先过冻结26原30点双阶验算
+旧原冻结能源入场两次失败: 脚本33种子0best Double/Float EXIT1空输出；录0065脚本34同状态真双阶过26但21因payload字段缺失EXIT1空输出
+新输出要求: 五种子三态各项目内新唯一目录，旧两首导失败目标永不复用
+旧test_Data温度标签读取: false
+训练HF体内PDE: null
+内部实验HF真值可得: false
+能源安全通过阈值已锁: false
+F3旧热冷环与LF70原件逐档SHA缺口: 严格字节级F2与F3唯PDE因果结论禁止
+写出修订后源码tar实际字节SHA256: 635e84837cbc17030e7500d98838beae3f6add5afc167364b100e9c7ab68eda9
+写出修订后源码逐件SHA256:
+  scripts/35_audit_task08_f2_energy_writer_fixed.py: af07b37c498c370dd1b8b4ad7ccf3d7877c162289483d5bbe81d099d1a3073ae
+  tests/test_task08_f2_energy_writer_contract.py: 5b87cf3a5aac6d6968656d8e1f032a72044ee53602def46d3a36c8bae86cef66
+  scripts/34_audit_task08_f2_energy_double.py: 8b7c6810ae1e62567eef2c683a9ef9aef52fb1f88391495aadaffe873562b59e
+  研究记录/任务08_贡献消融/F2_三态能源独立审核有效配置_双精度修订后.yaml: 3be6b25e34061745e7654920e7e1bf929f86651d0e3264182d1e0a7465106fbb
+  scripts/33_audit_task08_f2_states.py: fb3c3f6a3da776eeb7f2f73a66a2ed3468cdac0a0bc3d017b4619f9e24ecc816
+  scripts/26_audit_task07_states.py: ea6d9cf71be200f4963aae7716ac89fa79d460e41711b09f0c800e8696d3a9b7
+  scripts/21_audit_task04_energy.py: 94286562a13d81de72c2ece4048c7db88db99b43ec35a3472715a5f51e443724
+  src/sic_cu/eval/energy_v5.py: 47cdc022572bf2467d8082d277cb2ffbeb47e1a5d9eb262af0cb2638f2d28b80
+  研究记录/任务08_贡献消融/F2_正式五种子有效运行配置_事务修订后.yaml: 36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9

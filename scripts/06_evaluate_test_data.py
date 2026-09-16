@@ -7,6 +7,8 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+
+from sic_cu.compat import strict_zip
 import polars as pl
 import torch
 
@@ -94,7 +96,7 @@ def _aggregate_five_seeds(
                 "ir_pixel_aggregate": pixels["aggregate"],
                 "ir_pixel_report": pixels["output_path"],
             }
-            for result, pixels in zip(results, pixel_results, strict=True)
+            for result, pixels in strict_zip(results, pixel_results)
         ],
     }
 

@@ -1,0 +1,1 @@
+Read-only guard probe fixture; never unlink this file.

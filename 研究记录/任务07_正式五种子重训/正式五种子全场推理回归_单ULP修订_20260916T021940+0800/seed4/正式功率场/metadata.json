@@ -1,0 +1,18 @@
+{
+  "source": "multifidelity_correction:/home/phl/lyf/Temperature Field Prediction/\u7814\u7a76\u8bb0\u5f55/\u4efb\u52a107_\u6b63\u5f0f\u4e94\u79cd\u5b50\u91cd\u8bad/\u4fee\u590d\u540e\u6b63\u5f0f_E0_\u79cd\u5b504_20260916T012933+0800/best.pt",
+  "support_domain": "inside_10_800W_simulation_domain",
+  "ir_coverage": "inside_ir_power_range",
+  "lf_power_coverage": "inside_lf_training_range",
+  "hf_power_coverage": "inside_hf_training_range",
+  "time_support": "inside_declared_0_200_s_model_domain",
+  "deterministic": true,
+  "warnings": [
+    "The internal field is a physics-guided inference constrained by surface or sparse experiment observations, not internal experiment ground truth."
+  ],
+  "power_w": 115.2,
+  "temperature_unit": "\u2103",
+  "internal_physics_temperature_unit": "K",
+  "stable_time_s": null,
+  "time_count": 101,
+  "node_count": 1159
+}

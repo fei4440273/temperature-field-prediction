@@ -1,0 +1,43 @@
+{
+  "V4历史来源清单SHA256": "423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de",
+  "V4原配置SHA256": "59c1e7f569ba846effc5b3fd7f1776d55f4c2341b25f012809e60b4c6b913334",
+  "任07事前正式登记SHA256": "f92abf2cc2f97aa6bddcd16768707ee581470bbe0f9d3eb191598dbf7bbc0dba",
+  "旧test_Data温度标签读取": false,
+  "B0五份原最佳模型SHA256": {
+    "0": "0764c7e78f45e3509f0f8a525965a8f9d77a789aed47ce10ea8d536673644f4b",
+    "1": "cae7b3546d9c1358350d2866d87f773b10415290f62f88f38b007b79d7013906",
+    "2": "a7dfffdea6c50fda21efd8c822d0585743aa3df9ae7ea1d363c3d221105b6802",
+    "3": "41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b",
+    "4": "d27d0deb910580c5ca346a0c718efb92acbc971bbe10705a0e5fc61b9383f0ca"
+  },
+  "原合法顶部IR数据SHA256": "dd8ef7e112bce2bd73dd3fe3ad5889131964db4af1b57c882b43f5b816d4b82d",
+  "原处理manifest_SHA256": "1ea58fded68b8950d89c9012d879a7b6197dbb2b12c3c3ccc44af474843d8a82",
+  "V4原径向合法指标CSV_SHA256": "70521dc6b5a6f4d35bfe635f49c63e5c18a3ac2dc12c1eff6885a29eb855ae30",
+  "任07原合法观测工件清单SHA256": "53356a08026a7837642aea1d3ba4e4f523a8888b88052115ea330562eec381ac",
+  "任07原径向合法指标CSV_SHA256": "0bda4d204a65e84b932cc37dfe296f6389974516949ba6452ec9e7ad9b8ddd77",
+  "任07原推理工件清单SHA256": "92e71b03b1b0d1c7d129d077426fd3905b477450584e9fccb5744916ef87e111",
+  "任07原五份观测最佳模型SHA256": {
+    "0": "42aab603826e627f69181fb6c76253a98b68241ec204695a9c10584626cc6ea7",
+    "1": "87e64148abdbd6d24279215cb701de0e7f1308f2cd5129bca1a9753d72c772eb",
+    "2": "bab0f88e74d27f3fb06a4e72a2240959b330128bbafb7216a72936ec980d8c5f",
+    "3": "49c01654bad3f4ecea61751ead78fa8938019e6438747c2b6dac937c6a2dbc83",
+    "4": "50185092de09b58a7398f1547a9ee4ed44d82ec448f71c17ba80e863478f2a14"
+  },
+  "源码逐文件SHA256": {
+    "scripts/30_audit_task07_radial_endpoint.py": "860f5c9419fdeb7d3875511eb40f6195d356d8e29a5913da42d95bd75426b175",
+    "tests/test_task07_radial_endpoint_audit.py": "631d11c1bd24a633ca616e11322056fc5cb3984a3f747612170be37385dad3c1",
+    "src/sic_cu/eval/development_v4.py": "986310e200279346447502a52032db9353ca6a1a0247c57c5938c9d19ac5e4b3",
+    "src/sic_cu/data/processed.py": "f9d15e1700f697d52ea60cac80c0384c0ec39e47678ba8717d31a0154cde1a72",
+    "src/sic_cu/train/task07_source.py": "54dcbdab5c7ea624cd885baefc5390baf66489fb95020c4d52e1fbdd16ec2642",
+    "src/sic_cu/train/task07_formal.py": "3b2160492cce7bf40c8e9c9953e3e5d99bff6ecb5e69923260e8171d3a52cc21",
+    "src/sic_cu/models/multifidelity.py": "18bcc1c6c7d4c4f385ff9144b706488a60d54da7e5d10c1d319e2e3fb598f90f",
+    "src/sic_cu/prediction.py": "862d99ae005fb40169936fa57ef87059d9173252a4fc5e343fb95b1ed9588747",
+    "scripts/27_verify_task07_inference.py": "509714dab2d67058186b3fd4efe25930977f9444c0600bc381e90b7df835bd44",
+    "configs/optimization_v4.yaml": "59c1e7f569ba846effc5b3fd7f1776d55f4c2341b25f012809e60b4c6b913334",
+    "configs/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+    "reports/development_v4/baseline_manifest.yaml": "423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de",
+    "研究记录/任务07_正式五种子重训/有效运行配置_实现修复后.yaml": "f92abf2cc2f97aa6bddcd16768707ee581470bbe0f9d3eb191598dbf7bbc0dba"
+  },
+  "事前源码快照SHA256": "69254adfe4f83ac31292b43f288800d93704e1f561a0f97458d98a950ce0ca8f",
+  "事前源码快照文件名": "事前独立径向审计源码快照.tar.gz"
+}

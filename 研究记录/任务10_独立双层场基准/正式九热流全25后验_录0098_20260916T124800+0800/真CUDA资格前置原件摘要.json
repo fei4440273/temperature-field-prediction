@@ -1,0 +1,495 @@
+{
+  "阶段": "录0064/0066/0070及录0074真CUDA资格后正式后验",
+  "录0074源码冻结": {
+    "CUDA资格预算_SHA256": "0a687b15ac4e37c9abb7b75575fc37d29e82ffe3d8653d3b8ba8ee75db68dbe1",
+    "CUDA资格十二源tar_SHA256": "4b011788d76de616185ce068b11aca8b0bd11d3251519a415375015d4c15ea0a",
+    "旧方法录0064_SHA256": "cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94",
+    "旧二级录0066_SHA256": "5e69e7b29aacd11e5a1923aff03974dd777d754676ee9463a2b15c4d810436da",
+    "旧v3录0070_SHA256": "2e4c48149cd335accc31cdb00d7b38b24611c8aee9ee2ffd7bf05981afa6e173",
+    "正式CUDA模型已在本门禁产生": false,
+    "完整HF温度已读取": false
+  },
+  "录0066旧二级门禁": {
+    "身份总数": 25,
+    "逐步CSV与机器状态结构及SHA校验通过": true,
+    "只读完整HF": false,
+    "身份清单_SHA256": "c2f4c568ea81642306185ea243ddb0e0e703fabcaa95c9a7c71fef75fa9b82fe",
+    "预算_SHA256": "cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94",
+    "数值源清单_SHA256": "b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb",
+    "模型身份": [
+      [
+        "F1",
+        0,
+        null
+      ],
+      [
+        "F1",
+        1,
+        null
+      ],
+      [
+        "F1",
+        2,
+        null
+      ],
+      [
+        "F1",
+        3,
+        null
+      ],
+      [
+        "F1",
+        4,
+        null
+      ],
+      [
+        "F2",
+        0,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        0,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        1,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        1,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        2,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        2,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        3,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        3,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        4,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        4,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        0,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        0,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        1,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        1,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        2,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        2,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        3,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        3,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        4,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        4,
+        "lf_contact_mismatch_coarse"
+      ]
+    ],
+    "二级后验预算_SHA256": "5e69e7b29aacd11e5a1923aff03974dd777d754676ee9463a2b15c4d810436da",
+    "二级后验源码tar_SHA256": "10777b6e0b99e6b8b4563b59e2d9d575505eda6cdea49235fca02ba1f1c54fb0",
+    "全25和两级源码事前SHA已核": true,
+    "完整HF温度已读取": false
+  },
+  "录0070真实LF二级门禁": {
+    "v3预算_SHA256": "2e4c48149cd335accc31cdb00d7b38b24611c8aee9ee2ffd7bf05981afa6e173",
+    "v3七源tar_SHA256": "653c9c7bc90511fca8e0baa2d0534255d21c42b55a33e7f42a5a7279209a669e",
+    "全25身份清单待原门禁逐SHA": "c2f4c568ea81642306185ea243ddb0e0e703fabcaa95c9a7c71fef75fa9b82fe",
+    "旧方法十一源_SHA256": "22e6df62cf1aaddf55a8a33e8d8a71e558d89110db96466dc904d1b10c03069d",
+    "旧二级十源_SHA256": "10777b6e0b99e6b8b4563b59e2d9d575505eda6cdea49235fca02ba1f1c54fb0",
+    "完整HF温度已读取": false
+  },
+  "25身份真CUDA资格": {
+    "身份总数": 25,
+    "真CUDA运行批次总数": 15,
+    "可见CUDA设备数": 1,
+    "逐身份设备RNG资源与原件SHA绑定通过": true,
+    "完整HF温度已读取": false,
+    "逐身份": [
+      {
+        "方法": "F1",
+        "随机种子": 0,
+        "LF来源": null,
+        "CUDA运行收据_SHA256": "3291b01352e65d66e722d784e070de97945a280cda8aea4b5c89424f6d1bb20b",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 17.671875,
+        "最佳模型_SHA256": "a3bf2b364b123e58ffb9c12da349111728524276e49792ffed9bd0e41368d93a",
+        "终态模型_SHA256": "a3bf2b364b123e58ffb9c12da349111728524276e49792ffed9bd0e41368d93a"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 1,
+        "LF来源": null,
+        "CUDA运行收据_SHA256": "9bad53ba8f892e4f92971cd4c97b5f7a6a2a6df05dec0f324aeccea609534ee0",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 17.671875,
+        "最佳模型_SHA256": "05df18c3c0df99ee2c86a0e72267e0c9f047bb07d71e73a0c1b954903537d5d2",
+        "终态模型_SHA256": "21cf890cefa5cb8690c88d6afc9602c3e895f15b6f8d133db035149442acc2a4"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 2,
+        "LF来源": null,
+        "CUDA运行收据_SHA256": "af46609ee6e81dc5f02a84afc8b1423ea4a52fcc460af6fa1f3e2a3c02f06349",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 17.671875,
+        "最佳模型_SHA256": "242662b7983255e93458d7c311590f3fc38d2b823c582ab7874dedcbb5fc0996",
+        "终态模型_SHA256": "242662b7983255e93458d7c311590f3fc38d2b823c582ab7874dedcbb5fc0996"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 3,
+        "LF来源": null,
+        "CUDA运行收据_SHA256": "5be02b868a2a52809c0d703565c70d4aa68c5d00ee83a7e3ff65d184685b48b2",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 17.671875,
+        "最佳模型_SHA256": "119219a1d1a7bf472a7eb7dacbd4ee2291aed240cf2d2ca5daa70007d6bf9061",
+        "终态模型_SHA256": "119219a1d1a7bf472a7eb7dacbd4ee2291aed240cf2d2ca5daa70007d6bf9061"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 4,
+        "LF来源": null,
+        "CUDA运行收据_SHA256": "b82cd6ddf33745453a45227df05e5baf71aa8a3b04e1915135c7ac6739a8b3d8",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 17.671875,
+        "最佳模型_SHA256": "67c75c2ab532cb71f353808bdde0c6cf23bade05a5f882fa968ad0a8aac53b5b",
+        "终态模型_SHA256": "217402872db823c31cb6d2a4a790766d35579f3661382188563e0a9c328b2a04"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 0,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "4f06d2ab4e41b80b06a20d73281c98a49ccf2f00346b370034d201d723b4975b",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "ea2b67b4927a9fb48f08083a3b2f6399130134e71d168b16a20c44aa2f2968d5",
+        "终态模型_SHA256": "2fa84ea9c34a71763472e77b91f7e39bbebc3124f8bd3404aaaa839079758bc4"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 0,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "4f06d2ab4e41b80b06a20d73281c98a49ccf2f00346b370034d201d723b4975b",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "15c1db6fc11320f8e99311cd503f06e06555fad65ed2372376d67e05bbe414f4",
+        "终态模型_SHA256": "604a5703bb100cc13ee08bb3d75ef5413e1515a4ca2a6d6d687bd9f682c907e0"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 1,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "060d8700d9bad2a67b11c7b4ba694708eb32395fa439971f3c7f164b9492227b",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "b3a15f2748472367ef40e5d763b4df875c59e3d302f87bc3a65a293fb84ff25d",
+        "终态模型_SHA256": "da25f9d742d856abd92fc6915225a482c6e379d8890fd7c01da93f3c2cf59eba"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 1,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "060d8700d9bad2a67b11c7b4ba694708eb32395fa439971f3c7f164b9492227b",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "0f6c7648d36cdbf3e30b8b27a7e8a336afdac139e625951871d9d19774557143",
+        "终态模型_SHA256": "0f6c7648d36cdbf3e30b8b27a7e8a336afdac139e625951871d9d19774557143"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 2,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "83df63ac318cd0eacdae3e060fc5ca3a25166a6b5ebaa0ef641f7b355c54c1e1",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "e2b8de152b8b456d2913d910b61ab754b57164079b1be856e247bea52f9cd30e",
+        "终态模型_SHA256": "89a6e10b3240b8c79bcae0eeb0a482982f4e730385eb058ae8454fff969869ee"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 2,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "83df63ac318cd0eacdae3e060fc5ca3a25166a6b5ebaa0ef641f7b355c54c1e1",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "fd40721521f91baa74515915f6a3ec5d8c69e2b744a24a1713ca30806e8b0808",
+        "终态模型_SHA256": "fd40721521f91baa74515915f6a3ec5d8c69e2b744a24a1713ca30806e8b0808"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 3,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "4adfe41a15abd7a16e7e439be65b97de8f3a00291ad7e1e16bb1cf738201151e",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "0cfc46947a911aa69a35f17a271d2e8fa7d4e34bd443862e009425bf6f2370b3",
+        "终态模型_SHA256": "f6e616b107f5aaf8c7ed15926469f43ed24d3796f7d5579bf5f6a60d28792335"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 3,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "4adfe41a15abd7a16e7e439be65b97de8f3a00291ad7e1e16bb1cf738201151e",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "40dc114e0761003675a86ae395f0e6078d6c3c481583c2b7a80b5bc4da8628c5",
+        "终态模型_SHA256": "40dc114e0761003675a86ae395f0e6078d6c3c481583c2b7a80b5bc4da8628c5"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 4,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "91e3cfb1ffc7b13a523f2e4113ae856c62d34b7c5fae2206c762677cbb640767",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "f4f0b6a755c80696b456641b9908003bed22b5cb3fac30f1366a63523a5f41aa",
+        "终态模型_SHA256": "7b7a0b8ab3ea8876eab46a56757dd1f575a19f9ba19f54d64ca2f3be09a7ee59"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 4,
+        "LF来源": "lf_same_physics_coarse",
+        "CUDA运行收据_SHA256": "91e3cfb1ffc7b13a523f2e4113ae856c62d34b7c5fae2206c762677cbb640767",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "ebe76fffb4c4d5dbd95c1dd0a53cac1646dc50cca0f85b39be73fb93750d185d",
+        "终态模型_SHA256": "4793c19381aad305cb4c6355312646ede014e18d5b460cb173a7e55160899582"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 0,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "9cdba89c6a8f02f0f304cc86fbdad8da92f90467d205a8d5690639f5041e3b15",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "cb2e149fdb282417a9a4c24c8347ebcbae36bb470b5fef0ad55fe81e48ca34ef",
+        "终态模型_SHA256": "6b2094a5abca16863c92a2c6a853fc43a571d9d719361d0eb6c5a28b3165802e"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 0,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "9cdba89c6a8f02f0f304cc86fbdad8da92f90467d205a8d5690639f5041e3b15",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "97c3424f03a224c8d1c22779f0fd586745bc3992dd5fdeee8ee64120a86078c3",
+        "终态模型_SHA256": "e79da6c212294cc3d37ca4d46c7ee45ce04d8a57d85e27281430332b4584baab"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 1,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "175ef483d08fc1ab3f81779dd144d223647eb258594e535f0312e305418ddc77",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "217697d41127dec7ae2b31b369d4488e2c4de424e96fe2dec66512eb446ad92f",
+        "终态模型_SHA256": "217697d41127dec7ae2b31b369d4488e2c4de424e96fe2dec66512eb446ad92f"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 1,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "175ef483d08fc1ab3f81779dd144d223647eb258594e535f0312e305418ddc77",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "cfcf416e44092f5c7ca961bedfc5f1178f3ca5aa28ac12c181cb23b6167f13fd",
+        "终态模型_SHA256": "cfcf416e44092f5c7ca961bedfc5f1178f3ca5aa28ac12c181cb23b6167f13fd"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 2,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "da5df7dce6dc4fbcf5269ecf6f1ab205d12b95e873670ab02ab1802e67613f2d",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "704d134e5f08ed6b1e4a2ce32c40b16d568b0577b75458b0eda2d472b27d7470",
+        "终态模型_SHA256": "704d134e5f08ed6b1e4a2ce32c40b16d568b0577b75458b0eda2d472b27d7470"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 2,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "da5df7dce6dc4fbcf5269ecf6f1ab205d12b95e873670ab02ab1802e67613f2d",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "1d127b21115dd6a8aa55b0d33961c1f5ddbb2657fbc8de8e7e5316018588fb50",
+        "终态模型_SHA256": "1d127b21115dd6a8aa55b0d33961c1f5ddbb2657fbc8de8e7e5316018588fb50"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 3,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "5fbd5bf0d264bc812c639e1586a4724e1209f79c2646c1ea159b1d880721e8a8",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "9580e9402e9033de437a9fef5736022ab0265523fd4433c75aeef63aae678ce1",
+        "终态模型_SHA256": "9580e9402e9033de437a9fef5736022ab0265523fd4433c75aeef63aae678ce1"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 3,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "5fbd5bf0d264bc812c639e1586a4724e1209f79c2646c1ea159b1d880721e8a8",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "9e9e147c794364ed1fe8c8e9e7fa7c556b23be00f84a2e74b91b092dad2a9f61",
+        "终态模型_SHA256": "9e9e147c794364ed1fe8c8e9e7fa7c556b23be00f84a2e74b91b092dad2a9f61"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 4,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "3f5291be2842a7cdd94dce2805d3b55c672d6fd9a54ed4fcebb98908987693d0",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "516e74212b4ac9205a0e7cd4d31ba660ba7b7c9698f661e5694d6b00c0a02ae9",
+        "终态模型_SHA256": "6ec9f4c37f732483c5d319eadb681b0b26fcc23b2e56399d1aacacbd0b9a90ba"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 4,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "CUDA运行收据_SHA256": "3f5291be2842a7cdd94dce2805d3b55c672d6fd9a54ed4fcebb98908987693d0",
+        "可见CUDA设备数": 1,
+        "运行设备名称": "NVIDIA GeForce RTX 4090 D",
+        "PyTorch版本": "2.5.1",
+        "CUDA运行时版本": "12.1",
+        "CUDA峰值分配MiB": 18.34033203125,
+        "最佳模型_SHA256": "e6d9e27e14673cfb4b2208f42140b7a2cb8fe0c6c7c136c79137365a82d8fa73",
+        "终态模型_SHA256": "1690c430e86f3e8614b9dbee7c3d2deb9f775c7e396877700eb0d785400d11d6"
+      }
+    ]
+  },
+  "完整HF后验已由原v3执行": true,
+  "失败训练批次恢复": false
+}

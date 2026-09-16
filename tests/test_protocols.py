@@ -6,9 +6,11 @@ import pytest
 import polars as pl
 
 from sic_cu.data.splits import (
+    assert_development_label_split,
     build_power_splits,
     grouped_five_fold_splits,
     logo_folds,
+    resolve_hf_training_subset,
 )
 from sic_cu.train.multifidelity import _filter_observations, train_multifidelity
 from sic_cu.train.surface_residual import train_surface_residual
@@ -41,6 +43,24 @@ def test_logo_and_grouped_cross_validation_are_disabled() -> None:
         logo_folds([])
     with pytest.raises(RuntimeError, match="cross-validation is disabled"):
         grouped_five_fold_splits()
+
+
+def test_development_protocol_rejects_test_labels() -> None:
+    assert assert_development_label_split("train") == "train"
+    assert assert_development_label_split("validation") == "validation"
+    with pytest.raises(RuntimeError, match="only train/validation"):
+        assert_development_label_split("test")
+
+
+def test_hf_training_subset_preserves_global_protocol() -> None:
+    splits = build_power_splits()
+    selected = resolve_hf_training_subset([55.0, 364.3, 729.0], splits)
+    assert selected < splits.hf_train
+    assert len(splits.hf_train) == 12
+    assert len(splits.hf_validation) == 3
+    assert len(splits.hf_test) == 3
+    with pytest.raises(RuntimeError, match="non-training powers"):
+        resolve_hf_training_subset([55.0, 115.2], splits)
 
 
 def test_explicit_power_cannot_bypass_split_filter() -> None:

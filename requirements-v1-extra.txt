@@ -1,0 +1,2 @@
+# Additional dependency used by the fixed HF-only Ridge comparison.
+scikit-learn==1.6.1

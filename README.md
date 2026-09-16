@@ -38,7 +38,7 @@ MLP-PINN、LSTM-PINN、POD-PINN、DeepONet-PINN 和 GNO 候选；扩散模型不
   test_Data `3` 功率最终测试；三组功率和全部模态互不重叠。
 - 已实现 FEM 线性/三次插值、MLP/LSTM/POD/DeepONet PINN 候选、GNO 数据候选及统一物理损失。
 - 已实现确定性多保真表面残差基线、任意功率查询、三维旋转和 NPZ/CSV/VTK/PNG 导出。
-- MLP、POD 和 GNO 训练入口已在两张 NVIDIA A40 上通过 DDP 冒烟验证。
+- 训练入口会优先选择可用 CUDA 设备；当前本地运行目标为单张 NVIDIA RTX 4090 D。
 - 已完成材料感知 MLP/LSTM/DeepONet、无材料标签 MLP 消融与 Global POD 的 5 种子 simulation-only 冻结功率测试。
 - 已实现原始二维 IR 像素回投、轴对称误差下限、末帧对比图和 5 种子汇总。
 - 历史版本已完成参数可辨识性分析、辐射率敏感性筛选、确定性多保真 PINN 5-seed
@@ -101,37 +101,31 @@ data/
 
 原始数据只读使用。`data/processed/` 和 `data/cache/` 可由脚本重建，不应手工编辑。
 
-## Docker 环境
+## 本地 PINN 环境
 
-本机已验证镜像为 `ra-msml-pinn:local-cu124`，其 PINN 环境位于
-`/opt/conda/envs/PINN`，包含 PyTorch 2.6.0 与 CUDA 12.4。
+本项目使用本机 Conda 环境 `/home/phl/anaconda3/envs/PINN`。该环境当前为
+Python 3.9、PyTorch 2.5.1 和 CUDA 12.1，可使用单张 NVIDIA RTX 4090 D。
 
-定义工程路径：
-
-```bash
-PROJECT_DIR='/home/lyf/Temperature Field Prediction'
-IMAGE='ra-msml-pinn:local-cu124'
-```
-
-运行全部测试：
+首次安装与运行：
 
 ```bash
-docker run --rm --ipc=host \
-  -e PYTHONPATH=/workspace/src \
-  -v "$PROJECT_DIR:/workspace" -w /workspace "$IMAGE" \
-  /opt/conda/envs/PINN/bin/python -m pytest -q tests
+conda env config vars set -n PINN \
+  PYTHONPATH= PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+  CUDA_VISIBLE_DEVICES=0 MPLBACKEND=Agg
+conda activate PINN
+cd '/home/phl/lyf/Temperature Field Prediction'
+python -m pip install -e '.[test]'
+python -c "import torch; assert torch.cuda.is_available(); print(torch.cuda.get_device_name(0))"
+python -m pytest -q tests
+torchrun --standalone --nproc_per_node=1 tests/ddp_physics_smoke.py
 ```
 
-双 A40 训练统一使用：
+空的 `PYTHONPATH` 用于隔离父 shell 中 ROS Humble 的 Python 3.10 包；项目已用 editable
+模式安装，不依赖 `PYTHONPATH`。修改 Conda 激活变量后，如果 `PINN` 已处于激活状态，先执行
+`conda deactivate` 再重新激活。
 
-```bash
-docker run --rm --gpus all --ipc=host \
-  -e CUDA_VISIBLE_DEVICES=0,1 -e PYTHONPATH=/workspace/src \
-  -v "$PROJECT_DIR:/workspace" -w /workspace "$IMAGE" \
-  /opt/conda/envs/PINN/bin/torchrun --standalone --nproc_per_node=2 SCRIPT.py ARGS
-```
-
-也可使用 [`docker/compose.yaml`](docker/compose.yaml) 启动开发容器。
+训练代码会在 CUDA 可用时自动选择 `cuda:0`。本机为单 GPU，不需要启动 DDP；直接使用
+`python SCRIPT.py ARGS` 即可。上面的 `torchrun` 只用于验证 NCCL、GPU 物理损失和反向传播。
 
 ## 数据准备与审计
 
@@ -176,10 +170,10 @@ python scripts/02_analyze_pod.py
 累计能量图输出到 [`reports/pod_energy.png`](reports/pod_energy.png)。Global/材料分离
 POD 的变体选择使用重建后的验证全场 RMSE，不能比较维数不同的系数均方误差。
 
-纯数据 MLP 双卡训练：
+纯数据 MLP 单卡训练：
 
 ```bash
-torchrun --standalone --nproc_per_node=2 scripts/02_train_simulation_model.py \
+python scripts/02_train_simulation_model.py \
   --method mlp --seed 0 --output reports/runs/mlp_seed0
 ```
 
@@ -187,8 +181,8 @@ torchrun --standalone --nproc_per_node=2 scripts/02_train_simulation_model.py \
 可将方法改为 `mlp_pinn`、`lstm_pinn` 或 `deeponet_pinn`。POD-PINN 和 GNO 使用独立入口：
 
 ```bash
-torchrun --standalone --nproc_per_node=2 scripts/02_train_pod_model.py
-torchrun --standalone --nproc_per_node=2 scripts/02_train_gno_model.py --data-only
+python scripts/02_train_pod_model.py
+python scripts/02_train_gno_model.py --data-only
 ```
 
 `--data-only` 仅用于软件检查或消融，不能标为 PINN 结果。GNO 的消息传递会耦合节点，当前
@@ -200,14 +194,14 @@ torchrun --standalone --nproc_per_node=2 scripts/02_train_gno_model.py --data-on
 确定性 SiC 顶面残差基线无需未知物理量，可以先运行：
 
 ```bash
-torchrun --standalone --nproc_per_node=2 scripts/03_train_surface_residual.py \
+python scripts/03_train_surface_residual.py \
   --seed 0 --output reports/runs/surface_residual_seed0
 ```
 
 完整多保真校正需要已训练的低保真检查点和全部已核实元数据：
 
 ```bash
-torchrun --standalone --nproc_per_node=2 scripts/03_train_multifidelity.py \
+python scripts/03_train_multifidelity.py \
   --lf-checkpoint reports/runs/mlp_pinn_seed0/best.pt \
   --output reports/runs/multifidelity_seed0
 ```

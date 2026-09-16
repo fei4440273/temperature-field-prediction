@@ -1,0 +1,80 @@
+{
+  "HF合法验证功率_瓦": [
+    115.2,
+    403.0,
+    630.5
+  ],
+  "HF源原件": [
+    {
+      "原件": "data/processed/experiment_ir_radial.parquet",
+      "原列schema": {
+        "frame_weight": "Float32",
+        "n_pixels": "Int32",
+        "power_w": "Float32",
+        "r_m": "Float32",
+        "reliability_weight_raw": "Float32",
+        "source_dataset": "String",
+        "split": "String",
+        "temperature_mean_k": "Float32",
+        "temperature_std_c": "Float32",
+        "time_s": "Float32"
+      },
+      "文件SHA256": "dd8ef7e112bce2bd73dd3fe3ad5889131964db4af1b57c882b43f5b816d4b82d",
+      "用途": "HF顶部开发",
+      "真实行数": 36865
+    },
+    {
+      "原件": "data/processed/sensor_ring_raw.parquet",
+      "原列schema": {
+        "delta_value_raw": "Float64",
+        "n_angular_samples": "Int32",
+        "power_w": "Float32",
+        "radius_raw": "Float64",
+        "sample_index": "Int32",
+        "sensor_type": "String",
+        "source_dataset": "String",
+        "source_last_header": "String",
+        "split": "String",
+        "time_raw": "Float64",
+        "value_mean_raw": "Float64",
+        "value_std_raw": "Float64"
+      },
+      "文件SHA256": "c987bafd68a37d1ab30857a834783764bde1c10249e8c02147118c02b3162db4",
+      "用途": "HF两环开发",
+      "真实行数": 3737
+    }
+  ],
+  "HF计数": {
+    "Top训练": 29593,
+    "Top验证": 7272,
+    "环温训练": 2985,
+    "环温验证": 752
+  },
+  "HF训练功率_瓦": [
+    55.0,
+    216.8,
+    254.5,
+    257.0,
+    309.0,
+    364.3,
+    430.0,
+    494.2,
+    532.0,
+    558.5,
+    593.5,
+    729.0
+  ],
+  "schema_version": 1,
+  "协议指纹": {
+    "code_commit": "bbe563e05ee65e28362ccab04d91773896d8d0c4-dirty",
+    "physics_config_sha256": "4edc82ce60eca25ac4ec895a2bafb549fa1c50105594a66cfa7180464793ee2b",
+    "processed_manifest_sha256": "5b17c35f8b71458588538fb1a9a9186decd69689c1a547c3a69956d460117f82",
+    "protocol_id": "hf_fixed_12_3_3_v4",
+    "raw_manifest_sha256": "ed7a5c15f605f40ebba5c7133872aff9fad7b3304edd17c3644cadae086c112e",
+    "selection_metric_version": "macro_v1",
+    "split_sha256": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e"
+  },
+  "旧固定TEST温度读取": false,
+  "模拟测试功率温度读取": false,
+  "阶段": "task11_hf_development_12_3"
+}

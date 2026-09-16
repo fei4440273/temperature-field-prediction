@@ -1,0 +1,244 @@
+diff --git a/src/sic_cu/data/splits.py b/src/sic_cu/data/splits.py
+index 984c5b7..5ea2b74 100644
+--- a/src/sic_cu/data/splits.py
++++ b/src/sic_cu/data/splits.py
+@@ -92,6 +92,33 @@ def assert_no_hf_leakage(
+         raise RuntimeError(f"High-fidelity power leakage detected: {leaked}")
+ 
+ 
++def resolve_hf_training_subset(
++    powers_w: Iterable[float],
++    splits: PowerSplits | None = None,
++) -> frozenset[float]:
++    """Validate a nested HF training subset without weakening the global protocol."""
++    active = splits or build_power_splits()
++    selected = _as_set(powers_w)
++    if not selected:
++        raise ValueError("High-fidelity training subset cannot be empty")
++    outside = selected - active.hf_train
++    if outside:
++        raise RuntimeError(
++            f"High-fidelity training subset contains non-training powers: {sorted(outside)}"
++        )
++    return selected
++
++
++def assert_development_label_split(split: str) -> str:
++    """Reject test-label access from development and diagnostic entry points."""
++    if split not in {"train", "validation"}:
++        raise RuntimeError(
++            "Development diagnostics may read only train/validation labels; "
++            f"received split={split!r}"
++        )
++    return split
++
++
+ def logo_folds(*_args, **_kwargs):
+     raise RuntimeError("LOGO is disabled; use the fixed train/validation/test protocol")
+ 
+diff --git a/src/sic_cu/eval/protocol_checks.py b/src/sic_cu/eval/protocol_checks.py
+index 45ced08..b2b68da 100644
+--- a/src/sic_cu/eval/protocol_checks.py
++++ b/src/sic_cu/eval/protocol_checks.py
+@@ -10,7 +10,11 @@ import yaml
+ 
+ from sic_cu.config import PROJECT_ROOT, load_yaml
+ from sic_cu.data.common import sha256_file
+-from sic_cu.data.splits import PowerSplits, build_power_splits
++from sic_cu.data.splits import (
++    PowerSplits,
++    build_power_splits,
++    resolve_hf_training_subset,
++)
+ 
+ 
+ PROTOCOL_ID = "hf_fixed_12_3_3_v4"
+@@ -202,10 +206,19 @@ def validate_hf_checkpoint_provenance(
+         raise RuntimeError("Checkpoint does not declare a multifidelity provenance role")
+     if provenance.get("test_labels_consumed") is not False:
+         raise RuntimeError("Checkpoint does not prove test-label isolation")
+-    if _canonical_powers(provenance.get("train_powers_w", ())) != _canonical_powers(
+-        active_splits.hf_train
+-    ):
+-        raise RuntimeError("Checkpoint HF train powers do not match the fixed protocol")
++    declared_train = _canonical_powers(provenance.get("train_powers_w", ()))
++    declared_subset = provenance.get("hf_training_subset_w")
++    if declared_subset is None:
++        if declared_train != _canonical_powers(active_splits.hf_train):
++            raise RuntimeError("Checkpoint HF train powers do not match the fixed protocol")
++    else:
++        selected = resolve_hf_training_subset(declared_subset, active_splits)
++        if declared_train != _canonical_powers(selected):
++            raise RuntimeError("Checkpoint HF train powers do not match its declared subset")
++        if _canonical_powers(
++            provenance.get("global_hf_train_powers_w", ())
++        ) != _canonical_powers(active_splits.hf_train):
++            raise RuntimeError("Checkpoint global HF train powers do not preserve the fixed protocol")
+     if _canonical_powers(
+         provenance.get("validation_powers_w", ())
+     ) != _canonical_powers(active_splits.hf_validation):
+diff --git a/src/sic_cu/train/multifidelity.py b/src/sic_cu/train/multifidelity.py
+index 9ef7414..71d3e8f 100644
+--- a/src/sic_cu/train/multifidelity.py
++++ b/src/sic_cu/train/multifidelity.py
+@@ -19,7 +19,11 @@ from sic_cu.config import PROJECT_ROOT, load_yaml
+ from sic_cu.data.sensors import load_canonical_sensor_observations
+ from sic_cu.data.common import sha256_file
+ from sic_cu.data.processed import load_processed_ir_observations
+-from sic_cu.data.splits import assert_no_hf_leakage, build_power_splits
++from sic_cu.data.splits import (
++    assert_no_hf_leakage,
++    build_power_splits,
++    resolve_hf_training_subset,
++)
+ from sic_cu.eval.protocol_checks import (
+     checkpoint_provenance,
+     current_protocol_fingerprints,
+@@ -497,6 +501,7 @@ def train_multifidelity(
+     surface_guide_degree_r: int = 20,
+     surface_guide_degree_t: int = 20,
+     simulation_supervision_target: str = "low_fidelity",
++    hf_training_subset_w: Iterable[float] | None = None,
+ ) -> dict[str, Any] | None:
+     if correction_epochs < 0 or joint_epochs < 0 or correction_epochs + joint_epochs < 1:
+         raise ValueError("At least one correction or joint epoch is required")
+@@ -552,7 +557,18 @@ def train_multifidelity(
+         hf_validation_powers_w,
+         hf_test_powers_w,
+     )
+-    if all(values is None for values in power_overrides):
++    if hf_training_subset_w is not None and any(
++        values is not None for values in power_overrides
++    ):
++        raise ValueError(
++            "hf_training_subset_w cannot be combined with explicit full-protocol power groups"
++        )
++    if hf_training_subset_w is not None:
++        hf_train_powers = resolve_hf_training_subset(hf_training_subset_w, splits)
++        hf_validation_powers = splits.hf_validation
++        hf_test_powers = splits.hf_test
++        hf_split_source = "fixed_global_protocol_with_nested_hf_training_subset"
++    elif all(values is None for values in power_overrides):
+         hf_train_powers = splits.hf_train
+         hf_validation_powers = splits.hf_validation
+         hf_test_powers = splits.hf_test
+@@ -1012,6 +1028,12 @@ def train_multifidelity(
+                             fingerprints=fingerprints,
+                         )
+                         | {
++                            "global_hf_train_powers_w": sorted(splits.hf_train),
++                            "hf_training_subset_w": (
++                                None
++                                if hf_training_subset_w is None
++                                else sorted(hf_train_powers)
++                            ),
+                             "lf_checkpoint_sha256": sha256_file(low_fidelity_checkpoint),
+                             "lf_checkpoint_provenance": lf_checkpoint["provenance"],
+                         },
+@@ -1220,6 +1242,10 @@ def train_multifidelity(
+                 "hard_deployment_constraints": hard_deployment_constraints,
+                 "hf_split_source": hf_split_source,
+                 "hf_train_powers_w": sorted(hf_train_powers),
++                "global_hf_train_powers_w": sorted(splits.hf_train),
++                "hf_training_subset_w": (
++                    None if hf_training_subset_w is None else sorted(hf_train_powers)
++                ),
+                 "hf_validation_powers_w": sorted(hf_validation_powers),
+                 "hf_test_powers_w": sorted(hf_test_powers),
+                 "sensor_absolute_weight": float(loss_cfg["sensor_absolute"]),
+@@ -1546,6 +1572,15 @@ def main() -> None:
+     parser.add_argument("--hf-train-powers", type=float, nargs="+")
+     parser.add_argument("--hf-validation-powers", type=float, nargs="+")
+     parser.add_argument("--hf-test-powers", type=float, nargs="+")
++    parser.add_argument(
++        "--hf-training-subset",
++        type=float,
++        nargs="+",
++        help=(
++            "Nested subset of the fixed 12 HF training powers. Validation/test groups "
++            "remain globally fixed and test labels remain unavailable to training."
++        ),
++    )
+     parser.add_argument(
+         "--correction-power-scaling", choices=("none", "linear"), default="none"
+     )
+@@ -1614,6 +1649,7 @@ def main() -> None:
+             hf_train_powers_w=args.hf_train_powers,
+             hf_validation_powers_w=args.hf_validation_powers,
+             hf_test_powers_w=args.hf_test_powers,
++            hf_training_subset_w=args.hf_training_subset,
+             correction_power_scaling=args.correction_power_scaling,
+             correction_power_reference_w=args.correction_power_reference_w,
+             correction_direct_power_input=not args.no_correction_direct_power_input,
+diff --git a/tests/test_protocol_provenance.py b/tests/test_protocol_provenance.py
+index efa555c..c2001fb 100644
+--- a/tests/test_protocol_provenance.py
++++ b/tests/test_protocol_provenance.py
+@@ -60,3 +60,26 @@ def test_hf_provenance_rejects_test_as_training_power() -> None:
+         validate_hf_checkpoint_provenance(
+             {"provenance": provenance}, splits, FINGERPRINTS
+         )
++
++
++def test_hf_provenance_accepts_only_declared_nested_training_subset() -> None:
++    splits = build_power_splits()
++    subset = [55.0, 364.3, 729.0]
++    provenance = checkpoint_provenance(
++        role="high_fidelity_multifidelity",
++        train_powers_w=subset,
++        validation_powers_w=splits.hf_validation,
++        fingerprints=FINGERPRINTS,
++    ) | {
++        "global_hf_train_powers_w": sorted(splits.hf_train),
++        "hf_training_subset_w": subset,
++    }
++    validate_hf_checkpoint_provenance(
++        {"provenance": provenance}, splits, FINGERPRINTS
++    )
++
++    provenance["hf_training_subset_w"] = subset + [115.2]
++    with pytest.raises(RuntimeError, match="non-training powers"):
++        validate_hf_checkpoint_provenance(
++            {"provenance": provenance}, splits, FINGERPRINTS
++        )
+diff --git a/tests/test_protocols.py b/tests/test_protocols.py
+index 9a2b2be..5a650ee 100644
+--- a/tests/test_protocols.py
++++ b/tests/test_protocols.py
+@@ -6,9 +6,11 @@ import pytest
+ import polars as pl
+ 
+ from sic_cu.data.splits import (
++    assert_development_label_split,
+     build_power_splits,
+     grouped_five_fold_splits,
+     logo_folds,
++    resolve_hf_training_subset,
+ )
+ from sic_cu.train.multifidelity import _filter_observations, train_multifidelity
+ from sic_cu.train.surface_residual import train_surface_residual
+@@ -43,6 +45,24 @@ def test_logo_and_grouped_cross_validation_are_disabled() -> None:
+         grouped_five_fold_splits()
+ 
+ 
++def test_development_protocol_rejects_test_labels() -> None:
++    assert assert_development_label_split("train") == "train"
++    assert assert_development_label_split("validation") == "validation"
++    with pytest.raises(RuntimeError, match="only train/validation"):
++        assert_development_label_split("test")
++
++
++def test_hf_training_subset_preserves_global_protocol() -> None:
++    splits = build_power_splits()
++    selected = resolve_hf_training_subset([55.0, 364.3, 729.0], splits)
++    assert selected < splits.hf_train
++    assert len(splits.hf_train) == 12
++    assert len(splits.hf_validation) == 3
++    assert len(splits.hf_test) == 3
++    with pytest.raises(RuntimeError, match="non-training powers"):
++        resolve_hf_training_subset([55.0, 115.2], splits)
++
++
+ def test_explicit_power_cannot_bypass_split_filter() -> None:
+     frame = pl.DataFrame(
+         {

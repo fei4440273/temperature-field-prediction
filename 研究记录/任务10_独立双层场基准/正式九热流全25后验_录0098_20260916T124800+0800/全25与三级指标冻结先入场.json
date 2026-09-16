@@ -1,0 +1,408 @@
+{
+  "原全25与二级门禁": {
+    "身份总数": 25,
+    "逐步CSV与机器状态结构及SHA校验通过": true,
+    "只读完整HF": false,
+    "身份清单_SHA256": "c2f4c568ea81642306185ea243ddb0e0e703fabcaa95c9a7c71fef75fa9b82fe",
+    "预算_SHA256": "cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94",
+    "数值源清单_SHA256": "b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb",
+    "模型身份": [
+      [
+        "F1",
+        0,
+        null
+      ],
+      [
+        "F1",
+        1,
+        null
+      ],
+      [
+        "F1",
+        2,
+        null
+      ],
+      [
+        "F1",
+        3,
+        null
+      ],
+      [
+        "F1",
+        4,
+        null
+      ],
+      [
+        "F2",
+        0,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        0,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        1,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        1,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        2,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        2,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        3,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        3,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        4,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F3",
+        4,
+        "lf_same_physics_coarse"
+      ],
+      [
+        "F2",
+        0,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        0,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        1,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        1,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        2,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        2,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        3,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        3,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F2",
+        4,
+        "lf_contact_mismatch_coarse"
+      ],
+      [
+        "F3",
+        4,
+        "lf_contact_mismatch_coarse"
+      ]
+    ],
+    "二级后验预算_SHA256": "5e69e7b29aacd11e5a1923aff03974dd777d754676ee9463a2b15c4d810436da",
+    "二级后验源码tar_SHA256": "10777b6e0b99e6b8b4563b59e2d9d575505eda6cdea49235fca02ba1f1c54fb0",
+    "全25和两级源码事前SHA已核": true,
+    "完整HF温度已读取": false
+  },
+  "v3独立指标源码门禁": {
+    "v3预算_SHA256": "2e4c48149cd335accc31cdb00d7b38b24611c8aee9ee2ffd7bf05981afa6e173",
+    "v3七源tar_SHA256": "653c9c7bc90511fca8e0baa2d0534255d21c42b55a33e7f42a5a7279209a669e",
+    "全25身份清单待原门禁逐SHA": "c2f4c568ea81642306185ea243ddb0e0e703fabcaa95c9a7c71fef75fa9b82fe",
+    "旧方法十一源_SHA256": "22e6df62cf1aaddf55a8a33e8d8a71e558d89110db96466dc904d1b10c03069d",
+    "旧二级十源_SHA256": "10777b6e0b99e6b8b4563b59e2d9d575505eda6cdea49235fca02ba1f1c54fb0",
+    "完整HF温度已读取": false
+  },
+  "25模型及真实10配对LF张量SHA": {
+    "25份最佳原模型锁SHA核对": true,
+    "25份最佳真实模型原件": [
+      {
+        "方法": "F1",
+        "随机种子": 0,
+        "LF来源": null,
+        "已锁最佳PT_SHA256": "a3bf2b364b123e58ffb9c12da349111728524276e49792ffed9bd0e41368d93a"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 1,
+        "LF来源": null,
+        "已锁最佳PT_SHA256": "05df18c3c0df99ee2c86a0e72267e0c9f047bb07d71e73a0c1b954903537d5d2"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 2,
+        "LF来源": null,
+        "已锁最佳PT_SHA256": "242662b7983255e93458d7c311590f3fc38d2b823c582ab7874dedcbb5fc0996"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 3,
+        "LF来源": null,
+        "已锁最佳PT_SHA256": "119219a1d1a7bf472a7eb7dacbd4ee2291aed240cf2d2ca5daa70007d6bf9061"
+      },
+      {
+        "方法": "F1",
+        "随机种子": 4,
+        "LF来源": null,
+        "已锁最佳PT_SHA256": "67c75c2ab532cb71f353808bdde0c6cf23bade05a5f882fa968ad0a8aac53b5b"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 0,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "cb2e149fdb282417a9a4c24c8347ebcbae36bb470b5fef0ad55fe81e48ca34ef"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 0,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "ea2b67b4927a9fb48f08083a3b2f6399130134e71d168b16a20c44aa2f2968d5"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 1,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "217697d41127dec7ae2b31b369d4488e2c4de424e96fe2dec66512eb446ad92f"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 1,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "b3a15f2748472367ef40e5d763b4df875c59e3d302f87bc3a65a293fb84ff25d"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 2,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "704d134e5f08ed6b1e4a2ce32c40b16d568b0577b75458b0eda2d472b27d7470"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 2,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "e2b8de152b8b456d2913d910b61ab754b57164079b1be856e247bea52f9cd30e"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 3,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "9580e9402e9033de437a9fef5736022ab0265523fd4433c75aeef63aae678ce1"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 3,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "0cfc46947a911aa69a35f17a271d2e8fa7d4e34bd443862e009425bf6f2370b3"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 4,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "516e74212b4ac9205a0e7cd4d31ba660ba7b7c9698f661e5694d6b00c0a02ae9"
+      },
+      {
+        "方法": "F2",
+        "随机种子": 4,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "f4f0b6a755c80696b456641b9908003bed22b5cb3fac30f1366a63523a5f41aa"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 0,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "97c3424f03a224c8d1c22779f0fd586745bc3992dd5fdeee8ee64120a86078c3"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 0,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "15c1db6fc11320f8e99311cd503f06e06555fad65ed2372376d67e05bbe414f4"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 1,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "cfcf416e44092f5c7ca961bedfc5f1178f3ca5aa28ac12c181cb23b6167f13fd"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 1,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "0f6c7648d36cdbf3e30b8b27a7e8a336afdac139e625951871d9d19774557143"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 2,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "1d127b21115dd6a8aa55b0d33961c1f5ddbb2657fbc8de8e7e5316018588fb50"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 2,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "fd40721521f91baa74515915f6a3ec5d8c69e2b744a24a1713ca30806e8b0808"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 3,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "9e9e147c794364ed1fe8c8e9e7fa7c556b23be00f84a2e74b91b092dad2a9f61"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 3,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "40dc114e0761003675a86ae395f0e6078d6c3c481583c2b7a80b5bc4da8628c5"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 4,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "已锁最佳PT_SHA256": "e6d9e27e14673cfb4b2208f42140b7a2cb8fe0c6c7c136c79137365a82d8fa73"
+      },
+      {
+        "方法": "F3",
+        "随机种子": 4,
+        "LF来源": "lf_same_physics_coarse",
+        "已锁最佳PT_SHA256": "ebe76fffb4c4d5dbd95c1dd0a53cac1646dc50cca0f85b39be73fb93750d185d"
+      }
+    ],
+    "10组真实冻结LF配对原件": [
+      {
+        "随机种子": 0,
+        "LF来源": "lf_same_physics_coarse",
+        "声明同LF全张量_SHA256": "1f9b98497410b290b7dd6ededff877a32949b7f860446be409b9187446a3e753",
+        "同LF现场全张量_SHA256": "1f9b98497410b290b7dd6ededff877a32949b7f860446be409b9187446a3e753",
+        "F2最佳模型_SHA256": "ea2b67b4927a9fb48f08083a3b2f6399130134e71d168b16a20c44aa2f2968d5",
+        "F3最佳模型_SHA256": "15c1db6fc11320f8e99311cd503f06e06555fad65ed2372376d67e05bbe414f4",
+        "F2终态模型_SHA256": "2fa84ea9c34a71763472e77b91f7e39bbebc3124f8bd3404aaaa839079758bc4",
+        "F3终态模型_SHA256": "604a5703bb100cc13ee08bb3d75ef5413e1515a4ca2a6d6d687bd9f682c907e0"
+      },
+      {
+        "随机种子": 1,
+        "LF来源": "lf_same_physics_coarse",
+        "声明同LF全张量_SHA256": "0cbb81df04b3c77e0c14941e61f3e5792b5082b294d45bfa83ecffa07312311b",
+        "同LF现场全张量_SHA256": "0cbb81df04b3c77e0c14941e61f3e5792b5082b294d45bfa83ecffa07312311b",
+        "F2最佳模型_SHA256": "b3a15f2748472367ef40e5d763b4df875c59e3d302f87bc3a65a293fb84ff25d",
+        "F3最佳模型_SHA256": "0f6c7648d36cdbf3e30b8b27a7e8a336afdac139e625951871d9d19774557143",
+        "F2终态模型_SHA256": "da25f9d742d856abd92fc6915225a482c6e379d8890fd7c01da93f3c2cf59eba",
+        "F3终态模型_SHA256": "0f6c7648d36cdbf3e30b8b27a7e8a336afdac139e625951871d9d19774557143"
+      },
+      {
+        "随机种子": 2,
+        "LF来源": "lf_same_physics_coarse",
+        "声明同LF全张量_SHA256": "27a30181e4e7ec0f1425d505d3f8f053229b12669b671f438266075af7076bcc",
+        "同LF现场全张量_SHA256": "27a30181e4e7ec0f1425d505d3f8f053229b12669b671f438266075af7076bcc",
+        "F2最佳模型_SHA256": "e2b8de152b8b456d2913d910b61ab754b57164079b1be856e247bea52f9cd30e",
+        "F3最佳模型_SHA256": "fd40721521f91baa74515915f6a3ec5d8c69e2b744a24a1713ca30806e8b0808",
+        "F2终态模型_SHA256": "89a6e10b3240b8c79bcae0eeb0a482982f4e730385eb058ae8454fff969869ee",
+        "F3终态模型_SHA256": "fd40721521f91baa74515915f6a3ec5d8c69e2b744a24a1713ca30806e8b0808"
+      },
+      {
+        "随机种子": 3,
+        "LF来源": "lf_same_physics_coarse",
+        "声明同LF全张量_SHA256": "18a7ccffa1cb41016d81239bf0bccc68f083d1bc51d51bfb251a7532fbcbc48b",
+        "同LF现场全张量_SHA256": "18a7ccffa1cb41016d81239bf0bccc68f083d1bc51d51bfb251a7532fbcbc48b",
+        "F2最佳模型_SHA256": "0cfc46947a911aa69a35f17a271d2e8fa7d4e34bd443862e009425bf6f2370b3",
+        "F3最佳模型_SHA256": "40dc114e0761003675a86ae395f0e6078d6c3c481583c2b7a80b5bc4da8628c5",
+        "F2终态模型_SHA256": "f6e616b107f5aaf8c7ed15926469f43ed24d3796f7d5579bf5f6a60d28792335",
+        "F3终态模型_SHA256": "40dc114e0761003675a86ae395f0e6078d6c3c481583c2b7a80b5bc4da8628c5"
+      },
+      {
+        "随机种子": 4,
+        "LF来源": "lf_same_physics_coarse",
+        "声明同LF全张量_SHA256": "0eea69e9485b96efca6c81f20ef237563ce8c14c12ae883fe0c55a0354790bff",
+        "同LF现场全张量_SHA256": "0eea69e9485b96efca6c81f20ef237563ce8c14c12ae883fe0c55a0354790bff",
+        "F2最佳模型_SHA256": "f4f0b6a755c80696b456641b9908003bed22b5cb3fac30f1366a63523a5f41aa",
+        "F3最佳模型_SHA256": "ebe76fffb4c4d5dbd95c1dd0a53cac1646dc50cca0f85b39be73fb93750d185d",
+        "F2终态模型_SHA256": "7b7a0b8ab3ea8876eab46a56757dd1f575a19f9ba19f54d64ca2f3be09a7ee59",
+        "F3终态模型_SHA256": "4793c19381aad305cb4c6355312646ede014e18d5b460cb173a7e55160899582"
+      },
+      {
+        "随机种子": 0,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "声明同LF全张量_SHA256": "0cadb47dd0a2d7acd772c63ca565fc0f5dcad8f0e2c88b2f876fbc3f70865ee4",
+        "同LF现场全张量_SHA256": "0cadb47dd0a2d7acd772c63ca565fc0f5dcad8f0e2c88b2f876fbc3f70865ee4",
+        "F2最佳模型_SHA256": "cb2e149fdb282417a9a4c24c8347ebcbae36bb470b5fef0ad55fe81e48ca34ef",
+        "F3最佳模型_SHA256": "97c3424f03a224c8d1c22779f0fd586745bc3992dd5fdeee8ee64120a86078c3",
+        "F2终态模型_SHA256": "6b2094a5abca16863c92a2c6a853fc43a571d9d719361d0eb6c5a28b3165802e",
+        "F3终态模型_SHA256": "e79da6c212294cc3d37ca4d46c7ee45ce04d8a57d85e27281430332b4584baab"
+      },
+      {
+        "随机种子": 1,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "声明同LF全张量_SHA256": "103408071d6e796b95fe10956a02f81d0e6f3f6d200574f3a184e779c18ff1b2",
+        "同LF现场全张量_SHA256": "103408071d6e796b95fe10956a02f81d0e6f3f6d200574f3a184e779c18ff1b2",
+        "F2最佳模型_SHA256": "217697d41127dec7ae2b31b369d4488e2c4de424e96fe2dec66512eb446ad92f",
+        "F3最佳模型_SHA256": "cfcf416e44092f5c7ca961bedfc5f1178f3ca5aa28ac12c181cb23b6167f13fd",
+        "F2终态模型_SHA256": "217697d41127dec7ae2b31b369d4488e2c4de424e96fe2dec66512eb446ad92f",
+        "F3终态模型_SHA256": "cfcf416e44092f5c7ca961bedfc5f1178f3ca5aa28ac12c181cb23b6167f13fd"
+      },
+      {
+        "随机种子": 2,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "声明同LF全张量_SHA256": "942c04b75f77149f302107b7dd7d682ef2a14736a5bbaf210c1177684a804e79",
+        "同LF现场全张量_SHA256": "942c04b75f77149f302107b7dd7d682ef2a14736a5bbaf210c1177684a804e79",
+        "F2最佳模型_SHA256": "704d134e5f08ed6b1e4a2ce32c40b16d568b0577b75458b0eda2d472b27d7470",
+        "F3最佳模型_SHA256": "1d127b21115dd6a8aa55b0d33961c1f5ddbb2657fbc8de8e7e5316018588fb50",
+        "F2终态模型_SHA256": "704d134e5f08ed6b1e4a2ce32c40b16d568b0577b75458b0eda2d472b27d7470",
+        "F3终态模型_SHA256": "1d127b21115dd6a8aa55b0d33961c1f5ddbb2657fbc8de8e7e5316018588fb50"
+      },
+      {
+        "随机种子": 3,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "声明同LF全张量_SHA256": "bf0dc049f95a99ea2c83d521e1737ce7594e38b28e580b490faaafa68a5edd28",
+        "同LF现场全张量_SHA256": "bf0dc049f95a99ea2c83d521e1737ce7594e38b28e580b490faaafa68a5edd28",
+        "F2最佳模型_SHA256": "9580e9402e9033de437a9fef5736022ab0265523fd4433c75aeef63aae678ce1",
+        "F3最佳模型_SHA256": "9e9e147c794364ed1fe8c8e9e7fa7c556b23be00f84a2e74b91b092dad2a9f61",
+        "F2终态模型_SHA256": "9580e9402e9033de437a9fef5736022ab0265523fd4433c75aeef63aae678ce1",
+        "F3终态模型_SHA256": "9e9e147c794364ed1fe8c8e9e7fa7c556b23be00f84a2e74b91b092dad2a9f61"
+      },
+      {
+        "随机种子": 4,
+        "LF来源": "lf_contact_mismatch_coarse",
+        "声明同LF全张量_SHA256": "1376eb1390c094802727aaf07c69e38748e2752a025cbb13472785d7ece2397a",
+        "同LF现场全张量_SHA256": "1376eb1390c094802727aaf07c69e38748e2752a025cbb13472785d7ece2397a",
+        "F2最佳模型_SHA256": "516e74212b4ac9205a0e7cd4d31ba660ba7b7c9698f661e5694d6b00c0a02ae9",
+        "F3最佳模型_SHA256": "e6d9e27e14673cfb4b2208f42140b7a2cb8fe0c6c7c136c79137365a82d8fa73",
+        "F2终态模型_SHA256": "6ec9f4c37f732483c5d319eadb681b0b26fcc23b2e56399d1aacacbd0b9a90ba",
+        "F3终态模型_SHA256": "1690c430e86f3e8614b9dbee7c3d2deb9f775c7e396877700eb0d785400d11d6"
+      }
+    ],
+    "真实完整HF温度读取": false
+  },
+  "参考完整HF温度已读取": false
+}

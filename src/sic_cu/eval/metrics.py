@@ -1,8 +1,90 @@
 from __future__ import annotations
 
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping
 
 import numpy as np
+import polars as pl
+
+
+def observation_time_window_mask(times_s: np.ndarray, name: str) -> np.ndarray:
+    times = np.asarray(times_s, dtype=np.float64)
+    if name == "time_0_30_s":
+        return (times >= 0.0) & (times <= 30.0)
+    if name == "time_30_100_s":
+        return (times > 30.0) & (times <= 100.0)
+    if name == "time_100_200_s":
+        return (times > 100.0) & (times <= 200.0)
+    raise ValueError(f"Unknown non-overlapping time window: {name}")
+
+
+def configured_radial_mask(radii_mm: np.ndarray, window: Mapping[str, Any]) -> np.ndarray:
+    radii = np.asarray(radii_mm, dtype=np.float64)
+    lower = float(window["lower"])
+    upper = float(window["upper"])
+    if lower < 0 or upper <= lower:
+        raise ValueError("Radial window bounds must be nonnegative and ordered")
+    return (
+        (radii >= lower if window["lower_closed"] else radii > lower)
+        & (radii <= upper)
+    )
+
+
+def chinese_schedule_observation_rows(
+    arm: str,
+    comparison: Mapping[str, Any],
+    ir_result: Mapping[str, Any],
+    sensor_result: Mapping[str, Any],
+) -> pl.DataFrame:
+    windows = {
+        "time_0_30_s": "[0,30]秒",
+        "time_30_100_s": "(30,100]秒",
+        "time_100_200_s": "(100,200]秒",
+    }
+    ir_by_power = {
+        round(float(item["power_w"]), 4): item
+        for item in ir_result["per_power"]
+    }
+    sensor_by_power = {
+        (round(float(item["power_w"]), 4), item["sensor_type"]): item
+        for item in sensor_result["per_curve"]
+    }
+    records = []
+
+    def add(power: float, modality: str, metric: str, window: str,
+            values: Mapping[str, Any] | None, count: int | None = None) -> None:
+        records.append({
+            "运行臂": arm,
+            "功率_瓦": power,
+            "模态": modality,
+            "指标": metric,
+            "时间窗": window,
+            "RMSE_摄氏度": None if values is None else values["rmse_c"],
+            "MAE_摄氏度": None if values is None else values["mae_c"],
+            "偏差_摄氏度": None if values is None else values["mean_error_c"],
+            "最大绝对误差_摄氏度": None if values is None else values["max_abs_error_c"],
+            "观测点数": count,
+            "数据状态": "无数据" if values is None else "实际观测",
+        })
+
+    for item in comparison["per_power"]:
+        power = round(float(item["power_w"]), 4)
+        top = ir_by_power[power]
+        add(power, "顶部", "绝对温度", "全部合法观测", item["modalities"]["top_surface"])
+        for name, label in windows.items():
+            add(power, "顶部", "绝对温度", label, top["time_windows"][name])
+        for sensor_type, modality in (("hot", "热端"), ("cold", "冷端")):
+            sensor = sensor_by_power[(power, sensor_type)]
+            for metric, field, window_field in (
+                ("绝对温度", "absolute", "time_windows_absolute"),
+                ("真实首时刻温升", "delta", "time_windows_delta"),
+            ):
+                add(power, modality, metric, "全部合法观测", sensor[field], sensor["observation_count"])
+                for name, label in windows.items():
+                    add(
+                        power, modality, metric, label,
+                        sensor[window_field][name], sensor["window_observation_counts"][name],
+                    )
+    return pl.DataFrame(records)
 
 
 def _basic_metrics(target: np.ndarray, prediction: np.ndarray) -> dict[str, float]:
@@ -42,13 +124,9 @@ def field_metrics(
     result: dict[str, Any] = {"full_field": _basic_metrics(target, prediction)}
     for name, mask in (("copper", materials == 0), ("silicon_carbide", materials == 1)):
         result[name] = _basic_metrics(target[:, mask], prediction[:, mask])
-    for name, lower, upper in (
-        ("time_0_30_s", 0.0, 30.0),
-        ("time_30_100_s", 30.0, 100.0),
-        ("time_100_200_s", 100.0, np.inf),
-    ):
-        mask = (times >= lower) & (times <= upper if np.isfinite(upper) else True)
-        result[name] = _basic_metrics(target[mask], prediction[mask])
+    for name in ("time_0_30_s", "time_30_100_s", "time_100_200_s"):
+        mask = observation_time_window_mask(times, name)
+        result[name] = _basic_metrics(target[mask], prediction[mask]) if mask.any() else None
     target_max = target.max(axis=1)
     prediction_max = prediction.max(axis=1)
     result["tmax"] = {

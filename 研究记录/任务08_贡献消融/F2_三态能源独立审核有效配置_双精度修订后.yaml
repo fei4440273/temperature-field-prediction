@@ -1,0 +1,67 @@
+# 任08 F2能源只新增独立审核Float64模型副本；录-0058真五种子训练保持原字节。
+schema_version: 1
+事前台账记录编号: 录-0065
+审核臂: F2_观测最佳_物理最佳_训练末三态工程能源
+源正式F2有效配置SHA256: 36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9
+源正式F2事前源码tar实际SHA256: ca08e9e9c1e4305c5549adbc6a6f9affd88cb58d23e9d70b906144cb3431726d
+冻结旧审核脚本SHA256: fb3c3f6a3da776eeb7f2f73a66a2ed3468cdac0a0bc3d017b4619f9e24ecc816
+冻结原逐行能源验算脚本SHA256: ea6d9cf71be200f4963aae7716ac89fa79d460e41711b09f0c800e8696d3a9b7
+五种子合法观测摘要SHA256: 696bebfde845eb96c507df987a7c6bdc108a96c186c914b0c9bde4c1154d0310
+审核模型副本dtype: torch.float64
+源训练阶段检查点dtype: torch.float32
+物理梯度门禁: 审核模型所有参数requires_grad为False但求积坐标仍计算一阶与二阶导数
+求积阶数: [16, 64]
+功率时刻行数: 30
+审核原始能量和散度逐件行数: 60
+能源资格: 仅独立原定义能量/原瓦数/体内V界面J边界D审计；无事前工程通过阈值
+源训练体内PDE: null
+源训练体内PDE意义: 未计算；双阶独立能源体内残差不回传训练梯度
+旧test_Data温度标签读取: false
+内部HF实验真值取得: false
+F3旧热冷环和LF70逐文件SHA缺口: 严格字节级单PDE因果归因仍不可声称
+首次冻结旧审核失败: 种子0观测最佳原脚本33首GPU复算Double输入Float模型EXIT1且没有能源目录；保留原证据并改新输出目录
+逐种子真训练和阶段原件SHA256:
+  0:
+    运行目录: 研究记录/任务08_贡献消融/F2_事务修订正式_种子0_20260916T040215+0800
+    阶段best完整SHA256: 81956a8427a70a13429e0bc8b4b52eb0a0de772a1437157f2f0b594760dbdc1e
+    阶段physical完整SHA256: 3e6120c6bc6526322fc7887e750924a2b849f33f8f0d45855adc06f2442e4888
+    阶段final完整SHA256: d2270c87f676a80068b6e355016f0a15263978d2986dc48a233b7adeba57964d
+    训练日志SHA256: d38660bc487908b0487498b0a3d2349ff088fa37f567b05444ffbf7de6ba94ba
+    阶段报告SHA256: 152a097f79e54cb4b97c0b6619e05bde303e116bf5a9d9a5d918d65040190180
+  1:
+    运行目录: 研究记录/任务08_贡献消融/F2_事务修订正式_种子1_20260916T042633+0800
+    阶段best完整SHA256: 7d603b59069713c80b94eae772b798c0b86081eee8f138710ffbd172988f15a1
+    阶段physical完整SHA256: 300880a7dfe6d0e62bc1e1232a7fbf6d7b5dd2af3a4e5d6eb11ca067598a57b3
+    阶段final完整SHA256: e8305084d092688b2e2510435e4465674adcb316ed04ed689cca7bf22b0aefeb
+    训练日志SHA256: ab8d4ebacbf568affdfd6edb1c660fa6f8b6a475b921e76565f63c90ee0c4f52
+    阶段报告SHA256: 61b105686e150be14ce24711c2853af87f501f64a7201296505baad4b4a8f49a
+  2:
+    运行目录: 研究记录/任务08_贡献消融/F2_事务修订正式_种子2_20260916T043607+0800
+    阶段best完整SHA256: b461c6cfe0a299c95573a9855bb130f76640e9c979b7116e9b6a94a801cf1194
+    阶段physical完整SHA256: 23c1c9bf245f655b55af29437a5932fdaaad230a493c4ccb90007fc0c137c4e2
+    阶段final完整SHA256: cc70ce1525313ce0d7860c49123ab5149ff94d8096a52a5730d133e490cc336b
+    训练日志SHA256: ff59551ad358bde1f4aa6edd506136aa3845882227b1dd58da65038fb7d4a206
+    阶段报告SHA256: 237cd46340d0ddc8c4e75f0e925f1cbce1ec6caaf4d29eacdce812d06b2093a9
+  3:
+    运行目录: 研究记录/任务08_贡献消融/F2_事务修订正式_种子3_20260916T045125+0800
+    阶段best完整SHA256: 3ea36adf484996cb60ec1c43656546df467e61a5a9c2c3c398ff945d1b84bb73
+    阶段physical完整SHA256: d59ca02f7cc9f41d9f0425f1b899a8e22ec6ab5134a058615a6b808d9302a2be
+    阶段final完整SHA256: 0e2f72a68f13cfcbbf54631a3365e69f72a0ed013735e957bce5063311521b9a
+    训练日志SHA256: c8f1d0df0d611812e1544ae47975654ba1782b2a4debd9b79c624051670ebde4
+    阶段报告SHA256: f1f566a2051bebbab0a5fefa9590ba4832ec6a9b42bb87aebc707637635df1e6
+  4:
+    运行目录: 研究记录/任务08_贡献消融/F2_事务修订正式_种子4_20260916T050138+0800
+    阶段best完整SHA256: b50aa2cd6fada175a9f1ed3be1e480d656c11939fb005ce3439fdc4186470f19
+    阶段physical完整SHA256: ced1b55322d439762006de2d2c72697dbb6283e534d5f78c3e73e24d4bfbb285
+    阶段final完整SHA256: 1e68e007212b1f305a263cd0a21e21440797bcaa66f553e6dcb5d872ce720147
+    训练日志SHA256: c7677a76d9dd91b2e32423e177c66320a24d8d13722ad85d1ae72b74beaedac1
+    阶段报告SHA256: 3f38bca53f323b2ffccc4600d6093c8c24bbc2bfc760af60cab906e002c4328c
+审核源码tar实际字节SHA256: 58f27b38ba2ff5cd04b7d886b0b9b4c1bec242e7a74f9ddaf705689c1b4f2241
+审核源码逐件SHA256:
+  scripts/34_audit_task08_f2_energy_double.py: 8b7c6810ae1e62567eef2c683a9ef9aef52fb1f88391495aadaffe873562b59e
+  tests/test_task08_f2_energy_double.py: 3349575aad1ebcf5e05baca56dce1c98bd647db230633bdde330ee9161141444
+  scripts/33_audit_task08_f2_states.py: fb3c3f6a3da776eeb7f2f73a66a2ed3468cdac0a0bc3d017b4619f9e24ecc816
+  scripts/26_audit_task07_states.py: ea6d9cf71be200f4963aae7716ac89fa79d460e41711b09f0c800e8696d3a9b7
+  scripts/21_audit_task04_energy.py: 94286562a13d81de72c2ece4048c7db88db99b43ec35a3472715a5f51e443724
+  src/sic_cu/eval/energy_v5.py: 47cdc022572bf2467d8082d277cb2ffbeb47e1a5d9eb262af0cb2638f2d28b80
+  研究记录/任务08_贡献消融/F2_正式五种子有效运行配置_事务修订后.yaml: 36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9

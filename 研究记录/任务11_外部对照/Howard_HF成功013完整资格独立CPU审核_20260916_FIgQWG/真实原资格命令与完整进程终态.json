@@ -1,0 +1,37 @@
+{
+  "实际子进程命令argv": [
+    "/home/phl/anaconda3/envs/PINN/bin/python",
+    "-B",
+    "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/independent_success_013_audit.py"
+  ],
+  "工作目录": "/home/phl/lyf/Temperature Field Prediction",
+  "实际exit_code": 0,
+  "实际完整stdout": "SEED0_PREFLIGHT_START\nSEED0_ORIGINAL_QUALIFY_START\nSEED0_FULL_QUALIFICATION_PASS {\"全资格真实审核计数增量\": {\"许可自身档案写入事件\": 2, \"自身dir_fd纯解析无删除回归PASS\": 0, \"实际Parquet_schema读取数\": 702, \"实际Parquet_scan调用数\": 702, \"实际Parquet结构或行数collect数\": 702, \"实际CPU_PT反序列化数\": 185, \"五LF前提中的原完整LF资格审核数\": 5, \"原完整HF状态真实审核数\": 55, \"原全56四RNG阶段边界真实审核数\": 1, \"原HF结果view真实审核数\": 16}, \"实际工件数\": 108, \"实际完整轮次\": 860, \"实际best_S\": 3.682372202733206, \"实际best_epoch\": 160, \"实际final_S\": 9.77071200217873, \"会话数\": 5, \"best_SHA256\": \"9e62b6ecc79870767b811d69c3e1186cf350d75343742fc993b91532fd40f850\", \"final_SHA256\": \"4e260a63f324597e4bf0adf09eb04013900c8199bd3e02a037cba87526a442c4\"}\nSEED1_PREFLIGHT_START\nSEED1_ORIGINAL_QUALIFY_START\nSEED1_FULL_QUALIFICATION_PASS {\"全资格真实审核计数增量\": {\"许可自身档案写入事件\": 2, \"自身dir_fd纯解析无删除回归PASS\": 0, \"实际Parquet_schema读取数\": 702, \"实际Parquet_scan调用数\": 702, \"实际Parquet结构或行数collect数\": 702, \"实际CPU_PT反序列化数\": 154, \"五LF前提中的原完整LF资格审核数\": 5, \"原完整HF状态真实审核数\": 27, \"原全56四RNG阶段边界真实审核数\": 1, \"原HF结果view真实审核数\": 14}, \"实际工件数\": 75, \"实际完整轮次\": 730, \"实际best_S\": 3.1338988354975648, \"实际best_epoch\": 200, \"实际final_S\": 5.073958195345687, \"会话数\": 4, \"best_SHA256\": \"cb7291186153bec280fcb6c4d276595004495008f6cfa056c65db95bf7d2d958\", \"final_SHA256\": \"2589d72537546e678358a449d05bb9e18a9d1ec2f2ba3cf232d191d87b509ef8\"}\nSEED3_PREFLIGHT_START\nSEED3_ORIGINAL_QUALIFY_START\nSEED3_FULL_QUALIFICATION_PASS {\"全资格真实审核计数增量\": {\"许可自身档案写入事件\": 2, \"自身dir_fd纯解析无删除回归PASS\": 0, \"实际Parquet_schema读取数\": 702, \"实际Parquet_scan调用数\": 702, \"实际Parquet结构或行数collect数\": 702, \"实际CPU_PT反序列化数\": 181, \"五LF前提中的原完整LF资格审核数\": 5, \"原完整HF状态真实审核数\": 45, \"原全56四RNG阶段边界真实审核数\": 1, \"原HF结果view真实审核数\": 22}, \"实际工件数\": 104, \"实际完整轮次\": 870, \"实际best_S\": 3.0032344132943343, \"实际best_epoch\": 670, \"实际final_S\": 3.0650510873185643, \"会话数\": 5, \"best_SHA256\": \"30e9190ec752e61ed62a9176a51ecc5f7329e4326aaf51d60531686b4438190c\", \"final_SHA256\": \"5f7244ba4da18d1a3db25b49c800f614f350cd6d9ae0421dfd8b0a015b0e8a0c\"}\nHF013_INDEPENDENT_ORIGINAL_API_AUDIT_COMPLETE {\"完成seed\": [0, 1, 3], \"实际总PT读入数\": 832, \"实际完整HF状态审核数\": 127, \"实际五LF前提资格审核数\": 30, \"实际Parquet结构或行数collect数\": 4212, \"SOURCE82和四父件与三成功HF及五LF零漂移\": true, \"CUDA_is_initialized\": false}\n",
+  "实际完整stderr": "",
+  "原stdout字节": 2923,
+  "原stderr字节": 0,
+  "原stdoutSHA256": "48329d601d56ff24c55455ef676eabb82c817e4f01b08681ccfa37783f6e1eef",
+  "原stderrSHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "外层实际墙钟秒": 234.86884660899523,
+  "北京时间": "2026-09-16T21:30:04.946423+08:00",
+  "原Python数字表示保留": true,
+  "实际外层环境": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "PYTHONPATH": "/home/phl/lyf/Temperature Field Prediction/src:/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTEST_DISABLE_PLUGIN_AUTOLOAD": "1",
+    "TMPDIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/临时文件",
+    "TMP": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/临时文件",
+    "TEMP": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/临时文件",
+    "CUDA_CACHE_PATH": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/GPU缓存",
+    "XDG_CACHE_HOME": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/应用缓存",
+    "MPLCONFIGDIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/绘图缓存",
+    "TORCH_EXTENSIONS_DIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/Torch扩展缓存",
+    "TORCHINDUCTOR_CACHE_DIR": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/Inductor缓存",
+    "WORLD_SIZE": "1",
+    "RANK": "0",
+    "LOCAL_RANK": "0"
+  }
+}

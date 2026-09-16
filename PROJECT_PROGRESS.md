@@ -64,7 +64,7 @@ SiC 顶面 `RMSE=4.635 ℃`、`MAE=3.626 ℃`、最高温度相对误差 `2.412%
 
 | 维度 | 当前状态 | 说明 |
 |---|---|---|
-| 工程实现 | 主体完成 | 数据、模型、训练器、评估器、预测器、导出、Docker 和测试均已建立 |
+| 工程实现 | 主体完成 | 数据、模型、训练器、评估器、预测器、导出、本地环境和测试均已建立 |
 | 数据准备 | 完成 | 378 个原始文件审计通过，统一 Parquet 数据层已生成 |
 | Simulation-only 筛选 | 完成 | FEM、MLP、LSTM、DeepONet、Global POD 已按冻结功率完成评估 |
 | 高保真表面校正 | 完成 | 表面插值消融与硬表面引导 LOGO 验证完成；只代表 SiC 顶面 |
@@ -421,10 +421,11 @@ RMSE 高达 `20.469 ℃`。该结果保留为开发基线，不能作为当前�
 
 ### 自动化验证
 
-- 单元/集成测试：`74 passed`；含功率键、5/10 折隔离、硬表面引导及部署硬约束回归测试。
+- 本地 `PINN` 单元/集成测试：`116 passed`；含功率键、协议隔离、模型、物理损失及部署硬约束回归测试。
 - 固定 seed 0 复现：模型权重位级一致，验证和测试指标完全一致；计时字段按预期变化。
-- 双 A40 DDP：模型训练、显式梯度平均和参数同步已验证。
-- 双 GPU 物理反向传播：使用明确标记的合成常数，只验证软件计算图，不作为科学结果。
+- 历史双 A40 DDP：模型训练、显式梯度平均和参数同步已验证。
+- 本地 RTX 4090 D 单卡物理反向传播：使用明确标记的合成常数完成 NCCL 冒烟，
+  只验证软件计算图，不作为科学结果。
 - 0 W、10 W、800 W、36 W 和非法功率查询测试通过。
 - 连续坐标模型现在直接在请求时刻推理，不再把 `t=1 s` 从仿真偶数秒网格插值出来。
 - 多保真部署模型支持 `t=0` 硬初值、22 ℃ 下限、铜外圆水冷和低功率残差收缩。
@@ -434,24 +435,20 @@ RMSE 高达 `20.469 ℃`。该结果保留为开发基线，不能作为当前�
 - 所有报告 JSON 可解析。
 - 原始 CSV 哈希与数据仓库副本一致。
 
-### Docker
+### 本地 PINN 环境
 
-- 基础镜像：`ra-msml-pinn:local-cu124`。
-- Conda 环境：`/opt/conda/envs/PINN`。
-- PyTorch/CUDA：PyTorch 2.6.0 / CUDA 12.4。
-- 工程镜像：`sic-cu-temperature:test`。
-- 当前镜像 ID：`sha256:cdb90bc3e82395ff40bcc1c28a1410f44895ab8cd03038beb147ad3241747870`。
-- 镜像大小：约 17.51 GB。
-- 原始数据由 `.dockerignore` 排除，运行时通过只读挂载提供。
+- Conda 环境：`/home/phl/anaconda3/envs/PINN`。
+- Python：3.9.18。
+- PyTorch/CUDA：PyTorch 2.5.1 / CUDA 12.1。
+- 运行模式：单 GPU，训练入口直接使用 `python` 启动。
+- 激活变量：隔离 ROS `PYTHONPATH`，关闭 pytest 外部插件自动加载，固定 `CUDA_VISIBLE_DEVICES=0`
+  和 `MPLBACKEND=Agg`。
 
-### 2026-09-03 06:03 UTC 资源快照
+### 2026-09-15 本地资源快照
 
 | GPU | 型号 | 显存 | 利用率 | 本项目状态 |
 |---|---|---:|---:|---|
-| 0 | NVIDIA A40 | 0 / 46,068 MiB | 0% | 无本项目训练任务 |
-| 1 | NVIDIA A40 | 0 / 46,068 MiB | 0% | 无本项目训练任务 |
-
-本项目当前没有正在运行的训练容器。主机上已有的长期容器未被停止或修改。
+| 0 | NVIDIA GeForce RTX 4090 D | 24,564 MiB | 空闲 | CUDA 张量冒烟通过 |
 
 ## 当前物理配置与硬阻塞项
 
@@ -563,7 +560,7 @@ likelihood/体场改进阶段继续检查。
 查看本进度文件：
 
 ```bash
-cd '/home/lyf/Temperature Field Prediction'
+cd '/home/phl/lyf/Temperature Field Prediction'
 less PROJECT_PROGRESS.md
 ```
 
@@ -571,12 +568,6 @@ less PROJECT_PROGRESS.md
 
 ```bash
 watch -n 2 nvidia-smi
-```
-
-查看当前容器：
-
-```bash
-docker ps
 ```
 
 查看某次训练最后 20 轮：
@@ -594,11 +585,9 @@ column -s, -t reports/model_comparison.csv | less -S
 运行完整测试：
 
 ```bash
-PROJECT_DIR='/home/lyf/Temperature Field Prediction'
-docker run --rm --ipc=host \
-  -e PYTHONPATH=/workspace/src \
-  -v "$PROJECT_DIR:/workspace" -w /workspace ra-msml-pinn:local-cu124 \
-  /opt/conda/envs/PINN/bin/python -m pytest -q tests
+conda activate PINN
+cd '/home/phl/lyf/Temperature Field Prediction'
+CUDA_VISIBLE_DEVICES=0 MPLBACKEND=Agg python -m pytest -q tests
 ```
 
 ## 当前需要用户提供的资料

@@ -1,0 +1,53 @@
+{
+  "方法": "E0",
+  "seed": 4,
+  "模型SHA256": "50185092de09b58a7398f1547a9ee4ed44d82ec448f71c17ba80e863478f2a14",
+  "HF训练成本原件SHA256": "c3c7d7c60db7823654906d3fbddc512e6cc3e78d4bc3c66217307213a9b027ec",
+  "LF预训模型SHA256": "bd4c3be31f730eeaac538bbb3c9ce13e74c3ab39bc29fe1716698c527d53b34e",
+  "LF预训成本原件SHA256": "467752249a86730fe396b64fe4bccb84d3eeea50cb7fa8cbf5f1cf293f200bcf",
+  "网格五列读取秒": 0.003734812999027781,
+  "模型checkpoint读取与GPU重载秒": 0.004815489999600686,
+  "查询五列构造秒": 0.0010943480010610074,
+  "查询设备传输秒": 0.00022317499679047614,
+  "完整场同步纯模型前向各次秒": [
+    0.028351433007628657,
+    0.02796669999952428,
+    0.028043450001860037,
+    0.028013635994284414,
+    0.02797842599102296
+  ],
+  "完整场同步纯模型前向中位秒": 0.028013635994284414,
+  "输出回读秒": 0.000490513994009234,
+  "统一过程场导出秒": 0.4459256670088507,
+  "HF离线训练成本": {
+    "耗时秒": 781.7811961620027,
+    "实际轮次": 760,
+    "口径": "仅当前真实会话，非全部断点累计",
+    "可复用LF预训耗时秒": null
+  },
+  "LF离线可复用预训成本": {
+    "可复用LF预训耗时秒": 326.9350172197446,
+    "LF预训实际轮次": 346,
+    "原LF_FEM仿真生成耗时秒": null,
+    "口径": "历史LF网络预训练单次含评价；原FEM仿真原始成本未核"
+  },
+  "原LF_FEM仿真生成成本": "缺真实原件，不得冒称总成本已闭合",
+  "归档文件数": 12,
+  "输出SHA256": {
+    "field_rzt.npz": "04d09dc10cc33602eff95c65cd57369073528aa9d6133e3fc0a0352e114ac439",
+    "figures/maximum_temperature.png": "2deebb0d120f05e670aa1ff88188258b557b0fba5d5766aefb5bb35b5cc0e122",
+    "figures/section_0s.png": "ac47556fc8eef1ded06e931e4853bb9e6180673c8b92e692a32dbccf3446b642",
+    "figures/section_100s.png": "e44c3e0541d4ff605f5986f89597b737405dd7119fc455ecff1b3b887777e640",
+    "figures/section_200s.png": "a4144f0ec6923f4a3d61024fcfd05309ca54f6392e5b32867c7cd60ed9af343c",
+    "hot_cold.csv": "2689a4f432fceaadaafe7de98f64ceed2da766b2eb15726b3efaf39a0a32763c",
+    "metadata.json": "a3550cd917f007b8ce67c5dd3745a392b75920f422e71e12b4f098885134f34d",
+    "vtk/field_0s.vtk": "af48d7fed654c218053c0bade7bc48914b182a015d5fc57d002001da42dcce6a",
+    "vtk/field_100s.vtk": "aa090a4468e1335362a4b6e8b0e1e32d4503657f9ca4e0126a0d41465cbc201c",
+    "vtk/field_150s.vtk": "01f098e1422599477cdf80715d23725ef79caf887fab566e5676119f450dd6c4",
+    "vtk/field_200s.vtk": "38280011d41a1c054fce74fd7728fd60fa0a57e2d14499979987f1a448f7ccdc",
+    "vtk/field_50s.vtk": "68e19ac74a1ecfca4fc6568598d9c5dc509a35be35e1fa9f78cdbd1d9374a702"
+  },
+  "唯一模型来源非FEM": true,
+  "旧TEST温度读取": false,
+  "同功率HF实验温度读取": false
+}

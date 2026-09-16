@@ -1,0 +1,18 @@
+ M src/sic_cu/data/splits.py
+ M src/sic_cu/eval/protocol_checks.py
+ M src/sic_cu/train/multifidelity.py
+ M tests/test_protocol_provenance.py
+ M tests/test_protocols.py
+?? configs/diagnostic_v5.yaml
+?? configs/optimization_v4.yaml
+?? reports/.development_v5.tmp-1/
+?? reports/development_v4/
+?? scripts/07_export_development_diagnostics.py
+?? scripts/08_export_v5_m2_audit.py
+?? src/sic_cu/eval/development_v4.py
+?? src/sic_cu/eval/development_v5.py
+?? src/sic_cu/eval/energy_v5.py
+?? temperature_field_prediction_diagnostic_action_v5.md
+?? temperature_field_prediction_optimization_v4.md
+?? tests/test_development_v4.py
+?? tests/test_development_v5.py

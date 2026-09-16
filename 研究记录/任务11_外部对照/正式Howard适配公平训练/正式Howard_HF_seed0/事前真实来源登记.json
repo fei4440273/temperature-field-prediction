@@ -1,0 +1,152 @@
+{
+  "身份": {
+    "YAML_SHA256": "ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33",
+    "TAR_SHA256": "61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249",
+    "LF_CATALOG_SHA256": "b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de",
+    "HF_DATA_CATALOG_SHA256": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18",
+    "seed": 0,
+    "method": "task11_howard_three_network_joint",
+    "LF最佳检查点SHA256": "566e9bfb6683a7023a84a1fdad6fe558a67e2a9024fbb2c65e15e899e57065dc",
+    "LF完整资格内容SHA256": "c632cb9e1fd65b77092b9ffd871a6753850f3f2f131754857d49db53752ceebe",
+    "LF最佳轮次": 242,
+    "LF事前三SHA": {
+      "YAML_SHA256": "0de2aa7b3e78d92d76ff90dfb2e9a1c6f5b4ba9f98ead462bd24e1f23dcc8c6c",
+      "TAR_SHA256": "42e1c376358f915e38625d9a197ae99606f24ff4af0e51a59e176fcba3d258bc",
+      "CATALOG_SHA256": "573550239566a5f1f0e7f6889fa40f99dde83379e7c2ebf7e89eae1c375da367"
+    },
+    "CPU初态完整内容SHA256": "fa2916ee5dc7b344bb700968b6b47abf9b8ca5e25020e307da05950dc43297bc",
+    "LF初始子网内容SHA256": "f01919c688b55b56ded0e24a32602eb6dabf84d7d2d825ff88f8143f002e4e89",
+    "固定PHQH查询": {
+      "schema_version": 1,
+      "方法": "fixed_unlabeled_geometry_PHQH_24_v1",
+      "geometry": "configs/geometry.yaml",
+      "geometry_SHA256": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+      "几何_米": {
+        "Rc": 0.05834,
+        "Hc": 0.0175,
+        "Rs": 0.025,
+        "Hs": 0.012
+      },
+      "空间定义": [
+        "Cu(.25*Rc,-Hc,m0)",
+        "Cu(.25*Rc,-(Hc+Hs)/2,m0)",
+        "Cu(.75*Rc,-Hs/2,m0)",
+        "Cu(Rc,0,m0)",
+        "SiC(0,0,m1)",
+        "SiC(Rs/2,-Hs/2,m1)",
+        "SiC(Rs,-Hs,m1)",
+        "SiC(Rs,0,m1)"
+      ],
+      "时刻_秒": [
+        5.0,
+        100.0,
+        200.0
+      ],
+      "顺序": "space_outer_time_inner",
+      "列": [
+        "r",
+        "z",
+        "t",
+        "material"
+      ],
+      "PH点数": 24,
+      "QH点数": 24,
+      "PH与QH相同": true,
+      "no_temperature_selection": true,
+      "无power列": true,
+      "buffer_dtype": "torch.float64",
+      "query_chunk_size": 16384,
+      "三网适配差异": "P标量条件；linear使用24 LF响应，NL使用P加24 LF响应；固定无标签几何PH=QH，不声称原文数据域查询复现"
+    },
+    "固定协议指纹": {
+      "protocol_id": "hf_fixed_12_3_3_v4",
+      "split_sha256": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+      "raw_manifest_sha256": "ed7a5c15f605f40ebba5c7133872aff9fad7b3304edd17c3644cadae086c112e",
+      "processed_manifest_sha256": "5b17c35f8b71458588538fb1a9a9186decd69689c1a547c3a69956d460117f82",
+      "physics_config_sha256": "4edc82ce60eca25ac4ec895a2bafb549fa1c50105594a66cfa7180464793ee2b",
+      "selection_metric_version": "macro_v1",
+      "code_commit": "bbe563e05ee65e28362ccab04d91773896d8d0c4-dirty"
+    }
+  },
+  "LF来源完整资格": {
+    "seed": 0,
+    "累计轮次": 442,
+    "最佳轮次": 242,
+    "最佳LF验证RMSE_摄氏度": 4.746265150535372,
+    "无改善轮次": 200,
+    "累计真实LF训练点": 217251840,
+    "累计真实LF优化步": 26962,
+    "真实累计成本秒": 55.33768036699621,
+    "峰值CUDA显存字节": 141754880,
+    "真实累计加载构建与恢复墙钟秒": 5.705415104981512,
+    "真实累计导出与源核验墙钟秒": 0.1356365009851288,
+    "真实累计加载训练与导出墙钟秒": 61.17873197296285,
+    "LF参数量": 100864,
+    "LF模型构造参数": {
+      "width": 128,
+      "depth": 4,
+      "latent_dim": 128,
+      "final_activation": false
+    },
+    "HF训练许可": false,
+    "旧固定TEST温度读取": false,
+    "模拟测试功率温度读取": false,
+    "状态": "CPU Howard适配LF真实终态与当前来源审核PASS",
+    "最佳LF检查点SHA256": "566e9bfb6683a7023a84a1fdad6fe558a67e2a9024fbb2c65e15e899e57065dc",
+    "真实工件SHA256": {
+      "阶段_初始.pt": "1687291b55df6a2fae631adf248d1022d5726108017e58fe477b9c6d83704fa8",
+      "阶段_LF观测最佳.pt": "46e6718dba1e28b9ea8e4d75d8d23624a9b5a86f84b89b2a6576e716793a8c2e",
+      "阶段_最近.pt": "6b9b3c06f589a3aab772003e30393675db3c961c2d03c18fc486f9d4b7db67ad",
+      "best.pt": "566e9bfb6683a7023a84a1fdad6fe558a67e2a9024fbb2c65e15e899e57065dc",
+      "training.jsonl": "eccf4eeedda11ae393604e2836ae25b4e1f7363cb3a016ab1f9557ce22dfd7bd",
+      "事前真实来源登记.json": "39675cb76c7bb07baa44ff39571573a19d543942f42efe64ec225caa6d56d040",
+      "config_snapshot/sha256.json": "d6203650aaf3a5a2a7d59e939587978166311c9b4097c8e34eeae0e6f932832d",
+      "config_snapshot/resolved_physics.yaml": "d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144",
+      "config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md": "10aa2fb613d550169cdff6a4e9abcbbee42f228144a3ec9a1986f86cbe60aede",
+      "config_snapshot/geometry.yaml": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+      "config_snapshot/materials.yaml": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+      "config_snapshot/boundary_conditions.yaml": "fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f",
+      "config_snapshot/data_metadata.yaml": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+      "config_snapshot/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+      "config_snapshot/training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+      "config_snapshot/release_manifest.yaml": "0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288",
+      "阶段_LF训练末.pt": "2d889126dea82ef28e43a42072a579049c14879a188498c7bb14292bbb9fa430",
+      "metrics.json": "deff0eb98ca718889675399f44879ef6190487fc3e52f5d09f98212e79967fd3",
+      "LF会话收据_0001.json": "7d9a2433623d9a40646e3204ee8b4e508bc05a29eec9d225fa5c7885141a2eab",
+      "已提交日志_0001.jsonl": "d2b1c99f5e1477825749068b642afa15f28a5414d55f212e08babef83e0ceba6",
+      "最近提交历史_0001.pt": "6715dcfeba30026658be521d965a528e93a51d607edb52317b6af8c8909dcf2f",
+      "观测最佳提交历史_0001.pt": "786aa0e4cded835f49eb4ed40bea75925107d20aa28a1e12a0c21c1cf2c79d70",
+      "观测最佳模型历史_0001.pt": "3f19f47c209ccd59f39b7b334a03e59ebe20c4781dbe7fd957a0cd23d6a9a555",
+      "LF会话收据_0002.json": "dd99243904e54dd5a66d147e3e4707566038a117a4daaa797b71835e8d2ca260",
+      "已提交日志_0002.jsonl": "0e0a73f04369559eba702e1f2e01e8844563ea4dc233bac8aa01474873d09fda",
+      "最近提交历史_0002.pt": "9e140d88f216231547fcd24616cda428ffd8f0e231cfa8408a60026a499d4b49",
+      "观测最佳提交历史_0002.pt": "46e6718dba1e28b9ea8e4d75d8d23624a9b5a86f84b89b2a6576e716793a8c2e",
+      "观测最佳模型历史_0002.pt": "566e9bfb6683a7023a84a1fdad6fe558a67e2a9024fbb2c65e15e899e57065dc",
+      "LF会话收据_0003.json": "e3e7e86a2a2b9f5f2a253a60f60923e805fef9e48f73d5bf900d06b23ffa10e2",
+      "已提交日志_0003.jsonl": "eccf4eeedda11ae393604e2836ae25b4e1f7363cb3a016ab1f9557ce22dfd7bd",
+      "最近提交历史_0003.pt": "6b9b3c06f589a3aab772003e30393675db3c961c2d03c18fc486f9d4b7db67ad",
+      "观测最佳提交历史_0003.pt": "46e6718dba1e28b9ea8e4d75d8d23624a9b5a86f84b89b2a6576e716793a8c2e",
+      "观测最佳模型历史_0003.pt": "566e9bfb6683a7023a84a1fdad6fe558a67e2a9024fbb2c65e15e899e57065dc"
+    },
+    "事前来源": {
+      "YAML_SHA256": "0de2aa7b3e78d92d76ff90dfb2e9a1c6f5b4ba9f98ead462bd24e1f23dcc8c6c",
+      "TAR_SHA256": "42e1c376358f915e38625d9a197ae99606f24ff4af0e51a59e176fcba3d258bc",
+      "CATALOG_SHA256": "573550239566a5f1f0e7f6889fa40f99dde83379e7c2ebf7e89eae1c375da367"
+    },
+    "原文精确三网联合训练复现": false,
+    "后续HF": "必须另行锁定三网同时全参数更新合同；本审核不授权HF"
+  },
+  "历史HF权重/AdamW/RNG读取": false,
+  "LF本人best严格迁移": true,
+  "限制": {
+    "严格更新条件一致": false,
+    "仅architecture因果归因": false,
+    "原文精确三网联合训练复现": false,
+    "LF回放差异": "旧联合500轮每轮60个2048小批四拼8192到15混合步；本两阶段每轮60个512小批四拼2048到15混合步；最大LF监督点同为61440000，但小批/混合更新次数和参数动量排程不同",
+    "正则差异": "保留原LF/NL branch全部参数平方sum各1e-6，每轮16次；系数来自PI Burgers特例；另有全参数AdamW decay，不宣称作者exact Adam复现",
+    "数据限制": "仅LF TRAIN60与合法VAL10、HF TRAIN12与合法VAL3；不读取旧固定TEST或模拟TEST温度"
+  },
+  "旧固定TEST温度读取": false,
+  "模拟测试功率温度读取": false,
+  "原文精确三网联合训练复现": false
+}

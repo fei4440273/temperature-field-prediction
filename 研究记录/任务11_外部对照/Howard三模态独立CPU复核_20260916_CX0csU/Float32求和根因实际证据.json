@@ -1,0 +1,252 @@
+{
+  "实际退出码": 0,
+  "根因": "跨实现Float32归约与归一舍入使夹具NumPy对照偏离原Polars已存Float32值；同Polars的独立NumPy除法也不保证bitwise。所有原值均在Float64理想归一3e-8及帧和1e-6误差界内，不是Howard候选或原权重篡改",
+  "记录": [
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-100s.csv",
+      "NumPy原生Float32和": 584.9894409179688,
+      "Polars原生Float32和": 584.9893798828125,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 2.0224283914238583e-09,
+      "原帧Float64权重和对1偏差": 9.289942681789398e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-108.33333587646484s.csv",
+      "NumPy原生Float32和": 546.5720825195312,
+      "Polars原生Float32和": 546.572021484375,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 1.6907260244614086e-09,
+      "原帧Float64权重和对1偏差": 8.475035429000854e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-117.5s.csv",
+      "NumPy原生Float32和": 512.1986083984375,
+      "Polars原生Float32和": 512.1986083984375,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 1.862645149230957e-09,
+      "Float64理想归一最大绝对差": 8.306276361169651e-10,
+      "原帧Float64权重和对1偏差": 1.816079020500183e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-126.66666412353516s.csv",
+      "NumPy原生Float32和": 481.7872619628906,
+      "Polars原生Float32和": 481.78729248046875,
+      "两归一最大绝对差": 4.656612873077393e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 1.862645149230957e-09,
+      "Float64理想归一最大绝对差": 5.522881388331236e-10,
+      "原帧Float64权重和对1偏差": 7.683411240577698e-09
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-135.83332824707031s.csv",
+      "NumPy原生Float32和": 455.2625732421875,
+      "Polars原生Float32和": 455.2624816894531,
+      "两归一最大绝对差": 5.587935447692871e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 4.2217879261952085e-09,
+      "原帧Float64权重和对1偏差": 1.6996636986732483e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-35s.csv",
+      "NumPy原生Float32和": 1004.8256225585938,
+      "Polars原生Float32和": 1004.8255615234375,
+      "两归一最大绝对差": 9.313225746154785e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 6.405160932893006e-10,
+      "原帧Float64权重和对1偏差": 1.1175870895385742e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-44.166667938232422s.csv",
+      "NumPy原生Float32和": 948.1145629882812,
+      "Polars原生Float32和": 948.114501953125,
+      "两归一最大绝对差": 9.313225746154785e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 8.596165515517562e-10,
+      "原帧Float64权重和对1偏差": 1.30385160446167e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-53.333332061767578s.csv",
+      "NumPy原生Float32和": 871.6893310546875,
+      "Polars原生Float32和": 871.689453125,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 2.2692942750618394e-09,
+      "原帧Float64权重和对1偏差": 1.7601996660232544e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-62.5s.csv",
+      "NumPy原生Float32和": 799.8145751953125,
+      "Polars原生Float32和": 799.814697265625,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 2.5903609222888146e-09,
+      "原帧Float64权重和对1偏差": 1.9511207938194275e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-71.666664123535156s.csv",
+      "NumPy原生Float32和": 735.0746459960938,
+      "Polars原生Float32和": 735.07470703125,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 4.656612873077393e-10,
+      "Float64理想归一最大绝对差": 2.4191356626235283e-09,
+      "原帧Float64权重和对1偏差": 1.5040859580039978e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-80.833335876464844s.csv",
+      "NumPy原生Float32和": 678.2709350585938,
+      "Polars原生Float32和": 678.2708740234375,
+      "两归一最大绝对差": 9.313225746154785e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 4.726178354924615e-10,
+      "原帧Float64权重和对1偏差": 2.561137080192566e-09
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquet0/原始合成CSV/115.2W-90s.csv",
+      "NumPy原生Float32和": 627.9722900390625,
+      "Polars原生Float32和": 627.972412109375,
+      "两归一最大绝对差": 2.7939677238464355e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 1.862645149230957e-09,
+      "Float64理想归一最大绝对差": 7.438143642679584e-10,
+      "原帧Float64权重和对1偏差": 1.6530975699424744e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-100s.csv",
+      "NumPy原生Float32和": 584.9894409179688,
+      "Polars原生Float32和": 584.9893798828125,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 2.0224283914238583e-09,
+      "原帧Float64权重和对1偏差": 9.289942681789398e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-108.33333587646484s.csv",
+      "NumPy原生Float32和": 546.5720825195312,
+      "Polars原生Float32和": 546.572021484375,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 1.6907260244614086e-09,
+      "原帧Float64权重和对1偏差": 8.475035429000854e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-117.5s.csv",
+      "NumPy原生Float32和": 512.1986083984375,
+      "Polars原生Float32和": 512.1986083984375,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 1.862645149230957e-09,
+      "Float64理想归一最大绝对差": 8.306276361169651e-10,
+      "原帧Float64权重和对1偏差": 1.816079020500183e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-126.66666412353516s.csv",
+      "NumPy原生Float32和": 481.7872619628906,
+      "Polars原生Float32和": 481.78729248046875,
+      "两归一最大绝对差": 4.656612873077393e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 1.862645149230957e-09,
+      "Float64理想归一最大绝对差": 5.522881388331236e-10,
+      "原帧Float64权重和对1偏差": 7.683411240577698e-09
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-135.83332824707031s.csv",
+      "NumPy原生Float32和": 455.2625732421875,
+      "Polars原生Float32和": 455.2624816894531,
+      "两归一最大绝对差": 5.587935447692871e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 4.2217879261952085e-09,
+      "原帧Float64权重和对1偏差": 1.6996636986732483e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-35s.csv",
+      "NumPy原生Float32和": 1004.8256225585938,
+      "Polars原生Float32和": 1004.8255615234375,
+      "两归一最大绝对差": 9.313225746154785e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 6.405160932893006e-10,
+      "原帧Float64权重和对1偏差": 1.1175870895385742e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-44.166667938232422s.csv",
+      "NumPy原生Float32和": 948.1145629882812,
+      "Polars原生Float32和": 948.114501953125,
+      "两归一最大绝对差": 9.313225746154785e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 8.596165515517562e-10,
+      "原帧Float64权重和对1偏差": 1.30385160446167e-08
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-53.333332061767578s.csv",
+      "NumPy原生Float32和": 871.6893310546875,
+      "Polars原生Float32和": 871.689453125,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 2.2692942750618394e-09,
+      "原帧Float64权重和对1偏差": 1.7601996660232544e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-62.5s.csv",
+      "NumPy原生Float32和": 799.8145751953125,
+      "Polars原生Float32和": 799.814697265625,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 2.5903609222888146e-09,
+      "原帧Float64权重和对1偏差": 1.9511207938194275e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-71.666664123535156s.csv",
+      "NumPy原生Float32和": 735.0746459960938,
+      "Polars原生Float32和": 735.07470703125,
+      "两归一最大绝对差": 1.862645149230957e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 4.656612873077393e-10,
+      "Float64理想归一最大绝对差": 2.4191356626235283e-09,
+      "原帧Float64权重和对1偏差": 1.5040859580039978e-07
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-80.833335876464844s.csv",
+      "NumPy原生Float32和": 678.2709350585938,
+      "Polars原生Float32和": 678.2708740234375,
+      "两归一最大绝对差": 9.313225746154785e-10,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 9.313225746154785e-10,
+      "Float64理想归一最大绝对差": 4.726178354924615e-10,
+      "原帧Float64权重和对1偏差": 2.561137080192566e-09
+    },
+    {
+      "合成CSV": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/pytest临时_独立IO/纯合成原始CSV与Parquetcurrent/原始合成CSV/115.2W-90s.csv",
+      "NumPy原生Float32和": 627.9722900390625,
+      "Polars原生Float32和": 627.972412109375,
+      "两归一最大绝对差": 2.7939677238464355e-09,
+      "Polars归一逐点bitwise相同": false,
+      "Polars同dtype独立除法最大绝对差": 1.862645149230957e-09,
+      "Float64理想归一最大绝对差": 7.438143642679584e-10,
+      "原帧Float64权重和对1偏差": 1.6530975699424744e-08
+    }
+  ],
+  "CPU守卫计数": {
+    "outside_data_io_denied": 0,
+    "cuda_initialization_attempts": 0,
+    "synthetic_torch_loads": 0,
+    "synthetic_parquet_reads": 0
+  }
+}

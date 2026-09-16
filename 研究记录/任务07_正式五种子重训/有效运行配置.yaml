@@ -1,0 +1,65 @@
+schema_version: 1
+事前台账记录编号: 录-0033
+运行臂: E0
+种子: [0, 1, 2, 3, 4]
+V4_B0来源清单SHA256: 423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de
+五种子配对来源:
+  0:
+    LF检查点SHA256: 5ab23ffd5b7c4b99ba90b81236ec0fba4a9b109a730288124c647030036e42f2
+    历史HF架构视图SHA256: 0764c7e78f45e3509f0f8a525965a8f9d77a789aed47ce10ea8d536673644f4b
+    LF初始张量SHA256: c01575e2b845c25097f14d5d2cddb0a0f2763d02c9d467af0d25cbc6790ef5f8
+    来源协议SHA256: 1c196255e8341b186df0599479d6bd24a54850209d223b1b3330297acab01252
+  1:
+    LF检查点SHA256: e187044bac9175052604f7d77a213954d45655b2237739a0bb8bbea67fcfdbfb
+    历史HF架构视图SHA256: cae7b3546d9c1358350d2866d87f773b10415290f62f88f38b007b79d7013906
+    LF初始张量SHA256: 10d465b0007a15bb1c773c6f08f00948f642ff43e032107c28f29736f6e5d2f6
+    来源协议SHA256: ca0322a5c2febf85bfb4764fb873e5661376a1f82185ad491f4b905860424463
+  2:
+    LF检查点SHA256: f3e6be959e185f7844fbceda220e12e91fbf0642b84aaf01990b8d3aca6ce252
+    历史HF架构视图SHA256: a7dfffdea6c50fda21efd8c822d0585743aa3df9ae7ea1d363c3d221105b6802
+    LF初始张量SHA256: 0efa2645dbfd0d268acefb926ba879e4c3fd081569bfe8abc5a282036a082514
+    来源协议SHA256: f8a53c4a6ca6ce72e38c0decb6a1cd63a8e3f63b19589889c51308a23901c127
+  3:
+    LF检查点SHA256: f5378dead4dc770dae3a3ebef781314e3d38445c6cbac54f097e06755e5ff68d
+    历史HF架构视图SHA256: 41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b
+    LF初始张量SHA256: 885002fc42c8a8b8321c519999faf1f3152b66e9d571508b2190e442e1ff7c2a
+    来源协议SHA256: 826d00d7393cc2d77e8de4caae858e768826ea04c11a6d3367d3a5d67a609b7c
+  4:
+    LF检查点SHA256: bd4c3be31f730eeaac538bbb3c9ce13e74c3ab39bc29fe1716698c527d53b34e
+    历史HF架构视图SHA256: d27d0deb910580c5ca346a0c718efb92acbc971bbe10705a0e5fc61b9383f0ca
+    LF初始张量SHA256: 6b19842e7678e1ddde0e0121b362941c06a206ac2f9fbb5834b029fbe9d15668
+    来源协议SHA256: 86013341f97dca86ad590dd4a02bdb5e524f6c115370988ff590965ef84265b1
+入口源码SHA256:
+  来源: 54dcbdab5c7ea624cd885baefc5390baf66489fb95020c4d52e1fbdd16ec2642
+  训练: 8de7cf76314c67bc987e09422a59460049166c6a803db0d5947a3b49b29aeead
+  命令行: 29680519181916a3e03d4074415a3b81d239cd566f14547d807caad15fe9505f
+固定训练合同:
+  HF训练功率数: 12
+  HF合法验证功率数: 3
+  LF低保真回放功率数: 60
+  LF合法验证功率数: 10
+  HF观测每轮batch数: 15
+  HF观测batch大小: 2048
+  HF每轮真实观测点: 29593
+  独立物理每轮优化步: 1
+  独立物理每轮配点: 256
+  LF每训练功率回放点: 2048
+  传感器绝对权重: 5.0
+  传感器差分权重: 1.0
+  HF校正预算上限: 1500
+  受限联合预算上限: 500
+  HF校正学习率: 0.001
+  联合HF学习率: 0.0001
+  联合LF四末投影学习率: 0.00001
+  受限联合仅LF四末投影:
+    - low_fidelity_model.branch_projection.bias
+    - low_fidelity_model.branch_projection.weight
+    - low_fidelity_model.trunk_projection.bias
+    - low_fidelity_model.trunk_projection.weight
+  HF合法选分: macro_v1
+  每10轮合法验证: true
+  早停耐心: 200
+  早停最小改善: 0.0001
+  LF逐材料节点与轴对称真实体积恶化护栏百分比: 5.0
+  LF回放保真度: low
+  旧test_Data温度标签读取: false

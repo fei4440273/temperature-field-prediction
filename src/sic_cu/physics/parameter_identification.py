@@ -7,6 +7,8 @@ from typing import Any, Iterable
 
 import numpy as np
 
+from sic_cu.compat import strict_zip
+
 from sic_cu.config import PROJECT_ROOT, load_yaml
 from sic_cu.data.fields import SimulationField, load_processed_field
 from sic_cu.data.splits import build_power_splits
@@ -382,7 +384,7 @@ def _interface_samples(
     copper_lookup = {
         (_key(r), _key(z)): index
         for index, ((r, z), material) in enumerate(
-            zip(coordinates, field.material_ids, strict=True)
+            strict_zip(coordinates, field.material_ids)
         )
         if material == 0
     }

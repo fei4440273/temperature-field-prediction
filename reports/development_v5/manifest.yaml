@@ -1,0 +1,54 @@
+中文摘要:
+  本轮: V5 M2-E/M2-L/M2-O 只读审计
+  E1_E2: 已暂停
+  S0_S1: authorized_but_not_started
+  未训练新网络: true
+  未读取test_Data温度: true
+schema_version: 1
+round_id: development_v5_m2
+completed_at_utc: '2026-09-11T14:14:07.872687+00:00'
+gate:
+  中文说明: 仅判定数值审计链路和证据是否足以进入冻结 LF 的排程对照，不表示当前模型能量已经闭合。
+  criteria:
+    e1_e2_paused: true
+    no_training_or_optimizer: true
+    test_temperature_not_read: true
+    hard_override_failure_exposed_by_control: true
+    actual_checkpoint_hard_override_disabled: true
+    all_five_hf_checkpoints_hard_override_disabled: true
+    analytic_controls_passed: true
+    quadrature_converged: true
+    divergence_identity_numerically_closed: true
+    five_lf_sources_and_call_paths_verified: true
+    initial_observations_classified_without_mutation: true
+  allow_s0_s1_schedule_comparison: true
+  e1_e2_status: paused
+  s0_s1_status: authorized_but_not_started
+  new_training_started: false
+  unresolved:
+  - 当前高保真场的工程能量预算是否达到项目物理容忍度
+  - 257 W热环t=0偏差的实际来源
+  - 历史未注明口径的0.538℃低保真指标来源
+  - 当前LF拟合误差是否需要先修复，以及改善能否传导到HF
+artifact_sha256s:
+  decision_log.md: 2871d49747eb2018d30ef0824de4daedaae4d790458b592b1eaaa2b45d4cfb91
+  diagnostic_dirty.patch: 4bb95a3eb80faa8824142d6ff8c9195b644bfdb81e2b17f8bf07dc2d2871511b
+  git_status.txt: ea0b5f81e2d8629254be10cabf305712803076764988285c367259c2c1c6413f
+  m2_cooling_boundary_limit.csv: 4763896be44f630fc2440543e2319c830921d1d5f0ced0c682365142f6320345
+  m2_divergence_identity.csv: 2ab25becac4bbffc1bc498a46e791d60bf3243f6e5fa4ab32ffd9efa93cada9c
+  m2_energy_controls.csv: 1200f20fc1fdf9432aa6f97e35087647bc7b470c8e01ead8e4a3ebe75721f088
+  m2_energy_flux_audit.md: 03c5a99a15674d8b189ae2e63476a43a919415a58f4a361f3b8e4ce76c4d4c39
+  m2_energy_terms.csv: 95da94e6ea18c713b10ac8491011a982f07a04532b22d6910b25ccfada887973
+  m2_gate.json: 8642922111c172ca8095da5d8126410c3eb21511e3521c9d76e009697a4e1e43
+  m2_hard_cooling_control.json: 0032df44e48ba6ec34604c624154d6802deab1dbad92f21bf9f3e9d3bb3b0c2e
+  m2_initial_evidence.json: 43991a088dadab0aabb5b1329404f22fc31b41bfce5dec19ae8c89c64892d7a1
+  m2_initial_observation_audit.md: dd0ab71dad00617f6f0123069d20438481b2700d17bff93b30d954a0ceaae517
+  m2_initial_observation_classification.csv: 9f91053da1aa62ff2686e9d2044509b6f25e15760101bdbaaf4eb767bb219a1d
+  m2_lf_backbone_audit.md: d43c7f394f4b8863026c4fbe7a5ac15f7c6262e3239db609eac8d7982704d31d
+  m2_lf_checkpoint_comparison.csv: ac688bca1f84451b9b2dfa779e8bf9e9dd1e4b8df2ebdb0dec9db3e4ec6e1427
+  m2_lf_checkpoint_provenance.csv: f71f5dc86a9a9052ecb5b2b409d8e676d0e1e446d05a0edb69cce5d13b7190ae
+  m2_lf_node_alignment.json: 3c2127861dd0a15912a065b664d236ad0e847d2a6265caf2d4d4cd24d8038e1d
+  m2_lf_node_spot_checks.csv: 53e3f54afc1357487918ef2a4445d20d97a8199fef7badb8465e19e97446b0bc
+  m2_quadrature_convergence.csv: 91338ffd671c0304f6c48ea5e469527a80ffc38cd56ece5a0d1f6f46f3b8fbac
+  run_provenance.json: 97bff846d9ae650fa9505214ce01b82646080c36842f842cb47680b16beeead5
+  source_snapshot.tar.gz: 2b3e5e808d6d6d85f0af8b6e4077931b276e661e5d8aaba3ef2b4feb14d120b5

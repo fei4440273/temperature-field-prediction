@@ -1,0 +1,18 @@
+{
+  "性质": "仅新增档案自身封存器空stderr假设失败，原Howard/原件/主核验不受改动；补录真实工具终态，不重跑覆盖",
+  "实际argv": [
+    "/home/phl/anaconda3/envs/PINN/bin/python",
+    "-B",
+    "研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/seal_bounded_review.py"
+  ],
+  "完整CPU实际环境取自": "独立CPU只读实跑.command.json:实际环境",
+  "实际退出码": 1,
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/seal_bounded_review.py\", line 18, in <module>\n    assert record[\"实际退出码\"] == 0 and record[\"完整stderr\"] == \"\"\nAssertionError\n",
+  "当时脚本原件": "封存器首轮原件.py",
+  "源主validator原件": "主validator首轮原件.py",
+  "主核验actualexit0但nonempty完整stderr保留": "独立CPU只读实跑.command.json及stderr.txt；退出时dir_fd相对清理被自有hook错误按cwd解析并拒绝",
+  "退出前stdout计数不能冒退出后全时": true,
+  "未生成首轮汇总封存文件": true,
+  "未修改Howard冻结源或原source_PT_log_receipt_ROOT": true
+}

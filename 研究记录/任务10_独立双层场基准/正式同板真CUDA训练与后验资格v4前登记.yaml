@@ -1,0 +1,66 @@
+schema_version: 1
+登记时间: '2026-09-16T06:30:03+08:00'
+阶段: '任10真CUDA训练及全组后验资格v4事前冻结'
+目标: '补录0064旧正式CLI允许cpu且录0066/0070旧门禁可接收CPU机件的P1；只新增GPU专属包装器、25身份CUDA资格及后验v4入口，不修改旧冻结物'
+旧方法预算_SHA256: 'cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94'
+旧方法十一源tar_SHA256: '22e6df62cf1aaddf55a8a33e8d8a71e558d89110db96466dc904d1b10c03069d'
+旧二级预算_SHA256: '5e69e7b29aacd11e5a1923aff03974dd777d754676ee9463a2b15c4d810436da'
+旧二级十源tar_SHA256: '10777b6e0b99e6b8b4563b59e2d9d575505eda6cdea49235fca02ba1f1c54fb0'
+旧v3预算_SHA256: '2e4c48149cd335accc31cdb00d7b38b24611c8aee9ee2ffd7bf05981afa6e173'
+旧v3七源tar_SHA256: '653c9c7bc90511fca8e0baa2d0534255d21c42b55a33e7f42a5a7279209a669e'
+旧冻结训练CLI_SHA256: 'b7ed35d95e53d2211cb15c07ef1f1eefa271deefe7f68fde188b2f27e0293cd3'
+真CUDA专属包装器固定旧方法且不可选择CPU: true
+逐模型训练日志设备必须为cuda: true
+逐模型全部CUDA设备RNG必须非空且数量一致: true
+逐批设备名称数量PyTorch及CUDA版本和峰值显存收据: true
+最佳终态训练日志验证及单锁原件SHA相互绑定: true
+失败目录永久留档禁止恢复且另新目录完整重跑: true
+旧0064_0066_0070原件保持不变: true
+CUDA资格先于任一完整HF温度首读: true
+正式25模型当前仍为零: true
+真实完整HF温度当前读取仍为零: true
+训练批次合同:
+  F1批次数: 5
+  同LF来源同seed配对批次数: 10
+  模型身份数: 25
+  真CUDA收据数: 15
+  用户可选设备参数: false
+  旧CLI固定设备实参: 'cuda'
+  F1命令: 'python scripts/任务10_同板真CUDA专属训练.py --arm F1 --seed <0..4> --output <全新项目内目录> --CUDA资格预算SHA256 <录0074预算SHA> --CUDA资格源码tarSHA256 <录0074归档SHA>'
+  配对命令: 'python scripts/任务10_同板真CUDA专属训练.py --arm PAIR --lf-source <lf_same_physics_coarse或lf_contact_mismatch_coarse> --seed <0..4> --output <全新项目内目录> --CUDA资格预算SHA256 <录0074预算SHA> --CUDA资格源码tarSHA256 <录0074归档SHA>'
+  失败策略: '旧CLI任意非零退出或包装器封存失败后，已有目标目录永久保留且同路径永不恢复；另取全新批次目录从头重跑。若进程被SIGKILL且旧CLI尚未创建目录，无法凭项目机件证明该次启动，属于操作系统外真实性限制。'
+CUDA资格合同:
+  单模型: '设备必须cuda；运行收据与训练日志、开始凭据、资源摘要、合法验证、单模型锁、最佳checkpoint、终态PT、最佳/终态CUDA RNG逐实际文件SHA绑定；F2/F3另绑定共享LF CUDA RNG。'
+  RNG: 'torch.load(weights_only=True)后torch_cuda_all必须是非空uint8 Tensor列表，长度等于运行收据可见CUDA设备数；25身份设备数、设备名和PyTorch/CUDA运行版本统一。'
+  资源: '旧CLI摘要与包装器收据的真实训练耗时和CUDA峰值分配MiB均须有限正数；运行设备序号、名称、计算能力、总显存及版本非空。'
+  全组: '五F1独立收据及两LF来源×五seed的十个PAIR共享收据，恰15个运行收据对应25身份；F2/F3同组必须同一收据。'
+后验顺序: 'v4唯一正式入口先核旧原件SHA、录0074双SHA、录0066原二级门禁、录0070 v3门禁、25份CUDA资格；全部通过后才调用原v3，原v3再次核0066/0070/真实LF及最佳锁并首次打开完整HF。'
+真实性限界: 'PT、JSON、CSV、RNG及资源收据仍可离线协同伪造，项目源码/SHA门禁不是OS权限隔离，也不能独立证明GPU实际执行了800步；需结合ROOT现场运行和后续原主账身份清单。'
+适用范围: '仅人为一维SiC/Cu板FVM与登记五训练/两验证探针；不读取旧固定TEST温度，隐藏42/58千完整温度不得用于训练、选模或资格。'
+CUDA资格十二源tar成员:
+  - '研究记录/任务10_独立双层场基准/正式同板真CUDA训练与后验资格v4前登记.yaml'
+  - '研究记录/任务10_独立双层场基准/正式同板F1_F2_F3重训方法预算前登记_v2.yaml'
+  - '研究记录/任务10_独立双层场基准/正式同板全组后验指标及源码前登记.yaml'
+  - '研究记录/任务10_独立双层场基准/正式同板全组后验真实LF配对v3前登记.yaml'
+  - 'scripts/任务10_同板F1_F2_F3重训.py'
+  - 'src/sic_cu/eval/task10_plate_group_gate.py'
+  - 'src/sic_cu/eval/task10_plate_posthoc.py'
+  - 'src/sic_cu/eval/task10_plate_posthoc_v3.py'
+  - 'src/sic_cu/eval/task10_plate_cuda_gate.py'
+  - 'scripts/任务10_同板真CUDA专属训练.py'
+  - 'scripts/任务10_真CUDA资格后全组独立一维HF后验审计_v4.py'
+  - 'tests/test_task10_plate_cuda_gate.py'
+CUDA资格生效源码_SHA256:
+  '研究记录/任务10_独立双层场基准/正式同板F1_F2_F3重训方法预算前登记_v2.yaml': 'cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94'
+  '研究记录/任务10_独立双层场基准/正式同板全组后验指标及源码前登记.yaml': '5e69e7b29aacd11e5a1923aff03974dd777d754676ee9463a2b15c4d810436da'
+  '研究记录/任务10_独立双层场基准/正式同板全组后验真实LF配对v3前登记.yaml': '2e4c48149cd335accc31cdb00d7b38b24611c8aee9ee2ffd7bf05981afa6e173'
+  'scripts/任务10_同板F1_F2_F3重训.py': 'b7ed35d95e53d2211cb15c07ef1f1eefa271deefe7f68fde188b2f27e0293cd3'
+  'src/sic_cu/eval/task10_plate_group_gate.py': '313d9a7822a43cb44ff58fdc95be45573c1de86694b43be145f0d20ac7285b0d'
+  'src/sic_cu/eval/task10_plate_posthoc.py': '78eecce5937639eb42707c0e22aa4975fbbe1582a39894ee20619854970fb3cb'
+  'src/sic_cu/eval/task10_plate_posthoc_v3.py': 'fff8aa388d1e668c156ea4ddf15978f8ec5e6975acbdb9b172304ddd115de362'
+  'src/sic_cu/eval/task10_plate_cuda_gate.py': '03b744a4d229c2d9da2edbeec3b07e16c078d29ddd66c4050892c60db49b3f33'
+  'scripts/任务10_同板真CUDA专属训练.py': 'dc00efe6b9d1f8aa46f8a74c2c42fb0873b53afda7a6af5719bbc810484c7f42'
+  'scripts/任务10_真CUDA资格后全组独立一维HF后验审计_v4.py': 'a70d7b316a9bafde712eeea5fac34d998a2a8859229d76661b250697f440c123'
+  'tests/test_task10_plate_cuda_gate.py': '89e0bc85284f8dfe4ce926642226e26b6685fde3b2d55776fb3d935e5e8bf088'
+唯一正式训练入口: 'scripts/任务10_同板真CUDA专属训练.py；录0074双SHA进入主账前不得实际运行任10训练。'
+唯一正式后验入口: 'scripts/任务10_真CUDA资格后全组独立一维HF后验审计_v4.py；真实25身份及其CUDA收据另行锁入主账前恒拒绝完整HF首读。'

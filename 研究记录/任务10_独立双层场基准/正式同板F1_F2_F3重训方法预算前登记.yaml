@@ -1,0 +1,79 @@
+schema_version: 1
+登记时间: '2026-09-16T04:15:26+08:00'
+阶段: '任10一维板F1及同LF来源配对F2/F3正式重训前登记'
+目标: '仅人为已吸收面热流一维SiC/Cu双层板；不是原装置圆柱零样本跨几何'
+训练随机种子: [0, 1, 2, 3, 4]
+一维数值登记: '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml'
+一维数值登记_SHA256: '0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13'
+已封数值六源tar: '研究记录/任务10_独立双层场基准/正式人为九热流源码冻结_20260916T032032+0800.tar.gz'
+已封数值六源tar_SHA256: '368f0f8458c994101bd1d20c241f61f8e64d8bedb0e74b3f733d7369e7a01c2f'
+已封来源入口两源tar: '研究记录/任务10_独立双层场基准/同板方法来源入口源码冻结_20260916T033802+0800.tar.gz'
+已封来源入口两源tar_SHA256: '7a8165f8f988e8df717566a3a77e51064384ec0d276015c56853bb2c964c80a6'
+正式九档受限源: '研究记录/任务10_独立双层场基准/九热流受限数值源_台账确认后_20260916T032402+0800'
+受限源清单_SHA256: 'b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb'
+受限源逐热流控制CSV_SHA256: 'e6f538199e815014f428f1e53b92284d39c70968ef15d79e882e0e4aff99e29d'
+方法九源tar成员:
+  - '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml'
+  - '研究记录/任务10_独立双层场基准/正式同板F1_F2_F3重训方法预算前登记.yaml'
+  - 'configs/materials.yaml'
+  - 'src/sic_cu/eval/task10_plate_training_source.py'
+  - 'src/sic_cu/models/task10_plate_deeponet.py'
+  - 'src/sic_cu/losses/task10_plate_physics.py'
+  - 'src/sic_cu/train/task10_plate_methods.py'
+  - 'scripts/任务10_同板F1_F2_F3重训.py'
+  - 'tests/test_task10_plate_methods.py'
+方法生效源码_SHA256:
+  '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml': '0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13'
+  'configs/materials.yaml': '2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e'
+  'src/sic_cu/eval/task10_plate_training_source.py': '3b75b92bc73cc7c207bdc901086bfbdb7bdc4d322db9a7d4aa78e317fc6adf8d'
+  'src/sic_cu/models/task10_plate_deeponet.py': '3c3e7d6af5b12fd479f96276c815d6128cc91d7a57cc9e9f41551a078914e724'
+  'src/sic_cu/losses/task10_plate_physics.py': 'c6c3ed1af71fc508413915939bbba097bd28b6d9fa9843d6587a63a680a826a8'
+  'src/sic_cu/train/task10_plate_methods.py': '59a17aaf1479e50f08acd2feb0a6c2b4083f3915decba66dc775277d924cdc11'
+  'scripts/任务10_同板F1_F2_F3重训.py': '19ee93cb68054533406b7d501646e37128726904cc055ff7383ba5cebc6c2a6d'
+  'tests/test_task10_plate_methods.py': '66a2493f767c1e9fc0a8a9a12f3f84302ef107abcbb500a79a2fce8ee24610fc'
+公共物理前提:
+  材料: '只用已封configs/materials.yaml内已知常物性SiC/Cu密度、比热、导热率；所有方法一致'
+  几何与坐标: '顶面深度z=0至SiC/Cu界面z=0.012m，再至固定底z=0.0175m；输入仅[z,t,q,材料]四列，无圆柱r'
+  初值与底边界K: 295.15
+  顶部面热流: '训练折已吸收均匀合成q(W/m²)，正入板；-k_SiC*dT/dz=q，非原激光整束功率'
+  HF已知接触热阻_m2_K_W: 0.0001
+  界面共同约束: '-k_SiC*dT_SiC/dz=-k_Cu*dT_Cu/dz；T_SiC-T_Cu=Rc*(-k_SiC*dT_SiC/dz)'
+  F1_F3内部方程: '每材料分别rho*c*dT/dt-k*d²T/dz²=0，固定每材料八配点；不能用HF全场作训练或校正'
+  F2内部方程: '不调用一维体内二阶PDE计算；仍有同一已知初值、上下边界及界面两个残差'
+同LF成对PDE对照: true
+F2体内PDE计算: false
+F1或F3体内PDE计算: true
+允许LF来源: ['lf_same_physics_coarse', 'lf_contact_mismatch_coarse']
+LF分臂限制: '每一种LF来源各自配对F2/F3，须同seed、同完整LF原件、共享300步LF预训起点全张量SHA、同HF探针/同预算；Rc=0.7失配是另一个独立LF来源实验，不能与同物理LF的F2/F3混称单PDE贡献'
+F1资源限制: 'F1仅HF合法探针和共同公开板物理，不打开任何LF；F1没有额外300 LF优化步，故F1与F2/F3总计算与网络输入不同，不得声称三法只差PDE'
+训练来源仅五折探针且验证仅两折探针: true
+监督折:
+  HF训练人为热流_W_m2: [20000, 35000, 50000, 65000, 80000]
+  HF训练可见: '每档14固定时刻×顶部/深13/16mm三探针，42个K温度；无全内部HF场'
+  LF训练: '每档同一维板24/11粗网格、2s步、101×35可见完整低保真，单步至多512随机采样，可重复、不声称逐单元全覆盖'
+  HF验证人为热流_W_m2: [30000, 70000]
+  HF验证可见: '每档仅14固定时刻×三探针42温度；合法30/70同权RMSE仅用于20步间隔选择早停检查点'
+  隐藏数值折: '42/58千W/m²只封存ZIP头和SHA；全部25模型方法/预算/验证锁前不打开任何隐藏温度'
+共同训练预算:
+  网络: {width: 32, latent_dim: 32, blocks: 1}
+  HF每臂最大真实优化步: 800
+  共享LF每同seed每来源最大真实优化步: 300
+  合法验证间隔_步: 20
+  LF单步采样上限_点: 512
+  每材料体内配点数: 8
+  AdamW学习率: 0.001
+  AdamW权重衰减: 0.000001
+  已吸收顶部热流单位: 'W/m²'
+  预登记模型身份总数: 25
+  正式优化步合计上限: 23000
+  预算计算: 'F1: 5seed×800=4000；F2/F3: 2种LF×5seed×(300共享LF+800F2+800F3)=19000；合计23000优化步，5F1+10F2+10F3共25模型；LF300仅每配对计一次'
+短先导不可修订正式预算: true
+完整HF后验仅全部25模型冻结后: true
+单模型SHA锁不足以提前开启完整HF后验: true
+能源及内部场审核延后至全部25模型及合法验证锁定: true
+后验门禁:
+  模型资格: '25个预定身份全部完成真实优化行CSV、只用两合法验证折选择检查点、每个checkpoint SHA锁；记录失败身份则完整HF评价不执行'
+  数值资格: '逐flux冻结网格与时间步差均严格<0.1℃，检查数值能量储热+底部出流-顶部入流=0及界面连续；<0.1仅固定点不保证全内部精度'
+  能量与场检查: '全部25锁定后另冻结只读后验代码及场评价指标，比较同功率同几何顶底通量、界面热流/跳温、逐材料PDE残差与隐藏内部场逐时刻/深度分布；不能用后验误差重调模型或改配置'
+  原工程排除: '不加载旧RZ圆柱权重，不读旧TEST温度；不得用数值板成绩称原工程B0或原装置跨几何验证'
+  实际隔离边界: '仅登记SHA+受限训练API+训练脚本AST门禁，不能保证恶意Python脚本受到操作系统读权限隔离'

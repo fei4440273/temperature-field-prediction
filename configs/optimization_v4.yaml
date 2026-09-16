@@ -1,0 +1,80 @@
+schema_version: 1
+round_id: development_v4
+source_commit: bbe563e05ee65e28362ccab04d91773896d8d0c4
+protocol_id: hf_fixed_12_3_3_v4
+allow_test_labels: false
+allow_logo: false
+preserve_frozen_releases: true
+
+models:
+  backbone: existing_deeponet_low_fidelity
+  correction: existing_coordinate_lf_temperature_mlp
+  material_aware: true
+  surface_hard_guide: false
+
+fidelity:
+  lf_training_scope: simulation_train_full_sic_and_cu
+  hf_training_scope: selected_hf_train_top_hot_cold
+  simulation_supervision_target: low_fidelity
+  physics_supervision_target: high_fidelity
+  freeze_lf_in_initial_screen: true
+
+diagnostics:
+  baseline_run: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2
+  seeds: [0, 1, 2, 3, 4]
+  primary_seed: 0
+  output_root: reports/development_v4
+  evaluation_splits: [train, validation]
+  time_windows_s:
+    - {name: time_0_30_s, lower: 0.0, upper: 30.0, lower_closed: true}
+    - {name: time_30_100_s, lower: 30.0, upper: 100.0, lower_closed: false}
+    - {name: time_100_200_s, lower: 100.0, upper: 200.0, lower_closed: false}
+  radial_windows_mm:
+    - {name: center_0_8_mm, lower: 0.0, upper: 8.0, lower_closed: true}
+    - {name: middle_8_17_mm, lower: 8.0, upper: 17.0, lower_closed: false}
+    - {name: outer_17_25_mm, lower: 17.0, upper: 25.0, lower_closed: false}
+  prediction_batch_sizes: [257, 65536]
+  batch_invariance_tolerance_c: 0.0002
+  lf_evaluation_batch_size: 65536
+  gradient_seed: 409090
+  gradient_top_points_per_power: 64
+  gradient_lf_points_per_power: 16
+  gradient_physics_collocation: 64
+  physics_validation_seed: 260909
+  physics_validation_collocation: 512
+  energy_check_samples_per_material: 256
+  energy_check_times_s: [30.0, 100.0, 200.0]
+
+features:
+  candidate_modes: [none, fixed_response, lf_fitted_response]
+  response_count: 4
+  fixed_tau_s: [2.0, 10.0, 50.0, 200.0]
+  source_nodes_per_material_per_power: 32
+  fit_from_hf: false
+  fit_dictionary_dtype: float64
+  freeze_dictionary_in_hf: true
+
+experiments:
+  status: blocked_until_baseline_lock
+  screen_seeds: [0]
+  confirmation_seeds: [0, 1, 2, 3, 4]
+  max_promoted_feature_candidates: 2
+  primary_selection_metric: macro_v1
+  require_paired_lf_checkpoints: true
+  log_trainable_and_total_parameters: true
+  no_physics_label: remove_pde_soft_loss
+
+stopping:
+  relative_mean_validation_gain: 0.05
+  improved_paired_seeds_at_least: 4
+  per_modality_degradation_abs_c: 0.1
+  per_modality_degradation_relative: 0.05
+  modality_tolerance_rule: maximum_of_abs_and_relative
+  compare_against_fixed_response: true
+  thresholds_are_journal_requirements: false
+
+hf_budget_subsets:
+  n3: [55.0, 364.3, 729.0]
+  n6: [55.0, 216.8, 364.3, 494.2, 593.5, 729.0]
+  n9: [55.0, 216.8, 254.5, 364.3, 430.0, 494.2, 558.5, 593.5, 729.0]
+  n12: [55.0, 216.8, 254.5, 257.0, 309.0, 364.3, 430.0, 494.2, 532.0, 558.5, 593.5, 729.0]

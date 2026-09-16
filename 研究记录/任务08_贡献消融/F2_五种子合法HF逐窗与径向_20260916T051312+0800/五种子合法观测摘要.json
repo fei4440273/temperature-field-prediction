@@ -1,0 +1,103 @@
+{
+  "状态": "F2五种子已真实重载；合法HF观测统计独立复核，能源仍另行审核",
+  "正式来源预登记SHA256": "36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9",
+  "五种子宏平均选择分_摄氏度": 1.9976233053756622,
+  "五种子宏选择分样本标准差_摄氏度": 0.08967725801990671,
+  "五种子样本标准差分母": 4,
+  "逐seed真实合法选择分_摄氏度": {
+    "0": 1.9105090279583856,
+    "1": 2.043143730247529,
+    "2": 1.89167679754446,
+    "3": 2.0572815310259025,
+    "4": 2.0855054401020343
+  },
+  "逐seed校正和联合实际轮次": {
+    "0": [
+      500,
+      210
+    ],
+    "1": [
+      530,
+      210
+    ],
+    "2": [
+      660,
+      500
+    ],
+    "3": [
+      580,
+      220
+    ],
+    "4": [
+      530,
+      500
+    ]
+  },
+  "逐seed联合末护栏不可采用": {
+    "0": false,
+    "1": false,
+    "2": false,
+    "3": false,
+    "4": false
+  },
+  "径向与历史B0_任07F3比较版本": "须仅与十模型原生float32闭端点修版45行对比；原V4旧径向表保留不能混用",
+  "当前资格": "任07乙：只准讨论合法观测；未知内部HF真值和工程能源不能凭观测推断",
+  "旧test_Data温度标签读取": false,
+  "逐seed原件来源SHA256": {
+    "0": {
+      "initial": "3e6120c6bc6526322fc7887e750924a2b849f33f8f0d45855adc06f2442e4888",
+      "best": "81956a8427a70a13429e0bc8b4b52eb0a0de772a1437157f2f0b594760dbdc1e",
+      "physical": "3e6120c6bc6526322fc7887e750924a2b849f33f8f0d45855adc06f2442e4888",
+      "correction": "47d3e76837f2a6fba14b6068ce24587a51e0bf544a86d6e33a91f9bf51aa9e4f",
+      "joint_initial": "fc7bf2562d6da762bcbb165f5ccbca17b4b97544938dcf796ecdbdf566aa49d1",
+      "latest": "d2270c87f676a80068b6e355016f0a15263978d2986dc48a233b7adeba57964d",
+      "joint_final": "d2270c87f676a80068b6e355016f0a15263978d2986dc48a233b7adeba57964d",
+      "final": "d2270c87f676a80068b6e355016f0a15263978d2986dc48a233b7adeba57964d",
+      "best_view": "63ee3a4db2c24d036440f580d646e353b1287d32abc427c70a137cff233a636d"
+    },
+    "1": {
+      "initial": "300880a7dfe6d0e62bc1e1232a7fbf6d7b5dd2af3a4e5d6eb11ca067598a57b3",
+      "best": "7d603b59069713c80b94eae772b798c0b86081eee8f138710ffbd172988f15a1",
+      "physical": "300880a7dfe6d0e62bc1e1232a7fbf6d7b5dd2af3a4e5d6eb11ca067598a57b3",
+      "correction": "63ef75ddcd53d671b099d82ecea6b977d24584b48e1339b96e1531cc31748d73",
+      "joint_initial": "551fd36eea82a912359cb9d7f05a996d9787f8cf93a9a75358723997c43ee796",
+      "latest": "e8305084d092688b2e2510435e4465674adcb316ed04ed689cca7bf22b0aefeb",
+      "joint_final": "e8305084d092688b2e2510435e4465674adcb316ed04ed689cca7bf22b0aefeb",
+      "final": "e8305084d092688b2e2510435e4465674adcb316ed04ed689cca7bf22b0aefeb",
+      "best_view": "62d2ec408ea0f85e8540450a39478b0abbd3be87b1fd68f6862f4bf44185782b"
+    },
+    "2": {
+      "initial": "23c1c9bf245f655b55af29437a5932fdaaad230a493c4ccb90007fc0c137c4e2",
+      "best": "b461c6cfe0a299c95573a9855bb130f76640e9c979b7116e9b6a94a801cf1194",
+      "physical": "23c1c9bf245f655b55af29437a5932fdaaad230a493c4ccb90007fc0c137c4e2",
+      "correction": "7df7c3e6f5e1e9658ee39f3c2a2c6c49ded42fc6f74ed4bb2fef78341946df0f",
+      "joint_initial": "4ef8c098b091fc04fba7689b7d92fa296acf9154a5bfb6ec73bdd3ac37b7016e",
+      "latest": "cc70ce1525313ce0d7860c49123ab5149ff94d8096a52a5730d133e490cc336b",
+      "joint_final": "cc70ce1525313ce0d7860c49123ab5149ff94d8096a52a5730d133e490cc336b",
+      "final": "cc70ce1525313ce0d7860c49123ab5149ff94d8096a52a5730d133e490cc336b",
+      "best_view": "4faa900af62ee2a4500b15015e2dce0ee7f0aa9f52a425c52457b4ba5e1822a6"
+    },
+    "3": {
+      "initial": "d59ca02f7cc9f41d9f0425f1b899a8e22ec6ab5134a058615a6b808d9302a2be",
+      "best": "3ea36adf484996cb60ec1c43656546df467e61a5a9c2c3c398ff945d1b84bb73",
+      "physical": "d59ca02f7cc9f41d9f0425f1b899a8e22ec6ab5134a058615a6b808d9302a2be",
+      "correction": "5eb354d734a857b96dff34bbed222b0017720b90e51b31b9a62a5be9092c5dc4",
+      "joint_initial": "f98353af52eee6518b873c39f08baed3f780572d35188a8fd9d73db5ced24313",
+      "latest": "0e2f72a68f13cfcbbf54631a3365e69f72a0ed013735e957bce5063311521b9a",
+      "joint_final": "0e2f72a68f13cfcbbf54631a3365e69f72a0ed013735e957bce5063311521b9a",
+      "final": "0e2f72a68f13cfcbbf54631a3365e69f72a0ed013735e957bce5063311521b9a",
+      "best_view": "65f4d587ff0c91944297fa53962ac9d85419f7d06fee206994ccfaab29ab0e60"
+    },
+    "4": {
+      "initial": "ced1b55322d439762006de2d2c72697dbb6283e534d5f78c3e73e24d4bfbb285",
+      "best": "b50aa2cd6fada175a9f1ed3be1e480d656c11939fb005ce3439fdc4186470f19",
+      "physical": "ced1b55322d439762006de2d2c72697dbb6283e534d5f78c3e73e24d4bfbb285",
+      "correction": "8eb0c77aaa5339c8fda56688d9c267b153f7011688a8905ccfe8fae6fc42c58a",
+      "joint_initial": "2350bedf166f6338abeec01dbdfbe95ce8dfc68e38ce49f3a22a5b54d3388f33",
+      "latest": "1e68e007212b1f305a263cd0a21e21440797bcaa66f553e6dcb5d872ce720147",
+      "joint_final": "1e68e007212b1f305a263cd0a21e21440797bcaa66f553e6dcb5d872ce720147",
+      "final": "1e68e007212b1f305a263cd0a21e21440797bcaa66f553e6dcb5d872ce720147",
+      "best_view": "7b7ff3025b987f01fa930fc3cf751a8ed594cc15b0fabb2cece81717498ae772"
+    }
+  }
+}

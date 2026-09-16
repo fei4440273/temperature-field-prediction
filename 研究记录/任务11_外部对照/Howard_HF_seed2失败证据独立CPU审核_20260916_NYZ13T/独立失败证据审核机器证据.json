@@ -1,0 +1,449 @@
+{
+  "性质": "独立只读有界seed2失败证据审核封存，非正式训练完成、模型复现、能源/OBS或全目标验收",
+  "独立主要实际命令": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 'PYTHONPATH=/home/phl/lyf/Temperature Field Prediction/src:/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T' 'TMPDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TEMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'CUDA_CACHE_PATH=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/GPU缓存' 'XDG_CACHE_HOME=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/应用缓存' 'MPLCONFIGDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/绘图缓存' 'TORCH_EXTENSIONS_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Torch扩展缓存' 'TORCHINDUCTOR_CACHE_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/independent_failure_audit.py'",
+  "独立主要实际退出码": 0,
+  "独立主要实际墙钟秒": 2.4871888929919805,
+  "本目录证据完整绑定": {
+    "independent_failure_audit.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/independent_failure_audit.py",
+      "字节": 20837,
+      "权限": "0o664",
+      "SHA256": "a83b4ccc4062dd961861879264d4e331ec2fe3df652e61bfe9c86d7a7fdb1509"
+    },
+    "run_bounded_readonly.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/run_bounded_readonly.py",
+      "字节": 3433,
+      "权限": "0o664",
+      "SHA256": "9628180aa3ed90229bb179ad21dbddd86ce4bff5d3561ef85a93c30dad3a51cf"
+    },
+    "seal_bounded_review.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/seal_bounded_review.py",
+      "字节": 7402,
+      "权限": "0o664",
+      "SHA256": "fc1c5a96ff949a1167be9ec5841b62a9c3a29c116af86d08bf5326950e77cc33"
+    },
+    "独立失败证据中文审核报告.md": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立失败证据中文审核报告.md",
+      "字节": 11665,
+      "权限": "0o664",
+      "SHA256": "91c042917582db2a13d94ae3cdaf8a27b5265f1e41e7d172fd5e5789ae1f2856"
+    },
+    "独立CPU只读实跑.command.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立CPU只读实跑.command.json",
+      "字节": 270903,
+      "权限": "0o664",
+      "SHA256": "e19b43fda6b82446d98d5c608b2a5b22b5ef88fdf897c123e1b9619275800c81"
+    },
+    "独立CPU只读实跑.stdout.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立CPU只读实跑.stdout.txt",
+      "字节": 241938,
+      "权限": "0o664",
+      "SHA256": "154ffb75a022ea1b44c6841918e35d0754ff7dd1c3c4584ddc2041ac3ec97f05"
+    },
+    "独立CPU只读实跑.stderr.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立CPU只读实跑.stderr.txt",
+      "字节": 1199,
+      "权限": "0o664",
+      "SHA256": "00585d51bd7ec061b7dbd6b6ac7b5904412a5de365c2f48e4803f4a8590007ce"
+    },
+    "独立CPU只读再核.command.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立CPU只读再核.command.json",
+      "字节": 269687,
+      "权限": "0o664",
+      "SHA256": "7ace9d23b40ba319a6976131aa5c3b46acdd0744ea610c0e1cf2e6b773f81af4"
+    },
+    "独立CPU只读再核.stdout.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立CPU只读再核.stdout.txt",
+      "字节": 241938,
+      "权限": "0o664",
+      "SHA256": "2c41c16a712380f4117132dcff5f091e6dd7afbe12b8ecfe60bac5d59032665e"
+    },
+    "独立CPU只读再核.stderr.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/独立CPU只读再核.stderr.txt",
+      "字节": 0,
+      "权限": "0o664",
+      "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "主validator首轮原件.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/主validator首轮原件.py",
+      "字节": 20190,
+      "权限": "0o664",
+      "SHA256": "20d04e68ec3f2da45526f73f55b96ee29a19b0ecc263e0bf47afe0aee41d5ea6"
+    },
+    "封存器首轮原件.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/封存器首轮原件.py",
+      "字节": 5952,
+      "权限": "0o664",
+      "SHA256": "6b5ec94042ac65a402304f3a3bad2a55b03b70f6ad845734908e6a2e0790dae3"
+    },
+    "自身封存首轮失败补录.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/自身封存首轮失败补录.json",
+      "字节": 1284,
+      "权限": "0o664",
+      "SHA256": "231d36336f00a120f108073a5a620f6f0ec1895b26fc4508987862306f1485b3"
+    },
+    "dirfd_fixture.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/dirfd_fixture.txt",
+      "字节": 55,
+      "权限": "0o664",
+      "SHA256": "62aa734ecee561093cab695bffadba594494c186de6db3237ad8aac00f77d402"
+    },
+    "test_guard_dir_fd_readonly.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/test_guard_dir_fd_readonly.py",
+      "字节": 796,
+      "权限": "0o664",
+      "SHA256": "c12e38d60735a984c3d24e1ebfe73073842fc29b1c22b999d4e1eacb49cc5d80"
+    },
+    "run_guard_dir_fd_probe.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/run_guard_dir_fd_probe.py",
+      "字节": 1501,
+      "权限": "0o664",
+      "SHA256": "b3b7fb78b08211f395415e39aa5728b0991b37f992cd96968279d91d646419ca"
+    },
+    "自身guard_dir_fd_RED.command.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/自身guard_dir_fd_RED.command.json",
+      "字节": 2793,
+      "权限": "0o664",
+      "SHA256": "1b0573f958a434a665a302e23e1a1dfde1aa318d0b8ae0f889379ebda19f054a"
+    },
+    "自身guard_dir_fd_GREEN.command.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/自身guard_dir_fd_GREEN.command.json",
+      "字节": 2134,
+      "权限": "0o664",
+      "SHA256": "6034a844c12529c426a3c4afa5c499ad3ca5114b5ecf7c49755f1934f2ec51af"
+    }
+  },
+  "原三指定物料终验身份": {
+    "任11_Howard_HF_seed2第304轮数值失败中文诊断_20260916T205117+0800.md": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard_HF_seed2第304轮数值失败中文诊断_20260916T205117+0800.md",
+      "字节": 3908,
+      "权限": "0o664",
+      "SHA256": "5f9f128596e11fd9817f1ae01544651501cc2d35315fb548f0d6f60ff2dfa732"
+    },
+    "任11_Howard_HF_seed2数值失败现场与原303断点CPU304真实复现_20260916T205117+0800.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard_HF_seed2数值失败现场与原303断点CPU304真实复现_20260916T205117+0800.json",
+      "字节": 459634,
+      "权限": "0o664",
+      "SHA256": "25d8ccc3a98307314dc37119f0105133e6a407d5ddc068bc933e23617fec8a13"
+    },
+    "Howard_HF_seed2第304轮数值失败完整普通字节归档_20260916T205117+0800.tar.gz": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2第304轮数值失败完整普通字节归档_20260916T205117+0800.tar.gz",
+      "字节": 87312127,
+      "权限": "0o444",
+      "SHA256": "61f681baced196bbb94587a16ec4506aaf672096eb7cbfe67259c31b547f100e"
+    }
+  },
+  "SOURCE82终验SHA": {
+    "configs/boundary_conditions.yaml": "fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f",
+    "configs/data_metadata.yaml": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+    "configs/geometry.yaml": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+    "configs/materials.yaml": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+    "configs/release_manifest.yaml": "0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288",
+    "configs/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+    "configs/training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+    "data/processed/manifest.json": "1ea58fded68b8950d89c9012d879a7b6197dbb2b12c3c3ccc44af474843d8a82",
+    "pyproject.toml": "765c384e47f19d1b3a77af70e75aaf8383adf9f1e1e69a30b2eb6958e3820f4f",
+    "reports/current_protocol/data_inventory.json": "2fbefd24541ba6a9368da867cb401e3779570bccb5b87e5b238262a99d0607f7",
+    "requirements.txt": "eb0c0a11f9cdc5ebbcd11b1f2597bc9232b12d89674cd63f94b7cd62018ffcba",
+    "scripts/49_run_task11_mlp_lf_formal.py": "e4a472b7396dae60d5681451bdc11bc9e6a9e75b7ddb3c0e153dde7c5f1efca4",
+    "scripts/51_run_task11_mlp_hf_formal.py": "08365501a148f59944a6793e05c1d9394de930fe7c42d850133567894ad33679",
+    "scripts/52_audit_task11_mlp_hf_energy.py": "2eb68916ebb072b4ec6cec021b179d1b8455c9926a481669fc57d7365b4c118e",
+    "scripts/54_run_task11_howard_lf_formal.py": "d034327a7cc01e00ea7e967686eabec07c148984580215f5ba3cd37972451a15",
+    "scripts/55_run_task11_howard_hf_formal.py": "4b956baecb0839d6638a24941b4dc8e929e50b80f618b54781527d83a6b5af2b",
+    "src/sic_cu/__init__.py": "aa6d1d621db62112e81bab6d8ae2863adba7b1a35ed1a510d84a73007822e279",
+    "src/sic_cu/compat.py": "513730f701c8e7d3862d96a65a1eb49284de1e899e0882badf62f75f78e18b58",
+    "src/sic_cu/config.py": "32d566768363fd5a6f10ee66afa43ec2bace5aaa2d0fe2852c5f2a361f25ac9d",
+    "src/sic_cu/data/__init__.py": "4c4828cf79bd54b3db54f27dda23660c0f92f28018e78d32f8de6f1d37a43c01",
+    "src/sic_cu/data/balanced_sampler.py": "3db9838422138167f4f77300fe233165c92b12383cc284afa4b33fa08c0a52ec",
+    "src/sic_cu/data/common.py": "be5d81654dfaa96de33ab44ba4cc034cff13e618603635fbc0eed52690c0551e",
+    "src/sic_cu/data/fields.py": "c098c7fdef43ba24ce79d80e250eb4df9c79c3619318e77187d0613f9cb8efe5",
+    "src/sic_cu/data/processed.py": "f9d15e1700f697d52ea60cac80c0384c0ec39e47678ba8717d31a0154cde1a72",
+    "src/sic_cu/data/sensors.py": "3c69785380a92704f5c8a7866dcf613f7f30281c9616fb614e27388e8f640f61",
+    "src/sic_cu/data/splits.py": "9545e59458614a0e00b3631d6a004bda7ba99ad97374df28850ac51475326a9d",
+    "src/sic_cu/data/time_dictionary.py": "fc3a98110e7740bd774eb1b1a66f5dcdcd668867b0ca46445e368f8eb7e7b591",
+    "src/sic_cu/eval/__init__.py": "6d9c3abccef72e8b3b23cfee4a752293a72e8a1538d6ff73e690a4a70fc02849",
+    "src/sic_cu/eval/energy_v5.py": "47cdc022572bf2467d8082d277cb2ffbeb47e1a5d9eb262af0cb2638f2d28b80",
+    "src/sic_cu/eval/metrics.py": "492ace3db1ef22cacc1f3ee9204f564327db932398204a9fa7b15aff557e9151",
+    "src/sic_cu/eval/protocol_checks.py": "55357852d91732e6e20e7a74b523ffd25b47ff770e4bc8897f6c4aec00f376fc",
+    "src/sic_cu/eval/residual_interpolation.py": "19244079934472de2d1537b5b32a4849c9010e856fc3615a03797e29b9c155be",
+    "src/sic_cu/eval/task11_mlp_hf_energy.py": "147105e6d32e7ecd0ce48f964c1128385e656af0868daaa40fbe8bcd54ac5eb1",
+    "src/sic_cu/eval/validation.py": "4f05b161d438287c8a01557beb0190d6b2e95a19fa6ab227867786b5cb72735b",
+    "src/sic_cu/losses/__init__.py": "1d74ca70955374368393dccbcdd7b8f998ca57637e3cf230ac8ac6d56374880c",
+    "src/sic_cu/losses/physics.py": "43167eda808f97cf2ab49d2b6a4eef394e01cc1ea9c878772cc8d8fe966af7a6",
+    "src/sic_cu/models/__init__.py": "843ebcfaaf264556c6786a19e0e619342a6e9de1ea1cc711f156fb2e948758c0",
+    "src/sic_cu/models/common.py": "4e99edc4d470330d42d4bd92e36c4d7ad73f10ba71195606e0ef1e1e2d171a41",
+    "src/sic_cu/models/deeponet_pinn.py": "f217f6c53fae2b19820704b0873fb59d4aa1f5ae56f997a214aaba0b9956aaef",
+    "src/sic_cu/models/gno_pinn.py": "9c313b28a4367dd3c3ab5a77fec77b381aada41ffa625a2600731f410262304b",
+    "src/sic_cu/models/interpolation.py": "2ac84b778e4fe837c55a83eefcbe4b213ddce7b8d8808689aff94d113fe9a1b4",
+    "src/sic_cu/models/lstm_pinn.py": "a2a8bba38530c194d37a0c673931105250ced10b10091b8782aa855a6714beee",
+    "src/sic_cu/models/mlp_pinn.py": "eb3a00321e0089a2711649407eada07cb18ea501332225779c39249e719c945e",
+    "src/sic_cu/models/multifidelity.py": "18bcc1c6c7d4c4f385ff9144b706488a60d54da7e5d10c1d319e2e3fb598f90f",
+    "src/sic_cu/models/pod_pinn.py": "6c28ff37327e446c09436bd1ff6a4769b6efc22bd3eb444e95d34c73c65e95e6",
+    "src/sic_cu/models/prc.py": "1d35a881d5e50e197494369015b3c1f8f4a74938b1623f2b4af06f5450c4ab5c",
+    "src/sic_cu/models/residual_interpolation.py": "f7b5c0ed06738d00d53cb7e199b0c4691030cc5c27475bf7fb88af0809ba86f9",
+    "src/sic_cu/models/surface_residual.py": "fe239325b8ce0458717808a39d1fc68858296f66b5a8bdede6a57be9447fd69c",
+    "src/sic_cu/models/task11_howard_composite.py": "16d4621faebb8a57e8940d24e941e784f8f7a361c51e76a22a735453b9490d36",
+    "src/sic_cu/physics/__init__.py": "bd017c1f0ad1bbb838330343ef9d66deb1b9bb6a6e7f06f733458b1d41b7c3b5",
+    "src/sic_cu/physics/boundary.py": "006c9d216b9b87c2633fd38b82c0d5002cdc94234ba72f57d75ba69be4ad9f6f",
+    "src/sic_cu/physics/collocation.py": "97ed2202ce276adbc34fdf065694c70fb9cdf0db266b8e3c44e4cfe7fa98688c",
+    "src/sic_cu/physics/configuration.py": "15bb1b3da70f06c02389ea1995aaf5326cd22430116df47a9748d3683d6af4e5",
+    "src/sic_cu/physics/geometry.py": "33bd4f0d5286c86fe00c62f0798552f05dc4847f36d5d5887078f2ab001350c1",
+    "src/sic_cu/physics/heat_equation.py": "3b90de1cdaf92c91b5e06a327922354ecff038db64c7910570a3154d4a27e39b",
+    "src/sic_cu/physics/interface.py": "e7eeeb5b4eca7f2037aa9de1cb872a5aa76e39f0d67e9d8d3d51c6b52681743b",
+    "src/sic_cu/physics/materials.py": "1533ca6feaaa0c32685d9a81574c5516c43394f4995354f42b9d97e6d4aacae5",
+    "src/sic_cu/physics/resolution.py": "fa06543c0d15fee00af54faddaaf2a39c77e7090cf1c35b5dca308cfdab10d89",
+    "src/sic_cu/physics/trainable_parameters.py": "5b4a5299a6512b429d239e76dffbc0a4a7998522849dce28f3414388662f69b0",
+    "src/sic_cu/prediction.py": "862d99ae005fb40169936fa57ef87059d9173252a4fc5e343fb95b1ed9588747",
+    "src/sic_cu/train/__init__.py": "6e6515d2408b1df7c06c32010f7b903d26dabf214492dd9ac86635546b17696a",
+    "src/sic_cu/train/common.py": "ae39dd8cd44928933f73a260fe395d19caece206e75b1ee2293fff26c8856030",
+    "src/sic_cu/train/multifidelity.py": "823e5c48ca13701e9c41798c8febf836ef98c52ea67e0fb15618f18aecaaa0f3",
+    "src/sic_cu/train/simulation.py": "206dca232f43e0cbf94ae1547368346e4898815c5b418531837f27be37c7835a",
+    "src/sic_cu/train/surface_residual.py": "7e8440b6fe9daeff3bbf34a0dc3b48086dcdab217bda15c71ce4a5f088b07d6c",
+    "src/sic_cu/train/task04_joint.py": "ada5bcff8b409b45916917f9443511321f9fc23d3263f366254e2b71cfc23192",
+    "src/sic_cu/train/task06_time_features.py": "9e4443f1f6b61ed5a45b7e04a5d5ce2c0506726508013c71cc47b73124203448",
+    "src/sic_cu/train/task07_formal.py": "3b2160492cce7bf40c8e9c9953e3e5d99bff6ecb5e69923260e8171d3a52cc21",
+    "src/sic_cu/train/task07_source.py": "54dcbdab5c7ea624cd885baefc5390baf66489fb95020c4d52e1fbdd16ec2642",
+    "src/sic_cu/train/task11_howard_hf_formal.py": "1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860",
+    "src/sic_cu/train/task11_howard_hf_initialization.py": "aa0bc8f3d91914f03631a7e29d807af3412eb84727288c38710bad4c2d237b70",
+    "src/sic_cu/train/task11_howard_lf_formal.py": "10c04e466fca4c95005e61bdb06b3cb5d2205db4d53df2b653723a01b6c4e815",
+    "src/sic_cu/train/task11_mlp_hf_formal.py": "01556036e85369d45ea0d5751e9193a5c45eb53b18ddb993794151760fb4d57c",
+    "src/sic_cu/train/task11_mlp_lf_formal.py": "8a7cff0cb6f15f53ab79a0cbf542160a3b6968f289898d92ec43e33aa80e2e11",
+    "temperature_field_prediction_multifidelity_plan_v2.md": "50e04cf1db035ef91191d9f9eed2d42d7759768c5416556edb0c8958c7e51d6e",
+    "tests/test_task11_howard_composite.py": "a2c05ae46bff28ba570812190adc50f87a2ef66e42090a281ad2106799f69d1c",
+    "tests/test_task11_howard_hf_formal.py": "f13721f3d12e68d083344dcdc35831450502ff8dcfe4e18cdec976fc34d67f49",
+    "tests/test_task11_howard_hf_initialization.py": "e9b3f46e8696f0995e00dc124d1686050415dd7d31e7b93b6ea82bcde8385abc",
+    "tests/test_task11_howard_lf_formal.py": "208809a673d99c56704df2d0de8bfe2f370f40c45273603c50ff5cd79c5cc6f9",
+    "tests/test_task11_mlp_hf_energy.py": "098455530c3bd84116419927aa3ab4074868996f4eb162f3b3515f9ff7a6fcd8",
+    "tests/test_task11_mlp_hf_formal.py": "63a12846c7c4f004da2998209315b495ec6c51f939e9677e695584243895af43",
+    "tests/test_task11_mlp_lf_formal.py": "2edb938e490cd18c0149e7b6f7d7120e2a9621cc3e1b1e8767750f2b8e6cc751"
+  },
+  "50原件终验SHA": {
+    "HF会话收据_0001.json": "df116ebbb7a6cc74d249818ccc61dd95a1eb6ab35479f2e586a97fff90e233ad",
+    "best.pt": "9f83fc99e87cda6523b5ccdeeed53ba7debda402836c1c17135e74b11a78d7de",
+    "config_snapshot/boundary_conditions.yaml": "fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f",
+    "config_snapshot/data_metadata.yaml": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+    "config_snapshot/geometry.yaml": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+    "config_snapshot/materials.yaml": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+    "config_snapshot/release_manifest.yaml": "0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288",
+    "config_snapshot/resolved_physics.yaml": "d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144",
+    "config_snapshot/sha256.json": "e1354447b2469f42533a0eb95b0479523fb64862f7837b7c101135041b8e091b",
+    "config_snapshot/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+    "config_snapshot/training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+    "config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md": "ea35f8135382ad9a6197b23acc2a8624afa4097ca42dac64ef519aa009e9d16f",
+    "training.jsonl": "69df76a75742b2e2f26b7f301fc11debd6d4985085bf4bf26549ca532868643f",
+    "事前来源快照/HF开发目录.json": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18",
+    "事前来源快照/LF目录.json": "b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de",
+    "事前来源快照/源码.tar.gz": "61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249",
+    "事前来源快照/登记.yaml": "ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33",
+    "事前真实来源登记.json": "475f1c1accae7f31f8afd604c92c887fbc9c615c4075f91789608ff0b4ac4f44",
+    "全局最佳历史_0010.pt": "6c5ee87c548807bf3f153052a61f1f9194b038c82a1377405ed202dc44cb5c66",
+    "全局最佳历史_0030.pt": "4c5e686c29ce34b606fff10c3dd95c0de771366a9c15a76261e84d5ca94ad770",
+    "全局最佳历史_0040.pt": "64d10ac2b537693c8dc693243504f828bf8b6ebf268a8320132c329b98619d04",
+    "全局最佳历史_0090.pt": "1210402aa0a4492bf717b328f083d8fd0e3f04dd4ec40817f7ac00ab08acef57",
+    "全局最佳历史_0100.pt": "9d5ecb5a97dc5dd05f90ce4109d9c9719ffe7a5b454a8196d2662df6cfcdf104",
+    "全局最佳历史_0110.pt": "e118f106eb4658c4804f4bdc597197caddf3f3a9c7850119715d27c9e6affed2",
+    "全局最佳历史_0120.pt": "ebcf993df71f70204ccadc6a39da13d023b0b85eb6f3995014473cf77d933ad6",
+    "全局最佳历史_0150.pt": "f3ab762fdf1d2ba0941a2ecc57e538b5afeb829b852eeac8103f7d7cdf100164",
+    "全局最佳模型历史_0010.pt": "40f5d0fa29f5514ef5b7fe0265518f05adda767fdf3a8819f0e2b6c7cb093bb4",
+    "全局最佳模型历史_0030.pt": "075c6a2ba5e307af052bbb3e459198e95f808793130a52817fe98639a9116b07",
+    "全局最佳模型历史_0040.pt": "a94a0edec11479e490efbe015ffc17750eb020238338f903e29a7729ea5814ea",
+    "全局最佳模型历史_0090.pt": "e06986f8e9ace3fd954e5e560a67e0b76a82cbd92722e69111b2970ad65e40f6",
+    "全局最佳模型历史_0100.pt": "90896a2c2f8241b832eda45346cb7cc85004d037c7d3344212bd2fbd26415493",
+    "全局最佳模型历史_0110.pt": "a8bfe33817c44b3aa3920c38260675be871d6308f08bc50a2cfb705e47bd4fa1",
+    "全局最佳模型历史_0120.pt": "56f64ca0293150faf8ef180d7b0f13f714c283c2900f124d39207039417f4f20",
+    "全局最佳模型历史_0150.pt": "9f83fc99e87cda6523b5ccdeeed53ba7debda402836c1c17135e74b11a78d7de",
+    "已提交日志_0001.jsonl": "9b8c964486e9813e8f26ffac9846d930a8cfc3fdd804f84419a731b3ded14e61",
+    "最佳视图提交历史_0001.pt": "9f83fc99e87cda6523b5ccdeeed53ba7debda402836c1c17135e74b11a78d7de",
+    "最近提交历史_0001.pt": "eee9ed0f26e1f92bccdfdf1e9d34fb9c3aa09c4359cb5edf9b68a6f1edd7418b",
+    "观测最佳提交历史_0001.pt": "f3ab762fdf1d2ba0941a2ecc57e538b5afeb829b852eeac8103f7d7cdf100164",
+    "阶段1_最佳.pt": "f3ab762fdf1d2ba0941a2ecc57e538b5afeb829b852eeac8103f7d7cdf100164",
+    "阶段1_最佳历史_0010.pt": "6c5ee87c548807bf3f153052a61f1f9194b038c82a1377405ed202dc44cb5c66",
+    "阶段1_最佳历史_0030.pt": "4c5e686c29ce34b606fff10c3dd95c0de771366a9c15a76261e84d5ca94ad770",
+    "阶段1_最佳历史_0040.pt": "64d10ac2b537693c8dc693243504f828bf8b6ebf268a8320132c329b98619d04",
+    "阶段1_最佳历史_0090.pt": "1210402aa0a4492bf717b328f083d8fd0e3f04dd4ec40817f7ac00ab08acef57",
+    "阶段1_最佳历史_0100.pt": "9d5ecb5a97dc5dd05f90ce4109d9c9719ffe7a5b454a8196d2662df6cfcdf104",
+    "阶段1_最佳历史_0110.pt": "e118f106eb4658c4804f4bdc597197caddf3f3a9c7850119715d27c9e6affed2",
+    "阶段1_最佳历史_0120.pt": "ebcf993df71f70204ccadc6a39da13d023b0b85eb6f3995014473cf77d933ad6",
+    "阶段1_最佳历史_0150.pt": "f3ab762fdf1d2ba0941a2ecc57e538b5afeb829b852eeac8103f7d7cdf100164",
+    "阶段_初始.pt": "3326703b90f495a49aea38acdc5ac9892af7987e3a13273ea0e81fc61b824a08",
+    "阶段_最近.pt": "5f4db377401a6b303c500037e15b9e8bae8bbb9c3f4810e9d8cb092bab442cbd",
+    "阶段_观测最佳.pt": "f3ab762fdf1d2ba0941a2ecc57e538b5afeb829b852eeac8103f7d7cdf100164"
+  },
+  "原HF四身份终验": {
+    "研究记录/任务11_外部对照/Howard适配三网HF联合预算前登记.yaml": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard适配三网HF联合预算前登记.yaml",
+      "字节": 15408,
+      "权限": "0o664",
+      "SHA256": "ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33"
+    },
+    "研究记录/任务11_外部对照/Howard适配三网HF联合源码事前冻结.tar.gz": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard适配三网HF联合源码事前冻结.tar.gz",
+      "字节": 351593,
+      "权限": "0o664",
+      "SHA256": "61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249"
+    },
+    "研究记录/任务11_外部对照/Howard适配五LF完训身份清单.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard适配五LF完训身份清单.json",
+      "字节": 44182,
+      "权限": "0o664",
+      "SHA256": "b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de"
+    },
+    "研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_新MLP_HF12_3开发结构来源清单_20260916T153147.json",
+      "字节": 2343,
+      "权限": "0o664",
+      "SHA256": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18"
+    }
+  },
+  "200与303完整独立审核": [
+    {
+      "阶段": "task11_howard_hf_all_three_stage1",
+      "阶段1实际轮次": 200,
+      "阶段2实际轮次": 0,
+      "全局实际轮次": 200,
+      "阶段1截止轮次": null,
+      "阶段最佳分数": 3.457685370974757,
+      "阶段最佳轮次": 150,
+      "全局最佳分数": 3.457685370974757,
+      "全局最佳轮次": 150,
+      "全局最佳阶段": "task11_howard_hf_all_three_stage1",
+      "全局最佳阶段轮次": 150,
+      "最近合法分数": 3.9930019810923603,
+      "最近合法分模态": {
+        "顶部": 7.356691023437487,
+        "absolute_rmse_c": 1.5307009816169739,
+        "absolute_mae_c": 1.417385329802831,
+        "delta_rmse_c": 1.121773138642311,
+        "delta_mae_c": 1.0042314479748409
+      },
+      "已完成": false,
+      "全局最佳历史轮次": [
+        10,
+        30,
+        40,
+        90,
+        100,
+        110,
+        120,
+        150
+      ],
+      "阶段1最佳历史轮次": [
+        10,
+        30,
+        40,
+        90,
+        100,
+        110,
+        120,
+        150
+      ],
+      "阶段2最佳历史轮次": []
+    },
+    {
+      "阶段": "task11_howard_hf_all_three_stage1",
+      "阶段1实际轮次": 303,
+      "阶段2实际轮次": 0,
+      "全局实际轮次": 303,
+      "阶段1截止轮次": null,
+      "阶段最佳分数": 3.457685370974757,
+      "阶段最佳轮次": 150,
+      "全局最佳分数": 3.457685370974757,
+      "全局最佳轮次": 150,
+      "全局最佳阶段": "task11_howard_hf_all_three_stage1",
+      "全局最佳阶段轮次": 150,
+      "最近合法分数": 2497.152174288104,
+      "最近合法分模态": {
+        "顶部": 3298.1389277209396,
+        "absolute_rmse_c": 1962.4620564778645,
+        "absolute_mae_c": 1823.1206156412761,
+        "delta_rmse_c": 1803.1034444173176,
+        "delta_mae_c": 1558.4096374511719
+      },
+      "已完成": false,
+      "全局最佳历史轮次": [
+        10,
+        30,
+        40,
+        90,
+        100,
+        110,
+        120,
+        150
+      ],
+      "阶段1最佳历史轮次": [
+        10,
+        30,
+        40,
+        90,
+        100,
+        110,
+        120,
+        150
+      ],
+      "阶段2最佳历史轮次": []
+    }
+  ],
+  "原CPU304+inf二阶动量参数与元素": [
+    32,
+    47109
+  ],
+  "原GPU失败+inf计数未知": null,
+  "原GPU失败结束时间未知": null,
+  "原GPU失败额外墙钟未知": null,
+  "五seedmean": null,
+  "五seedstd_ddof1": null,
+  "五完整HF十能源十OBS条件未满足": true,
+  "原200已封口HF成本": {
+    "训练墙钟秒": 139.68552822893253,
+    "加载构建恢复墙钟秒": 72.08502029901138,
+    "导出核源墙钟秒": 44.53893681106274,
+    "本会话总墙钟秒": 256.30948533900664,
+    "峰值真实CUDA显存字节": 4326212096
+  },
+  "原200成本分项算术实际核验": true,
+  "独立主要安全守卫": {
+    "CUDA初始化尝试": 0,
+    "训练或step尝试": 0,
+    "非许可PT反序列化尝试": 0,
+    "真实温度Parquet读取尝试": 0,
+    "档案外写入尝试": 0,
+    "实际CPU_PT反序列化数": 2,
+    "CUDA_initialized": false,
+    "torch_version": "2.5.1"
+  },
+  "首轮实际exit0和退出期nonempty完整stderr": {
+    "原退出码": 0,
+    "原完整stderr": "Traceback (most recent call last):\n  File \"/home/phl/anaconda3/envs/PINN/lib/python3.9/weakref.py\", line 667, in _exitfunc\n    f()\n  File \"/home/phl/anaconda3/envs/PINN/lib/python3.9/weakref.py\", line 591, in __call__\n    return info.func(*info.args, **(info.kwargs or {}))\n  File \"/home/phl/anaconda3/envs/PINN/lib/python3.9/tempfile.py\", line 820, in _cleanup\n    cls._rmtree(name)\n  File \"/home/phl/anaconda3/envs/PINN/lib/python3.9/tempfile.py\", line 816, in _rmtree\n    _shutil.rmtree(name, onerror=onerror)\n  File \"/home/phl/anaconda3/envs/PINN/lib/python3.9/shutil.py\", line 734, in rmtree\n    _rmtree_safe_fd(fd, path, onerror)\n  File \"/home/phl/anaconda3/envs/PINN/lib/python3.9/shutil.py\", line 688, in _rmtree_safe_fd\n    os.unlink(entry.name, dir_fd=topfd)\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/independent_failure_audit.py\", line 68, in audit_io\n    raise RuntimeError(\"Read-only failure evidence outside own new archive: \" + str(path))\nRuntimeError: Read-only failure evidence outside own new archive: /home/phl/lyf/Temperature Field Prediction/_remote_module_non_scriptable.py\n",
+    "stdout守卫计数时点": "主print之前，不冒退出后全时，退出时自身dir_fd误解析另有真实stderr",
+    "首次封存器actualexit": 1,
+    "首轮异常临时文件仍保留": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件/tmp2mij6hq5/_remote_module_non_scriptable.py",
+      "字节": 2355,
+      "权限": "0o664",
+      "SHA256": "8205b16956fb264841ecd8644784a0d157f87df79b17c16825dc1163433ce5d8"
+    }
+  },
+  "仅自身新guard相对dir_fd修复真实RED_GREEN": {
+    "RED": {
+      "性质": "仅自身档案guard相对dir_fd路径回归，不实际unlink/训练/模型读取",
+      "阶段": "RED",
+      "完整实际命令": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 'PYTHONPATH=/home/phl/lyf/Temperature Field Prediction/src:/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T' 'TMPDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TEMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'CUDA_CACHE_PATH=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/GPU缓存' 'XDG_CACHE_HOME=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/应用缓存' 'MPLCONFIGDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/绘图缓存' 'TORCH_EXTENSIONS_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Torch扩展缓存' 'TORCHINDUCTOR_CACHE_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/test_guard_dir_fd_readonly.py'",
+      "实际退出码": 1,
+      "完整stdout": "",
+      "完整stderr": "Traceback (most recent call last):\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/test_guard_dir_fd_readonly.py\", line 15, in <module>\n    audit.audit_io(\"os.remove\", (fixture.name, descriptor))\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/independent_failure_audit.py\", line 68, in audit_io\n    raise RuntimeError(\"Read-only failure evidence outside own new archive: \" + str(path))\nRuntimeError: Read-only failure evidence outside own new archive: /home/phl/lyf/Temperature Field Prediction/dirfd_fixture.txt\n"
+    },
+    "GREEN": {
+      "性质": "仅自身档案guard相对dir_fd路径回归，不实际unlink/训练/模型读取",
+      "阶段": "GREEN",
+      "完整实际命令": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 'PYTHONPATH=/home/phl/lyf/Temperature Field Prediction/src:/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T' 'TMPDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TEMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'CUDA_CACHE_PATH=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/GPU缓存' 'XDG_CACHE_HOME=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/应用缓存' 'MPLCONFIGDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/绘图缓存' 'TORCH_EXTENSIONS_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Torch扩展缓存' 'TORCHINDUCTOR_CACHE_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/test_guard_dir_fd_readonly.py'",
+      "实际退出码": 0,
+      "完整stdout": "DIR_FD_RELATIVE_AND_NONE_NEGATIVE_ONE_TRUE_PATH_NO_DELETE 3\n",
+      "完整stderr": ""
+    }
+  },
+  "没有重跑304训练或GPU": true,
+  "HF四SHA严格等于原收据身份及原CLI55参数": true,
+  "ROOT和三全局未写或用作长时锁": true,
+  "其他任务启动": false,
+  "本机械封存完整规范化实际命令": "env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 'PYTHONPATH=/home/phl/lyf/Temperature Field Prediction/src:/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T' 'TMPDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'TEMP=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/临时文件' 'CUDA_CACHE_PATH=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/GPU缓存' 'XDG_CACHE_HOME=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/应用缓存' 'MPLCONFIGDIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/绘图缓存' 'TORCH_EXTENSIONS_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Torch扩展缓存' 'TORCHINDUCTOR_CACHE_DIR=/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/Howard_HF_seed2失败证据独立CPU审核_20260916_NYZ13T/seal_bounded_review.py'"
+}

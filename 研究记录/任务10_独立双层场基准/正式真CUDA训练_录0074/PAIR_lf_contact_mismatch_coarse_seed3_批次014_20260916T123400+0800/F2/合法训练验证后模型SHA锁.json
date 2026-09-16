@@ -1,0 +1,23 @@
+{
+  "登记SHA256": "0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13",
+  "源场SHA清单SHA256": "b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb",
+  "模型文件": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/正式真CUDA训练_录0074/PAIR_lf_contact_mismatch_coarse_seed3_批次014_20260916T123400+0800/F2/合法验证选定板模型_state_dict.pt",
+  "模型_SHA256": "9580e9402e9033de437a9fef5736022ab0265523fd4433c75aeef63aae678ce1",
+  "训练日志文件": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/正式真CUDA训练_录0074/PAIR_lf_contact_mismatch_coarse_seed3_批次014_20260916T123400+0800/F2/真实训练日志.json",
+  "训练日志_SHA256": "24e9858120e9c6dd86b5de7271f1632f1da525d471eaf102daf635c51fba94c6",
+  "合法探针验证文件": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/正式真CUDA训练_录0074/PAIR_lf_contact_mismatch_coarse_seed3_批次014_20260916T123400+0800/F2/合法探针验证.json",
+  "合法探针验证_SHA256": "782e2791e5ad6441c05999067e359dce71016de7404fcd4c16be27a86d4630f6",
+  "训练折": [
+    20000,
+    35000,
+    50000,
+    65000,
+    80000
+  ],
+  "验证折": [
+    30000,
+    70000
+  ],
+  "实际优化步数": 800,
+  "完整HF仅后验评价": true
+}

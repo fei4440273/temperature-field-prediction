@@ -1,0 +1,758 @@
+{
+  "资格": "CPU来源入场；无正式训练、误差或精度曲线",
+  "选定臂": "primary",
+  "选定HF功率数": 3,
+  "预登记原件SHA256": "206b91e3ea981ec81c0ed1074ea4688a16567e32cab9098b8c134ae683becd6a",
+  "split原件SHA256": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+  "V4_B0来源清单SHA256": "423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de",
+  "源码事前快照SHA256": {
+    "task09_subset_gate.py": "6d4016b5c51da43ff815e6c93addf260fb1161354b41eb5cfcee79bab788ca53",
+    "34_check_task09_subset_gate.py": "56724fd2e17667f23d27e44754853ff1ffb3cd5f49eafcd5b0a314770d0e5501",
+    "test_task09_subset_gate.py": "1592e703bd15202666e6601778c12d81d9beafa6f8b591066336d2b9abffeaac",
+    "额外功率覆盖序列前登记.yaml": "206b91e3ea981ec81c0ed1074ea4688a16567e32cab9098b8c134ae683becd6a",
+    "splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+    "training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+    "任07有效运行配置.yaml": "f92abf2cc2f97aa6bddcd16768707ee581470bbe0f9d3eb191598dbf7bbc0dba",
+    "V4_B0来源清单.yaml": "423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de"
+  },
+  "LF固定训练功率数": 60,
+  "HF合法验证固定功率数": 3,
+  "五种子配对LF初始张量SHA256": {
+    "0": "c01575e2b845c25097f14d5d2cddb0a0f2763d02c9d467af0d25cbc6790ef5f8",
+    "1": "10d465b0007a15bb1c773c6f08f00948f642ff43e032107c28f29736f6e5d2f6",
+    "2": "0efa2645dbfd0d268acefb926ba879e4c3fd081569bfe8abc5a282036a082514",
+    "3": "885002fc42c8a8b8321c519999faf1f3152b66e9d571508b2190e442e1ff7c2a",
+    "4": "6b19842e7678e1ddde0e0121b362941c06a206ac2f9fbb5834b029fbe9d15668"
+  },
+  "五种子CPU初态": {
+    "0": {
+      "原LF检查点SHA256": "5ab23ffd5b7c4b99ba90b81236ec0fba4a9b109a730288124c647030036e42f2",
+      "原LF全张量SHA256": "c01575e2b845c25097f14d5d2cddb0a0f2763d02c9d467af0d25cbc6790ef5f8",
+      "当前LF全张量SHA256": "c01575e2b845c25097f14d5d2cddb0a0f2763d02c9d467af0d25cbc6790ef5f8",
+      "新HF校正器六列": true,
+      "新AdamW空状态": true,
+      "LF全量参数冻结": true,
+      "CUDA随机源可冒正式GPU": false
+    },
+    "1": {
+      "原LF检查点SHA256": "e187044bac9175052604f7d77a213954d45655b2237739a0bb8bbea67fcfdbfb",
+      "原LF全张量SHA256": "10d465b0007a15bb1c773c6f08f00948f642ff43e032107c28f29736f6e5d2f6",
+      "当前LF全张量SHA256": "10d465b0007a15bb1c773c6f08f00948f642ff43e032107c28f29736f6e5d2f6",
+      "新HF校正器六列": true,
+      "新AdamW空状态": true,
+      "LF全量参数冻结": true,
+      "CUDA随机源可冒正式GPU": false
+    },
+    "2": {
+      "原LF检查点SHA256": "f3e6be959e185f7844fbceda220e12e91fbf0642b84aaf01990b8d3aca6ce252",
+      "原LF全张量SHA256": "0efa2645dbfd0d268acefb926ba879e4c3fd081569bfe8abc5a282036a082514",
+      "当前LF全张量SHA256": "0efa2645dbfd0d268acefb926ba879e4c3fd081569bfe8abc5a282036a082514",
+      "新HF校正器六列": true,
+      "新AdamW空状态": true,
+      "LF全量参数冻结": true,
+      "CUDA随机源可冒正式GPU": false
+    },
+    "3": {
+      "原LF检查点SHA256": "f5378dead4dc770dae3a3ebef781314e3d38445c6cbac54f097e06755e5ff68d",
+      "原LF全张量SHA256": "885002fc42c8a8b8321c519999faf1f3152b66e9d571508b2190e442e1ff7c2a",
+      "当前LF全张量SHA256": "885002fc42c8a8b8321c519999faf1f3152b66e9d571508b2190e442e1ff7c2a",
+      "新HF校正器六列": true,
+      "新AdamW空状态": true,
+      "LF全量参数冻结": true,
+      "CUDA随机源可冒正式GPU": false
+    },
+    "4": {
+      "原LF检查点SHA256": "bd4c3be31f730eeaac538bbb3c9ce13e74c3ab39bc29fe1716698c527d53b34e",
+      "原LF全张量SHA256": "6b19842e7678e1ddde0e0121b362941c06a206ac2f9fbb5834b029fbe9d15668",
+      "当前LF全张量SHA256": "6b19842e7678e1ddde0e0121b362941c06a206ac2f9fbb5834b029fbe9d15668",
+      "新HF校正器六列": true,
+      "新AdamW空状态": true,
+      "LF全量参数冻结": true,
+      "CUDA随机源可冒正式GPU": false
+    }
+  },
+  "三序列逐臂实际观测元数据": {
+    "validation": {
+      "powers_w": [
+        115.2,
+        403.0,
+        630.5
+      ],
+      "ir_rows": 7272,
+      "sensor_rows": {
+        "Hot": 376,
+        "Cold": 376
+      }
+    },
+    "arms": {
+      "primary": {
+        "3": {
+          "powers_w": [
+            55.0,
+            364.3,
+            729.0
+          ],
+          "ir_rows": 6868,
+          "ir_batches_2048": 4,
+          "sensor_rows": {
+            "Hot": 340,
+            "Cold": 340
+          }
+        },
+        "6": {
+          "powers_w": [
+            55.0,
+            216.8,
+            364.3,
+            494.2,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 15150,
+          "ir_batches_2048": 8,
+          "sensor_rows": {
+            "Hot": 765,
+            "Cold": 765
+          }
+        },
+        "9": {
+          "powers_w": [
+            55.0,
+            216.8,
+            254.5,
+            364.3,
+            430.0,
+            494.2,
+            558.5,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 22624,
+          "ir_batches_2048": 12,
+          "sensor_rows": {
+            "Hot": 1142,
+            "Cold": 1142
+          }
+        },
+        "12": {
+          "powers_w": [
+            55.0,
+            216.8,
+            254.5,
+            257.0,
+            309.0,
+            364.3,
+            430.0,
+            494.2,
+            532.0,
+            558.5,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 29593,
+          "ir_batches_2048": 15,
+          "sensor_rows": {
+            "Hot": 1493,
+            "Cold": 1492
+          }
+        }
+      },
+      "left_center": {
+        "3": {
+          "powers_w": [
+            55.0,
+            309.0,
+            729.0
+          ],
+          "ir_rows": 6565,
+          "ir_batches_2048": 4,
+          "sensor_rows": {
+            "Hot": 330,
+            "Cold": 330
+          }
+        },
+        "6": {
+          "powers_w": [
+            55.0,
+            254.5,
+            309.0,
+            430.0,
+            558.5,
+            729.0
+          ],
+          "ir_rows": 14039,
+          "ir_batches_2048": 7,
+          "sensor_rows": {
+            "Hot": 707,
+            "Cold": 707
+          }
+        },
+        "9": {
+          "powers_w": [
+            55.0,
+            216.8,
+            254.5,
+            309.0,
+            430.0,
+            494.2,
+            558.5,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 22321,
+          "ir_batches_2048": 11,
+          "sensor_rows": {
+            "Hot": 1132,
+            "Cold": 1132
+          }
+        },
+        "12": {
+          "powers_w": [
+            55.0,
+            216.8,
+            254.5,
+            257.0,
+            309.0,
+            364.3,
+            430.0,
+            494.2,
+            532.0,
+            558.5,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 29593,
+          "ir_batches_2048": 15,
+          "sensor_rows": {
+            "Hot": 1493,
+            "Cold": 1492
+          }
+        }
+      },
+      "right_center": {
+        "3": {
+          "powers_w": [
+            55.0,
+            430.0,
+            729.0
+          ],
+          "ir_rows": 5959,
+          "ir_batches_2048": 3,
+          "sensor_rows": {
+            "Hot": 295,
+            "Cold": 295
+          }
+        },
+        "6": {
+          "powers_w": [
+            55.0,
+            257.0,
+            430.0,
+            532.0,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 13332,
+          "ir_batches_2048": 7,
+          "sensor_rows": {
+            "Hot": 666,
+            "Cold": 665
+          }
+        },
+        "9": {
+          "powers_w": [
+            55.0,
+            216.8,
+            257.0,
+            309.0,
+            430.0,
+            494.2,
+            532.0,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 21210,
+          "ir_batches_2048": 11,
+          "sensor_rows": {
+            "Hot": 1071,
+            "Cold": 1070
+          }
+        },
+        "12": {
+          "powers_w": [
+            55.0,
+            216.8,
+            254.5,
+            257.0,
+            309.0,
+            364.3,
+            430.0,
+            494.2,
+            532.0,
+            558.5,
+            593.5,
+            729.0
+          ],
+          "ir_rows": 29593,
+          "ir_batches_2048": 15,
+          "sensor_rows": {
+            "Hot": 1493,
+            "Cold": 1492
+          }
+        }
+      }
+    }
+  },
+  "三序列逐臂每轮预测预算": {
+    "primary": {
+      "3": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 6868,
+        "HF观测batch2048": 4,
+        "HF训练传感器点_每批全量同步": 680,
+        "HF训练传感器点_一轮预测": 2720,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 4,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 16,
+        "LF旧四批方式缺口": 44,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          15,
+          15,
+          15,
+          15
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "6": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 15150,
+        "HF观测batch2048": 8,
+        "HF训练传感器点_每批全量同步": 1530,
+        "HF训练传感器点_一轮预测": 12240,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 8,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 32,
+        "LF旧四批方式缺口": 28,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          8,
+          8,
+          8,
+          8,
+          7,
+          7,
+          7,
+          7
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "9": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 22624,
+        "HF观测batch2048": 12,
+        "HF训练传感器点_每批全量同步": 2284,
+        "HF训练传感器点_一轮预测": 27408,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 12,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 48,
+        "LF旧四批方式缺口": 12,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "12": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 29593,
+        "HF观测batch2048": 15,
+        "HF训练传感器点_每批全量同步": 2985,
+        "HF训练传感器点_一轮预测": 44775,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 15,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 60,
+        "LF旧四批方式缺口": 0,
+        "LF旧四批方式可直接执行": true,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      }
+    },
+    "left_center": {
+      "3": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 6565,
+        "HF观测batch2048": 4,
+        "HF训练传感器点_每批全量同步": 660,
+        "HF训练传感器点_一轮预测": 2640,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 4,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 16,
+        "LF旧四批方式缺口": 44,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          15,
+          15,
+          15,
+          15
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "6": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 14039,
+        "HF观测batch2048": 7,
+        "HF训练传感器点_每批全量同步": 1414,
+        "HF训练传感器点_一轮预测": 9898,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 7,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 28,
+        "LF旧四批方式缺口": 32,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          9,
+          9,
+          9,
+          9,
+          8,
+          8,
+          8
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "9": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 22321,
+        "HF观测batch2048": 11,
+        "HF训练传感器点_每批全量同步": 2264,
+        "HF训练传感器点_一轮预测": 24904,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 11,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 44,
+        "LF旧四批方式缺口": 16,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "12": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 29593,
+        "HF观测batch2048": 15,
+        "HF训练传感器点_每批全量同步": 2985,
+        "HF训练传感器点_一轮预测": 44775,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 15,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 60,
+        "LF旧四批方式缺口": 0,
+        "LF旧四批方式可直接执行": true,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      }
+    },
+    "right_center": {
+      "3": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 5959,
+        "HF观测batch2048": 3,
+        "HF训练传感器点_每批全量同步": 590,
+        "HF训练传感器点_一轮预测": 1770,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 3,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 12,
+        "LF旧四批方式缺口": 48,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          20,
+          20,
+          20
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "6": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 13332,
+        "HF观测batch2048": 7,
+        "HF训练传感器点_每批全量同步": 1331,
+        "HF训练传感器点_一轮预测": 9317,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 7,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 28,
+        "LF旧四批方式缺口": 32,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          9,
+          9,
+          9,
+          9,
+          8,
+          8,
+          8
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "9": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 21210,
+        "HF观测batch2048": 11,
+        "HF训练传感器点_每批全量同步": 2141,
+        "HF训练传感器点_一轮预测": 23551,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 11,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 44,
+        "LF旧四批方式缺口": 16,
+        "LF旧四批方式可直接执行": false,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          6,
+          6,
+          6,
+          6,
+          6,
+          5,
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      },
+      "12": {
+        "性质": "训练前来源预测，非实际训练消耗",
+        "HF顶部IR真实训练行": 29593,
+        "HF观测batch2048": 15,
+        "HF训练传感器点_每批全量同步": 2985,
+        "HF训练传感器点_一轮预测": 44775,
+        "HF验证完整功率数": 3,
+        "物理每轮配点": 256,
+        "物理独立更新步_一轮预测": 1,
+        "HF观测优化步_一轮预测": 15,
+        "LF固定训练功率数": 60,
+        "LF每训练功率真实配点": 2048,
+        "LF联合需真实回放点": 122880,
+        "LF联合需真实回放batch": 60,
+        "LF四批按旧HF更新可消费批次": 60,
+        "LF旧四批方式缺口": 0,
+        "LF旧四批方式可直接执行": true,
+        "LF60按实际HF批数公平分组_仅预算预测": [
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4,
+          4
+        ],
+        "LF仅四末投影名称": [
+          "low_fidelity_model.branch_projection.bias",
+          "low_fidelity_model.branch_projection.weight",
+          "low_fidelity_model.trunk_projection.bias",
+          "low_fidelity_model.trunk_projection.weight"
+        ],
+        "子集GPU训练已运行": false
+      }
+    }
+  },
+  "F1纯HF-only正式物理入场": false,
+  "F1限制": "物理输入仍源于LF，无法称纯HF-only；需独立h/辐射率与接触处理事前证据",
+  "子集训练器是否已对LF60公平分组及真实消费核验": false,
+  "已执行HF观测优化步": 0,
+  "已执行名义物理更新步": 0,
+  "已执行LF联合回放点": 0,
+  "已读固定测试温度": false,
+  "12功率复用限制": "任07正式冻结后仅复用合法观测F3结果；本门禁不加载12HF校正权重/优化器"
+}

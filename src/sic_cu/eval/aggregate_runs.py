@@ -6,6 +6,8 @@ from typing import Any
 
 import numpy as np
 
+from sic_cu.compat import strict_zip
+
 from sic_cu.config import PROJECT_ROOT
 from sic_cu.train.surface_residual import recompute_surface_run_metrics
 
@@ -576,7 +578,7 @@ def aggregate_external_sensor_runs(
                 "checkpoint": record["checkpoint"],
                 "aggregate": record["aggregate"],
             }
-            for seed, record in sorted(zip(seeds, records, strict=True))
+            for seed, record in sorted(strict_zip(seeds, records))
         ],
         "interpretation": (
             "Absolute error includes an unresolved copper-field offset. Delta metrics test "

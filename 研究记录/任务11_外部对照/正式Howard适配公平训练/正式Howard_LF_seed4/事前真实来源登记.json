@@ -1,0 +1,28 @@
+{
+  "YAML_SHA256": "0de2aa7b3e78d92d76ff90dfb2e9a1c6f5b4ba9f98ead462bd24e1f23dcc8c6c",
+  "TAR_SHA256": "42e1c376358f915e38625d9a197ae99606f24ff4af0e51a59e176fcba3d258bc",
+  "CATALOG_SHA256": "573550239566a5f1f0e7f6889fa40f99dde83379e7c2ebf7e89eae1c375da367",
+  "seed": 4,
+  "LF方法": "task11_howard_lf_teacher",
+  "LF模型构造参数": {
+    "width": 128,
+    "depth": 4,
+    "latent_dim": 128,
+    "final_activation": false
+  },
+  "LF参数量": 100864,
+  "模型尺度": {
+    "r_max_m": 0.05834,
+    "z_min_m": -0.0175,
+    "time_max_s": 200.0,
+    "power_max_w": 800.0,
+    "temperature_offset_k": 295.15,
+    "temperature_scale_k": 250.0
+  },
+  "旧LF/HF权重读取": false,
+  "旧固定TEST温度读取": false,
+  "模拟测试功率温度读取": false,
+  "HF训练许可": false,
+  "来源性质": "Howard仅LF双编码网络从空网络初始化的统一预算适配",
+  "原文精确三网联合训练复现": false
+}

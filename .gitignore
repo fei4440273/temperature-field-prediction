@@ -41,3 +41,24 @@ dist/
 
 # Independent data repository
 /GitHub data repository/
+
+# V1: retain original artifacts locally; publish code and compact evidence.
+/.task11-summary-review-*/
+/.v1-publish-*/
+/研究记录/**/临时*/
+/研究记录/**/*临时*/
+/研究记录/**/pytest*/
+/研究记录/**/pycache*/
+/研究记录/**/*缓存*/
+/研究记录/**/test_*/
+/研究记录/**/synthetic*/
+/研究记录/**/隔离项目/
+/研究记录/**/project/
+/研究记录/**/tmp/
+/研究记录/**/*.jsonl
+/研究记录/**/*.npz
+/研究记录/**/*.vtk
+/研究记录/**/*.parquet
+/研究记录/**/*.lock
+/研究记录/**/*.claim
+/研究记录/**/Howard_HF_seed*数值失败完整普通字节归档_*.tar.gz

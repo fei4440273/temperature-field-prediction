@@ -1,0 +1,78 @@
+schema_version: 1
+事前台账记录编号: 录-0073
+登记时间: '2026-09-16T06:18:31+08:00'
+性质: '任11方法级公平预算与来源身份CPU预检；不训练新模型'
+目标: '只核已冻结B0、MLP、E0、F2各五seed与DeepONet/MLP低保真各五seed的身份、合法功率折和原训练成本口径'
+新MLP或Howard训练许可: false
+旧TEST温度读取: false
+旧TEST功率元数据用于训练或选模: false
+一维板完整内场读取: false
+GPU使用: false
+新模型参数更新: 0
+新正式公平MLP与Howard五种子模型数: 0
+现有方法精度重新排名: false
+旧新训练墙钟直接排名许可: false
+Howard原文三子网精确复现资格: false
+现有校正架构: '四臂均为LF温度加单个MLP校正器，不是Howard原文线性与非线性两个HF子网'
+物理合同边界:
+  B0_MLP_E0_HF体内PDE训练: true
+  F2_HF体内PDE训练: false
+  F2保留约束: [边界, 初值, 界面]
+  说明: 'F2仅是体内PDE消融；不能把共享training.yaml中的名义PDE权重误写成F2实际计算了PDE'
+合法数据合同:
+  HF训练功率数: 12
+  HF合法验证功率数: 3
+  LF训练功率数: 60
+  LF合法验证功率数: 10
+  HF合法选分: macro_v1
+  HF校正预算上限轮次: 1500
+  受限联合预算上限轮次: 500
+既有来源数量:
+  HF模型与真实训练收据: 20
+  LF模型与真实预训收据: 10
+  方法: [B0, MLP, E0, F2]
+  LF方法: [deeponet_pinn, mlp_pinn]
+上游既有来源锁:
+  任13四臂来源预算: '研究记录/任务13_发布与验收/任13_原装置四臂同RZ网格推理分项事前登记.yaml'
+  任13四臂来源预算_SHA256: b82b2c540ce12eeb4d8b8f8677c466211e1860fd301299c224770b8236602d42
+  任13十二关键源tar: '研究记录/任务13_发布与验收/任13_四臂同RZ网格推理十二源冻结_20260916T054001+0800.tar.gz'
+  任13十二关键源tar_SHA256: 75725882f8f865a388e0da6cd0d423c5b6c8c1b1db68bb46bf7759190a0752b4
+  旧B0发布manifest_SHA256: ac0090e0a54b5488edb11e9fb0a241f1ba5c96e24e1f21b95a74dcd813da9868
+  旧B0五seed索引_SHA256: 21b352e3c95aedace933b3779cef2ea760676f65fd0dda7694effa9d7908c006
+  旧MLP发布manifest_SHA256: 0e6d0dd3357216fdef220891683e5ee49491da175b0591e3117f80bca14c910f
+  旧MLP五seed索引_SHA256: 29dbfca4d5e6286a74592764b7bf6bfb0b4b7d7a33ad250adedd9453ec0b7a60
+  正式E0预算_SHA256: f92abf2cc2f97aa6bddcd16768707ee581470bbe0f9d3eb191598dbf7bbc0dba
+  正式F2预算_SHA256: 36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9
+  划分_SHA256: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+  训练配置_SHA256: 4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41
+成本口径:
+  旧B0_MLP: '历史完整1700轮单次训练会话含评价；原收据training_seconds'
+  新E0_F2: '正式阶段报告最近一次真实断点会话；本会话耗时秒不是跨断点累计总耗时'
+  LF预训练: '同seed各方法原metrics真实轮次与training_seconds，单独列示为可复用预训'
+  LF_FEM场生成: '缺完整可核墙钟原件，不得把总成本写成已闭合'
+  禁止: '不得用旧完整会话秒与新最近断点会话秒直接排序方法总训练成本'
+读取顺序:
+  - '先核本YAML与七源tar双SHA已位于主总账录0073同一行'
+  - '再用任13上游预算核20份HF和10份LF checkpoint/receipt现场SHA'
+  - '仅torch weights_only读取模型元信息与json收据，不打开任何温度数据'
+  - '检查点与收据读取前后再次核SHA，输出目录必须预先不存在'
+  - '只写中文限界报告和机器协议摘要；新方法模型数仍为0'
+七源普通原件SHA256:
+  'src/sic_cu/eval/task11_method_fairness_gate.py': a22daf8dc6bd6f7cdf2b2594e8ddddfc0035a9c6ac548d6ea0b407e67028f4dd
+  'scripts/41_audit_task11_method_fairness.py': 4797bd6c68ce7e18e23f4112cfb6802556de98fece380275d62bf75d46fb629c
+  'tests/test_task11_method_fairness_gate.py': bf41f10e6438e4f3d8b674c22a02b2d6df288b0e2565ab86f4e003745d4e0d3b
+  'configs/splits.yaml': 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+  'configs/training.yaml': 4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41
+  '研究记录/任务13_发布与验收/任13_原装置四臂同RZ网格推理分项事前登记.yaml': b82b2c540ce12eeb4d8b8f8677c466211e1860fd301299c224770b8236602d42
+  '研究记录/任务11_外部对照/Howard等复合DeepONet原文与代码来源入场限界.md': a7f08404e4163126287f5d4c6fd942d82e9ce9677c5e31279a74c75b0116936c
+正式输出限制:
+  CLI: 'scripts/41_audit_task11_method_fairness.py'
+  输出内容: ['任11方法公平预算与来源限界报告.md', '任11方法公平预算与来源机器摘要.json']
+  本YAML自身不授权运行: true
+  录0073前正式CPU报告数: 0
+  录0073前新方法训练数: 0
+后续新正式方法另行前登记缺口:
+  - '新MLP须独立锁五seed MLP LF来源、重新初始化、完整训练预算、可更新参数与源码，不套任07硬锁DeepONet LF入口'
+  - 'Howard作者实现版本和SHA尚无可核来源；自行适配须明确命名并锁LF、HF线性、HF非线性三子网结构和正则预算'
+  - '两方法均须另锁统一HF12/3、LF60/10、物理项、早停、随机源、同网格计时与能源评价，不从本CPU预检获得训练许可'
+  - '原装置内部HF实验真值、新独立盲测和LF FEM生成完整成本仍无原件'

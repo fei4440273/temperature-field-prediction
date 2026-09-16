@@ -1,0 +1,364 @@
+F1纯HF-only物理来源未独立关闭不得在此入口训练: true
+HF三功率完整合法验证真实标签原数SHA256:
+  Cold: 013ebc2c5560b4a3b7048baf1833f88ca993b4fcdbf77a65da07b47a641f2837
+  Hot: 70e7e418e329df7f9c7437a2de0d209ba7dcb19eea176f466e0ea73f263e516d
+  IR: d5fc63b11e51696a88a04d7b90e92474448bd5b9848e27b243c9a147ef6b00d7
+HF仅train_validation来源原件SHA256:
+  experiment_ir_radial.parquet: dd8ef7e112bce2bd73dd3fe3ad5889131964db4af1b57c882b43f5b816d4b82d
+  sensor_ring_raw.parquet: c987bafd68a37d1ab30857a834783764bde1c10249e8c02147118c02b3162db4
+HF合法验证不缩减功率:
+- 115.2
+- 403.0
+- 630.5
+HF固定测试功率仅身份不读温度:
+- 169.0
+- 339.0
+- 634.0
+LF全60批一轮名义损失系数: 15.0
+LF每个2048小批同旧07有效权重: 0.25
+LF每训练功率真回放点: 2048
+LF真实联合每HF步分组权重:
+  HF3真实批3分组: 5.0
+  HF3真实批4分组: 3.75
+  HF不均匀批7分组9或8:
+  - 2.25
+  - 2.0
+  原十二HF批15分组4: 1.0
+LF真实训练功率数: 60
+V4_B0来源清单SHA256: 423d287de76058d7124c9072e8d094bc5c960e48f4e7b99d7246feda2988c4de
+schema_version: 1
+split原件SHA256: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+七份运营配置SHA256:
+  configs/boundary_conditions.yaml: fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f
+  configs/data_metadata.yaml: eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d
+  configs/geometry.yaml: a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0
+  configs/materials.yaml: 2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e
+  configs/release_manifest.yaml: 0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288
+  configs/splits.yaml: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+  configs/training.yaml: 4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41
+三序列HF功率:
+  left_center:
+    3:
+    - 55.0
+    - 309.0
+    - 729.0
+    6:
+    - 55.0
+    - 254.5
+    - 309.0
+    - 430.0
+    - 558.5
+    - 729.0
+    9:
+    - 55.0
+    - 216.8
+    - 254.5
+    - 309.0
+    - 430.0
+    - 494.2
+    - 558.5
+    - 593.5
+    - 729.0
+  primary:
+    3:
+    - 55.0
+    - 364.3
+    - 729.0
+    6:
+    - 55.0
+    - 216.8
+    - 364.3
+    - 494.2
+    - 593.5
+    - 729.0
+    9:
+    - 55.0
+    - 216.8
+    - 254.5
+    - 364.3
+    - 430.0
+    - 494.2
+    - 558.5
+    - 593.5
+    - 729.0
+  right_center:
+    3:
+    - 55.0
+    - 430.0
+    - 729.0
+    6:
+    - 55.0
+    - 257.0
+    - 430.0
+    - 532.0
+    - 593.5
+    - 729.0
+    9:
+    - 55.0
+    - 216.8
+    - 257.0
+    - 309.0
+    - 430.0
+    - 494.2
+    - 532.0
+    - 593.5
+    - 729.0
+三序列逐臂每轮数据与LF预算:
+  left_center:
+    3:
+      Cold真训练行: 330
+      Hot真训练行: 330
+      IR真实HF批2048: 4
+      IR真训练行: 6565
+      LF60按HF实批公平组:
+      - 15
+      - 15
+      - 15
+      - 15
+    6:
+      Cold真训练行: 707
+      Hot真训练行: 707
+      IR真实HF批2048: 7
+      IR真训练行: 14039
+      LF60按HF实批公平组:
+      - 9
+      - 9
+      - 9
+      - 9
+      - 8
+      - 8
+      - 8
+    9:
+      Cold真训练行: 1132
+      Hot真训练行: 1132
+      IR真实HF批2048: 11
+      IR真训练行: 22321
+      LF60按HF实批公平组:
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+  primary:
+    3:
+      Cold真训练行: 340
+      Hot真训练行: 340
+      IR真实HF批2048: 4
+      IR真训练行: 6868
+      LF60按HF实批公平组:
+      - 15
+      - 15
+      - 15
+      - 15
+    6:
+      Cold真训练行: 765
+      Hot真训练行: 765
+      IR真实HF批2048: 8
+      IR真训练行: 15150
+      LF60按HF实批公平组:
+      - 8
+      - 8
+      - 8
+      - 8
+      - 7
+      - 7
+      - 7
+      - 7
+    9:
+      Cold真训练行: 1142
+      Hot真训练行: 1142
+      IR真实HF批2048: 12
+      IR真训练行: 22624
+      LF60按HF实批公平组:
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+  right_center:
+    3:
+      Cold真训练行: 295
+      Hot真训练行: 295
+      IR真实HF批2048: 3
+      IR真训练行: 5959
+      LF60按HF实批公平组:
+      - 20
+      - 20
+      - 20
+    6:
+      Cold真训练行: 665
+      Hot真训练行: 666
+      IR真实HF批2048: 7
+      IR真训练行: 13332
+      LF60按HF实批公平组:
+      - 9
+      - 9
+      - 9
+      - 9
+      - 8
+      - 8
+      - 8
+    9:
+      Cold真训练行: 1070
+      Hot真训练行: 1071
+      IR真实HF批2048: 11
+      IR真训练行: 21210
+      LF60按HF实批公平组:
+      - 6
+      - 6
+      - 6
+      - 6
+      - 6
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+      - 5
+主序列三档五seed候选数: 15
+五seed原LF配对源:
+  0:
+    历史HF架构只读SHA256: 0764c7e78f45e3509f0f8a525965a8f9d77a789aed47ce10ea8d536673644f4b
+    原LF整张量SHA256: c01575e2b845c25097f14d5d2cddb0a0f2763d02c9d467af0d25cbc6790ef5f8
+    原LF检查点SHA256: 5ab23ffd5b7c4b99ba90b81236ec0fba4a9b109a730288124c647030036e42f2
+    来源元数据SHA256: 1c196255e8341b186df0599479d6bd24a54850209d223b1b3330297acab01252
+  1:
+    历史HF架构只读SHA256: cae7b3546d9c1358350d2866d87f773b10415290f62f88f38b007b79d7013906
+    原LF整张量SHA256: 10d465b0007a15bb1c773c6f08f00948f642ff43e032107c28f29736f6e5d2f6
+    原LF检查点SHA256: e187044bac9175052604f7d77a213954d45655b2237739a0bb8bbea67fcfdbfb
+    来源元数据SHA256: ca0322a5c2febf85bfb4764fb873e5661376a1f82185ad491f4b905860424463
+  2:
+    历史HF架构只读SHA256: a7dfffdea6c50fda21efd8c822d0585743aa3df9ae7ea1d363c3d221105b6802
+    原LF整张量SHA256: 0efa2645dbfd0d268acefb926ba879e4c3fd081569bfe8abc5a282036a082514
+    原LF检查点SHA256: f3e6be959e185f7844fbceda220e12e91fbf0642b84aaf01990b8d3aca6ce252
+    来源元数据SHA256: f8a53c4a6ca6ce72e38c0decb6a1cd63a8e3f63b19589889c51308a23901c127
+  3:
+    历史HF架构只读SHA256: 41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b
+    原LF整张量SHA256: 885002fc42c8a8b8321c519999faf1f3152b66e9d571508b2190e442e1ff7c2a
+    原LF检查点SHA256: f5378dead4dc770dae3a3ebef781314e3d38445c6cbac54f097e06755e5ff68d
+    来源元数据SHA256: 826d00d7393cc2d77e8de4caae858e768826ea04c11a6d3367d3a5d67a609b7c
+  4:
+    历史HF架构只读SHA256: d27d0deb910580c5ca346a0c718efb92acbc971bbe10705a0e5fc61b9383f0ca
+    原LF整张量SHA256: 6b19842e7678e1ddde0e0121b362941c06a206ac2f9fbb5834b029fbe9d15668
+    原LF检查点SHA256: bd4c3be31f730eeaac538bbb3c9ce13e74c3ab39bc29fe1716698c527d53b34e
+    来源元数据SHA256: 86013341f97dca86ad590dd4a02bdb5e524f6c115370988ff590965ef84265b1
+五seed正式主曲线:
+- 0
+- 1
+- 2
+- 3
+- 4
+任04独立原能源配置SHA256: b464eddd752000694a513da0e4a1b4b0f7447e31b85d19726e243396a0864710
+任06独立原能源配置SHA256: 7a418d94493ddafd9c78e5070bca0739ab2de30aecdc22ef322ef69bc7e03b19
+任07乙五seed合法观测S摘要SHA256: f73f8a42bbdb7393770358809f28f59aedcb031658dd76641cc9d6e89ebac9c9
+任07乙五seed观测最佳原能源清单SHA256:
+  0: 28addc8bcf3ffbe60eb935dd6ece76df318378d56a5b72efc949d4ef77eeea39
+  1: d5f0956424bc3dcd7c2cdfc4bb903dab07132a98adef630a21218583d2f93524
+  2: ce9abfa828d449a0b48e71501833a609dc14756aad52af7aa89c13d6c23899ee
+  3: f915b3ff760f2947d89b3e8eb6f6c66526ad7240b356ece40631d3a6d25e6552
+  4: 2b3d017ec8fa79ad64dd40972dfd0ae97078cc0b7c4acd17fc0d37cf7144d8a2
+任07固定十二HF事前配置SHA256: f92abf2cc2f97aa6bddcd16768707ee581470bbe0f9d3eb191598dbf7bbc0dba
+任务: 任09独立F3子集真实CUDA训练
+先导次序:
+- primary/HF3/seed0
+- primary/HF6/seed0
+- primary/HF9/seed0
+- left_center/HF3/seed0
+- right_center/HF3/seed0
+全三序列三新增HF档五seed候选数: 45
+全覆盖上界总轮次非承诺: 90000
+十二HF结果只复用已冻任07乙合法观测: true
+原覆盖序列前登记SHA256: 206b91e3ea981ec81c0ed1074ea4688a16567e32cab9098b8c134ae683becd6a
+同HF合法选分与早停:
+  宏平均版本: macro_v1
+  最小改善: 0.0001
+  耐心: 200
+  验证间隔轮次: 10
+子集旧12HF训练轨迹严格相同: false
+旧固定测试温度读取: false
+校正上限轮次: 1500
+校正每轮名义全项物理配点: 256
+正式源代码原件SHA256:
+  CLI: e7768f7414e5908483a37249406bbc8a98f31aee69b0b1e783e8464eeb9b8132
+  energy_auditor: a9d3f2759794986f1135c1b2e251499e1d187bddb05f9b2944fd850bd24faaad
+  energy_cli: 9c77cdee4e1ed894180b3f2b881e326da802305a91ad609b940668044b61d213
+  frozen_source_adapter: 54dcbdab5c7ea624cd885baefc5390baf66489fb95020c4d52e1fbdd16ec2642
+  frozen_task04_joint: ada5bcff8b409b45916917f9443511321f9fc23d3263f366254e2b71cfc23192
+  frozen_task07_physics: 3b2160492cce7bf40c8e9c9953e3e5d99bff6ecb5e69923260e8171d3a52cc21
+  original_energy: 47cdc022572bf2467d8082d277cb2ffbeb47e1a5d9eb262af0cb2638f2d28b80
+  original_energy_verifier: ea6d9cf71be200f4963aae7716ac89fa79d460e41711b09f0c800e8696d3a9b7
+  original_energy_writer: 94286562a13d81de72c2ece4048c7db88db99b43ec35a3472715a5f51e443724
+  registration_generator: f8ff4a81a29962d39d3b1abea578ddfda70303268dcce7db7c5fc9eea45a7f3d
+  source_cli: 56724fd2e17667f23d27e44754853ff1ffb3cd5f49eafcd5b0a314770d0e5501
+  source_gate: 6d4016b5c51da43ff815e6c93addf260fb1161354b41eb5cfcee79bab788ca53
+  trainer: 3e304eb4b2fd6c351375b7e4176ae344057b809c9c8394d62bc5c110cd0cf375
+每臂HF真实标签原数SHA256:
+  left_center:
+    3:
+      Cold: ea370616541862d7ff6ffb6cb53682a0e9f89f9373857a73654b7792486a8961
+      Hot: ec7a9be661f0ed18c20471fcecd3616d55e4183d8809c96ac62086aedf7447d9
+      IR: bf9e0a4962cdcd269a208445ac4be2b027864232773f9f0b6e67d8d60057400b
+    6:
+      Cold: a50c04a1d8fa44078c23f738a3b2693e804c97c1c4b1dacb720fa7395aadc396
+      Hot: c8279600de0305196da6b8bbc5c910f431eccb0c527fc95b84c4dcccbc7b8e65
+      IR: b6fdc221bd282d3ebd36a29d84e55470fc2723292cc6097c23d82d65564d582a
+    9:
+      Cold: 09c1ec84409ac6b475c9cf6b6f1306cdae0f79cf06450324ac5b153505a597dd
+      Hot: 7429cdc646521877faa8f770090a143fae1c91f0311b99077b32022713e850b0
+      IR: dd247caa121376d42478e649e17b11ceda62d941e428c7e311c6eb51ebe49aec
+  primary:
+    3:
+      Cold: 40f0aa660239217bf88892e1cb23d2076a54f1c0edd8d4d9f60e9cea34dec19c
+      Hot: 44c066bf57fb4ee9ef2048bfe26032eaf15fc32e18bc53d0cac1e12b5c9b1a1e
+      IR: 7f16f756dfd572c963de75e503697ba747dd768f84638f1ecb27d8efae8fbc64
+    6:
+      Cold: 215f079d77cadad0435f57d8a97ec4bc1aef24fa703bc9811440659e48e4a406
+      Hot: 6f9a04486f02698984308be0226a79e2450577ea7a10a481d24578d108d07144
+      IR: 1c1c5738a3e8590d3fd638c8e7f6222ab76ca431d18e65b2dd06db1b7d7eaa59
+    9:
+      Cold: 422eb206a84370da52fdc7d3bf2d9eefc6d8ba92b7126f3f62e8db3b46d19291
+      Hot: f906086d7fb8fa54ac22c7a321c3c09f2e87ad549774d114ca49bcf1cb795f76
+      IR: 0a6804504d4777b19e62919f561fc6ddde3f7b4a61437a15cb68ff4426058ca4
+  right_center:
+    3:
+      Cold: 2bad19a2ba969fc1c2d9b39176530a50261ca5ed6a197f2e94fc2ec234cdc7a7
+      Hot: 4f11abb978df0fd6eb0334637e36fff7cd2a1f575179a1a0dbab78c949ba9795
+      IR: 7e080aa428ce10bbed14ab236d9316bd6bd97d7c876dd0324d3215775f5616f7
+    6:
+      Cold: 77bfce9d6ffc225db6abd657225190022ad29954018f8f8476f21d7e57cffadf
+      Hot: 249dab154be0515d5f0a8f6e4e814525733e256bdd9bff35c1b8b276a97659a3
+      IR: 77631a967af7a4b9d3a1b6dfca98404d68ddd1aa7379148567317f8d2a68b57e
+    9:
+      Cold: 981960ad709f9ec82a24e8997fef5bff156b49dad080b28c0f60b7ab85fb27ab
+      Hot: d0bcfceb06bb2f6f5d7158a920b03c47c3697fbece7e726283c32f4c025a5ed0
+      IR: f327d7b27b2f847221efbd9cb05e2bbe440e7965fd3a67d3193fa97fe18cf090
+每轮HF数据优化步: 实际HF观测batch数N，不强行15批
+每轮独立物理优化步: 1
+独立能源原件条件:
+  六功率五时刻: 30
+  原瓦数与散度原行各: 60
+  双阶双原数:
+  - 16
+  - 64
+联合上限轮次: 500
+联合仅LF四末投影:
+- low_fidelity_model.branch_projection.bias
+- low_fidelity_model.branch_projection.weight
+- low_fidelity_model.trunk_projection.bias
+- low_fidelity_model.trunk_projection.weight
+联合每轮名义全项物理配点: 256
+额外三档序列运行数量以真实完成为准: true
+首批逐个真实先导目标个数: 5

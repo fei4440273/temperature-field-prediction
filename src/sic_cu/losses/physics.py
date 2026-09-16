@@ -48,10 +48,14 @@ class PhysicsLossComputer:
         temperature_scale_k: float = 250.0,
         length_scale_m: float = 0.0175,
         time_scale_s: float = 200.0,
+        compute_pde: bool = True,
     ) -> None:
+        if not compute_pde and weights.pde != 0.0:
+            raise ValueError("Cannot skip PDE evaluation when the PDE training weight is nonzero")
         self.materials = materials
         self.boundaries = boundaries
         self.weights = weights
+        self.compute_pde = compute_pde
         self.trainable_parameters = trainable_parameters
         self.temperature_scale_k = temperature_scale_k
         conductivity = max(
@@ -80,13 +84,15 @@ class PhysicsLossComputer:
         conductivity = self.materials[material_id].conductivity(temperature)
         return temperature, normal_heat_flux(conductivity, gradient, normal)
 
-    def __call__(self, model: nn.Module, batch: CollocationBatch) -> dict[str, Tensor]:
-        pde = axisymmetric_heat_residual(
-            model,
-            batch.interior.detach().clone().requires_grad_(True),
-            batch.interior_material_ids,
-            self.materials,
-        )
+    def __call__(self, model: nn.Module, batch: CollocationBatch) -> dict[str, Tensor | None]:
+        pde = None
+        if self.compute_pde:
+            pde = axisymmetric_heat_residual(
+                model,
+                batch.interior.detach().clone().requires_grad_(True),
+                batch.interior_material_ids,
+                self.materials,
+            )
         initial = model(batch.initial) - self.boundaries.initial_temperature_k
 
         axis_t, axis_grad = self._temperature_gradient(model, batch.axis)
@@ -227,7 +233,7 @@ class PhysicsLossComputer:
             contact_resistance,
         )
         components = {
-            "pde": _mse(pde, self.pde_scale),
+            "pde": _mse(pde, self.pde_scale) if pde is not None else None,
             "initial": _mse(initial, self.temperature_scale_k),
             "boundary": (
                 _mse(axis, self.temperature_scale_k / 0.0175)
@@ -238,10 +244,17 @@ class PhysicsLossComputer:
             "interface": _mse(interface_temperature, self.temperature_scale_k)
             + _mse(interface_flux, self.flux_scale),
         }
-        components["physics_total"] = (
-            self.weights.pde * components["pde"]
-            + self.weights.initial * components["initial"]
-            + self.weights.boundary * components["boundary"]
-            + self.weights.interface * components["interface"]
-        )
+        if self.compute_pde:
+            components["physics_total"] = (
+                self.weights.pde * components["pde"]
+                + self.weights.initial * components["initial"]
+                + self.weights.boundary * components["boundary"]
+                + self.weights.interface * components["interface"]
+            )
+        else:
+            components["physics_total"] = (
+                self.weights.initial * components["initial"]
+                + self.weights.boundary * components["boundary"]
+                + self.weights.interface * components["interface"]
+            )
         return components

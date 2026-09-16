@@ -1,0 +1,71 @@
+{
+  "身份": {
+    "YAML_SHA256": "3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7",
+    "TAR_SHA256": "e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952",
+    "LF_CATALOG_SHA256": "37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956",
+    "HF_DATA_CATALOG_SHA256": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18",
+    "seed": 2,
+    "LF最佳检查点SHA256": "0d083973936aca877f0fbaa885ddaaa6ce74517b5c698270b788c33fe50b0f30",
+    "LF初始张量SHA256": "2a6146b1f38d7720ba3dc93ae572092680af4850db1e06aee7b6ee4baa11ba9c"
+  },
+  "LF来源": {
+    "CUDA峰值显存字节": 69913088,
+    "LF初始张量SHA256": "2a6146b1f38d7720ba3dc93ae572092680af4850db1e06aee7b6ee4baa11ba9c",
+    "LF真实多会话累计成本秒": 47.37297761300579,
+    "seed": 2,
+    "会话收据": [
+      {
+        "SHA256": "ddbab68602bb9941f0ed5806995ab1a1220e4b444f8f0fa485ba0c4aa70d2044",
+        "原件": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0001.json"
+      },
+      {
+        "SHA256": "62974ac507112f271b15d32b927e03f90067f16bb256dd073bc6635e7c46115a",
+        "原件": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0002.json"
+      },
+      {
+        "SHA256": "075613554b70080ac254be7a954b41e77b492d2681797233da1111f37f804fe9",
+        "原件": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0003.json"
+      },
+      {
+        "SHA256": "70b66e18f2ba93590ef054c9b409ca1a2eca8fdb90e329e6d76164b01eaf1c33",
+        "原件": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0004.json"
+      }
+    ],
+    "实际轮次": 764,
+    "最佳LF验证RMSE_摄氏度": 3.3634802495212357,
+    "最佳LF验证轮次": 564,
+    "最佳检查点": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/best.pt",
+    "最佳检查点SHA256": "0d083973936aca877f0fbaa885ddaaa6ce74517b5c698270b788c33fe50b0f30",
+    "目录": "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2",
+    "真实原件SHA256": {
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0001.json": "ddbab68602bb9941f0ed5806995ab1a1220e4b444f8f0fa485ba0c4aa70d2044",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0002.json": "62974ac507112f271b15d32b927e03f90067f16bb256dd073bc6635e7c46115a",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0003.json": "075613554b70080ac254be7a954b41e77b492d2681797233da1111f37f804fe9",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/LF会话收据_0004.json": "70b66e18f2ba93590ef054c9b409ca1a2eca8fdb90e329e6d76164b01eaf1c33",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/best.pt": "0d083973936aca877f0fbaa885ddaaa6ce74517b5c698270b788c33fe50b0f30",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/boundary_conditions.yaml": "fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/data_metadata.yaml": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/geometry.yaml": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/materials.yaml": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/release_manifest.yaml": "0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/resolved_physics.yaml": "d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/sha256.json": "a7eccc2b2d36253fac37aaf3339db159af36238df872e364313c2e93735971e0",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md": "bb066a26f9f594cae545740c50497059444f6d4969e98084b115b0ff4ef24750",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/metrics.json": "c16a91aac146c616135677b6f579ede640177f6a8670ae3a3a6ff7f85caf58d1",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/training.jsonl": "71a7fbf7e7a99bc3d76e13c3f9fa6ac45963fcf290f959a5ebfd583a74e0195f",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/事前真实来源登记.json": "8f993b1ab4d0387d01c0e3f9d79d511db594984d312cd8ceffee6a64e9729d9a",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/最近提交历史_0001.pt": "4d5fc262f5488b98f920adb90ed918a2fa2f6474804c6020996bd32a8066ffa5",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/最近提交历史_0002.pt": "4b946521408ba628c580210373b4e3540b4cd21dee1d801755d75e1d3a835b24",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/最近提交历史_0003.pt": "7fbf8c847475235d1d90c9d1805c6f07cbc3658d04b104a03449c2ba8ee2f8bb",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/阶段_LF观测最佳.pt": "520e2c82b6adcfc63caf5e5e9c83911d0e657d7152f97c0400ffa845cdaf1e7b",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/阶段_LF训练末.pt": "4edec1334dd497c3d6a225837e49663edec267e84c0c540b3041f71c5d0ebd8b",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/阶段_初始.pt": "bc4f7b3899442f54cd445081228485a0c8ce07915448a707822bc0611e2dfb8a",
+      "研究记录/任务11_外部对照/正式新MLP公平训练/正式MLP_LF_seed2/阶段_最近.pt": "042b8a7e149a40125b34a7c015fb288a40894b46178cbd57e374bc25377958af"
+    }
+  },
+  "历史HF权重/AdamW/RNG读取": false,
+  "旧固定TEST温度读取": false,
+  "模拟测试功率温度读取": false
+}

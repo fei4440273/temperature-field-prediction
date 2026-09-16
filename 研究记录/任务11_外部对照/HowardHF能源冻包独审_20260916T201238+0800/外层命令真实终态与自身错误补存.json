@@ -1,0 +1,51 @@
+{
+  "结构版本": 1,
+  "证据性质": "逐项保存本次 exec_command 返回；完整 output 是工具合并输出，不伪称另捕获了外层独立 stdout/stderr 文件",
+  "工作目录": "/home/phl/lyf/Temperature Field Prediction",
+  "外层真实命令与实际返回": [
+    {
+      "完整实际命令": "env PYTHONDONTWRITEBYTECODE='1' OMP_NUM_THREADS='1' MKL_NUM_THREADS='1' CUDA_VISIBLE_DEVICES='' PYTEST_DISABLE_PLUGIN_AUTOLOAD='1' PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/只读冻包复核.py' audit",
+      "exec_command实际原返回": {
+        "chunk_id": "74e1c0",
+        "wall_time_seconds": 2.103023566,
+        "exit_code": 1,
+        "original_token_count": 231,
+        "output": "{\"实际内部退出码\": 1, \"真实子命令退出码\": {\"fresh冻结合同普通包\": 1}, \"SOURCE85\": 85, \"SOURCE82\": 82, \"SOURCE85摘要\": \"1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc\", \"源码前后漂移数\": 0, \"当前父HF活动\": true, \"当前能源活动\": false, \"机器证据\": {\"相对路径\": \"研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/冻包独审机器证据.json\", \"字节\": 35457, \"SHA256\": \"cffd07e0fc2daab96d66e42514319840c77e3138b4b69f83565110a39c068779\", \"普通文件\": true, \"权限\": \"0o664\"}, \"错误原样\": [\"Traceback (most recent call last):\\n  File \\\"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/只读冻包复核.py\\\", line 338, in run_audit\\n    assert records[name][\\\"实际退出码\\\"] == 0, name\\nAssertionError: fresh冻结合同普通包\\n\"]}\n"
+      }
+    },
+    {
+      "完整实际命令": "env PYTHONDONTWRITEBYTECODE='1' OMP_NUM_THREADS='1' MKL_NUM_THREADS='1' CUDA_VISIBLE_DEVICES='' PYTEST_DISABLE_PLUGIN_AUTOLOAD='1' PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/只读冻包复核.py' audit '冻包独审机器证据_恢复复核1.json'",
+      "exec_command实际原返回": {
+        "chunk_id": "bc160e",
+        "wall_time_seconds": 6.405654552,
+        "exit_code": 0,
+        "original_token_count": 177,
+        "output": "{\"实际内部退出码\": 0, \"真实子命令退出码\": {\"fresh冻结合同普通包\": 0, \"pureCPU门禁fixture\": 0, \"真实CLI56帮助\": 0, \"真实CLI56六SHA动态负门禁\": 1}, \"SOURCE85\": 85, \"SOURCE82\": 82, \"SOURCE85摘要\": \"1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc\", \"源码前后漂移数\": 0, \"当前父HF活动\": true, \"当前能源活动\": false, \"机器证据\": {\"相对路径\": \"研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/冻包独审机器证据_恢复复核1.json\", \"字节\": 167701, \"SHA256\": \"c83b2b20f6524355086e0ca9855150b88e4a5916674f5ab61d4c0678f3607b10\", \"普通文件\": true, \"权限\": \"0o664\"}, \"错误原样\": []}\n"
+      }
+    },
+    {
+      "完整实际命令": "env PYTHONDONTWRITEBYTECODE='1' OMP_NUM_THREADS='1' MKL_NUM_THREADS='1' CUDA_VISIBLE_DEVICES='' PYTEST_DISABLE_PLUGIN_AUTOLOAD='1' PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/只读冻包复核.py' audit '冻包独审机器证据_完整终核.json'",
+      "exec_command实际原返回": {
+        "chunk_id": "2d23f0",
+        "wall_time_seconds": 7.7779265859999995,
+        "exit_code": 0,
+        "original_token_count": 186,
+        "output": "{\"实际内部退出码\": 0, \"真实子命令退出码\": {\"fresh冻结合同普通包\": 0, \"pureCPU门禁fixture\": 0, \"pureCPU严格合同类型fixture\": 0, \"真实CLI56帮助\": 0, \"真实CLI56六SHA动态负门禁\": 1}, \"SOURCE85\": 85, \"SOURCE82\": 82, \"SOURCE85摘要\": \"1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc\", \"源码前后漂移数\": 0, \"当前父HF活动\": true, \"当前能源活动\": false, \"机器证据\": {\"相对路径\": \"研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/冻包独审机器证据_完整终核.json\", \"字节\": 171511, \"SHA256\": \"4d3766c192c0a409fc831f6bd8b3fd14fe060b82a6a32123aade1d83e2d5aefa\", \"普通文件\": true, \"权限\": \"0o664\"}, \"错误原样\": []}\n"
+      }
+    }
+  ],
+  "内层stdout_stderr": "各真实子进程的完整分开 stdout/stderr、argv、PID、时刻和真实退出码已在各轮独审机器证据真实子命令保存",
+  "首次独审自身错误": "首次 pack 对所有父HF4原件也强求0444，实际父4为0664；新7原件仍0444。仅独审脚本缩回新7范围；不修改被审原件权限。首次outer/pack实1原样留档，恢复完整实0。",
+  "首次失败独审脚本SHA256": "27add6496f07b8f5d56f9fd4d7d621de37d440d4145a00d344cb00c6d997defb",
+  "最终独审脚本SHA256": "96152934c1c3461c2e548f968c3c4075998bcd393800c658722e27088319df49",
+  "首次前置jq语法错误": {
+    "完整实际命令": "jq '{keys:keys,登记后现场:(.登记后现场|keys),首次核验:.纯合同普通tar首次实际核验,终态核验:.纯合同普通tar终态实际核验,首次核验摘要:.首次核验摘要,能源两新原件:.能源两新原件,未来ROOT独立六SHA身份:.未来ROOT独立六SHA身份,当前实际独立活动ROOT:.当前实际独立活动ROOT}' '研究记录/任务11_外部对照/HowardHF独立能源事前冻结_20260916T195529+0800/真实事前冻结机器证据.json'",
+    "exec_command实际退出码": 3,
+    "原因": "jq 不接受未引用中文字段；stderr提示 try .[\"field\"] instead of .field。随后改为引用键只读查询实际0；未改任何被审JSON。",
+    "初始查询完整stderr另存": false,
+    "边界": "该前置查询的完整stderr仍在真实工具返回，本档仅保存原因，不冒充初始完整stderr文件"
+  },
+  "自身fixture名称准确补注": "普通HTML跨空白隐藏标签实际文本是<div>\\n表格行\\n</div>，不存在空白行；本结论只计普通HTML隐藏。嵌套raw隐藏另一fixture确有空白行。既有机器证据名称/内容不回写。",
+  "ROOT历史与当前": "历史登记前ROOT aa6785仅冻结窗口身份；终核当前ROOT ea35f8对应根合法追加0113，并非source drift。冻结包/SOURCE85/SOURCE82/父4/新7前后均不变。",
+  "所有真实科学_五HF_十能源_新实测_GPU_B0_总目标完成": false
+}

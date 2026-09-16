@@ -1,0 +1,198 @@
+{
+  "状态": "本新独审普通档案机械0444封存；准确SHA逐件重新读核PASS",
+  "普通档案数量_不含此清单及其外层终态": 29,
+  "封存普通档案准确身份": {
+    "capture_named_013.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/capture_named_013.py",
+      "字节": 2637,
+      "权限": "0o444",
+      "SHA256": "c044300aafc0d263852c6369641494affb1a002315e6cb5ac771c338f9a25deb"
+    },
+    "finalize_013_evidence.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/finalize_013_evidence.py",
+      "字节": 8499,
+      "权限": "0o444",
+      "SHA256": "a75e0b2fd17717aec1349396beb621798db3fc14dcfba32f8e4d861440dfef69"
+    },
+    "independent_success_013_audit.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/independent_success_013_audit.py",
+      "字节": 26593,
+      "权限": "0o444",
+      "SHA256": "e5297e3cabdb7e190bcbbff1c26f64287aa730920c7c5b129e1ec483c28a6d09"
+    },
+    "run_and_capture.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/run_and_capture.py",
+      "字节": 2462,
+      "权限": "0o444",
+      "SHA256": "10590efddeb04dfa1953d8fc9dfd14bebfe02dbcf581081a949339d58a1fbca7"
+    },
+    "run_post_and_capture.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/run_post_and_capture.py",
+      "字节": 2461,
+      "权限": "0o444",
+      "SHA256": "114148be8a273901966cf7cafba2bfe201fef97c7cee5853584db3ef058e14e6"
+    },
+    "seal_013_archive.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seal_013_archive.py",
+      "字节": 4095,
+      "权限": "0o444",
+      "SHA256": "1987bf3939bca1438c36a7739fcfc32ff902cfa38a3f0eb8f532ca530279a1bb"
+    },
+    "seed0_原Python完整资格q.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seed0_原Python完整资格q.json",
+      "字节": 17063,
+      "权限": "0o444",
+      "SHA256": "1a7310c7e5c50fd6276dff73d172ef9dae503ea41cbe17cbceda148c9b261bc8"
+    },
+    "seed0_原正CPUpreflight.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seed0_原正CPUpreflight.json",
+      "字节": 39636,
+      "权限": "0o444",
+      "SHA256": "190f6ab6e18ae1b3ca7024b00351ddea74a02f92b1549416f2db58b2deef86c3"
+    },
+    "seed1_原Python完整资格q.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seed1_原Python完整资格q.json",
+      "字节": 13390,
+      "权限": "0o444",
+      "SHA256": "dd57802c1cbaeb3ffef3521b6f12a541053eaa9ed4536442de6c4215cd209625"
+    },
+    "seed1_原正CPUpreflight.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seed1_原正CPUpreflight.json",
+      "字节": 41762,
+      "权限": "0o444",
+      "SHA256": "49749e8d2fde51d43622254967c9bd0db2f72310a0fcf89b8357fd164cb26cc3"
+    },
+    "seed3_原Python完整资格q.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seed3_原Python完整资格q.json",
+      "字节": 16570,
+      "权限": "0o444",
+      "SHA256": "3c3d02306b3d820d8a754b75308145c9942064abd8779142ab1776632634a824"
+    },
+    "seed3_原正CPUpreflight.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/seed3_原正CPUpreflight.json",
+      "字节": 41229,
+      "权限": "0o444",
+      "SHA256": "855111f0321a05eb1a7e895441ffc94eaf3d70489bfd76591a6e40958507cdfe"
+    },
+    "verify_013_receipts_and_seal.py": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/verify_013_receipts_and_seal.py",
+      "字节": 8220,
+      "权限": "0o444",
+      "SHA256": "f12398c901199a00310431a77f441b948c66ba014d10f51e4657cc8e256c1843"
+    },
+    "原有工具选路偏差保留.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/原有工具选路偏差保留.json",
+      "字节": 1498,
+      "权限": "0o444",
+      "SHA256": "4cc912586d0d1058eed0c899415f6dd8fa2a03ff8bf7cd881a0867af5e1ee222"
+    },
+    "原真实工具终态绑定.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/原真实工具终态绑定.json",
+      "字节": 1360,
+      "权限": "0o444",
+      "SHA256": "203779d63d01fddc7ad0ac0d2aead03b461abfcb4b11d0599e305fa3e0c51285"
+    },
+    "原真实资格进程完整stderr.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/原真实资格进程完整stderr.txt",
+      "字节": 0,
+      "权限": "0o444",
+      "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "原真实资格进程完整stdout.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/原真实资格进程完整stdout.txt",
+      "字节": 2923,
+      "权限": "0o444",
+      "SHA256": "48329d601d56ff24c55455ef676eabb82c817e4f01b08681ccfa37783f6e1eef"
+    },
+    "实际命令与工具终态说明.md": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/实际命令与工具终态说明.md",
+      "字节": 6191,
+      "权限": "0o444",
+      "SHA256": "3284414e1013971496b1ed77033b343e2a1316343491b6dc76451ade68e8c973"
+    },
+    "汇总准确身份完整stderr.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/汇总准确身份完整stderr.txt",
+      "字节": 0,
+      "权限": "0o444",
+      "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "汇总准确身份完整stdout.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/汇总准确身份完整stdout.txt",
+      "字节": 369,
+      "权限": "0o444",
+      "SHA256": "9597b3f227fe7b5fd8d25743fa9b8644934a83b8ab63938bcb4d70475d23f15b"
+    },
+    "汇总准确身份实际命令与完整终态.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/汇总准确身份实际命令与完整终态.json",
+      "字节": 3148,
+      "权限": "0o444",
+      "SHA256": "b323e4fe3e4a5a32207cffb72b9f49c91ac2a709dff184ec9f4289022e623765"
+    },
+    "独立成功013完整资格中文报告.md": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/独立成功013完整资格中文报告.md",
+      "字节": 12292,
+      "权限": "0o444",
+      "SHA256": "d10975d0476701aeaad58bc3c642b8b6fbe06dcb84ffe7d749460b29df4d6c33"
+    },
+    "独立成功013收尾汇总与准确证据身份.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/独立成功013收尾汇总与准确证据身份.json",
+      "字节": 129581,
+      "权限": "0o444",
+      "SHA256": "a6320102bd600d6373fa285cc8fc7fa690b561350a78dc0bf8091e2cbb35b69d"
+    },
+    "独立成功013资格原Python机器证据.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/独立成功013资格原Python机器证据.json",
+      "字节": 2860765,
+      "权限": "0o444",
+      "SHA256": "3bdce359c1e3bc8c2e549b870f29def5fea9a91a497727b99b3cae1f13609ee1"
+    },
+    "真实原资格命令与完整进程终态.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/真实原资格命令与完整进程终态.json",
+      "字节": 5745,
+      "权限": "0o444",
+      "SHA256": "5e4a5879beecd34eabf3fb8fb9ab8b13d0c62e99a03b0984a26ef4408a93a6c1"
+    },
+    "纯收尾交叉核对完整stderr.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/纯收尾交叉核对完整stderr.txt",
+      "字节": 0,
+      "权限": "0o444",
+      "SHA256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "纯收尾交叉核对完整stdout.txt": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/纯收尾交叉核对完整stdout.txt",
+      "字节": 282,
+      "权限": "0o444",
+      "SHA256": "7f96ebb4ce36b16341b18bc3503d36bf07339fc58976f235e342369d6362fb71"
+    },
+    "纯收尾实际命令与完整终态.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/纯收尾实际命令与完整终态.json",
+      "字节": 2975,
+      "权限": "0o444",
+      "SHA256": "8bb7a6d432ecece2e826a548bb39dd0f669bc98ee6823db2fc8416f1befab65e"
+    },
+    "纯收据前缀成本交叉核对与原q字符串保真.json": {
+      "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/纯收据前缀成本交叉核对与原q字符串保真.json",
+      "字节": 457937,
+      "权限": "0o444",
+      "SHA256": "5f4fe765bedffef9950e605bb303262a02c0e7981199735a511f31cef493d43d"
+    }
+  },
+  "范围": "仅本项目新独审目录顶层普通证据，不chmod/root/source/PT/log/receipt/已有档案；TMP/cache不是模型来源或冻结证据。",
+  "闭合非循环约定": "本清单本身以及之后真实捕获的机械0444封存验证完整stdout/stderr/终态三件不进入自身SHA映射；三件由外层捕获后各0444，准确SHA在最终交付fresh读核。",
+  "source82与四父三HF五LF当前零漂移": true,
+  "原自身四SHAROOTplain正门禁": true,
+  "ROOT当前历史身份": {
+    "路径": "/home/phl/lyf/Temperature Field Prediction/多保真DeepONet预测精度优化总计划与执行台账.md",
+    "字节": 345766,
+    "权限": "0o664",
+    "SHA256": "8e9ba9c130f1d15fcba75b0d395b0a9c1b07ff68598c0b75bbed8eace56309a5"
+  },
+  "wholeROOT行政变化不作为源漂移": true,
+  "本封存步骤PT反序列化数": 0,
+  "CUDA_is_initialized": false,
+  "资格3成功不是五成功": true,
+  "五HFmean": null,
+  "五HFstd": null,
+  "新十能源OBS或90冻结": false,
+  "后续": "交付后停止。"
+}

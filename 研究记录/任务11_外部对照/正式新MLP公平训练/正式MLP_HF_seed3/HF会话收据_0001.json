@@ -1,0 +1,53 @@
+{
+  "身份": {
+    "YAML_SHA256": "3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7",
+    "TAR_SHA256": "e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952",
+    "LF_CATALOG_SHA256": "37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956",
+    "HF_DATA_CATALOG_SHA256": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18",
+    "seed": 3,
+    "LF最佳检查点SHA256": "7f9cecaf37acd2224bb4cd65426cd495b9e2ee9c24e5bd71f686e46a6a853614",
+    "LF初始张量SHA256": "bc1d7e6e32e6cc22f69534db2ff435ca5be6082b75a44c25d781bfea7705c233"
+  },
+  "起始已提交轮次": 0,
+  "本会话实际轮次": 200,
+  "累计实际轮次": 200,
+  "HF校正实际轮次": 200,
+  "HF联合实际轮次": 0,
+  "消费累计": {
+    "HF观测点": 5918600,
+    "HF传感器点": 8955000,
+    "HF观测优化步": 3000,
+    "物理优化步": 200,
+    "物理配点": 51200,
+    "LF回放点": 0,
+    "LF回放小批": 0
+  },
+  "本会话真实墙钟秒": 57.585059960983926,
+  "峰值真实CUDA显存字节": 64778240,
+  "前驱收据SHA256": null,
+  "旧固定TEST温度读取": false,
+  "模拟测试功率温度读取": false,
+  "状态": "已暂停且完整HF阶段提交",
+  "原件SHA256": {
+    "best.pt": "8bee88d4e010886b574489699782eda3c59fc82f52dc94fdf7345bd033fa1106",
+    "config_snapshot/boundary_conditions.yaml": "fcd4f8f98c221362ab115ffaf51b0dc617e2a3dfc0c02d097647ab225f48d16f",
+    "config_snapshot/data_metadata.yaml": "eee0b315cc68fcef8e2e7d9484daec3d47dfe32531a486728907420095456b3d",
+    "config_snapshot/geometry.yaml": "a5a2457f661115878deb6b37c7d78b7a4a02e1050b893037c5c5a37afc8288f0",
+    "config_snapshot/materials.yaml": "2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e",
+    "config_snapshot/release_manifest.yaml": "0ef60a8f41094d1da9fff7382f370150d3355474b963cc1d9c0055485430e288",
+    "config_snapshot/resolved_physics.yaml": "d097026bbc6ef703a1b93635bffde75f66617cc9a9c4ba5392943ae8db708144",
+    "config_snapshot/sha256.json": "a39d887f2949fa4493208a48df41c773ded69dcfa06a0be75ad4a6c63e65f725",
+    "config_snapshot/splits.yaml": "89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e",
+    "config_snapshot/training.yaml": "4c109435ec253189eaf84dd966c92c88db4235704ce5c93ce4a66682330eda41",
+    "config_snapshot/多保真DeepONet预测精度优化总计划与执行台账.md": "6095f543cfff546632f52348991b36a9bd94d38402a0600525fd4cf4acc6546c",
+    "training.jsonl": "1233de6d4559d168a5780ae21c34377add734f54d0ff85dddb7f1e6c4199b1af",
+    "事前来源快照/HF开发目录.json": "7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18",
+    "事前来源快照/LF目录.json": "37af1efbf779b6782983417805fae0e92be20b0b80835e087caf63b177869956",
+    "事前来源快照/源码.tar.gz": "e5dc2f64ee72b4da56266c0f22c3754af08bc7d77912d77ee375a35ef2d26952",
+    "事前来源快照/登记.yaml": "3710cadaeccb8dcd0c6a584d3a0da9eb1866594bebc3df417c83772a7e3fffe7",
+    "事前真实来源登记.json": "9540672c4072ba2cd6b9ee4d49a3be4f1168fe6dc63c692bc3c256ffee3274f0",
+    "阶段_初始.pt": "b70def3efe232706eef0160df95544f7095b1a43c6c0876b51d691de7348e387",
+    "阶段_最近.pt": "1bad3c64be4132dfee45356ac22505d392767466543b53f0773fe965316bfb66",
+    "阶段_观测最佳.pt": "e4f0be8b518d9a24f7ef2019b3faa4819c18c50cb640fa84f4805dc4bd2a56d5"
+  }
+}

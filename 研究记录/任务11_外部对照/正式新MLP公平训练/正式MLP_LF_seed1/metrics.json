@@ -1,0 +1,44 @@
+{
+  "method": "mlp_pinn",
+  "seed": 1,
+  "epochs_completed": 496,
+  "stopping_reason": "validation_patience",
+  "best_epoch": 296,
+  "best_validation_rmse_c": 4.004392103147933,
+  "training_seconds": 30.440945979004027,
+  "training_seconds_contract": "所有本人真实分段会话之和；非仅末会话",
+  "parameter_count": 66945,
+  "peak_gpu_memory_bytes": 69913088,
+  "status": "completed_current_protocol_lf_only",
+  "configuration": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "method": "mlp_pinn",
+    "epochs": 2000,
+    "samples_per_power": 8192,
+    "validation_samples_per_power": 8192,
+    "batch_size": 8192,
+    "learning_rate": 0.001,
+    "patience": 200,
+    "physics_collocation": 256,
+    "physics_weight": 1.0,
+    "lf_physics_mode": "original",
+    "sampling_mode": "material_time",
+    "device": "cuda",
+    "world_size": 1
+  },
+  "source_identity": {
+    "YAML_SHA256": "510ca066f221ae79d2015c1c0ccec60a8235dafca82432fc84c1026f13202c19",
+    "TAR_SHA256": "c70c82667fa8840f3a72078cc4be68dba9e47fc084de8cd06e6dca923e60c139",
+    "CATALOG_SHA256": "96a346c4eaa3fac63326a84d7e6ab8a1cee94d8b46083f5c41907db70be2c485"
+  },
+  "test": null,
+  "test_status": "sealed_until_frozen_release",
+  "模拟测试功率温度读取": false,
+  "HF训练许可": false
+}

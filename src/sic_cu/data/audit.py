@@ -9,6 +9,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Callable, Iterable, TypeVar
 
+from sic_cu.compat import strict_zip
 from sic_cu.config import PROJECT_ROOT, load_yaml, resolve_data_root
 
 from .common import bytes_to_gib, parse_power, sha256_file
@@ -52,7 +53,7 @@ def _file_inventory(paths: list[Path], workers: int, hash_files: bool) -> list[d
             "bytes": path.stat().st_size,
             "sha256": digest,
         }
-        for path, digest in zip(paths, hashes, strict=True)
+        for path, digest in strict_zip(paths, hashes)
     ]
 
 

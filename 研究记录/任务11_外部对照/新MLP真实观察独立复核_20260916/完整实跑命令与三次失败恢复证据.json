@@ -1,0 +1,117 @@
+{
+  "状态": "独立真实全量复核实际工具退出记录；三次独审脚本失败全部披露，最终源数据和报告均实跑退出0",
+  "工作目录": "/home/phl/lyf/Temperature Field Prediction",
+  "主读技能": [
+    "data-analysis",
+    "data-analysis/references/review-prompts.md",
+    "verification-before-completion",
+    "systematic-debugging",
+    "test-driven-development"
+  ],
+  "禁用制定计划技能": true,
+  "实际进程记录": [
+    {
+      "序号": 1,
+      "阶段": "actual",
+      "完整实跑命令": "env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/新MLP真实观察独立复核_20260916/独立四轮复核.py' --phase actual",
+      "工具实际退出码": 1,
+      "实际工具chunk": "862264",
+      "stdout摘要": [
+        "执行前SHA: 447/447一致; 范围规范JSON_SHA256=499e22a04f547997df5219316a013774e5d15b816c17808e983a0224bad6660e"
+      ],
+      "失败定位": "独审脚本当时339行 before[path]，KeyError: 'best.pt'。本人原件SHA清单使用各HF运行目录内相对键，独审误当绝对路径。",
+      "恢复": "只修改独审脚本路径解析为本人HF目录/path；未修改原数据/模型/冻结来源/ROOT/八输出。"
+    },
+    {
+      "序号": 2,
+      "阶段": "actual",
+      "完整实跑命令": "env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/新MLP真实观察独立复核_20260916/独立四轮复核.py' --phase actual",
+      "工具实际退出码": 1,
+      "实际工具chunk": "c910c9",
+      "会话": 20350,
+      "stdout摘要": [
+        "执行前SHA: 447/447一致; 范围规范JSON_SHA256=499e22a04f547997df5219316a013774e5d15b816c17808e983a0224bad6660e",
+        "R1 PASS: 实际源80240点; Top7272/Hot376/Cold376 x10全source-row双射; 数值字段1123360; 最大差=0.0",
+        "R2 PASS: 450指标记录 x11=4950字段; 30空窗全部11字段NULL; 720个25mm闭端点; 最大指标差=0",
+        "R3 PASS: 全1058五seed统计对象(992非空/66NULL), 原五值有序0..4; mean/std(ddof1)/min/max; 旧10macro及50分模态最大差=4.37699437517e-06 C <=1e-4"
+      ],
+      "失败定位": "独审脚本当时527行 expected_line in acceptance；AssertionError: 中文验收macro/标准差/原五值/范围不符。独立np.mean与原statistics.fmean的五值末位文本不同，原点/4950指标与1058统计数值此前全部通过。",
+      "恢复": "按既定1e-10数值容差解析原五值JSON数组再比较，9位均值/STD/min/max仍逐字核对；未放松源点/原指标比较。"
+    },
+    {
+      "序号": 3,
+      "阶段": "actual",
+      "完整实跑命令": "env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/新MLP真实观察独立复核_20260916/独立四轮复核.py' --phase actual",
+      "工具实际退出码": 0,
+      "实际工具chunk": "bcb3e6",
+      "会话": 2177,
+      "stdout摘要": [
+        "执行前SHA: 447/447一致; 范围规范JSON_SHA256=499e22a04f547997df5219316a013774e5d15b816c17808e983a0224bad6660e",
+        "R1 PASS: 实际源80240点; Top7272/Hot376/Cold376 x10全source-row双射; 数值字段1123360; 最大差=0.0",
+        "R2 PASS: 450指标记录 x11=4950字段; 30空窗全部11字段NULL; 720个25mm闭端点; 最大指标差=0",
+        "R3 PASS: 全1058五seed统计对象(992非空/66NULL), 原五值有序0..4; mean/std(ddof1)/min/max; 旧10macro及50分模态最大差=4.37699437517e-06 C <=1e-4",
+        "R4 PASS: CSV450行/11250单元格与JSON全部字段/中文映射一致; 冻结447文件before/after无漂移; ROOTarchive唯一普通1成员=87470d66f2a9a053c73931f2625d7b8776f0d7213bcee08dc5caeed24a639f0b",
+        "执行后SHA: 447/447一致; 范围规范JSON_SHA256=499e22a04f547997df5219316a013774e5d15b816c17808e983a0224bad6660e",
+        "终态 PASS; 独立真实全量四轮机器证据.json已新增; exit=0"
+      ]
+    },
+    {
+      "序号": 4,
+      "阶段": "report",
+      "完整实跑命令": "env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/新MLP真实观察独立复核_20260916/独立四轮复核.py' --phase report",
+      "工具实际退出码": 1,
+      "实际工具chunk": "ca5893",
+      "stdout摘要": [
+        "中文报告执行前SHA256=cf66062e777819df5efae69eb4894aa8a73a1fc11b513bc83da90c132aba694d; 字符=17407; 行=200"
+      ],
+      "失败定位": "独审脚本当时655行正文最大差字符串判断；AssertionError: 报告旧10macro最大差不符。此前7表112行全部已逐格通过；正文e-6与Python e-06只是同值指数文本差异。",
+      "恢复": "按正文数字语法解析成float，以1e-15绝对容差对独立最大差；全部表值仍保持精确格式和原五值数值核对。"
+    },
+    {
+      "序号": 5,
+      "阶段": "report",
+      "完整实跑命令": "env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/新MLP真实观察独立复核_20260916/独立四轮复核.py' --phase report",
+      "工具实际退出码": 0,
+      "实际工具chunk": "942403",
+      "stdout摘要": [
+        "中文报告执行前SHA256=cf66062e777819df5efae69eb4894aa8a73a1fc11b513bc83da90c132aba694d; 字符=17407; 行=200",
+        "中文报告7张表 PASS: 102误差行+2macro行+8SHA索引，全部值与独立重算一致",
+        "中文报告执行后SHA256=cf66062e777819df5efae69eb4894aa8a73a1fc11b513bc83da90c132aba694d; 表格=7; 全部表数据行=112(误差102/macro2/SHA8); 全部数值/STD/原五值/6空组/720端点/0of10名义能源/受限边界PASS",
+        "报告全量独立核对 PASS; exit=0"
+      ]
+    },
+    {
+      "序号": 6,
+      "阶段": "report-final",
+      "完整实跑命令": "env CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/新MLP真实观察独立复核_20260916/独立四轮复核.py' --phase report-final",
+      "工具实际退出码": 0,
+      "实际工具chunk": "bcee2a",
+      "stdout摘要": [
+        "中文报告执行前SHA256=77506be4517466f36e8ece22ffe1d72775b4b211d85e9e59fabf309a2bc6adae; 字符=17626; 行=202",
+        "中文报告7张表 PASS: 102误差行+2macro行+8SHA索引，全部值与独立重算一致",
+        "中文报告执行后SHA256=77506be4517466f36e8ece22ffe1d72775b4b211d85e9e59fabf309a2bc6adae; 表格=7; 全部表数据行=112(误差102/macro2/SHA8); 全部数值/STD/原五值/6空组/720端点/0of10名义能源/受限边界PASS",
+        "报告全量独立核对 PASS; exit=0"
+      ]
+    }
+  ],
+  "失败版本边界": "三个失败版未另作事前源码tar封存；以上记录是实际工具退出码与stdout摘要，不虚构失败版SHA。当前末版脚本actual数学逻辑保持第三次全量通过时口径，之后仅新增报告核验分支。",
+  "读写边界": {
+    "只新增永久独审目录工件": true,
+    "ROOT或冻结源源码修改": false,
+    "原8观察工件修改": false,
+    "真实PT反序列化": false,
+    "GPU使用": false,
+    "观察器metric_helper调用": false,
+    "旧固定TEST温度读取": false,
+    "模拟LF_TEST温度读取": false,
+    "能源重新计算": false,
+    "工程安全合格主张": false
+  },
+  "目录摘要协议": {
+    "独审默认含空格且ensure_ascii=False": "499e22a04f547997df5219316a013774e5d15b816c17808e983a0224bad6660e",
+    "独审无空格且ensure_ascii=False": "fe1768f5d2514ed2eec5dea8d804cc20da558ec3618dd5119eac5dc174842105",
+    "报告协议无空格且ensure_ascii=True": "549e0ae1cd9064089647acc8e66d020c58cd23641574a835ebc27e2efa7900a0",
+    "说明": "447个完全相同resolved绝对路径→SHA字典，中文转义与JSON分隔符不同产生不同目录摘要；每件before/after均相同，不是源漂移。"
+  },
+  "未完成": "本独审已完成源点/指标/统计/工件/报告全量复核；未做新GPU推理、PT反序列化、训练或独立测温，未重新能源审计。任11整体Howard正式HF/独立能源及统一外部汇总未完成；任12真实新增测温仍0，任13仍受限。"
+}

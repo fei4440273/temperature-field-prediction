@@ -35,6 +35,7 @@ class AdditiveCorrectionModel(nn.Module):
         surface_residual_guide: nn.Module | None = None,
         silicon_carbide_height_m: float = 0.012,
         surface_guide_output: str = "residual",
+        response_tau_seconds: tuple[float, ...] | list[float] | None = None,
     ) -> None:
         super().__init__()
         self.low_fidelity_model = low_fidelity_model
@@ -105,9 +106,16 @@ class AdditiveCorrectionModel(nn.Module):
                 )
             for parameter in self.surface_residual_guide.parameters():
                 parameter.requires_grad_(False)
+        self.response_features = None
+        if response_tau_seconds is not None:
+            from sic_cu.data.time_dictionary import TimeResponseFeatures
+
+            self.response_features = TimeResponseFeatures(response_tau_seconds)
         correction_input_dim = 6 if include_material else 5
         if not self.correction_direct_power_input:
             correction_input_dim -= 1
+        if self.response_features is not None:
+            correction_input_dim += 4
         self.correction = build_mlp(
             correction_input_dim, 1, width, depth, activation
         )
@@ -147,7 +155,12 @@ class AdditiveCorrectionModel(nn.Module):
             scaled = scaled[:, :4]
         if not self.correction_direct_power_input:
             scaled = torch.cat((scaled[:, :3], scaled[:, 4:]), dim=-1)
-        correction = self.correction(torch.cat((scaled, normalized_lf), dim=-1))
+        correction_input = torch.cat((scaled, normalized_lf), dim=-1)
+        if self.response_features is not None:
+            correction_input = torch.cat(
+                (correction_input, self.response_features(coordinates[:, 2:3])), dim=-1
+            )
+        correction = self.correction(correction_input)
         correction_k = self.scales.temperature_scale_k * correction
         if self.correction_power_scaling == "linear":
             correction_k = correction_k * (

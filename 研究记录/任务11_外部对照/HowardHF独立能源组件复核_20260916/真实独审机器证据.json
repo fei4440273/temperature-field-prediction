@@ -1,0 +1,239 @@
+{
+  "结构版本": 1,
+  "归档日期": "2026-09-16",
+  "证据性质": "已经执行并捕获的独立CPU合成代码复核；不是正式能源结果、测温数据、作者精确复现或工程安全证据",
+  "项目根": "/home/phl/lyf/Temperature Field Prediction",
+  "归档范围": {
+    "只新增指定永久归档两个文件": true,
+    "本次归档重跑测试": false,
+    "修改能源候选三源": false,
+    "修改HF82冻结源": false,
+    "修改真实ROOT或登记或目录清单": false,
+    "读取真实模型或数据或温度": false,
+    "删除文件": false,
+    "本次归档修改临时诊断脚本": false
+  },
+  "输出保存方法": "逐块保存此前exec_command和write_stdin返回的output；块边界保留，进度行可能跨块；不是本次归档重新运行或重建的测试输出",
+  "未捕获信息声明": {
+    "独立stderr原始文件": null,
+    "执行瞬间墙钟时间戳": null,
+    "三轮逐85项完整SHA清单": null,
+    "初轮5项独立诊断脚本版本SHA256": null,
+    "说明": "没有独立stderr原始文件及精确瞬间时间戳。初轮5项诊断之后扩展为18项，未捕获初轮版本脚本SHA；当前脚本SHA只标识修后109项使用的18项版本。早两轮没有打印SOURCE85规范JSON摘要，不能借修后摘要冒称早两轮摘要。85项完整清单未逐项打印，本归档不重算或补写未捕获清单。三轮工具返回的测试输出块已收录。"
+  },
+  "运行证据": [
+    {
+      "编号": "独立首次完整CPU87",
+      "完整实际命令": "env CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B -m pytest -p no:cacheprovider -p no:logging --capture=sys -o addopts= --basetemp='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源独审CPU_42rA5D' tests/test_task11_howard_hf_energy.py",
+      "工作目录": "/home/phl/lyf/Temperature Field Prediction",
+      "执行会话ID": 2479,
+      "实际退出码": 0,
+      "收集项数": 87,
+      "通过项数": 87,
+      "失败项数": 0,
+      "pytest报告耗时秒": 11.74,
+      "已捕获输出块": [
+        "============================= test session starts ==============================\nplatform linux -- Python 3.9.18, pytest-8.3.5, pluggy-1.6.0\nrootdir: /home/phl/lyf/Temperature Field Prediction\nconfigfile: pyproject.toml\ncollected 87 items\n\ntests/test_task11_howard_hf_energy.py .......................",
+        "........... [ 39%]\n.....................................................                    [100%]\n\n============================= 87 passed in 11.74s ==============================\n"
+      ],
+      "候选三源执行前SHA256": {
+        "src/sic_cu/eval/task11_howard_hf_energy.py": "69fea8a5df34c598f52ae25008829061daa7294ab964331f8f703f6b2a0e3152",
+        "scripts/56_audit_task11_howard_hf_energy.py": "eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8",
+        "tests/test_task11_howard_hf_energy.py": "9756a1a75647c7c79f0e2817cabeffc8e538f26b76f904aa4f77b63b24d8557d"
+      },
+      "候选三源执行后SHA256": {
+        "src/sic_cu/eval/task11_howard_hf_energy.py": "69fea8a5df34c598f52ae25008829061daa7294ab964331f8f703f6b2a0e3152",
+        "scripts/56_audit_task11_howard_hf_energy.py": "eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8",
+        "tests/test_task11_howard_hf_energy.py": "9756a1a75647c7c79f0e2817cabeffc8e538f26b76f904aa4f77b63b24d8557d"
+      },
+      "HF父SHA256": "1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860",
+      "SOURCE85前后逐项比较已捕获": null,
+      "SOURCE85规范JSON摘要SHA256": null,
+      "缺失说明": "此轮测试未输出SOURCE85前后整体清单摘要；候选三源和必要父源码的外部sha256sum前后检查已捕获且稳定。"
+    },
+    {
+      "编号": "独立初轮RED2_总5项",
+      "完整实际命令": "env CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B -m pytest -p no:cacheprovider -p no:logging --capture=sys -o addopts= --basetemp='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/生成合成夹具' '研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py' -rA",
+      "工作目录": "/home/phl/lyf/Temperature Field Prediction",
+      "执行会话ID": 8759,
+      "实际退出码": 1,
+      "收集项数": 5,
+      "通过项数": 3,
+      "失败项数": 2,
+      "pytest报告耗时秒": 5.44,
+      "已捕获输出块": [
+        "============================= test session starts ==============================\nplatform linux -- Python 3.9.18, pytest-8.3.5, pluggy-1.6.0\nrootdir: /home/phl/lyf/Temperature Field Prediction\nconfigfile: pyproject.toml\ncollected 5 items\n\n研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py ",
+        "F [ 20%]\nF...                                                                     [100%]\n\n=================================== FAILURES ===================================\n_ test_reversed_original_direction_description_is_rejected[sign_convention-\\u539f\\u59cb\\u80fd\\u91cf] _\n\ntmp_path = PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/生成合成夹具/test_reversed_original_directi0')\nfield = 'sign_convention', section = '原始能量'\n\n    @pytest.mark.parametrize(\"field,section\", [\n        (\"sign_convention\", \"原始能量\"),\n        (\"conductive_flux_sign_convention\", \"原始散度\"),\n    ])\n    def test_reversed_original_direction_description_is_rejected(tmp_path, field, section):\n        audit = helpers._fixture_audit(tmp_path)\n        audit[section][0][field] = \"positive_inward_wrong_original_direction\"\n        with pytest.raises(ValueError):\n>           energy.verify_task11_howard_energy_raw(audit)\nE           Failed: DID NOT RAISE <class 'ValueError'>\n\n研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py:33: Failed\n_ test_reversed_original_direction_description_is_rejected[conductive_flux_sign_convention-\\u539f\\u59cb\\u6563\\u5ea6] _\n\ntmp_path = PosixPath('/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/生成合成夹具/test_reversed_original_directi1')\nfield = 'conductive_flux_sign_convention', section = '原始散度'\n\n    @pytest.mark.parametrize(\"field,section\", [\n        (\"sign_convention\", \"原始能量\"),\n        (\"conductive_flux_sign_convention\", \"原始散度\"),\n    ])\n    def test_reversed_original_direction_description_is_rejected(tmp_path, field, section):\n        audit = helpers._fixture_audit(tmp_path)\n        audit[section][0][field] = \"positive_inward_wrong_original_direction\"\n        with pytest.raises(ValueError):\n>           energy.verify_task11_howard_energy_raw(audit)\nE           Failed: DID NOT RAISE <class 'ValueError'>\n\n研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py:33: Failed\n==================================== PASSES ====================================\n______________ test_all85_ordinary_source_bytes_stayed_unchanged _______________\n----------------------------- Captured stdout call -----------------------------\nSOURCE85_BEFORE_AFTER_EQUAL True\nsrc/sic_cu/eval/task11_howard_hf_energy.py 69fea8a5df34c598f52ae25008829061daa7294ab964331f8f703f6b2a0e3152\nscripts/56_audit_task11_howard_hf_energy.py eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8\ntests/test_task11_howard_hf_energy.py 9756a1a75647c7c79f0e2817cabeffc8e538f26b76f904aa4f77b63b24d8557d\nsrc/sic_cu/train/task11_howard_hf_formal.py 1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860\n=========================== short test summary info ============================\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_real_all56_double_copy_matches_naive_rzt_and_full_order_energy\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_independent_closed_form_all_faces_radiation_storage_and_flux\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_all85_ordinary_source_bytes_stayed_unchanged\nFAILED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_reversed_original_direction_description_is_rejected[sign_convention-\\u539f\\u59cb\\u80fd\\u91cf]\nFAILED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_reversed_original_direction_description_is_rejected[conductive_flux_sign_convention-\\u539f\\u59cb\\u6563\\u5ea6]\n========================= 2 failed, 3 passed in 5.44s ==========================\n"
+      ],
+      "候选三源执行前SHA256": {
+        "src/sic_cu/eval/task11_howard_hf_energy.py": "69fea8a5df34c598f52ae25008829061daa7294ab964331f8f703f6b2a0e3152",
+        "scripts/56_audit_task11_howard_hf_energy.py": "eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8",
+        "tests/test_task11_howard_hf_energy.py": "9756a1a75647c7c79f0e2817cabeffc8e538f26b76f904aa4f77b63b24d8557d"
+      },
+      "候选三源执行后SHA256": {
+        "src/sic_cu/eval/task11_howard_hf_energy.py": "69fea8a5df34c598f52ae25008829061daa7294ab964331f8f703f6b2a0e3152",
+        "scripts/56_audit_task11_howard_hf_energy.py": "eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8",
+        "tests/test_task11_howard_hf_energy.py": "9756a1a75647c7c79f0e2817cabeffc8e538f26b76f904aa4f77b63b24d8557d"
+      },
+      "HF父SHA256": "1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860",
+      "SOURCE85前后逐项比较已捕获": true,
+      "SOURCE85规范JSON摘要SHA256": null,
+      "失败原因": "两项预期反向符号说明被拒绝的断言均DID NOT RAISE ValueError；这是缺陷成功复现，不是伪造能源失败结果。",
+      "诊断版本说明": "当时脚本共5项，当前原路径脚本已扩展为18项；本归档未捕获或补写当时脚本的SHA。"
+    },
+    {
+      "编号": "独立修后完整CPU109",
+      "完整实际命令": "env CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B -m pytest -p no:cacheprovider -p no:logging --capture=sys -o addopts= --basetemp='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读再核_HfWMSQ' tests/test_task11_howard_hf_energy.py '研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py' -rA",
+      "工作目录": "/home/phl/lyf/Temperature Field Prediction",
+      "执行会话ID": 1183,
+      "实际退出码": 0,
+      "收集项数": 109,
+      "通过项数": 109,
+      "失败项数": 0,
+      "候选常驻项数": 91,
+      "独立临时诊断项数": 18,
+      "pytest报告耗时秒": 21.12,
+      "已捕获输出块": [
+        "============================= test session starts ==============================\nplatform linux -- Python 3.9.18, pytest-8.3.5, pluggy-1.6.0\nrootdir: /home/phl/lyf/Temperature Field Prediction\nconfigfile: pyproject.toml\ncollected 109 items\n\ntests/test_task11_howard_hf_energy.py ......................",
+        "............ [ 31%]\n.........................................................                [ 83%]\n研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py . [ 84%]\n.................                                                        [100%]\n\n==================================== PASSES ====================================\n______________ test_all85_ordinary_source_bytes_stayed_unchanged _______________\n----------------------------- Captured stdout call -----------------------------\nSOURCE85_BEFORE_AFTER_EQUAL True\nSOURCE85_BEFORE 1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc\nSOURCE85_AFTER 1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc\nsrc/sic_cu/eval/task11_howard_hf_energy.py c38758a559d0d00f7b63ce4aaa79ec89735272f195e2f58ac17bff7edc0290e2\nscripts/56_audit_task11_howard_hf_energy.py eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8\ntests/test_task11_howard_hf_energy.py 38f3e834693c28609f9d2c568e4994b3e13f71acf3b7d70e680eb3206390331a\nsrc/sic_cu/train/task11_howard_hf_formal.py 1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860\n=========================== short test summary info ============================\nPASSED tests/test_task11_howard_hf_energy.py::test_source_contract_owns_howard_union_and_not_a_mlp_permission\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[0-best]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[0-final]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[1-best]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[1-final]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[2-best]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[2-final]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[3-best]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[3-final]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[4-best]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_uses_actual_howard_run_and_exclusive_state_child[4-final]\nPASSED tests/test_task11_howard_hf_energy.py::test_four_non_best_final_states_do_not_receive_energy_permission[phase1_best]\nPASSED tests/test_task11_howard_hf_energy.py::test_four_non_best_final_states_do_not_receive_energy_permission[phase2_best]\nPASSED tests/test_task11_howard_hf_energy.py::test_four_non_best_final_states_do_not_receive_energy_permission[latest]\nPASSED tests/test_task11_howard_hf_energy.py::test_four_non_best_final_states_do_not_receive_energy_permission[physical]\nPASSED tests/test_task11_howard_hf_energy.py::test_output_rejects_existing_cross_seed_and_symlink\nPASSED tests/test_task11_howard_hf_energy.py::test_own_cpu_preflight_checks_six_sources_without_cuda_or_hf_qualification\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_ordinary_source_tar_is_rejected_before_any_real_source_read[link]\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_ordinary_source_tar_is_rejected_before_any_real_source_read[duplicate]\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_ordinary_source_tar_is_rejected_before_any_real_source_read[extra]\nPASSED tests/test_task11_howard_hf_energy.py::test_every_current_source_and_root_drift_is_rejected[source]\nPASSED tests/test_task11_howard_hf_energy.py::test_every_current_source_and_root_drift_is_rejected[registry]\nPASSED tests/test_task11_howard_hf_energy.py::test_every_current_source_and_root_drift_is_rejected[hf_registry]\nPASSED tests/test_task11_howard_hf_energy.py::test_every_current_source_and_root_drift_is_rejected[root]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[```\\n{}\\n```]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[~~~~\\n{}\\n~~~~]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[<!--\\n{}\\n-->]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[<pre>\\n{}\\n</pre>]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[<script>\\n{}\\n</script>]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[<textarea>\\n{}\\n</textarea>]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[<div>\\n{}\\n</div>\\n\\n]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[    {}]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_hidden_fenced_commented_or_nonplain_tags_are_not_authority[> {}]\nPASSED tests/test_task11_howard_hf_energy.py::test_root_record_collision_and_old_or_wrong_gate_are_rejected\nPASSED tests/test_task11_howard_hf_energy.py::test_registration_schema_is_type_strict_and_not_old_source_permission[bool_counter]\nPASSED tests/test_task11_howard_hf_energy.py::test_registration_schema_is_type_strict_and_not_old_source_permission[int_float]\nPASSED tests/test_task11_howard_hf_energy.py::test_registration_schema_is_type_strict_and_not_old_source_permission[fake_permission]\nPASSED tests/test_task11_howard_hf_energy.py::test_registration_schema_is_type_strict_and_not_old_source_permission[new_order]\nPASSED tests/test_task11_howard_hf_energy.py::test_registration_schema_is_type_strict_and_not_old_source_permission[extra]\nPASSED tests/test_task11_howard_hf_energy.py::test_registration_schema_is_type_strict_and_not_old_source_permission[old_source]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_is_real_howard_high_formula_all56_and_preserves_queries64\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[mlp]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[lf]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[method]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[seed]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[query32]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[query_point]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[meta]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[kwargs]\nPASSED tests/test_task11_howard_hf_energy.py::test_factory_rejects_wrong_source_selfmethod_state_or_query64[state]\nPASSED tests/test_task11_howard_hf_energy.py::test_checkpoint_current_sha_drift_is_rejected_before_deserialization\nPASSED tests/test_task11_howard_hf_energy.py::test_formal_entry_rejects_cpu_fake_before_any_gpu_or_real_pt_read[cpu]\nPASSED tests/test_task11_howard_hf_energy.py::test_formal_entry_rejects_cpu_fake_before_any_gpu_or_real_pt_read[cuda]\nPASSED tests/test_task11_howard_hf_energy.py::test_formal_entry_rejects_cpu_fake_before_any_gpu_or_real_pt_read[cuda:0]\nPASSED tests/test_task11_howard_hf_energy.py::test_formal_entry_rejects_cpu_fake_before_any_gpu_or_real_pt_read[mps]\nPASSED tests/test_task11_howard_hf_energy.py::test_real_full30_double_order_cpu_numerical_fixture_has_all_surfaces_and_not_scientific_pass\nPASSED tests/test_task11_howard_hf_energy.py::test_public_fixture_never_grants_project_root_or_cuda_formal_permission[cuda-False]\nPASSED tests/test_task11_howard_hf_energy.py::test_public_fixture_never_grants_project_root_or_cuda_formal_permission[cpu-True]\nPASSED tests/test_task11_howard_hf_energy.py::test_cli_has_own_gate_arguments_and_no_cpu_or_training_mode\nPASSED tests/test_task11_howard_hf_energy.py::test_full_surface_air_laser_interface_and_material_storage_are_numerically_traceable\nPASSED tests/test_task11_howard_hf_energy.py::test_writer_exports_full_originals_and_separates_cost_without_overwrite\nPASSED tests/test_task11_howard_hf_energy.py::test_writer_rechecks_export_guard_before_sealing_summary\nPASSED tests/test_task11_howard_hf_energy.py::test_all_local_python_imports_are_in_ordinary_source_union\nPASSED tests/test_task11_howard_hf_energy.py::test_full_parts_individual_identities_cannot_hide_behind_unchanged_sums[swap_air]\nPASSED tests/test_task11_howard_hf_energy.py::test_full_parts_individual_identities_cannot_hide_behind_unchanged_sums[swap_interface]\nPASSED tests/test_task11_howard_hf_energy.py::test_full_parts_individual_identities_cannot_hide_behind_unchanged_sums[gradient_mode]\nPASSED tests/test_task11_howard_hf_energy.py::test_full_parts_individual_identities_cannot_hide_behind_unchanged_sums[outer_exact]\nPASSED tests/test_task11_howard_hf_energy.py::test_original_sign_conventions_are_frozen_at_raw_and_writer[raw-\\u539f\\u59cb\\u80fd\\u91cf-sign_convention]\nPASSED tests/test_task11_howard_hf_energy.py::test_original_sign_conventions_are_frozen_at_raw_and_writer[raw-\\u539f\\u59cb\\u6563\\u5ea6-conductive_flux_sign_convention]\nPASSED tests/test_task11_howard_hf_energy.py::test_original_sign_conventions_are_frozen_at_raw_and_writer[writer-\\u539f\\u59cb\\u80fd\\u91cf-sign_convention]\nPASSED tests/test_task11_howard_hf_energy.py::test_original_sign_conventions_are_frozen_at_raw_and_writer[writer-\\u539f\\u59cb\\u6563\\u5ea6-conductive_flux_sign_convention]\nPASSED tests/test_task11_howard_hf_energy.py::test_writer_recomputes_nominal_decision_and_all_typed_diagnostics_before_mkdir[nominal]\nPASSED tests/test_task11_howard_hf_energy.py::test_writer_recomputes_nominal_decision_and_all_typed_diagnostics_before_mkdir[scientific]\nPASSED tests/test_task11_howard_hf_energy.py::test_writer_recomputes_nominal_decision_and_all_typed_diagnostics_before_mkdir[window_counter]\nPASSED tests/test_task11_howard_hf_energy.py::test_writer_recomputes_nominal_decision_and_all_typed_diagnostics_before_mkdir[nonfinite]\nPASSED tests/test_task11_howard_hf_energy.py::test_isolated_current_pt_loader_recovers_only_own_savedmeta_and_query_buffers[best]\nPASSED tests/test_task11_howard_hf_energy.py::test_isolated_current_pt_loader_recovers_only_own_savedmeta_and_query_buffers[final]\nPASSED tests/test_task11_howard_hf_energy.py::test_pt_drift_during_load_is_caught_before_factory\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_or_zero_of_ten_qualification_does_not_reach_deserialization[status]\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_or_zero_of_ten_qualification_does_not_reach_deserialization[zero_completed]\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_or_zero_of_ten_qualification_does_not_reach_deserialization[bool_seed]\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_or_zero_of_ten_qualification_does_not_reach_deserialization[fake_train]\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_or_zero_of_ten_qualification_does_not_reach_deserialization[mlp_method]\nPASSED tests/test_task11_howard_hf_energy.py::test_bad_or_zero_of_ten_qualification_does_not_reach_deserialization[sha]\nPASSED tests/test_task11_howard_hf_energy.py::test_double_copy_rejects_poison_before_mutation_and_real56_support_second_derivative\nPASSED tests/test_task11_howard_hf_energy.py::test_broken_yaml_stream_tar_and_even_internal_source_symlink_are_rejected[duplicate_yaml]\nPASSED tests/test_task11_howard_hf_energy.py::test_broken_yaml_stream_tar_and_even_internal_source_symlink_are_rejected[not_tar]\nPASSED tests/test_task11_howard_hf_energy.py::test_broken_yaml_stream_tar_and_even_internal_source_symlink_are_rejected[source_symlink]\nPASSED tests/test_task11_howard_hf_energy.py::test_cuda_guard_has_no_cpu_fallback_or_world_size_escape[False-1-1]\nPASSED tests/test_task11_howard_hf_energy.py::test_cuda_guard_has_no_cpu_fallback_or_world_size_escape[True-2-1]\nPASSED tests/test_task11_howard_hf_energy.py::test_cuda_guard_has_no_cpu_fallback_or_world_size_escape[True-1-2]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_reversed_original_direction_description_is_rejected[raw-sign_convention-\\u539f\\u59cb\\u80fd\\u91cf]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_reversed_original_direction_description_is_rejected[raw-conductive_flux_sign_convention-\\u539f\\u59cb\\u6563\\u5ea6]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_reversed_original_direction_description_is_rejected[writer-sign_convention-\\u539f\\u59cb\\u80fd\\u91cf]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_reversed_original_direction_description_is_rejected[writer-conductive_flux_sign_convention-\\u539f\\u59cb\\u6563\\u5ea6]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_real_all56_double_copy_matches_naive_rzt_and_full_order_energy\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_independent_closed_form_all_faces_radiation_storage_and_flux\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[~~~~~ info\\n~~~\\n{}\\n~~~~~\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[````` python\\n```\\n{}\\n`````\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[~~~ info\\n~~~~\\n{}\\n-True]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[```` python\\n`````\\n{}\\n-True]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[<div><pre>\\n\\n{}\\n\\n</pre></div>\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[<pre><textarea>\\n\\n{}\\n\\n</textarea></pre>\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[<div><!--\\n\\n{}\\n\\n--></div>\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[<div>\\n<pre>\\n\\n{}\\n\\n</pre>\\n</div>\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[<script>\\n\\n{}\\n\\n</script>\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[<?processing\\n\\n{}\\n\\n?>\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_only_visible_long_fence_html_nested_blank_plain_root_authority[<![CDATA[\\n\\n{}\\n\\n]]>\\n-False]\nPASSED 研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py::test_all85_ordinary_source_bytes_stayed_unchanged\n============================= 109 passed in 21.12s =============================\n"
+      ],
+      "候选三源执行前SHA256": {
+        "src/sic_cu/eval/task11_howard_hf_energy.py": "c38758a559d0d00f7b63ce4aaa79ec89735272f195e2f58ac17bff7edc0290e2",
+        "scripts/56_audit_task11_howard_hf_energy.py": "eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8",
+        "tests/test_task11_howard_hf_energy.py": "38f3e834693c28609f9d2c568e4994b3e13f71acf3b7d70e680eb3206390331a"
+      },
+      "候选三源执行后SHA256": {
+        "src/sic_cu/eval/task11_howard_hf_energy.py": "c38758a559d0d00f7b63ce4aaa79ec89735272f195e2f58ac17bff7edc0290e2",
+        "scripts/56_audit_task11_howard_hf_energy.py": "eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8",
+        "tests/test_task11_howard_hf_energy.py": "38f3e834693c28609f9d2c568e4994b3e13f71acf3b7d70e680eb3206390331a"
+      },
+      "HF父SHA256": "1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860",
+      "SOURCE85前后逐项比较已捕获": true,
+      "SOURCE85规范JSON摘要before_SHA256": "1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc",
+      "SOURCE85规范JSON摘要after_SHA256": "1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc",
+      "摘要算法": "SHA256(json.dumps(85成员相对路径到当前普通源码SHA256的字典, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode('utf-8'))",
+      "摘要不是tarSHA256": true,
+      "摘要不是任何真实模型或温度结果SHA256": true,
+      "独立脚本当前SHA256": "1b391a22290b4dc307d9a0c2a83c27de71e1fd9a63c1bc177041126ba295d2d6"
+    }
+  ],
+  "符号说明P2": {
+    "严重级别": "P2",
+    "复现时位置": "src/sic_cu/eval/task11_howard_hf_energy.py:417-442",
+    "根因": "原sign_convention与conductive_flux_sign_convention仅要求非空字符串，反向说明仍能通过原始数值校验。",
+    "毒化字符串": "positive_inward_wrong_original_direction",
+    "关闭位置": "src/sic_cu/eval/task11_howard_hf_energy.py:432-435",
+    "候选回归位置": "tests/test_task11_howard_hf_energy.py:494",
+    "原固定能量符号": "storage_positive_for_internal_energy_increase;cooling_convection_radiation_positive_outward;absorbed_power_recorded_as_positive_inward_magnitude",
+    "原固定散度符号": "positive_outward_from_each_material",
+    "修复性质": "仅锁两个energy_v5原固定符号文本，不改物理、导数、预算、查询点、真实工件或父HF82。",
+    "修后实际关闭证据": "候选4项及独立4项覆盖两个字段乘raw/writer入口，均在mkdir之前拒绝；属于修后109项实际通过输出。",
+    "修后新的确定P1或P2": "未发现"
+  },
+  "独立18项覆盖": {
+    "原符号毒化入口项数": 4,
+    "实际完整56参数副本项数": 1,
+    "独立逐面闭式项数": 1,
+    "复杂ROOT样例项数": 11,
+    "普通SOURCE85前后SHA比较项数": 1,
+    "逐面闭式说明": "隔离CPU合成温度T=295.15+(1+material)*(2*r*r+3*z*z+0.001*t*t)+0.0001*power；修后109项使用不同Cu/SiC材料参数，非零辐射和全部30点16/64阶共60行，分别核对材料储能、逐面对流/辐射/面积均温、Cu底/外壁、SiC/Cu双侧底界面及侧界面通量、激光吸收及体积PDE残差解析值。",
+    "合成Cu材料": {
+      "密度": 2,
+      "导热系数": 3,
+      "热容": 4,
+      "发射率": 0.2
+    },
+    "合成SiC材料": {
+      "密度": 5,
+      "导热系数": 7,
+      "热容": 11,
+      "发射率": 0.8
+    },
+    "真实56结构合成说明": "使用本人真实Task11HowardComposite类和固定24乘4 PH/QH，从合成savedmeta/state恢复全部56 Float32参数，只读副本升Float64且PH/QH始终Float64。逐R/Z/T一、二阶对每行朴素查询实现并对中心有限差分核对；固定403W、50s单点使用真实16和64阶完整体积/面/界面积分及完整分项，不是tinyfakequad，不等于真实温度或正式30点十态审核。",
+    "有限差分步长_RZT": [
+      0.00002,
+      0.00002,
+      0.01
+    ],
+    "ROOT样例": [
+      {
+        "包装": "~~~~~ info\\n~~~\\n{}\\n~~~~~\\n",
+        "允许": false
+      },
+      {
+        "包装": "````` python\\n```\\n{}\\n`````\\n",
+        "允许": false
+      },
+      {
+        "包装": "~~~ info\\n~~~~\\n{}\\n",
+        "允许": true
+      },
+      {
+        "包装": "```` python\\n`````\\n{}\\n",
+        "允许": true
+      },
+      {
+        "包装": "<div><pre>\\n\\n{}\\n\\n</pre></div>\\n",
+        "允许": false
+      },
+      {
+        "包装": "<pre><textarea>\\n\\n{}\\n\\n</textarea></pre>\\n",
+        "允许": false
+      },
+      {
+        "包装": "<div><!--\\n\\n{}\\n\\n--></div>\\n",
+        "允许": false
+      },
+      {
+        "包装": "<div>\\n<pre>\\n\\n{}\\n\\n</pre>\\n</div>\\n",
+        "允许": false
+      },
+      {
+        "包装": "<script>\\n\\n{}\\n\\n</script>\\n",
+        "允许": false
+      },
+      {
+        "包装": "<?processing\\n\\n{}\\n\\n?>\\n",
+        "允许": false
+      },
+      {
+        "包装": "<![CDATA[\\n\\n{}\\n\\n]]>\\n",
+        "允许": false
+      }
+    ],
+    "ROOT说明": "仅临时假项目构造六SHA及录号样例；不读取或写入真实ROOT，不提供正式能源权限。"
+  },
+  "当前独立诊断脚本": {
+    "绝对路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/HowardHF能源只读复现_d1UANm/test_independent_energy_review.py",
+    "SHA256": "1b391a22290b4dc307d9a0c2a83c27de71e1fd9a63c1bc177041126ba295d2d6",
+    "项数": 18,
+    "属于常驻SOURCE85": false,
+    "属于HF82": false,
+    "归档时未修改": true,
+    "初轮5项版本SHA256": null
+  },
+  "覆盖和权限边界": {
+    "正式真实GPU能源执行": false,
+    "本人真实十态能源审核": false,
+    "真实PT或PARQ或目录清单或温度读取": false,
+    "旧固定TEST温度读取": false,
+    "模拟LF_TEST读取": false,
+    "作者精确训练复现": false,
+    "新增测温数据": false,
+    "内部真值证明": false,
+    "科学资格": false,
+    "工程安全资格": false,
+    "总目标完成声明": false,
+    "说明": "本归档仅保存代码复核证据。常驻91项中的非零辐射、不同材料及完整数值导数覆盖由本次临时独审补核提供；该临时脚本不纳入冻结SOURCE85。正式入口仍需本人完整HF资格及独立六SHA ROOT门禁，不能借CPU退出0或本归档替代。"
+  },
+  "归档前只读现场检查": {
+    "能源候选三源SHA256": {
+      "src/sic_cu/eval/task11_howard_hf_energy.py": "c38758a559d0d00f7b63ce4aaa79ec89735272f195e2f58ac17bff7edc0290e2",
+      "scripts/56_audit_task11_howard_hf_energy.py": "eb4ef12f9c60b917d191c387d5916abd4b022aaa229321723a80b4efe36a22e8",
+      "tests/test_task11_howard_hf_energy.py": "38f3e834693c28609f9d2c568e4994b3e13f71acf3b7d70e680eb3206390331a"
+    },
+    "HF父SHA256": "1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860",
+    "独立诊断脚本SHA256": "1b391a22290b4dc307d9a0c2a83c27de71e1fd9a63c1bc177041126ba295d2d6",
+    "与修后109项证据一致": true
+  }
+}

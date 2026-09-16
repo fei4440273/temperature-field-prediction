@@ -1,0 +1,16 @@
+{
+  "结构版本": 1,
+  "证据性质": "真实交付exec_command终态逐项原样补存，不预填外层退出码",
+  "完整实际命令": "env PYTHONDONTWRITEBYTECODE='1' OMP_NUM_THREADS='1' MKL_NUM_THREADS='1' CUDA_VISIBLE_DEVICES='' PYTEST_DISABLE_PLUGIN_AUTOLOAD='1' PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/交付现场再核.py'",
+  "exec_command实际原返回": {
+    "chunk_id": "6d078f",
+    "wall_time_seconds": 3.355420024,
+    "exit_code": 0,
+    "original_token_count": 299,
+    "output": "{\"交付内部实际退出码\": 0, \"实际再核子命令退出码\": 0, \"SOURCE85\": 85, \"SOURCE82\": 82, \"SOURCE85摘要\": \"1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc\", \"前后源码漂移数\": 0, \"父HF活动\": true, \"能源本人活动\": false, \"独审中文报告\": {\"相对路径\": \"研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/中文冻包独审报告.md\", \"字节\": 11837, \"SHA256\": \"c538ccb6cf50d54739d756876b92071d1294ca7edde65c8bc1926dc9deab9b54\", \"普通文件\": true, \"权限\": \"0o664\"}, \"外层真实补存\": {\"相对路径\": \"研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/外层命令真实终态与自身错误补存.json\", \"字节\": 10491, \"SHA256\": \"cebab6560d7c36dbde1f4c355f0132ea0a2cca6dbdd72b95846e97befdec9ba8\", \"普通文件\": true, \"权限\": \"0o664\"}, \"交付机器证据\": {\"相对路径\": \"研究记录/任务11_外部对照/HowardHF能源冻包独审_20260916T201238+0800/交付现场再核机器证据.json\", \"字节\": 154643, \"SHA256\": \"d90cd8710d520e6360866936349a10f3fdfa0d69f0295e5e2183aa4a289bb56b\", \"普通文件\": true, \"权限\": \"0o664\"}, \"实际错误原样\": []}\n"
+  },
+  "完整输出边界": "外层output是工具合并输出；真正子进程stdout/stderr分开完整保存于交付现场再核机器证据.json的真实再核子命令",
+  "实际核验窗口": "本人HF四SHA true，能源本人六SHA false；本代理未写ROOT。根后续合法活动登记不使此历史测量失真",
+  "当前冻结85及82源_父4_新7修改": false,
+  "本次真实PT_温度_PARQ_TEST_GPU_十能源_工程安全_B0_总目标完成": false
+}

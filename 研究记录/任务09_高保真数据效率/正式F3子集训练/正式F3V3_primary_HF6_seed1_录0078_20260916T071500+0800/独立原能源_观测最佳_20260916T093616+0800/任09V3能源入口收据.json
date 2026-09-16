@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "任务": "任09V3正式能源包装入口收据",
+  "运行身份": {
+    "序列": "primary",
+    "HF功率数": 6,
+    "seed": 1
+  },
+  "审核状态": "best",
+  "V3下游资格": {
+    "V3下游用途": "energy",
+    "V3来源谱系与会话链合格": true,
+    "运行身份": {
+      "序列": "primary",
+      "HF功率数": 6,
+      "seed": 1
+    },
+    "会话链": {
+      "会话收据数": 8,
+      "链头完整全局轮次": 1450,
+      "链头收据SHA256": "9cfd50e417275c15b855c1d1be1b74021b60334840eee081a3de979df47686e6",
+      "链头收据路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF6_seed1_录0078_20260916T071500+0800/任09V3会话收据_0008.json",
+      "链头终态SHA256": {
+        "阶段_校正末.pt": "358fda6c1a2a79678f8f44e747e3e2350dc35d705dbdd238490cdd301e913f9d",
+        "阶段_联合末.pt": "a8d3318a415c8fffa5fbd365c8ca9542ef9461dd568a04cca5c062f23afda88b",
+        "阶段_训练末.pt": "a8d3318a415c8fffa5fbd365c8ca9542ef9461dd568a04cca5c062f23afda88b"
+      }
+    },
+    "真实联合终态": {
+      "真实联合终态": true,
+      "校正实际轮次": 1120,
+      "联合实际轮次": 330,
+      "三末态SHA256": {
+        "阶段_校正末.pt": "358fda6c1a2a79678f8f44e747e3e2350dc35d705dbdd238490cdd301e913f9d",
+        "阶段_联合末.pt": "a8d3318a415c8fffa5fbd365c8ca9542ef9461dd568a04cca5c062f23afda88b",
+        "阶段_训练末.pt": "a8d3318a415c8fffa5fbd365c8ca9542ef9461dd568a04cca5c062f23afda88b"
+      }
+    },
+    "完整状态": {
+      "已提交日志行数": 1450,
+      "未提交尾行数": 0,
+      "完整已提交轮次": 1450,
+      "达到正式最低200轮": true,
+      "可称五seed曲线": false,
+      "可称能源完成": false,
+      "可称精度改善": false,
+      "校正已提交轮次": 1120,
+      "联合已提交轮次": 330
+    },
+    "旧v1或pilot产物可进入下游": false
+  },
+  "V3事前登记SHA256": "87816d50efe82fc7a5c218707b1323a1b0d4a8cfd9eceb7c7771bb63c9edfb28",
+  "V3源码归档SHA256": "695e8b6c9ae9847ed2576609777dee5750c2f84c69f10667a69cd2a27a43765d",
+  "原录0059登记SHA256": "987ba4bfd9a5b964bff88fa3314413738fa5417b5445e71cf650acbaee7d85e9",
+  "冻结能源输出逐文件SHA256": {
+    "原始散度.jsonl": "21a1257feb73337b4ffb54376cb7babe75a62edf77787c975f0bdf5c395fd33f",
+    "原始能量.jsonl": "4670353e399cc1fa3469b3de7d7b92c7d285d04a9d244c3d3b4c4ce19028cea7",
+    "审计工件SHA256.json": "3210bc13bd23df88c099528f8fa970776637858a8f05a15551b5f89b7ad77a42",
+    "指标明细.csv": "b145d7f02ea0a527540941b496be3c487f41e487b18f81d250cc136844eecc74",
+    "汇总指标.json": "5b269200be973c4324cbc6f663baa20d8687c177a1d2b2a5dd39fc95452207a1",
+    "物理分解.csv": "5c762490e89403c654e55fbdd06e2ae9fcb4442f695dd1369ceb37d35e3a9fe1"
+  },
+  "旧固定TEST温度读取": false
+}

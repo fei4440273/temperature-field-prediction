@@ -1,0 +1,212 @@
+{
+  "状态": "F2正式两阶段已真实截止；仍须五seed合法HF及六模型独立能源审核",
+  "运行资格": "F2正式五种子候选；能源与合法观测审核前不得采用",
+  "运行种子": 3,
+  "运行臂": "F2",
+  "正式预登记配置SHA256": "36e143a32c046369a7abf2ae5d42198b7787b06058dd070d3e76347bc6829ab9",
+  "本seed源LF检查点SHA256": "f5378dead4dc770dae3a3ebef781314e3d38445c6cbac54f097e06755e5ff68d",
+  "本seed真实LF初始张量SHA256": "885002fc42c8a8b8321c519999faf1f3152b66e9d571508b2190e442e1ff7c2a",
+  "本seed历史HF架构视图SHA256": "41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b",
+  "校正实际轮次": 580,
+  "联合实际轮次": 220,
+  "原校正预算上限": 1500,
+  "原受限联合预算上限": 500,
+  "初始HF合法选分_摄氏度": 30.17297228591146,
+  "观测最佳HF合法选分_摄氏度": 2.0572815310259025,
+  "观测最佳全局轮次": 380,
+  "物理最佳独立全项损失": 0.02140306495130062,
+  "物理最佳全局轮次": 0,
+  "LF合法验证初态Cu_SiC节点及体积RMSE_摄氏度": {
+    "Cu": {
+      "node": 3.341367623754583,
+      "volume": 3.1863958606352556
+    },
+    "SiC": {
+      "node": 7.54618124647754,
+      "volume": 5.596189321978203
+    }
+  },
+  "LF逐材料节点和真实体积5%护栏": {
+    "逐材料逐口径恶化率_百分比": {
+      "Cu": {
+        "node": -42.482767932917106,
+        "volume": -51.69334646237867
+      },
+      "SiC": {
+        "node": -80.84443142399945,
+        "volume": -76.50373865932089
+      }
+    },
+    "LF两材料节点与真实体积均守住5%护栏": true,
+    "资格": "只作为两臂完成相同200轮后由HF及物理共同决策的LF保持护栏"
+  },
+  "HF验证顶部热端冷端RMSE_摄氏度": {
+    "top": 3.8370887588943923,
+    "hot": 1.2327412561331308,
+    "cold": 0.6943832674986578
+  },
+  "训练PDE": null,
+  "训练PDE意义": "未计算；不代表误差为零",
+  "独立物理分项": "含PDE的完整物理筛查；不反传",
+  "能源资格": "尚未独立审核；不作训练梯度或工程物理通过宣称",
+  "旧test_Data温度标签读取": false,
+  "真实最后状态": "阶段_训练末.pt",
+  "累计实际消耗": {
+    "HF训练观测点": 23674400,
+    "HF训练传感器点": 35820000,
+    "LF真实回放训练点": 27033600,
+    "物理配点": 204800,
+    "HF观测优化步": 12000,
+    "物理优化步": 800,
+    "LF联合回放batch": 13200
+  },
+  "最近一轮真实入场证据": {
+    "epoch": 800,
+    "全局实际轮次": 800,
+    "运行种子": 3,
+    "运行臂": "F2",
+    "训练阶段": "task08_f2_restricted_joint",
+    "阶段实际轮次": 220,
+    "HF合法验证选分_摄氏度": 2.2685397257123197,
+    "HF合法验证分模态_摄氏度": {
+      "top": 3.8370887588943923,
+      "hot": 1.2327412561331308,
+      "cold": 0.6943832674986578
+    },
+    "LF合法验证逐材料节点与体积RMSE_摄氏度": {
+      "Cu": {
+        "node": 1.9218621703692969,
+        "volume": 1.5392412087341805
+      },
+      "SiC": {
+        "node": 1.445513923538297,
+        "volume": 1.3148952682111765
+      }
+    },
+    "LF逐材料节点和真实体积5%护栏": {
+      "逐材料逐口径恶化率_百分比": {
+        "Cu": {
+          "node": -42.482767932917106,
+          "volume": -51.69334646237867
+        },
+        "SiC": {
+          "node": -80.84443142399945,
+          "volume": -76.50373865932089
+        }
+      },
+      "LF两材料节点与真实体积均守住5%护栏": true,
+      "资格": "只作为两臂完成相同200轮后由HF及物理共同决策的LF保持护栏"
+    },
+    "LF当前真实张量SHA256": "703e80906f75d0d14f3accf3ae0c7e422df4a22a0fa43d0651dfeb6aacde1283",
+    "本轮包含验证墙钟秒": 1.071370833000401,
+    "累计实际消耗": {
+      "HF训练观测点": 23674400,
+      "HF训练传感器点": 35820000,
+      "LF真实回放训练点": 27033600,
+      "物理配点": 204800,
+      "HF观测优化步": 12000,
+      "物理优化步": 800,
+      "LF联合回放batch": 13200
+    },
+    "HF训练观测点": 29593,
+    "HF训练传感器点": 44775,
+    "LF真实回放训练点": 122880,
+    "LF联合回放batch": 60,
+    "LF_Cu真实回放点": 61500,
+    "LF_SiC真实回放点": 61380,
+    "HF观测优化步": 15,
+    "物理优化步": 1,
+    "物理配点": 256,
+    "HF顶部训练损失": 0.00012321906785170238,
+    "HF环温训练损失": 2.3500948615643816e-05,
+    "LF仅低保真训练损失": 4.760017133473108e-05,
+    "名义物理训练分项": {
+      "pde": null,
+      "initial": 0.0,
+      "boundary": 0.00015180309128481895,
+      "interface": 0.0001238653203472495,
+      "physics_total": 0.0002756683970801532
+    },
+    "训练体内PDE说明": "未计算；不代表误差为零",
+    "独立局部物理损失": {
+      "pde": 2.8392369747161865,
+      "initial": 0.0,
+      "boundary": 0.00016036022861953825,
+      "interface": 0.0001225364685524255,
+      "physics_total": 2.83951997756958
+    },
+    "能量四点原始值": [
+      {
+        "power_w": 55.0,
+        "time_s": 10.0,
+        "quadrature_order": 16,
+        "absorbed_power_w": 42.0667749205701,
+        "storage_rate_w": 76.78165454443044,
+        "cooling_heat_w": 483.7428095556595,
+        "convection_heat_w": 1.6550404294168697,
+        "radiation_heat_w": 0.6299467309957395,
+        "balance_w": 520.7426763399325,
+        "relative_balance_denominator_w": 486.02779671607215,
+        "relative_balance": 1.0714257082792737,
+        "boundary_gradient_mode": "inner_autodiff_at_R_minus_epsilon",
+        "outer_epsilon_m": 1e-06,
+        "sign_convention": "storage_positive_for_internal_energy_increase;cooling_convection_radiation_positive_outward;absorbed_power_recorded_as_positive_inward_magnitude",
+        "balance_definition": "storage+cooling+convection+radiation-absorbed"
+      },
+      {
+        "power_w": 55.0,
+        "time_s": 100.0,
+        "quadrature_order": 16,
+        "absorbed_power_w": 42.0667749205701,
+        "storage_rate_w": -13.761140458548734,
+        "cooling_heat_w": 464.0624916803858,
+        "convection_heat_w": 1.734902974399144,
+        "radiation_heat_w": 0.6511056304378671,
+        "balance_w": 410.620584906104,
+        "relative_balance_denominator_w": 466.4485002852228,
+        "relative_balance": 0.8803127990657462,
+        "boundary_gradient_mode": "inner_autodiff_at_R_minus_epsilon",
+        "outer_epsilon_m": 1e-06,
+        "sign_convention": "storage_positive_for_internal_energy_increase;cooling_convection_radiation_positive_outward;absorbed_power_recorded_as_positive_inward_magnitude",
+        "balance_definition": "storage+cooling+convection+radiation-absorbed"
+      },
+      {
+        "power_w": 630.5,
+        "time_s": 10.0,
+        "quadrature_order": 16,
+        "absorbed_power_w": 482.2382106803535,
+        "storage_rate_w": 803.8788882003931,
+        "cooling_heat_w": 2566.7649106142626,
+        "convection_heat_w": 8.41138393277549,
+        "radiation_heat_w": 5.674913326176555,
+        "balance_w": 2902.4918853932545,
+        "relative_balance_denominator_w": 2580.8512078732147,
+        "relative_balance": 1.1246258120339654,
+        "boundary_gradient_mode": "inner_autodiff_at_R_minus_epsilon",
+        "outer_epsilon_m": 1e-06,
+        "sign_convention": "storage_positive_for_internal_energy_increase;cooling_convection_radiation_positive_outward;absorbed_power_recorded_as_positive_inward_magnitude",
+        "balance_definition": "storage+cooling+convection+radiation-absorbed"
+      },
+      {
+        "power_w": 630.5,
+        "time_s": 100.0,
+        "quadrature_order": 16,
+        "absorbed_power_w": 482.2382106803535,
+        "storage_rate_w": 8.028342299993286,
+        "cooling_heat_w": 5306.981946351452,
+        "convection_heat_w": 12.126161977866024,
+        "radiation_heat_w": 11.475239671367694,
+        "balance_w": 4856.373479620326,
+        "relative_balance_denominator_w": 5330.583348000686,
+        "relative_balance": 0.911039779809799,
+        "boundary_gradient_mode": "inner_autodiff_at_R_minus_epsilon",
+        "outer_epsilon_m": 1e-06,
+        "sign_convention": "storage_positive_for_internal_energy_increase;cooling_convection_radiation_positive_outward;absorbed_power_recorded_as_positive_inward_magnitude",
+        "balance_definition": "storage+cooling+convection+radiation-absorbed"
+      }
+    ],
+    "能量四点绝对平衡均值_瓦": 2172.5571565649043,
+    "能量四点绝对平衡95分位_瓦": 4563.2912404862645
+  },
+  "本会话耗时秒": 146.52132534599514
+}

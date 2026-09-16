@@ -1,0 +1,92 @@
+schema_version: 1
+登记时间: '2026-09-16T04:43:37+08:00'
+最终十源码哈希复核时间: '2026-09-16T04:59:03+08:00'
+阶段: '任10一维板F1及同LF来源配对F2/F3正式重训前登记'
+版本说明: '修复未进正式总台账且GPU零训练的九源v1直接API可伪称完整HF为probe/LF、单模型锁不足全25组门禁；旧预算/归档原样保留历史审计，不能用于正式运行'
+上一未登记方法版预算: '研究记录/任务10_独立双层场基准/正式同板F1_F2_F3重训方法预算前登记.yaml'
+上一未登记方法版预算_SHA256: '4030fc7f602107aadee3fa9fab306fa15d4d35bbb1add63a7f9681d4b9a4294a'
+上一未登记方法版九源tar: '研究记录/任务10_独立双层场基准/正式同板方法九源源码冻结_20260916T041718+0800.tar.gz'
+上一未登记方法版九源tar_SHA256: 'd740e715d0a99beefbba3c8c8a7aa00c5d270be9eacd45c35f48e50ba490c7fd'
+目标: '仅人为已吸收均匀面热流一维SiC/Cu双层板；不是旧圆柱网络跨几何泛化'
+训练随机种子: [0, 1, 2, 3, 4]
+一维数值登记: '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml'
+一维数值登记_SHA256: '0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13'
+已封数值六源tar: '研究记录/任务10_独立双层场基准/正式人为九热流源码冻结_20260916T032032+0800.tar.gz'
+已封数值六源tar_SHA256: '368f0f8458c994101bd1d20c241f61f8e64d8bedb0e74b3f733d7369e7a01c2f'
+已封来源入口两源tar: '研究记录/任务10_独立双层场基准/同板方法来源入口源码冻结_20260916T033802+0800.tar.gz'
+已封来源入口两源tar_SHA256: '7a8165f8f988e8df717566a3a77e51064384ec0d276015c56853bb2c964c80a6'
+正式九档受限源: '研究记录/任务10_独立双层场基准/九热流受限数值源_台账确认后_20260916T032402+0800'
+受限源清单_SHA256: 'b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb'
+受限源逐热流控制CSV_SHA256: 'e6f538199e815014f428f1e53b92284d39c70968ef15d79e882e0e4aff99e29d'
+方法十一源tar成员:
+  - '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml'
+  - '研究记录/任务10_独立双层场基准/正式同板F1_F2_F3重训方法预算前登记_v2.yaml'
+  - 'configs/materials.yaml'
+  - 'src/sic_cu/eval/task10_plate_training_source.py'
+  - 'src/sic_cu/models/task10_plate_deeponet.py'
+  - 'src/sic_cu/losses/task10_plate_physics.py'
+  - 'src/sic_cu/train/task10_plate_methods.py'
+  - 'scripts/任务10_同板F1_F2_F3重训.py'
+  - 'tests/test_task10_plate_methods.py'
+  - 'src/sic_cu/eval/task10_plate_group_gate.py'
+  - 'tests/test_task10_plate_group_gate.py'
+方法生效源码_SHA256:
+  '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml': '0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13'
+  'configs/materials.yaml': '2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e'
+  'src/sic_cu/eval/task10_plate_training_source.py': '3b75b92bc73cc7c207bdc901086bfbdb7bdc4d322db9a7d4aa78e317fc6adf8d'
+  'src/sic_cu/models/task10_plate_deeponet.py': '3c3e7d6af5b12fd479f96276c815d6128cc91d7a57cc9e9f41551a078914e724'
+  'src/sic_cu/losses/task10_plate_physics.py': 'f520a7db3f06a264802c793c59d8f628bd4db93c848c4695948ad3cab56e0b7f'
+  'src/sic_cu/train/task10_plate_methods.py': 'a6e5d1b9a47d33ede20b22a596eeb91408662f567b9b8d36f02cfc5498b8bf06'
+  'scripts/任务10_同板F1_F2_F3重训.py': 'b7ed35d95e53d2211cb15c07ef1f1eefa271deefe7f68fde188b2f27e0293cd3'
+  'tests/test_task10_plate_methods.py': '9849deca9b11954fffd58e3538b5900d75d8012e961b8fc62c5704b3a9bae42b'
+  'src/sic_cu/eval/task10_plate_group_gate.py': '313d9a7822a43cb44ff58fdc95be45573c1de86694b43be145f0d20ac7285b0d'
+  'tests/test_task10_plate_group_gate.py': '2d4f66a55575e5c410b4d6dc93aed6bed3ab7b75435f2136156f21a2db55efd8'
+公共物理前提:
+  已知公开材料: 'configs/materials.yaml常物性SiC/Cu密度/比热/导热率向三方法等价公开'
+  一维几何和坐标: 'z从顶面0至12mm SiC/Cu界面、至17.5mm底面；仅四列[z,t,q,material]，无旧圆柱r'
+  初底温_K: 295.15
+  顶部已吸收热流: '-k_SiC*dT/dz=q，合成q单位W/m²，非原束激光整束功率'
+  HF已知Rc_m2_K_W: 0.0001
+  界面: '-k_SiC*dT_SiC/dz=-k_Cu*dT_Cu/dz；T_SiC-T_Cu=Rc*(-k_SiC*dT_SiC/dz)'
+  F1或F3内部: '两材料各rho*c*dT/dt-k*d²T/dz²=0，每材料八内部配点'
+  F2内部: '绝不调用体内二阶PDE计算；同初温、顶底边界、界面通量/温跳仍保留'
+同LF成对PDE对照: true
+F2体内PDE计算: false
+F1或F3体内PDE计算: true
+允许LF来源: ['lf_same_physics_coarse', 'lf_contact_mismatch_coarse']
+LF对照边界: '两LF物理来源各独立F2/F3配对同seed及共享LF完整粗场/300步预训起点全张量SHA；Rc0.7失配与同物理LF不可跨源称单PDE贡献'
+F1资源边界: 'F1仅HF探针，不加载LF；F1与F2/F3额外LF成本/校正架构不同，不声称三方法资源完全一致'
+训练来源仅五折探针且验证仅两折探针: true
+合法观测:
+  训练折人为热流_W_m2: [20000,35000,50000,65000,80000]
+  验证折人为热流_W_m2: [30000,70000]
+  训练及验证每折HF: '顶部与深13/16mm三位置×登记14时刻42行，一维四列坐标逐行canonical；直接HF step伪装密内部/其他热流REJECT'
+  LF每折: '同物理或Rc0.7失配独立LF24/11网格中心×101个2秒时刻=3535真实低保真原件；直接LF step不准越过训练q、粗网格材料和≤512点，仍由SHA受限loader认证原件温度'
+  数值隐藏折: '42/58千W/m²仅归档HF完整场的结构/清单SHA，训练/验证/短先导绝不解码温度'
+共同训练预算:
+  网络: {width: 32, latent_dim: 32, blocks: 1}
+  HF每臂最大真实优化步: 800
+  共享LF每同seed每来源最大真实优化步: 300
+  合法验证间隔_步: 20
+  LF单步采样上限_点: 512
+  每材料体内配点数: 8
+  AdamW学习率: 0.001
+  AdamW权重衰减: 0.000001
+  已吸收顶部热流单位: 'W/m²'
+  预登记模型身份总数: 25
+  正式优化步合计上限: 23000
+  合同计算: '5F1seed×800 + 2LF来源×5seed×(共享LF300+F2HF800+F3HF800)=23000步；F1五模型、每LF来源各五对F2/F3合计25身份'
+短先导不可修订正式预算: true
+机器优化器与四类随机态归档: true
+完整HF后验仅全部25模型冻结后: true
+单模型SHA锁不足以提前开启完整HF后验: true
+能源及内部场审核延后至全部25模型及合法验证锁定: true
+正式全组先决:
+  单模型: '每身份恰800个HF真实CSV行；配对另恰300个共享LF CSV行；checkpoint/最佳HF模型机器态/终态HF模型/最佳与终态逐可更新参数AdamW及Python、NumPy、torch CPU、正式CUDA全卡四类RNG原件逐SHA/严格可重载且有限；两合法三探针验证分数与首个最低20步/单模型锁逐SHA；F2/F3另存共享LF300步AdamW及采样Generator初终态'
+  全组: '5F1+两个LF来源各5seed×F2/F3精确25身份；同LF同seed预训CSV、LF机器AdamW/RNG原件SHA及两张初始网络全张量SHA一致；缺模型、分数、来源SHA先于任何完整HF阅读拒绝'
+  单锁直通漏洞限界: '旧已封Task10HiddenEvaluator仍可被另写Python凭单锁直接调用；新合同仅正式后验入口先核全25，不是旧API/OS权限隔离或恶意代码的安全沙箱'
+  首读继续拒绝: '十一源v2只提供全组前置资格校验；独立后验指标源码及只读唯一CLI未另事前YAML/tar/总台账SHA冻结前，新门禁对训练/验证/隐藏任何热流完整HF都恒定拒绝'
+  后验指标待独立冻结: '同1D几何真实单元宽度/材料体积的未观测RMSE与时窗；同功率界面热流/温跳及顶底热流+储热能量；固定7时刻/7深度最细相邻误差界线；后验不用于重训，旧RZ/旧TEST排除'
+  数值资格: '每九档固定7时刻×7深度细两级差严格<0.1摄氏度、逐热流能量门禁及冻结CSV；不代表每格内部精度<0.1'
+  非OS隔离: '源码AST与canonical路径/SHA/受限API均不能限制另写恶意Python进程的读取权限'
+  机读证据真实性界限: '机读可严格重载且与优化CSV/最佳模型/每参数步数一致，但离线自造bytes+CSV+锁仍可伪装；只结合项目内唯一正式训练CLI源码版控/ROOT运行现场/独立二级指标前审，不冒称哈希能够独立证明不可伪造的800次AdamW更新'

@@ -1,0 +1,16 @@
+{
+  "范围": "本轮独审开始、资格守卫进程之前的一次自身工具选路偏差",
+  "实际命令": "rg --files -g AGENTS.md -g '*independent_failure_audit.py' -g 'task11_howard_hf_formal.py' -g 'task11_mlp_lf_formal.py' -g 'task11_howard_lf_formal.py' -g '*成功013*'",
+  "实际workdir": "/home/phl/lyf/Temperature Field Prediction",
+  "工具请求max_output_tokens": 6000,
+  "实际工具chunk_id": "6a0346",
+  "实际exit_code": 0,
+  "实际工具original_token_count": 163661,
+  "实际工具输出行数提示": "Total output lines: 3497",
+  "实际工具截断提示原文": "Warning: truncated output (original token count: 163661)",
+  "已知实际输出起始摘录": "src/sic_cu/train/task11_howard_hf_formal.py\nsrc/sic_cu/train/task11_mlp_lf_formal.py\nsrc/sic_cu/train/task11_howard_lf_formal.py",
+  "证据完整性限制": "该工具输出已被工具端截断；未另行保存未截断全stdout，不补造缺失输出，也不重新全项目枚举。",
+  "行为事实": "命令仅列路径，没有打开HF4内容/PT/log/receipt，也无原件写入。但全项目目录枚举未按HF013窄范围限制，不能声称全任务零HF4目录枚举。",
+  "处理": "已向根及时披露；根确认如实保留偏差后继续三成功原CPU资格。此后仅读显式文件与新档案目录，资格进程先装HF4 open/scan/stat拒绝守卫。",
+  "禁止结论": "不能把此偏差改写成全程零枚举、完整未截断终态或成功访问HF4内容。"
+}

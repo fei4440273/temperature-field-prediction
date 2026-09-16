@@ -1,0 +1,46 @@
+schema_version: 1
+登记时间: '2026-09-16T05:23:52+08:00'
+阶段: '任10同板全25锁后独立纯数值后验事前指标冻结'
+方法预算_SHA256: 'cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94'
+方法十一源tar_SHA256: '22e6df62cf1aaddf55a8a33e8d8a71e558d89110db96466dc904d1b10c03069d'
+数值前登记_SHA256: '0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13'
+九档受限源清单_SHA256: 'b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb'
+全部25机读身份必需: true
+完整HF不用于训练验证调参选早停: true
+后验固定合同:
+  25种子来源身份数: 25
+  固定七能源时刻_s: [1, 2, 5, 10, 50, 100, 200]
+  探针附近排除半径_m: 0.0005
+  一维板真实材料单元厚度权重: true
+  储热前差分参考时步: true
+  全九档功率_W_m2: [20000, 30000, 35000, 42000, 50000, 58000, 65000, 70000, 80000]
+  隐藏两档始终后验: true
+后验十源tar成员:
+  - '研究记录/任务10_独立双层场基准/正式同板全组后验指标及源码前登记.yaml'
+  - '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml'
+  - '研究记录/任务10_独立双层场基准/正式同板F1_F2_F3重训方法预算前登记_v2.yaml'
+  - 'configs/materials.yaml'
+  - 'src/sic_cu/eval/task10_plate_benchmark.py'
+  - 'src/sic_cu/eval/task10_plate_group_gate.py'
+  - 'src/sic_cu/eval/task10_plate_posthoc.py'
+  - 'src/sic_cu/models/task10_plate_deeponet.py'
+  - 'scripts/任务10_全组锁后独立一维HF后验审计.py'
+  - 'tests/test_task10_plate_posthoc.py'
+后验生效源码_SHA256:
+  '研究记录/任务10_独立双层场基准/正式人为多热流入场前登记.yaml': '0d85a34f12e83c37d287943728136dfd1d56d37cf089bd374568cd397ea14c13'
+  '研究记录/任务10_独立双层场基准/正式同板F1_F2_F3重训方法预算前登记_v2.yaml': 'cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94'
+  'configs/materials.yaml': '2cdd24b9fa61a0b9e4175203d29227cf91107834df27bf518da66c9a0285ca1e'
+  'src/sic_cu/eval/task10_plate_benchmark.py': 'ea8a81dbee27b190deb835fab864a9b8f21037588551782624787970af2de83f'
+  'src/sic_cu/eval/task10_plate_group_gate.py': '313d9a7822a43cb44ff58fdc95be45573c1de86694b43be145f0d20ac7285b0d'
+  'src/sic_cu/eval/task10_plate_posthoc.py': '78eecce5937639eb42707c0e22aa4975fbbe1582a39894ee20619854970fb3cb'
+  'src/sic_cu/models/task10_plate_deeponet.py': '3c3e7d6af5b12fd479f96276c815d6128cc91d7a57cc9e9f41551a078914e724'
+  'scripts/任务10_全组锁后独立一维HF后验审计.py': '7bb3fee283748b415d5e608ca80430442aa2aff9944c243283286a7f86b9d91c'
+  'tests/test_task10_plate_posthoc.py': 'c0453bf05ab1c3250e20154b37ca21eb32970fbd8b1d1489e7e3099437577b4e'
+报告和解释限界:
+  真实板几何: '只有已登记人工一维SiC/Cu双层板、均匀已吸收等效顶部热流；不是原圆柱装置实验内场'
+  全部场精度: '九档×25模型的SiC/Cu/合计按真实厚度加权RMSE；顶部/13/16mm三探针周围0.5mm排除后内部RMSE'
+  时窗: '排除合法观测14时刻和探针附近单元，分别按[0,30]、(30,100]、(100,200]统计'
+  能源: '固定七时刻模型顶面/界面/底部自动微分通量、Rc温跳、真实网格相邻时刻储热；(储热+底流-已知入流)乘已登记面积为W，仅名义工程余额'
+  参考误差: '逐热流仅前登记七深度七时刻两细级最大差小于0.1K；不能用此宣称全网格逐格数值误差小于0.1K；与模型RMSE比较需限制解释'
+  唯一正式入口: 'scripts/任务10_全组锁后独立一维HF后验审计.py须核25身份整组SHA、方法预算/十一源/数值清单、二级YAML/十源tar及总账双SHA后才首读'
+  非OS隔离: '源字节、签名及完整25机件自检只约束正式入口；不宣称能限制另写恶意Python或证实伪造CSV/PT必定来自800真实步'

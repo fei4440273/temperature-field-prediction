@@ -1,0 +1,65 @@
+{
+  "分割": "仅simulation.validation_powers_w；冻结共同tau后独立拟合每条LF验证幅值作表示诊断，不回传tau梯度",
+  "10个LF验证parquet源与SHA256": [
+    {
+      "功率_W": 90.0,
+      "相对路径": "data/processed/simulation/90W.parquet",
+      "SHA256": "6fa7092b4b568d52f9b834300fd0d397b2ce4d8a87a0e2093aff703f2593af46",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 170.0,
+      "相对路径": "data/processed/simulation/170W.parquet",
+      "SHA256": "e08ef1021bc37eee3a3f5381cdb22844b6bf916f9ca75282af02a950ea496453",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 250.0,
+      "相对路径": "data/processed/simulation/250W.parquet",
+      "SHA256": "2c22ad64b4bac7a54d86df07afda8855c1bc8bfd45050c0b27927bf040b6f404",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 330.0,
+      "相对路径": "data/processed/simulation/330W.parquet",
+      "SHA256": "a4c0a0fb194f6855d93cdd627cd4f57f7718796099c572ab43773201c6a947d3",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 410.0,
+      "相对路径": "data/processed/simulation/410W.parquet",
+      "SHA256": "a1f8b1ff08ca50d87d450d3600d3519d4756db8790c818fceb46dec42f5cc31a",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 490.0,
+      "相对路径": "data/processed/simulation/490W.parquet",
+      "SHA256": "5635bcf3a157c87ff213d03e818b287ef35cfc8815d87841e7e2bd9609b4f804",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 570.0,
+      "相对路径": "data/processed/simulation/570W.parquet",
+      "SHA256": "20989d3b2e643e004a36506583db66f7892e2275cac19a52943dd483c38fdab5",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 650.0,
+      "相对路径": "data/processed/simulation/650W.parquet",
+      "SHA256": "5c88b673e869fb715e0d05d8eab9dcf3213d64a827ba505d39ebba3efaaf5d34",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 730.0,
+      "相对路径": "data/processed/simulation/730W.parquet",
+      "SHA256": "40835958c32a1265594449a07696878941f806c72763f0bb4602077b41501733",
+      "parquet_split": "validation"
+    },
+    {
+      "功率_W": 800.0,
+      "相对路径": "data/processed/simulation/800W.parquet",
+      "SHA256": "a4ebaf9f190f769053d2863cbebfdc3839aff2a8fef652f054cf1e27247dbcb6",
+      "parquet_split": "validation"
+    }
+  ]
+}

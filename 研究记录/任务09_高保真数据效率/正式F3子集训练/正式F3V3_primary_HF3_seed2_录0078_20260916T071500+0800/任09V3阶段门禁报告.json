@@ -1,0 +1,57 @@
+{
+  "状态": "任09V3正式会话已提交；仍须按实际模型数形成五seed曲线",
+  "运行身份": {
+    "序列": "primary",
+    "HF功率数": 3,
+    "seed": 2
+  },
+  "V3事前登记SHA256": "87816d50efe82fc7a5c218707b1323a1b0d4a8cfd9eceb7c7771bb63c9edfb28",
+  "V3源码tar收据": {
+    "V3源码归档路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务09_高保真数据效率/任09F3主序列剩余14模型v3源码冻结_20260916T074940+0800.tar.gz",
+    "V3源码归档SHA256": "695e8b6c9ae9847ed2576609777dee5750c2f84c69f10667a69cd2a27a43765d",
+    "普通文件成员数": 14,
+    "逐成员SHA256": {
+      "src/sic_cu/train/task09_subset_formal_v3.py": "be6b6ccfe22e983f6147fa41c0f25ca9db872601558d50c78e6d85137e4e45f4",
+      "scripts/44_run_task09_subset_formal_v3.py": "eb3ec260e1d03497ae2d93f481da7bc22f0ff49f115a9308726c4bd437d14a54",
+      "scripts/45_register_task09_subset_formal_v3.py": "7398c9f2f34f2066667b40e1a231eca4db932b5921b38f42522d6077e4762762",
+      "scripts/46_audit_task09_energy_v3.py": "76fe717f55e54856b8e494db7efb7e3eb7273aa006266e8a077b743608d92666",
+      "tests/test_task09_subset_formal_v3.py": "7528a1fb86556e76549bb61424653346efe6da9614d86642694d2483f560d158",
+      "研究记录/任务09_高保真数据效率/正式F3主序列剩余14模型通用入口前登记_录0078.yaml": "87816d50efe82fc7a5c218707b1323a1b0d4a8cfd9eceb7c7771bb63c9edfb28",
+      "src/sic_cu/train/task09_subset_formal.py": "3e304eb4b2fd6c351375b7e4176ae344057b809c9c8394d62bc5c110cd0cf375",
+      "src/sic_cu/train/task09_subset_formal_v2.py": "5173ab1df25340a5d583d455f321a81409097b4c9620541763683be3e663566d",
+      "scripts/35_run_task09_subset_formal.py": "e7768f7414e5908483a37249406bbc8a98f31aee69b0b1e783e8464eeb9b8132",
+      "scripts/42_run_task09_subset_formal_v2.py": "d8a41eb65a2d4ecb3f92b430606f128edf13d829dae845fae59bf5504df0a3f2",
+      "src/sic_cu/eval/task09_energy.py": "a9d3f2759794986f1135c1b2e251499e1d187bddb05f9b2944fd850bd24faaad",
+      "scripts/38_audit_task09_energy.py": "9c77cdee4e1ed894180b3f2b881e326da802305a91ad609b940668044b61d213",
+      "研究记录/任务09_高保真数据效率/正式HF数据效率F3先导前登记.yaml": "987ba4bfd9a5b964bff88fa3314413738fa5417b5445e71cf650acbaee7d85e9",
+      "研究记录/任务09_高保真数据效率/正式F3联合首轮P1修订恢复前登记_录0075强门禁版.yaml": "a88ff62c1b24ac288214f20d6d50c642985f9375cd75562b07cfa394e9cf23dc"
+    }
+  },
+  "ROOT录0078收据": {
+    "ROOT主台账条目": "录-0078",
+    "ROOT主台账SHA256": "17dbd18af09fa3bf7494c467c79c1eb592c911d4354d7a2c3e663dbfaadb56c4",
+    "ROOT主台账读取前后SHA256一致": true,
+    "V3事前登记SHA256": "87816d50efe82fc7a5c218707b1323a1b0d4a8cfd9eceb7c7771bb63c9edfb28",
+    "V3源码归档SHA256": "695e8b6c9ae9847ed2576609777dee5750c2f84c69f10667a69cd2a27a43765d",
+    "V3源码归档路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务09_高保真数据效率/任09F3主序列剩余14模型v3源码冻结_20260916T074940+0800.tar.gz",
+    "录0078同行双SHA": true,
+    "录0078行SHA256": "e8f9a9141282b8dace3622cfed2b91466f4fd77ff42a7341bcd18f0608e68870"
+  },
+  "提交后事务与最低门禁": {
+    "已提交日志行数": 900,
+    "未提交尾行数": 0,
+    "完整已提交轮次": 900,
+    "达到正式最低200轮": true,
+    "可称五seed曲线": false,
+    "可称能源完成": false,
+    "可称精度改善": false,
+    "校正已提交轮次": 600,
+    "联合已提交轮次": 300
+  },
+  "校正会话边界补交收据": {
+    "校正会话边界补交": false
+  },
+  "旧固定TEST温度读取": false,
+  "本单模型可称五seed曲线": false,
+  "本单模型可称能源完成": false
+}

@@ -1,0 +1,96 @@
+============================= test session starts ==============================
+platform linux -- Python 3.9.18, pytest-8.3.5, pluggy-1.6.0
+rootdir: /home/phl/lyf/Temperature Field Prediction
+configfile: pyproject.toml
+collected 83 items
+
+tests/test_task11_howard_observations.py ............................... [ 37%]
+....................................................                     [100%]INDEPENDENT_CPU_SAFETY {"cuda_initialization_attempts": 0, "cuda_initialized": false, "outside_data_io_denied": 0, "pytest_exitstatus": 0, "synthetic_parquet_reads": 0, "synthetic_torch_loads": 0}
+
+
+==================================== PASSES ====================================
+=========================== short test summary info ============================
+PASSED tests/test_task11_howard_observations.py::test_own_source_union_and_six_identities_are_not_mlp_or_energy_authority
+PASSED tests/test_task11_howard_observations.py::test_actual_ast_import_closure_includes_dynamic_native_helper
+PASSED tests/test_task11_howard_observations.py::test_native_exact_8_17_25mm_endpoints_no_drop_or_double_count
+PASSED tests/test_task11_howard_observations.py::test_real_array_counts_native720_endpoints_empty30_and_first_actual_time
+PASSED tests/test_task11_howard_observations.py::test_weighted_metrics_power_balance_raw_p95_and_negative_peak
+PASSED tests/test_task11_howard_observations.py::test_native_original_frame_weights_retained_and_unnormalized_source_rejected
+PASSED tests/test_task11_howard_observations.py::test_radial_statistics_use_raw_frame_weights_without_window_reweighting
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[prediction_nan]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[prediction_shape]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[target_nan]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[weight_nan]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[negative_weight]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[zero_frame]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[top_double_radius]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[bad_sensor]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[missing_column]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[illegal_power]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[train]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[duplicate]
+PASSED tests/test_task11_howard_observations.py::test_raw_observation_schema_finiteness_native_dtype_and_fold_fail_closed[wrong_delta]
+PASSED tests/test_task11_howard_observations.py::test_five_seed_signed_ddof1_and_empty_statistics
+PASSED tests/test_task11_howard_observations.py::test_factory_real_all56_queries64_formula_and_cpu_prediction
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[seed]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[bool_seed]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[method]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[lf]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[query32]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[querypoint]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[metadata]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[missing]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[nan]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[float64]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[shape]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[layout]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[kwargs]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[permission]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[epoch0]
+PASSED tests/test_task11_howard_observations.py::test_factory_rejects_wrong_saved_identity_dtype_shape_or_query[scales]
+PASSED tests/test_task11_howard_observations.py::test_macro_checks_actual_howard_validation_modalities_not_mlp_sensor
+PASSED tests/test_task11_howard_observations.py::test_pure_builder_and_static_preflight_do_not_read_pt_labels_or_cuda
+PASSED tests/test_task11_howard_observations.py::test_bad_tar_rejected_before_any_pt_or_cuda[link]
+PASSED tests/test_task11_howard_observations.py::test_bad_tar_rejected_before_any_pt_or_cuda[duplicate]
+PASSED tests/test_task11_howard_observations.py::test_bad_tar_rejected_before_any_pt_or_cuda[extra]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[```\n{}\n```]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[~~~~\n{}\n~~~~]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[<!--\n{}\n-->]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[<pre>\n{}\n</pre>]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[<script>\n{}\n</script>]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[<textarea>\n{}\n</textarea>]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[<div>\n{}\n</div>\n\n]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[    {}]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[> {}]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[<pre/>\n{}\n]
+PASSED tests/test_task11_howard_observations.py::test_root_fences_html_comments_raw_nested_or_nonplain_have_no_authority[<pre\n\n{}\n]
+PASSED tests/test_task11_howard_observations.py::test_root_same_cell_unique_record_six_sha_and_no_other_token_occurrence
+PASSED tests/test_task11_howard_observations.py::test_current_sources_models_and_root_drift_rejected[source]
+PASSED tests/test_task11_howard_observations.py::test_current_sources_models_and_root_drift_rejected[registry]
+PASSED tests/test_task11_howard_observations.py::test_current_sources_models_and_root_drift_rejected[hf_registry]
+PASSED tests/test_task11_howard_observations.py::test_current_sources_models_and_root_drift_rejected[root]
+PASSED tests/test_task11_howard_observations.py::test_current_sources_models_and_root_drift_rejected[model]
+PASSED tests/test_task11_howard_observations.py::test_current_sources_models_and_root_drift_rejected[replace_pin]
+PASSED tests/test_task11_howard_observations.py::test_strict_registry_rejects_alias_type_or_permission_drift[ten_models]
+PASSED tests/test_task11_howard_observations.py::test_strict_registry_rejects_alias_type_or_permission_drift[bool_count]
+PASSED tests/test_task11_howard_observations.py::test_strict_registry_rejects_alias_type_or_permission_drift[wrong_hf_path]
+PASSED tests/test_task11_howard_observations.py::test_strict_registry_rejects_alias_type_or_permission_drift[permit]
+PASSED tests/test_task11_howard_observations.py::test_strict_registry_rejects_alias_type_or_permission_drift[float_counter]
+PASSED tests/test_task11_howard_observations.py::test_strict_registry_rejects_alias_type_or_permission_drift[duplicate_yaml]
+PASSED tests/test_task11_howard_observations.py::test_actual_qualifier_missing_sources_rejects_before_temperature_cuda_or_output
+PASSED tests/test_task11_howard_observations.py::test_cpu_cannot_be_formal_cuda_or_forge_forward_receipt
+PASSED tests/test_task11_howard_observations.py::test_eight_chinese_cpu_outputs_and_limits_with_actual_new_writer
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[raw_error]
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[metric]
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[reference]
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[source_row]
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[material]
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[missing_seed]
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[fake_q]
+PASSED tests/test_task11_howard_observations.py::test_writer_rejects_tampered_points_group_metrics_seed_or_fake_qualification[real_writer]
+PASSED tests/test_task11_howard_observations.py::test_cli_is_howard_own_export_and_has_no_cpu_bypass
+PASSED tests/test_task11_howard_observations.py::test_writer_detects_drift_during_actual_export_and_retains_failed_output[artifact-source]
+PASSED tests/test_task11_howard_observations.py::test_writer_detects_drift_during_actual_export_and_retains_failed_output[artifact-model]
+PASSED tests/test_task11_howard_observations.py::test_writer_detects_drift_during_actual_export_and_retains_failed_output[manifest-source]
+PASSED tests/test_task11_howard_observations.py::test_writer_detects_drift_during_actual_export_and_retains_failed_output[manifest-model]
+============================= 83 passed in 41.41s ==============================

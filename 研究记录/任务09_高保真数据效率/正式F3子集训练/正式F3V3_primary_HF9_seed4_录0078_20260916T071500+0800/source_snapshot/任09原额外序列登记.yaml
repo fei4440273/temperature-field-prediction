@@ -1,0 +1,28 @@
+schema_version: 1
+registered_at: '2026-09-15T20:42:53+08:00'
+stage: '仅按12个HF训练功率的数值覆盖预登记；任-07/08完成前不训练数据效率对照'
+source_split: configs/splits.yaml
+source_subset: high_fidelity.training_powers_w
+canonical_train_powers_w: [55, 216.8, 254.5, 257, 309, 364.3, 430, 494.2, 532, 558.5, 593.5, 729]
+primary_from_total_plan:
+  three_w: [55, 364.3, 729]
+  six_w: [55, 216.8, 364.3, 494.2, 593.5, 729]
+  nine_w: [55, 216.8, 254.5, 364.3, 430, 494.2, 558.5, 593.5, 729]
+extra_coverages:
+  left_center:
+    selection_reason: '在固定55/729 W端点间以309 W替换主序列中部364.3 W，观察较低中段功率覆盖敏感性；不基于任何HF温度标签或模型误差'
+    three_w: [55, 309, 729]
+    six_w: [55, 254.5, 309, 430, 558.5, 729]
+    nine_w: [55, 216.8, 254.5, 309, 430, 494.2, 558.5, 593.5, 729]
+  right_center:
+    selection_reason: '在固定55/729 W端点间以430 W替换主序列中部364.3 W，观察较高中段功率覆盖敏感性；不基于任何HF温度标签或模型误差'
+    three_w: [55, 430, 729]
+    six_w: [55, 257, 430, 532, 593.5, 729]
+    nine_w: [55, 216.8, 257, 309, 430, 494.2, 532, 593.5, 729]
+common_contract:
+  nested: '每条three子集包含于其six，six包含于其nine，nine包含于相同12功率总训练集'
+  hf_observations: '各子集同步缩减IR、热端及冷端训练标签；3个合法HF验证与3个固定测试工况保持不变'
+  lf_source: '60个LF训练功率固定；每个HF子集独立训练HF教师/校正器和允许的HF参数估计，不加载12工况HF中间产物'
+  seed0: '三条序列3/6/9合法先导，12工况正式结果复用'
+  final: '主曲线0—4种子及额外覆盖序列的实际运行数量分别据实报告；没有运行的不写作五种子统计'
+  isolation: '登记只读取HF训练功率数字，不读取HF或旧test_Data温度、也不预设误差随样本数单调下降'

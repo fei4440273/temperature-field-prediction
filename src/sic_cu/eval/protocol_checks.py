@@ -10,7 +10,11 @@ import yaml
 
 from sic_cu.config import PROJECT_ROOT, load_yaml
 from sic_cu.data.common import sha256_file
-from sic_cu.data.splits import PowerSplits, build_power_splits
+from sic_cu.data.splits import (
+    PowerSplits,
+    build_power_splits,
+    resolve_hf_training_subset,
+)
 
 
 PROTOCOL_ID = "hf_fixed_12_3_3_v4"
@@ -202,10 +206,19 @@ def validate_hf_checkpoint_provenance(
         raise RuntimeError("Checkpoint does not declare a multifidelity provenance role")
     if provenance.get("test_labels_consumed") is not False:
         raise RuntimeError("Checkpoint does not prove test-label isolation")
-    if _canonical_powers(provenance.get("train_powers_w", ())) != _canonical_powers(
-        active_splits.hf_train
-    ):
-        raise RuntimeError("Checkpoint HF train powers do not match the fixed protocol")
+    declared_train = _canonical_powers(provenance.get("train_powers_w", ()))
+    declared_subset = provenance.get("hf_training_subset_w")
+    if declared_subset is None:
+        if declared_train != _canonical_powers(active_splits.hf_train):
+            raise RuntimeError("Checkpoint HF train powers do not match the fixed protocol")
+    else:
+        selected = resolve_hf_training_subset(declared_subset, active_splits)
+        if declared_train != _canonical_powers(selected):
+            raise RuntimeError("Checkpoint HF train powers do not match its declared subset")
+        if _canonical_powers(
+            provenance.get("global_hf_train_powers_w", ())
+        ) != _canonical_powers(active_splits.hf_train):
+            raise RuntimeError("Checkpoint global HF train powers do not preserve the fixed protocol")
     if _canonical_powers(
         provenance.get("validation_powers_w", ())
     ) != _canonical_powers(active_splits.hf_validation):

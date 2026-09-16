@@ -60,3 +60,26 @@ def test_hf_provenance_rejects_test_as_training_power() -> None:
         validate_hf_checkpoint_provenance(
             {"provenance": provenance}, splits, FINGERPRINTS
         )
+
+
+def test_hf_provenance_accepts_only_declared_nested_training_subset() -> None:
+    splits = build_power_splits()
+    subset = [55.0, 364.3, 729.0]
+    provenance = checkpoint_provenance(
+        role="high_fidelity_multifidelity",
+        train_powers_w=subset,
+        validation_powers_w=splits.hf_validation,
+        fingerprints=FINGERPRINTS,
+    ) | {
+        "global_hf_train_powers_w": sorted(splits.hf_train),
+        "hf_training_subset_w": subset,
+    }
+    validate_hf_checkpoint_provenance(
+        {"provenance": provenance}, splits, FINGERPRINTS
+    )
+
+    provenance["hf_training_subset_w"] = subset + [115.2]
+    with pytest.raises(RuntimeError, match="non-training powers"):
+        validate_hf_checkpoint_provenance(
+            {"provenance": provenance}, splits, FINGERPRINTS
+        )

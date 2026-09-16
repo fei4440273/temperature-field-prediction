@@ -1,0 +1,911 @@
+{
+  "结构版本": 1,
+  "性质": "只追加本次任11暂停交付三文件实际身份及最终独审回执，不重写已核验主报告/索引/补证/全局/源或历史结果",
+  "实际fresh身份读取时间": "2026-09-16T21:52:24.068726+08:00",
+  "最终主报告及根两个机器交付身份": [
+    {
+      "原件": "任11执行收尾与已完成任务结果汇总_20260916.md",
+      "字节": 20108,
+      "SHA256": "78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e"
+    },
+    {
+      "原件": "研究记录/任11完成后暂停结果整理_20260916.json",
+      "字节": 306348,
+      "SHA256": "1fd51dd73e31534dca41d4ea7150e4ef464f79c704e8d5bc3898997a160d1b02"
+    },
+    {
+      "原件": "研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json",
+      "字节": 648705,
+      "SHA256": "8e3a378ea539d275398a531f68e68ee08ec12a138d88fa21a8b4efa2c26904be"
+    }
+  ],
+  "最终独审三个档案实际身份": [
+    {
+      "原件": "研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md",
+      "字节": 3941,
+      "SHA256": "d59bc865e93b8e4fc61150acb4224b7e5296a3694d087967662906f9b1e0226d"
+    },
+    {
+      "原件": "研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json",
+      "字节": 491472,
+      "SHA256": "08fd8cd71489926434b2beb52094009a3bb2aa9fa9a8bd7b3c4f832297439149"
+    },
+    {
+      "原件": "研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_封存逐件真实复核.json",
+      "字节": 16725,
+      "SHA256": "008028ef8f5a3a968503d2e41181a335de3e9b9f89114bee3424adb86cb2a617"
+    }
+  ],
+  "根最后三交付身份_39引用_26链接_原三全局逆重构实际核验": {
+    "完整实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 CUDA_VISIBLE_DEVICES='' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存'  /home/phl/anaconda3/envs/PINN/bin/python -B -u -c 'import os,sys,json; from pathlib import Path; root=Path(\"/home/phl/lyf/Temperature Field Prediction\"); blocked=[]\ndef guard(event,args):\n if event=='\\''open'\\'':\n  name,mode,flags=args; write=(isinstance(mode,str) and any(c in mode for c in '\\''wax+'\\'')) or (isinstance(flags,int) and bool(flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND))); targets=[name] if write and isinstance(name,(str,bytes,os.PathLike)) else []\n elif event in ('\\''os.mkdir'\\'','\\''os.remove'\\'','\\''os.rmdir'\\'','\\''os.chmod'\\'','\\''os.chown'\\'','\\''os.utime'\\'','\\''os.truncate'\\''): targets=[args[0]]\n elif event in ('\\''os.rename'\\'','\\''os.replace'\\'','\\''os.link'\\''): targets=list(args[:2])\n elif event=='\\''os.symlink'\\'': targets=[args[1]]\n else: return\n for value in targets:\n  if isinstance(value,int): continue\n  path=Path(os.fsdecode(value)).resolve()\n  if root not in path.parents:\n   blocked.append({'\\''事件'\\'':event,'\\''目标'\\'':str(path)}); raise PermissionError('\\''项目外写入已阻止'\\'')\nsys.addaudithook(guard)\n\nimport hashlib,datetime,re\nproofpath=root/'\\''研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json'\\''\nproof=json.loads(proofpath.read_text());check=proof['\\''完整实际最终核验'\\'']\nassert check['\\''write_stdin实际末回包'\\'']['\\''exit_code'\\'']==0 and check['\\''真实末exit0'\\''] is True\nassert proof['\\''短时互斥锁实际过程'\\'']['\\''真实ROOT_GLOBAL_LOCK_RELEASED_exit0回包'\\'']['\\''exit_code'\\'']==0\ndata=json.loads(check['\\''完整原stdout'\\''])\nbuilt=json.loads(proof['\\''三全局精确构建与对比'\\'']['\\''原始实际构建工具终态'\\'']['\\''output'\\''])\noriginal=proof['\\''三全局精确构建与对比'\\'']['\\''核验前原三全局SHA'\\'']\nledger=root/'\\''多保真DeepONet预测精度优化总计划与执行台账.md'\\'';text=ledger.read_text()\nrecord=data['\\''完整录0116行'\\''];current=data['\\''完整当前任11进度行'\\'']\nassert text.count(record)==1 and text.count(current)==1\noldprogress=\"| 任-11 | 新MLP五LF/五HF/十能源与80240观察受限验收；Howard LF5/5、HF0/1真完训2/5，seed2真实第304轮数值失败 | 冻结82/56Float32动量/四RNG/Float64查询不变；失败200合法收据/303durable未封口完整保留；能源85/录0114六SHA保持，OBS独立83+29纯CPU0 | 同83493/PID1877836只完成原3/4≤200段，五HF全完训不满足、Howard能源0/10/OBS未正式freeze或GPU，不优化/重试失败 | 新MLPbest S2.239999307±.111834066℃/final2.825754184±.212637063℃名义0/10；Howard完整五seed mean/std NULL，不排成功子集；B0不换 | 录0115：原五尝试全部终态且受限对比/中文已完成结果验收后暂停其他任务待用户查看；不启动任12/13，不称原总计划100% | 2026-09-16T21:05:40.670895+08:00 |\"\nback=text.replace(record+'\\''\\n'\\'','\\'''\\'',1).replace(current,oldprogress,1)\nassert hashlib.sha256(back.encode()).hexdigest()==original['\\''多保真DeepONet预测精度优化总计划与执行台账.md'\\'']\nsp=root/'\\''研究记录/总任务状态.json'\\'';statusraw=sp.read_text()\noldstatus=statusraw.replace(built['\\''新任11原行'\\''],built['\\''旧任11原行'\\''],1).replace(built['\\''新总状态更新时间行'\\''],built['\\''旧总状态更新时间行'\\''],1)\nassert hashlib.sha256(oldstatus.encode()).hexdigest()==original['\\''研究记录/总任务状态.json'\\'']\nassert hashlib.sha256(built['\\''原接续全文'\\''].encode()).hexdigest()==original['\\''研究记录/当前接续状态.md'\\'']\nfor name,sha in data['\\''三全局SHA256'\\''].items():assert hashlib.sha256((root/name).read_bytes()).hexdigest()==sha\nindexpath=root/'\\''研究记录/任11完成后暂停结果整理_20260916.json'\\'';index=json.loads(indexpath.read_text())\nassert index['\\''当前已结束的执行范围'\\'']['\\''HowardHF完整科学工程验收通过'\\''] is False if '\\''HowardHF完整科学工程验收通过'\\'' in index['\\''当前已结束的执行范围'\\''] else index['\\''当前已结束的执行范围'\\'']['\\''任11原完整科学工程验收通过'\\''] is False\nassert index['\\''描述统计与科学推断边界'\\'']['\\''原五HowardHF平均与标准差'\\''] is None and index['\\''Howard完整后验前置条件'\\'']['\\''五HF完整资格前提满足'\\''] is False\nfor a in data['\\''39引用工件fresh全部匹配'\\'']:\n file=root/a['\\''原件'\\''];assert file.is_file() and file.stat().st_size==a['\\''字节'\\''] and hashlib.sha256(file.read_bytes()).hexdigest()==a['\\''SHA256'\\'']\nreport=root/'\\''任11执行收尾与已完成任务结果汇总_20260916.md'\\''\nraw=report.read_text();links=[]\nfor label,target in re.findall(r'\\''\\[([^\\]]+)\\]\\(([^)]+)\\)'\\'',raw):\n if target.startswith(('\\''http://'\\'','\\''https://'\\'')):continue\n f=(report.parent/target).resolve();assert root in f.parents and f.is_file(),target\n links.append({'\\''标签'\\'':label,'\\''目标'\\'':str(f.relative_to(root))})\nassert len(links)==26 and hashlib.sha256(report.read_bytes()).hexdigest()=='\\''78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e'\\''\nmanifest=json.loads((root/'\\''研究记录/总任务状态.json'\\'').read_text())['\\''任务'\\'']['\\''任-11'\\'']\nassert manifest['\\''用户最新暂停边界'\\'']['\\''暂停已生效'\\''] is True and manifest['\\''HowardHF当前真实有界接续'\\'']['\\''当前必要串行队列会话'\\''] is None\nfiles=[report,indexpath,proofpath]\nassert not blocked\nprint(json.dumps({'\\''实际最终身份核验时间'\\'':datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).isoformat(),'\\''三个交付文件fresh实际身份'\\'':[{'\\''原件'\\'':str(f.relative_to(root)),'\\''字节'\\'':f.stat().st_size,'\\''SHA256'\\'':hashlib.sha256(f.read_bytes()).hexdigest()} for f in files],'\\''主报告26本地链接全部存在'\\'':links,'\\''原三全局可精确重构旧字节SHA'\\'':True,'\\''当前三全局SHA与原实际0补证相同'\\'':data['\\''三全局SHA256'\\''],'\\''39引用工件fresh再次匹配'\\'':True,'\\''完整科学条件不满足与NULL保留'\\'':True,'\\''暂停已生效无自动训练'\\'':True,'\\''本步骤无PT温度CUDA训练或写入'\\'':True,'\\''项目外Python写入阻止记录'\\'':blocked},ensure_ascii=False))\n'",
+    "原完整实际工具回包": {
+      "chunk_id": "a0295e",
+      "wall_time_seconds": 0.017610133,
+      "exit_code": 0,
+      "original_token_count": 1315,
+      "output": "{\"实际最终身份核验时间\": \"2026-09-16T21:50:09.405494+08:00\", \"三个交付文件fresh实际身份\": [{\"原件\": \"任11执行收尾与已完成任务结果汇总_20260916.md\", \"字节\": 20108, \"SHA256\": \"78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e\"}, {\"原件\": \"研究记录/任11完成后暂停结果整理_20260916.json\", \"字节\": 306348, \"SHA256\": \"1fd51dd73e31534dca41d4ea7150e4ef464f79c704e8d5bc3898997a160d1b02\"}, {\"原件\": \"研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json\", \"字节\": 648705, \"SHA256\": \"8e3a378ea539d275398a531f68e68ee08ec12a138d88fa21a8b4efa2c26904be\"}], \"主报告26本地链接全部存在\": [{\"标签\": \"启动验收\", \"目标\": \"研究记录/任务01_启动与可追溯性/验收报告.md\"}, {\"标签\": \"排程验收\", \"目标\": \"研究记录/任务02_训练排程/验收报告.md\"}, {\"标签\": \"预算门禁判定\", \"目标\": \"研究记录/任务03_低保真精度修复/验收判定_预算门禁复核.json\"}, {\"标签\": \"两臂与四态验收\", \"目标\": \"研究记录/任务04_联合微调/正式两臂与四状态验收报告.md\"}, {\"标签\": \"条件判定报告\", \"目标\": \"研究记录/任务05_物理一致性/任务05_条件判定与有限退出报告.md\"}, {\"标签\": \"三臂600轮验收\", \"目标\": \"研究记录/任务06_时间响应特征/HF三臂真实600轮与六状态能源验收.md\"}, {\"标签\": \"修复版五种子与双轨能源\", \"目标\": \"研究记录/任务07_正式五种子重训/修复版五种子合法验证稳定性与双轨能源验收.md\"}, {\"标签\": \"F2五种子三态报告\", \"目标\": \"研究记录/任务08_贡献消融/F2_正式五种子三态能源与合法HF受限验收总报告.md\"}, {\"标签\": \"F3主序列报告\", \"目标\": \"研究记录/任务09_高保真数据效率/正式F3主序列汇总_录0096_20260916T122137+0800/F3主序列正式中文验收报告.md\"}, {\"标签\": \"25模型九档完整场\", \"目标\": \"研究记录/任务10_独立双层场基准/任10_全25真CUDA九档完整场后验正式中文验收_20260916T1258.md\"}, {\"标签\": \"新MLP正式汇总根审\", \"目标\": \"研究记录/任务11_外部对照/任11_新MLP五种子十原能源正式汇总根复审中文验收_20260916T172037+0800.md\"}, {\"标签\": \"Howard五HF尝试终态\", \"目标\": \"研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json\"}, {\"标签\": \"真实三模态观察中文报告\", \"目标\": \"研究记录/任务11_外部对照/任11_新MLP真实三模态观察中文误差与验收_20260916T190502+0800.md\"}, {\"标签\": \"seed2中文诊断\", \"目标\": \"研究记录/任务11_外部对照/任11_Howard_HF_seed2第304轮数值失败中文诊断_20260916T205117+0800.md\"}, {\"标签\": \"原五尝试终态与seed4现场\", \"目标\": \"研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json\"}, {\"标签\": \"seed4真实56原件归档补证\", \"目标\": \"研究记录/任务11_外部对照/任11_seed4第210轮失败56普通原件真实归档补证_20260916T212451+0800.json\"}, {\"标签\": \"候选独立CPU中文复核\", \"目标\": \"研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/独立复核中文报告.md\"}, {\"标签\": \"任-01至任-10独立结果核对\", \"目标\": \"研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/任01至10已有完成结果独立核对报告.md\"}, {\"标签\": \"根116组四轮实核证据\", \"目标\": \"研究记录/任务11_外部对照/任11暂停前既有116组与464数值中文四轮实核_20260916T211612+0800.json\"}, {\"标签\": \"总执行台账\", \"目标\": \"多保真DeepONet预测精度优化总计划与执行台账.md\"}, {\"标签\": \"总任务状态\", \"目标\": \"研究记录/总任务状态.json\"}, {\"标签\": \"当前接续状态\", \"目标\": \"研究记录/当前接续状态.md\"}, {\"标签\": \"四必要方法已有结果独立盘点\", \"目标\": \"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/任11四必要方法已有结果独立盘点报告.md\"}, {\"标签\": \"Howard成功0/1/3完整资格独立审核\", \"目标\": \"研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/独立成功013完整资格中文报告.md\"}, {\"标签\": \"暂停交付机器索引\", \"目标\": \"研究记录/任11完成后暂停结果整理_20260916.json\"}, {\"标签\": \"最终收尾补证\", \"目标\": \"研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json\"}], \"原三全局可精确重构旧字节SHA\": true, \"当前三全局SHA与原实际0补证相同\": {\"多保真DeepONet预测精度优化总计划与执行台账.md\": \"34cfdcc8eaf3799946ba719ff34c63c07c3dc9b78fef05babbad950ae1fc7be8\", \"研究记录/总任务状态.json\": \"a83457a454e2452a354a26622f159e88d589404ff823ce30a00b10fd362d968a\", \"研究记录/当前接续状态.md\": \"29f53db23f89add6bff04506ca7450712a91f17c3d968dcbba91d6a3edf28192\"}, \"39引用工件fresh再次匹配\": true, \"完整科学条件不满足与NULL保留\": true, \"暂停已生效无自动训练\": true, \"本步骤无PT温度CUDA训练或写入\": true, \"项目外Python写入阻止记录\": []}\n"
+    },
+    "原结构化stdout": {
+      "实际最终身份核验时间": "2026-09-16T21:50:09.405494+08:00",
+      "三个交付文件fresh实际身份": [
+        {
+          "原件": "任11执行收尾与已完成任务结果汇总_20260916.md",
+          "字节": 20108,
+          "SHA256": "78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e"
+        },
+        {
+          "原件": "研究记录/任11完成后暂停结果整理_20260916.json",
+          "字节": 306348,
+          "SHA256": "1fd51dd73e31534dca41d4ea7150e4ef464f79c704e8d5bc3898997a160d1b02"
+        },
+        {
+          "原件": "研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json",
+          "字节": 648705,
+          "SHA256": "8e3a378ea539d275398a531f68e68ee08ec12a138d88fa21a8b4efa2c26904be"
+        }
+      ],
+      "主报告26本地链接全部存在": [
+        {
+          "标签": "启动验收",
+          "目标": "研究记录/任务01_启动与可追溯性/验收报告.md"
+        },
+        {
+          "标签": "排程验收",
+          "目标": "研究记录/任务02_训练排程/验收报告.md"
+        },
+        {
+          "标签": "预算门禁判定",
+          "目标": "研究记录/任务03_低保真精度修复/验收判定_预算门禁复核.json"
+        },
+        {
+          "标签": "两臂与四态验收",
+          "目标": "研究记录/任务04_联合微调/正式两臂与四状态验收报告.md"
+        },
+        {
+          "标签": "条件判定报告",
+          "目标": "研究记录/任务05_物理一致性/任务05_条件判定与有限退出报告.md"
+        },
+        {
+          "标签": "三臂600轮验收",
+          "目标": "研究记录/任务06_时间响应特征/HF三臂真实600轮与六状态能源验收.md"
+        },
+        {
+          "标签": "修复版五种子与双轨能源",
+          "目标": "研究记录/任务07_正式五种子重训/修复版五种子合法验证稳定性与双轨能源验收.md"
+        },
+        {
+          "标签": "F2五种子三态报告",
+          "目标": "研究记录/任务08_贡献消融/F2_正式五种子三态能源与合法HF受限验收总报告.md"
+        },
+        {
+          "标签": "F3主序列报告",
+          "目标": "研究记录/任务09_高保真数据效率/正式F3主序列汇总_录0096_20260916T122137+0800/F3主序列正式中文验收报告.md"
+        },
+        {
+          "标签": "25模型九档完整场",
+          "目标": "研究记录/任务10_独立双层场基准/任10_全25真CUDA九档完整场后验正式中文验收_20260916T1258.md"
+        },
+        {
+          "标签": "新MLP正式汇总根审",
+          "目标": "研究记录/任务11_外部对照/任11_新MLP五种子十原能源正式汇总根复审中文验收_20260916T172037+0800.md"
+        },
+        {
+          "标签": "Howard五HF尝试终态",
+          "目标": "研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json"
+        },
+        {
+          "标签": "真实三模态观察中文报告",
+          "目标": "研究记录/任务11_外部对照/任11_新MLP真实三模态观察中文误差与验收_20260916T190502+0800.md"
+        },
+        {
+          "标签": "seed2中文诊断",
+          "目标": "研究记录/任务11_外部对照/任11_Howard_HF_seed2第304轮数值失败中文诊断_20260916T205117+0800.md"
+        },
+        {
+          "标签": "原五尝试终态与seed4现场",
+          "目标": "研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json"
+        },
+        {
+          "标签": "seed4真实56原件归档补证",
+          "目标": "研究记录/任务11_外部对照/任11_seed4第210轮失败56普通原件真实归档补证_20260916T212451+0800.json"
+        },
+        {
+          "标签": "候选独立CPU中文复核",
+          "目标": "研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/独立复核中文报告.md"
+        },
+        {
+          "标签": "任-01至任-10独立结果核对",
+          "目标": "研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/任01至10已有完成结果独立核对报告.md"
+        },
+        {
+          "标签": "根116组四轮实核证据",
+          "目标": "研究记录/任务11_外部对照/任11暂停前既有116组与464数值中文四轮实核_20260916T211612+0800.json"
+        },
+        {
+          "标签": "总执行台账",
+          "目标": "多保真DeepONet预测精度优化总计划与执行台账.md"
+        },
+        {
+          "标签": "总任务状态",
+          "目标": "研究记录/总任务状态.json"
+        },
+        {
+          "标签": "当前接续状态",
+          "目标": "研究记录/当前接续状态.md"
+        },
+        {
+          "标签": "四必要方法已有结果独立盘点",
+          "目标": "研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/任11四必要方法已有结果独立盘点报告.md"
+        },
+        {
+          "标签": "Howard成功0/1/3完整资格独立审核",
+          "目标": "研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/独立成功013完整资格中文报告.md"
+        },
+        {
+          "标签": "暂停交付机器索引",
+          "目标": "研究记录/任11完成后暂停结果整理_20260916.json"
+        },
+        {
+          "标签": "最终收尾补证",
+          "目标": "研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json"
+        }
+      ],
+      "原三全局可精确重构旧字节SHA": true,
+      "当前三全局SHA与原实际0补证相同": {
+        "多保真DeepONet预测精度优化总计划与执行台账.md": "34cfdcc8eaf3799946ba719ff34c63c07c3dc9b78fef05babbad950ae1fc7be8",
+        "研究记录/总任务状态.json": "a83457a454e2452a354a26622f159e88d589404ff823ce30a00b10fd362d968a",
+        "研究记录/当前接续状态.md": "29f53db23f89add6bff04506ca7450712a91f17c3d968dcbba91d6a3edf28192"
+      },
+      "39引用工件fresh再次匹配": true,
+      "完整科学条件不满足与NULL保留": true,
+      "暂停已生效无自动训练": true,
+      "本步骤无PT温度CUDA训练或写入": true,
+      "项目外Python写入阻止记录": []
+    },
+    "真实exit0": true
+  },
+  "根读取最终独审已封存三件实际核验": {
+    "完整实际命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 CUDA_VISIBLE_DEVICES='' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存'  /home/phl/anaconda3/envs/PINN/bin/python -B -u -c 'import os,sys,json; from pathlib import Path; root=Path(\"/home/phl/lyf/Temperature Field Prediction\"); blocked=[]\ndef guard(event,args):\n if event=='\\''open'\\'':\n  name,mode,flags=args; write=(isinstance(mode,str) and any(c in mode for c in '\\''wax+'\\'')) or (isinstance(flags,int) and bool(flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND))); targets=[name] if write and isinstance(name,(str,bytes,os.PathLike)) else []\n elif event in ('\\''os.mkdir'\\'','\\''os.remove'\\'','\\''os.rmdir'\\'','\\''os.chmod'\\'','\\''os.chown'\\'','\\''os.utime'\\'','\\''os.truncate'\\''): targets=[args[0]]\n elif event in ('\\''os.rename'\\'','\\''os.replace'\\'','\\''os.link'\\''): targets=list(args[:2])\n elif event=='\\''os.symlink'\\'': targets=[args[1]]\n else: return\n for value in targets:\n  if isinstance(value,int): continue\n  path=Path(os.fsdecode(value)).resolve()\n  if root not in path.parents:\n   blocked.append({'\\''事件'\\'':event,'\\''目标'\\'':str(path)}); raise PermissionError('\\''项目外写入已阻止'\\'')\nsys.addaudithook(guard)\n\nimport hashlib,datetime\ninputs=json.loads(\"[[\\\"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md\\\",3941,\\\"d59bc865e93b8e4fc61150acb4224b7e5296a3694d087967662906f9b1e0226d\\\"],[\\\"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json\\\",491472,\\\"08fd8cd71489926434b2beb52094009a3bb2aa9fa9a8bd7b3c4f832297439149\\\"],[\\\"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_封存逐件真实复核.json\\\",16725,\\\"008028ef8f5a3a968503d2e41181a335de3e9b9f89114bee3424adb86cb2a617\\\"]]\")\nrecords=[]\nfor name,size,sha in inputs:\n f=root/name;assert f.is_file() and not f.is_symlink() and f.stat().st_size==size and hashlib.sha256(f.read_bytes()).hexdigest()==sha,name\n records.append({'\\''原件'\\'':name,'\\''字节'\\'':size,'\\''SHA256'\\'':sha})\nm=json.loads((root/inputs[1][0]).read_text());seal=json.loads((root/inputs[2][0]).read_text())\nprint(json.dumps({'\\''实际fresh时间'\\'':datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=8))).isoformat(),'\\''三个最终独审档案fresh身份'\\'':records,'\\''完整机器证据顶层键'\\'':list(m),'\\''封存补证顶层键'\\'':list(seal),'\\''原机可验证字段'\\'':{k:v for k,v in m.items() if isinstance(v,(str,int,float,bool,type(None)))},'\\''封存实际选择'\\'':{k:v for k,v in seal.items() if isinstance(v,(str,int,float,bool,type(None)))},'\\''项目外Python写入阻止记录'\\'':blocked},ensure_ascii=False))\n'",
+    "原完整实际工具回包": {
+      "chunk_id": "aa8c2f",
+      "wall_time_seconds": 0.000001873,
+      "exit_code": 0,
+      "original_token_count": 850,
+      "output": "{\"实际fresh时间\": \"2026-09-16T21:52:24.068726+08:00\", \"三个最终独审档案fresh身份\": [{\"原件\": \"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md\", \"字节\": 3941, \"SHA256\": \"d59bc865e93b8e4fc61150acb4224b7e5296a3694d087967662906f9b1e0226d\"}, {\"原件\": \"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json\", \"字节\": 491472, \"SHA256\": \"08fd8cd71489926434b2beb52094009a3bb2aa9fa9a8bd7b3c4f832297439149\"}, {\"原件\": \"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_封存逐件真实复核.json\", \"字节\": 16725, \"SHA256\": \"008028ef8f5a3a968503d2e41181a335de3e9b9f89114bee3424adb86cb2a617\"}], \"完整机器证据顶层键\": [\"结构版本\", \"审核对象\", \"审核范围\", \"当前确定问题\", \"最终实际核验\", \"第96行完整40原值及精确JSON指针实核\", \"原失败保留\", \"原主报告未由本人冒称的历史身份\", \"171静态既有原件映射的结构化出处\", \"171映射复核口径\", \"实际只读命令与完整工具原回包\", \"工具捕获口径\", \"本次使用技能影响\", \"下一步\"], \"封存补证顶层键\": [\"结构版本\", \"新增中文报告与前三JSON已实际普通SHA复核\", \"完整实际命令与工具合并stdout_stderr原回包\", \"结构化原stdout\", \"补存目的\", \"范围与结束\"], \"原机可验证字段\": {\"结构版本\": \"任11主收尾汇总最终独立只读交付审核_v1\", \"审核对象\": \"/home/phl/lyf/Temperature Field Prediction/任11执行收尾与已完成任务结果汇总_20260916.md\", \"审核范围\": \"完整阅读中文主报告137行；仅已有中文验收报告/JSON/CSV/YAML及原工具命令元数据，核表列数值、公式S、Howard3成功2失败/五均stdNULL/受限收尾、引用存在与暂停范围。未读PT/温度/Parquet/TEST或原逐点JSONL，未调用GPU/CUDA/训练/新测量/能源worker/正式parser。未修改源/冻结工件/全局/旧报告/主报告；新增档案均在原本人自有目录。\", \"171映射复核口径\": \"最终同命令逐件lstat普通文件、read_bytes计算SHA并与上述既有映射比对，171个静态原件全部true。主台账/总状态/当前接续等允许根合法追加的动态全局不强求跨长期wholeSHA不变，记录当次读取身份map摘要。\", \"工具捕获口径\": \"exec_command原output为工具合并stdout/stderr原回包，未独立捕获分流则不编造分流；所有此数组内session_id均未留下运行会话。写档动作仅apply_patch新增本人目录新文件，未把写档成功当科学资格。\", \"下一步\": \"本有界审核结束后立即停止，不开展任12/13或任何新实验。\"}, \"封存实际选择\": {\"结构版本\": \"任11主收尾汇总独审_封存逐件实际终态补存_v1\", \"新增中文报告与前三JSON已实际普通SHA复核\": true, \"补存目的\": \"本文件只补存写报告之后实际解析、逐件SHA、链接与根新三件身份的真实0，不回写已封存原machine或旧文件。\", \"范围与结束\": \"仅本人自有档案及已存在根新增报告/JSON元数据，无PT/温度/Parquet/GPU/训练/正式parser；所有本人必要会话终态。交付后停止，不开展任12/13或新任务。\"}, \"项目外Python写入阻止记录\": []}\n"
+    },
+    "真实exit0": true,
+    "完整中文报告真实读取命令": "sed -n '1,180p' '/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md'",
+    "完整中文报告实际工具回包": {
+      "chunk_id": "4695cf",
+      "wall_time_seconds": 0.00000252,
+      "exit_code": 0,
+      "original_token_count": 986,
+      "output": "# 任-11主收尾汇总最终独立只读交付审核\n\n## 问题结论\n\n当前版本未发现剩余确定的严重/重要问题。\n\n原主报告第96行有已闭合P2：4.376995×10^-6℃误标为S最大差。根仅修订新汇总该行，本人完整重读后对AGG/OBS十状态四项40原值作纯CPU比较，实际退出0：S最大差1.8799774275102266×10^-6℃；S/Top/ABS/Delta联合最大差4.376994375165921×10^-6℃，发生于seed4 best Delta。冻结原S、原JSON和历史报告不改。\n\n第137行新增“最终收尾补证”链接在目标尚未落盘时使同252检查实际退出1（仅该链接失败）。根落盘目标后，本人同一实际命令fresh退出0。原1和后0完整保留，不以恢复0抹去此前失败。自有jq把对象误作数组的探查实际退出5及结构纠正读取0也保留。\n\n## 最终直接实证\n\n审核对象：[任11执行收尾与已完成任务结果汇总_20260916.md](</home/phl/lyf/Temperature Field Prediction/任11执行收尾与已完成任务结果汇总_20260916.md>)已完整读137行。\n\n最终纯CPU同252命令：2026-09-16T21:49:10.584664至21:49:10.615677+08:00，真实exit0，252检查全通过；26个本地链接均存在；171个静态引用原件fresh普通文件SHA逐件匹配。实际读取185件既有报告/JSON/CSV/YAML引用，读取SHA映射canonical JSON摘要为0e24bb217b1b1b48526bafeb48b590e5eb0798d3480f58c05f915b43427a5944。\n\n新主报告普通字节身份20108 B、SHA256：78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e，短读取窗口不变。P2前旧报告18812 B、5bfaa95bed6cb8e94c5824023cb3002d748bad29aeab4d4541e7f7475c3870bc是根消息提供的历史直接bytes实证，不冒称本人P2前测量，也未从nl还原。\n\n## 数字与限界\n\nS公式第17/19行正确：ABS选模0.2而不是训练5；三功率先算后等权；五种子采用ddof1样本标准差，不是CI；FEM/Ridge确定性标准差NA，不伪造五份。第35–38、49–65、73–76、86–96行对应既有表值与独立机器来源一致，有限完成边界保留。\n\nHoward第7、76、102–125行正确保留原五尝试终态但仅成功[0,1,3]、失败[2,4]；五HF均值/标准差NULL，正式能源0/10、真实三模态未正式冻结/导出。成功三HF成本只作小计，原五HF完整成本NULL；CPU seed2副本32/47109不能混作原GPU或seed4精确失败数量。收尾不等于完整科学工程验收、B0不更新。\n\n第9、11、124–129行正确保留暂停任12/13及所有其他新任务/实验的范围；人为一维任10不冒充原RZ体域、新实测或任08原F1；任09不推出所需HF数量/节省；不同协议不作公平混排或架构单因素因果宣称。\n\n两外部URL仅检查文本及既有来源报告引用，未作网络可达性或新的作者代码/文献身份核验。171静态SHA源引用不把动态三全局合法追加误认源漂移。\n\n## 工件与范围\n\n[完整机器证据](主收尾汇总最终独立只读审核_完整机器证据.json)含全实际命令、工具合并stdout/stderr原回包、明确退出码、原JSON身份和精确指针；[40原值双指针实核](第96行S及四分项40原值与精确指针独立实核.json)和[原P2与真实负终态](主收尾汇总独审_第96行P2与真实负终态保留.json)保留原问题与真实失败。\n\n只读既有报告/JSON/CSV/YAML和工具元数据，不读PT/温度/Parquet/TEST或原逐点JSONL，不调用GPU/CUDA、训练、新测量、能源worker或正式parser；未改主报告/源85/冻结物料/全局/旧档。仅apply_patch在原自有目录新增档案。使用verification-before-completion要求真实fresh0先于交付结论，使用systematic-debugging核jq错误结构；未使用规划技能。\n\n本次只是既有汇总交付审核，不补齐五HF、十能源、真实独立测温或工程验收，不称总goal完成。所有本人命令会话终态；封存后停止，不开展任12/13。\n"
+    }
+  },
+  "最终独审原实际0回执": {
+    "完整实际命令与工具合并stdout_stderr原回包": {
+      "command": "env PYTHONDONTWRITEBYTECODE='1' OMP_NUM_THREADS='1' MKL_NUM_THREADS='1' CUDA_VISIBLE_DEVICES='' PYTEST_DISABLE_PLUGIN_AUTOLOAD='1' PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B -c 'import hashlib,json,math,re,stat\nfrom pathlib import Path\nfrom urllib.parse import urlparse,unquote\nfrom datetime import datetime\nroot=Path('\\''/home/phl/lyf/Temperature Field Prediction'\\'')\nreport_path=root/'\\''任11执行收尾与已完成任务结果汇总_20260916.md'\\''\nsource={}\ndef read(path):\n p=Path(path)\n if not p.is_absolute(): p=root/p\n if p.suffix not in {'\\''.md'\\'','\\''.json'\\'','\\''.csv'\\'','\\''.yaml'\\''} or root not in p.parents or not stat.S_ISREG(p.lstat().st_mode): raise ValueError(str(p))\n b=p.read_bytes(); source[str(p)]={'\\''字节'\\'':len(b),'\\''SHA256'\\'':hashlib.sha256(b).hexdigest()}\n return b\ndef js(path): return json.loads(read(path).decode('\\''utf-8-sig'\\''))\nbegin=datetime.now().astimezone().isoformat()\nbody=read(report_path).decode()\nlines=body.splitlines()\nold_path=root/'\\''研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json'\\''\nold=js(old_path)\nmethod_path=root/'\\''研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json'\\''\nmethods=js(method_path)\nbase=root/'\\''研究记录/任务11_外部对照'\\''\nagg_path=base/'\\''正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json'\\''\nagg=js(agg_path)\nobs_raw_path=base/'\\''正式新MLP三模态合法观察_20260916T183039+0800/原始指标与中文映射.json'\\''\nobs=js(obs_raw_path)['\\''十状态原指标'\\'']\nattempts_path=base/'\\''任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json'\\''\nattempts=js(attempts_path)\nchecks=[]\ndef check(name,ok,line=None,pointer=None,detail=None): checks.append({'\\''项目'\\'':name,'\\''通过'\\'':bool(ok),'\\''报告行'\\'':line,'\\''来源指针'\\'':pointer,'\\''细节'\\'':detail})\ndef close(a,b): return math.isclose(float(a),float(b),rel_tol=1e-11,abs_tol=1e-11)\ndef pair(line,mean,std,ptr):\n pairs=[(float(a),float(b)) for a,b in re.findall(r'\\''([0-9]+(?:\\.[0-9]+)?)±([0-9]+(?:\\.[0-9]+)?)'\\'',lines[line-1])]\n check('\\''表列均值与ddof1样本标准差匹配'\\'',any(close(a,mean) and close(b,std) for a,b in pairs),line,ptr,{'\\''原均值'\\'':mean,'\\''原std'\\'':std})\nstats=old['\\''已有五种子独立重算'\\'']\nmapping=[(35,'\\''任07_本轮合法macro_v1'\\''),(35,'\\''任07_历史B0合法macro_v1'\\''),(35,'\\''任07_观测最佳_能源'\\''),(35,'\\''任07_真末_能源'\\''),(36,'\\''任08_F2合法S'\\'')]\nmapping += [(49,'\\''任09_HF3_bestS'\\''),(49,'\\''任09_HF3_finalS'\\''),(50,'\\''任09_HF6_bestS'\\''),(50,'\\''任09_HF6_finalS'\\''),(51,'\\''任09_HF9_bestS'\\''),(51,'\\''任09_HF9_finalS'\\'')]\nmapping += [(61,'\\''任10_F1/无LF_隐藏两档双材料RMSE（K）'\\''),(62,'\\''任10_F2/lf_same_physics_coarse_隐藏两档双材料RMSE（K）'\\''),(63,'\\''任10_F3/lf_same_physics_coarse_隐藏两档双材料RMSE（K）'\\''),(64,'\\''任10_F2/lf_contact_mismatch_coarse_隐藏两档双材料RMSE（K）'\\''),(65,'\\''任10_F3/lf_contact_mismatch_coarse_隐藏两档双材料RMSE（K）'\\'')]\nfor line,key in mapping:\n leaf=stats[key]; pair(line,leaf['\\''均值'\\''],leaf['\\''样本标准差_ddof1'\\''],str(old_path)+'\\''#/已有五种子独立重算/'\\''+key)\nfor state,zh in [('\\''best'\\'','\\''观测最佳'\\''),('\\''final'\\'','\\''训练末'\\'')]:\n leaf=agg[zh]['\\''HF合法macro_v1_摄氏度'\\'']\n pair(75,leaf['\\''均值'\\''],leaf['\\''样本标准差'\\''],str(agg_path)+'\\''#/'\\''+zh+'\\''/HF合法macro_v1_摄氏度'\\'')\n for metric in ['\\''绝对平衡宏均值_瓦'\\'','\\''绝对平衡95分位_瓦'\\'']:\n  leaf=agg[zh]['\\''独立原能源'\\''][metric]; pair(92,leaf['\\''均值'\\''],leaf['\\''样本标准差'\\''],str(agg_path)+'\\''#/'\\''+zh+'\\''/独立原能源/'\\''+metric)\nfor metric in ['\\''顶部RMSE_摄氏度'\\'','\\''两环合并绝对RMSE_摄氏度'\\'','\\''两环合并首时刻差分RMSE_摄氏度'\\'']:\n leaf=agg['\\''观测最佳'\\'']['\\''HF合法分模态'\\''][metric]; pair(92,leaf['\\''均值'\\''],leaf['\\''样本标准差'\\''],str(agg_path)+'\\''#/观测最佳/HF合法分模态/'\\''+metric)\nfor seed in range(5):\n row=lines[85+seed].strip().strip('\\''|'\\'').split('\\''|'\\'')\n check('\\''新MLP表列原五seed双状态S'\\'',int(row[0])==seed and close(row[1],agg['\\''逐种子原统计'\\''][seed]['\\''观测最佳'\\'']['\\''HF合法macro_v1_摄氏度'\\'']) and close(row[2],agg['\\''逐种子原统计'\\''][seed]['\\''训练末'\\'']['\\''HF合法macro_v1_摄氏度'\\'']),86+seed,str(agg_path)+'\\''#/逐种子原统计/'\\''+str(seed))\ncheck('\\''选模0.2与训练ABS5不混用'\\'','\\''0.2×HotCold_ABS_macro_RMSE'\\'' in lines[16] and '\\''/2.2'\\'' in lines[16] and '\\''不是训练损失中的ABS权重5'\\'' in lines[18],17)\ncheck('\\''三功率等权且确定性不伪造五std'\\'','\\''先逐功率计算再等权宏平均'\\'' in lines[14] and '\\''确定性FEM与Ridge不复制五份'\\'' in lines[18],15)\nfor key in ['\\''S_摄氏度'\\'','\\''ABS_摄氏度'\\'','\\''Delta_摄氏度'\\'']:\n check('\\''Ridge表列原组合指标'\\''+key,str(methods['\\''Ridge'\\''][key]) in lines[73],74,str(method_path)+'\\''#/Ridge/'\\''+key)\nfor mod in ['\\''Top'\\'','\\''Hot'\\'','\\''Cold'\\'']:\n check('\\''Ridge表列原逐模态RMSE'\\''+mod,str(methods['\\''Ridge'\\'']['\\''逐模态三功率等权宏平均_摄氏度'\\''][mod]['\\''rmse_c'\\'']) in lines[73],74,str(method_path)+'\\''#/Ridge/逐模态三功率等权宏平均_摄氏度/'\\''+mod)\ncheck('\\''FEM局部宏RMSE与完整S NULL'\\'',str(methods['\\''FEM'\\'']['\\''顶部三功率等权宏RMSE_摄氏度'\\'']) in lines[72] and '\\''完整S=NULL'\\'' in lines[72],73)\ncost=agg['\\''五种子累计总量'\\'']\nfor field in ['\\''LF训练成本_秒'\\'','\\''HF训练成本_秒'\\'','\\''LF与HF训练成本合计_秒'\\'']:\n check('\\''MLP本人循环成本合计不双计'\\''+field,str(cost[field]) in lines[93],94,str(agg_path)+'\\''#/五种子累计总量/'\\''+field)\ncheck('\\''MLP总HF5560且会话30maxpeak正确'\\'',cost['\\''HF累计轮次'\\'']==5560 and sum(r['\\''HF会话数'\\''] for r in methods['\\''新MLP'\\'']['\\''五本人训练身份成本'\\''])==30 and methods['\\''新MLP'\\'']['\\''全部十训练身份显存峰值字节取max'\\'']==78016000,94)\nqs=attempts['\\''后续唯一必要83493队列'\\'']\nevent=json.loads(next(s.partition('\\''='\\'')[2] for s in qs['\\''原完整stdout及stderr工具合并输出'\\''].splitlines() if s.startswith('\\''HOWARD_HF_BOUNDED_ATTEMPTS_COMPLETE='\\'')))\nsuccess=event['\\''实际成功种子本人完整资格及原末收据'\\'']; failed=event['\\''未取得本人完整资格的实际失败种子'\\'']\ncheck('\\''Howard原五尝试终态不是五成功'\\'',sorted(map(int,success))==[0,1,3] and sorted(map(int,failed))==[2,4] and event['\\''五HF全部完训验收'\\''] is False and qs['\\''真实末工具退出0'\\'']['\\''exit_code'\\'']==0,7,str(attempts_path)+'\\''#/后续唯一必要83493队列/原完整stdout及stderr工具合并输出'\\'')\nfor seed,line in [(0,102),(1,103),(3,105)]:\n q=success[str(seed)]['\\''本人完整资格'\\'']; text=lines[line-1]\n check('\\''Howard成功seed原S/阶段/工件数'\\'',str(q['\\''全局最佳分数'\\'']) in text and str(q['\\''最近合法分数'\\'']) in text and str(q['\\''阶段1实际轮次'\\''])+'\\''/'\\''+str(q['\\''阶段2实际轮次'\\'']) in text and str(len(q['\\''真实工件SHA256'\\'']))+'\\''原件'\\'' in text,line)\ncheck('\\''Howard两失败表列NULL与正确durable'\\'','\\''200/303'\\'' in lines[103] and '\\''200/209'\\'' in lines[105] and lines[103].count('\\''NULL'\\'')==2 and lines[105].count('\\''NULL'\\'')==2,104)\nhf_loop=sum(v['\\''本人完整资格'\\'']['\\''真实HF训练累计成本秒'\\''] for v in success.values())\nhf_session=sum(v['\\''本人完整资格'\\'']['\\''真实HF会话累计总秒'\\''] for v in success.values())\npeak=max(v['\\''本人完整资格'\\'']['\\''峰值CUDA显存字节'\\''] for v in success.values())\ncheck('\\''Howard成功子集成本只作小计不冒全五成本'\\'',str(hf_loop) in lines[113] and str(hf_session) in lines[113] and str(peak) in lines[113] and '\\''均NULL'\\'' in lines[113],114,detail={'\\''原循环小计'\\'':hf_loop,'\\''原会话小计'\\'':hf_session,'\\''原peakmax'\\'':peak})\ncheck('\\''暂停12/13与完整验收否定明确'\\'','\\''任-12、任-13及任何新模型优化、额外实验均不启动'\\'' in lines[8] and '\\''不等于任-11完整科学工程验收通过'\\'' in lines[8] and '\\''不等于原总计划100%完成'\\'' in lines[8],9)\ncheck('\\''B0不更新且原RZ/实测证据仍缺'\\'','\\''旧B0冻结发布与索引不改'\\'' in lines[10] and '\\''新增独立真实测温、原RZ内部HF真值'\\'' in lines[10],11)\ndiagnostic=js(base/'\\''任11_Howard_HF_seed2数值失败现场与原303断点CPU304真实复现_20260916T205117+0800.json'\\'')\ncpu=diagnostic['\\''从原303副本只诊断一个CPU304轮'\\'']['\\''结构化原stdout'\\'']\ninf_sum=sum(v['\\''exp_avg_sq'\\'']['\\''正无穷数'\\''] for v in cpu['\\''56参数与原AdamW当前实际逐项'\\''])\ncheck('\\''CPU32/47109仅seed2副本诊断'\\'',cpu['\\''实际非有限动量参数数'\\'']==32 and inf_sum==47109 and '\\''32参数的47109'\\'' in lines[109] and '\\''不是原GPU逐位重放'\\'' in lines[109],110,detail={'\\''CPU正无穷元素重求和'\\'':inf_sum})\nroot_math=js(base/'\\''任11暂停前既有116组与464数值中文四轮实核_20260916T211612+0800.json'\\'')['\\''结构化原stdout'\\'']\ncheck('\\''已有116组464比较与641原独核正确'\\'',root_math['\\''实际已有五值组数'\\'']==116 and root_math['\\''实际数值比较数'\\'']==464 and old['\\''核对总数'\\'']==641 and old['\\''实际失败核对数'\\'']==0 and old['\\''静态原件数'\\'']==72,21)\nall_metric_differences=[]\nfor i,r in enumerate(obs):\n seed=r['\\''种子'\\'']; zh={'\\''best'\\'':'\\''观测最佳'\\'','\\''final'\\'':'\\''训练末'\\''}[r['\\''模型状态'\\'']]\n raw=agg['\\''逐种子原统计'\\''][seed][zh]\n for metric,new,original in [('\\''S'\\'',r['\\''原macro核验'\\'']['\\''合法HF原macro_v1_摄氏度'\\''],raw['\\''HF合法macro_v1_摄氏度'\\'']),('\\''Top'\\'',r['\\''原macro核验'\\'']['\\''顶部'\\''],raw['\\''HF合法分模态'\\'']['\\''顶部RMSE_摄氏度'\\'']),('\\''ABS'\\'',r['\\''原macro核验'\\'']['\\''absolute_rmse_c'\\''],raw['\\''HF合法分模态'\\'']['\\''两环合并绝对RMSE_摄氏度'\\'']),('\\''Delta'\\'',r['\\''原macro核验'\\'']['\\''delta_rmse_c'\\''],raw['\\''HF合法分模态'\\'']['\\''两环合并首时刻差分RMSE_摄氏度'\\''])]:\n  all_metric_differences.append({'\\''种子'\\'':seed,'\\''状态'\\'':r['\\''模型状态'\\''],'\\''项'\\'':metric,'\\''原值'\\'':original,'\\''OBS值'\\'':new,'\\''绝对差'\\'':abs(new-original),'\\''OBS原JSON数组索引'\\'':i})\nsm=max((v for v in all_metric_differences if v['\\''项'\\'']=='\\''S'\\''),key=lambda v:v['\\''绝对差'\\''])\ncombined=max(all_metric_differences,key=lambda v:v['\\''绝对差'\\''])\ncheck('\\''P2修订后S与分项最大差正确分开'\\'','\\''1.8799774275102266×10^-6'\\'' in lines[95] and '\\''4.376994375165921×10^-6'\\'' in lines[95] and '\\''seed4 best的Delta'\\'' in lines[95] and close(sm['\\''绝对差'\\''],1.8799774275102266e-6) and close(combined['\\''绝对差'\\''],4.376994375165921e-6),96,detail={'\\''S最大'\\'':sm,'\\''四项最大'\\'':combined})\nlinks=[]; externals=[]\nfor match in re.finditer(r'\\''\\[([^\\]]+)\\]\\(([^)]+)\\)'\\'',body):\n label,target=match.groups(); parsed=urlparse(target)\n if parsed.scheme in {'\\''http'\\'','\\''https'\\''}: externals.append({'\\''名称'\\'':label,'\\''URL'\\'':target,'\\''限界'\\'':'\\''只核URL书写及已有来源报告，不作网络可达性/新文献审查'\\''}); continue\n p=(report_path.parent/unquote(parsed.path)).resolve()\n exists=p.is_file()\n links.append({'\\''名称'\\'':label,'\\''路径'\\'':str(p),'\\''存在'\\'':exists})\n check('\\''本地引用链接存在'\\'',exists,body[:match.start()].count('\\''\\n'\\'')+1,str(p))\n if exists: read(p)\nfrozen={}\nfor mapping in [old['\\''全部引用原件结束时SHA256'\\''],methods['\\''原件SHA256映射'\\'']]:\n for name,expected in mapping.items():\n  p=Path(name)\n  if not p.is_absolute(): p=root/p\n  if p in {root/'\\''多保真DeepONet预测精度优化总计划与执行台账.md'\\'',root/'\\''研究记录/总任务状态.json'\\'',root/'\\''研究记录/当前接续状态.md'\\''}: continue\n  b=read(p); actual=hashlib.sha256(b).hexdigest(); frozen[str(p)]=actual\n  check('\\''此前独核引用原件fresh普通SHA仍稳定'\\'',actual==expected,pointer=str(p))\nreport_after=report_path.read_bytes()\ncheck('\\''本次新版报告短读取窗口SHA稳定'\\'',hashlib.sha256(report_after).hexdigest()==source[str(report_path)]['\\''SHA256'\\''])\nactualmap={k:v['\\''SHA256'\\''] for k,v in sorted(source.items())}\nresult={'\\''开始'\\'':begin,'\\''结束'\\'':datetime.now().astimezone().isoformat(),'\\''本次性质'\\'':'\\''仅CPU现存报告/指标/命令元数据，非训练或工程验收'\\'','\\''新版报告身份'\\'':source[str(report_path)],'\\''行数'\\'':len(lines),'\\''审核检查数'\\'':len(checks),'\\''失败数'\\'':sum(not v['\\''通过'\\''] for v in checks),'\\''失败逐项'\\'':[v for v in checks if not v['\\''通过'\\'']],'\\''数字与限界检查'\\'':[v for v in checks if not v['\\''项目'\\''].startswith('\\''此前独核引用'\\'') and not v['\\''项目'\\''].startswith('\\''本地引用'\\'')],'\\''本地链接'\\'':links,'\\''外部链接限界'\\'':externals,'\\''静态既有引用freshSHA原件数'\\'':len(frozen),'\\''实际读取引用数'\\'':len(source),'\\''实际读取SHA映射canonicalJSON_SHA256'\\'':hashlib.sha256(json.dumps(actualmap,ensure_ascii=False,sort_keys=True,separators=('\\'','\\'','\\'':'\\'')).encode()).hexdigest(),'\\''关键原JSON普通身份'\\'':{str(p):source[str(p)] for p in [agg_path,obs_raw_path,attempts_path,old_path,method_path]},'\\''不调用PT_温度_GPU_训练_正式parser'\\'':True}\nprint(json.dumps(result,ensure_ascii=False,indent=2))\nassert result['\\''失败数'\\'']==0\n'",
+      "chunk_id": "96b544",
+      "wall_time_seconds": 0.000003161,
+      "exit_code": 0,
+      "original_token_count": 7394,
+      "output": "{\n  \"开始\": \"2026-09-16T21:49:10.584664+08:00\",\n  \"结束\": \"2026-09-16T21:49:10.615677+08:00\",\n  \"本次性质\": \"仅CPU现存报告/指标/命令元数据，非训练或工程验收\",\n  \"新版报告身份\": {\n    \"字节\": 20108,\n    \"SHA256\": \"78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e\"\n  },\n  \"行数\": 137,\n  \"审核检查数\": 252,\n  \"失败数\": 0,\n  \"失败逐项\": [],\n  \"数字与限界检查\": [\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 35,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_本轮合法macro_v1\",\n      \"细节\": {\n        \"原均值\": 2.1878699321887187,\n        \"原std\": 0.07997184178363899\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 35,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_历史B0合法macro_v1\",\n      \"细节\": {\n        \"原均值\": 2.0016026997447276,\n        \"原std\": 0.06670546316950529\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 35,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_观测最佳_能源\",\n      \"细节\": {\n        \"原均值\": 947.2563404248216,\n        \"原std\": 162.4107158206475\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 35,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_真末_能源\",\n      \"细节\": {\n        \"原均值\": 925.388596244355,\n        \"原std\": 131.9218183466117\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 36,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任08_F2合法S\",\n      \"细节\": {\n        \"原均值\": 1.9976233053756622,\n        \"原std\": 0.08967725801990671\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 49,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF3_bestS\",\n      \"细节\": {\n        \"原均值\": 4.378246352405521,\n        \"原std\": 0.35797793090337177\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 49,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF3_finalS\",\n      \"细节\": {\n        \"原均值\": 5.616279354980877,\n        \"原std\": 0.5184573919355734\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 50,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF6_bestS\",\n      \"细节\": {\n        \"原均值\": 2.0031263084341275,\n        \"原std\": 0.08074308269510264\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 50,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF6_finalS\",\n      \"细节\": {\n        \"原均值\": 2.3828903516249347,\n        \"原std\": 0.2207984293446149\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 51,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF9_bestS\",\n      \"细节\": {\n        \"原均值\": 2.1269082569040267,\n        \"原std\": 0.034646491780418516\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 51,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF9_finalS\",\n      \"细节\": {\n        \"原均值\": 2.2547285688190866,\n        \"原std\": 0.0843374211402781\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 61,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F1/无LF_隐藏两档双材料RMSE（K）\",\n      \"细节\": {\n        \"原均值\": 2.0258727483817354,\n        \"原std\": 0.25701995379749865\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 62,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F2/lf_same_physics_coarse_隐藏两档双材料RMSE（K）\",\n      \"细节\": {\n        \"原均值\": 1.629900263179825,\n        \"原std\": 0.5354404540273202\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 63,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F3/lf_same_physics_coarse_隐藏两档双材料RMSE（K）\",\n      \"细节\": {\n        \"原均值\": 1.6567689080988715,\n        \"原std\": 0.2971430365687167\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 64,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F2/lf_contact_mismatch_coarse_隐藏两档双材料RMSE（K）\",\n      \"细节\": {\n        \"原均值\": 1.9169342375426097,\n        \"原std\": 0.2425559333435048\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 65,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F3/lf_contact_mismatch_coarse_隐藏两档双材料RMSE（K）\",\n      \"细节\": {\n        \"原均值\": 1.7512872359912017,\n        \"原std\": 0.14570514374496996\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 75,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法macro_v1_摄氏度\",\n      \"细节\": {\n        \"原均值\": 2.23999930672501,\n        \"原std\": 0.11183406552166723\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 92,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/独立原能源/绝对平衡宏均值_瓦\",\n      \"细节\": {\n        \"原均值\": 964.9120491609868,\n        \"原std\": 237.06611905476115\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 92,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/独立原能源/绝对平衡95分位_瓦\",\n      \"细节\": {\n        \"原均值\": 2035.8767416558246,\n        \"原std\": 393.3531914237448\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 75,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/训练末/HF合法macro_v1_摄氏度\",\n      \"细节\": {\n        \"原均值\": 2.8257541843956,\n        \"原std\": 0.21263706305174443\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 92,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/训练末/独立原能源/绝对平衡宏均值_瓦\",\n      \"细节\": {\n        \"原均值\": 987.8240557630888,\n        \"原std\": 228.88441103601738\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 92,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/训练末/独立原能源/绝对平衡95分位_瓦\",\n      \"细节\": {\n        \"原均值\": 2261.478670873682,\n        \"原std\": 752.4945600349774\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 92,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法分模态/顶部RMSE_摄氏度\",\n      \"细节\": {\n        \"原均值\": 3.6159133568986235,\n        \"原std\": 0.44033406065341835\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 92,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法分模态/两环合并绝对RMSE_摄氏度\",\n      \"细节\": {\n        \"原均值\": 1.5767103383938472,\n        \"原std\": 0.5868667474211582\n      }\n    },\n    {\n      \"项目\": \"表列均值与ddof1样本标准差匹配\",\n      \"通过\": true,\n      \"报告行\": 92,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法分模态/两环合并首时刻差分RMSE_摄氏度\",\n      \"细节\": {\n        \"原均值\": 0.9967430502176284,\n        \"原std\": 0.22643266505041346\n      }\n    },\n    {\n      \"项目\": \"新MLP表列原五seed双状态S\",\n      \"通过\": true,\n      \"报告行\": 86,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/0\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"新MLP表列原五seed双状态S\",\n      \"通过\": true,\n      \"报告行\": 87,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/1\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"新MLP表列原五seed双状态S\",\n      \"通过\": true,\n      \"报告行\": 88,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/2\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"新MLP表列原五seed双状态S\",\n      \"通过\": true,\n      \"报告行\": 89,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/3\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"新MLP表列原五seed双状态S\",\n      \"通过\": true,\n      \"报告行\": 90,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/4\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"选模0.2与训练ABS5不混用\",\n      \"通过\": true,\n      \"报告行\": 17,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"三功率等权且确定性不伪造五std\",\n      \"通过\": true,\n      \"报告行\": 15,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Ridge表列原组合指标S_摄氏度\",\n      \"通过\": true,\n      \"报告行\": 74,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/S_摄氏度\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Ridge表列原组合指标ABS_摄氏度\",\n      \"通过\": true,\n      \"报告行\": 74,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/ABS_摄氏度\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Ridge表列原组合指标Delta_摄氏度\",\n      \"通过\": true,\n      \"报告行\": 74,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/Delta_摄氏度\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Ridge表列原逐模态RMSETop\",\n      \"通过\": true,\n      \"报告行\": 74,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/逐模态三功率等权宏平均_摄氏度/Top\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Ridge表列原逐模态RMSEHot\",\n      \"通过\": true,\n      \"报告行\": 74,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/逐模态三功率等权宏平均_摄氏度/Hot\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Ridge表列原逐模态RMSECold\",\n      \"通过\": true,\n      \"报告行\": 74,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/逐模态三功率等权宏平均_摄氏度/Cold\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"FEM局部宏RMSE与完整S NULL\",\n      \"通过\": true,\n      \"报告行\": 73,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"MLP本人循环成本合计不双计LF训练成本_秒\",\n      \"通过\": true,\n      \"报告行\": 94,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/五种子累计总量/LF训练成本_秒\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"MLP本人循环成本合计不双计HF训练成本_秒\",\n      \"通过\": true,\n      \"报告行\": 94,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/五种子累计总量/HF训练成本_秒\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"MLP本人循环成本合计不双计LF与HF训练成本合计_秒\",\n      \"通过\": true,\n      \"报告行\": 94,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/五种子累计总量/LF与HF训练成本合计_秒\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"MLP总HF5560且会话30maxpeak正确\",\n      \"通过\": true,\n      \"报告行\": 94,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Howard原五尝试终态不是五成功\",\n      \"通过\": true,\n      \"报告行\": 7,\n      \"来源指针\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json#/后续唯一必要83493队列/原完整stdout及stderr工具合并输出\",\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Howard成功seed原S/阶段/工件数\",\n      \"通过\": true,\n      \"报告行\": 102,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Howard成功seed原S/阶段/工件数\",\n      \"通过\": true,\n      \"报告行\": 103,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Howard成功seed原S/阶段/工件数\",\n      \"通过\": true,\n      \"报告行\": 105,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Howard两失败表列NULL与正确durable\",\n      \"通过\": true,\n      \"报告行\": 104,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"Howard成功子集成本只作小计不冒全五成本\",\n      \"通过\": true,\n      \"报告行\": 114,\n      \"来源指针\": null,\n      \"细节\": {\n        \"原循环小计\": 1670.536907872156,\n        \"原会话小计\": 3281.192143021064,\n        \"原peakmax\": 4326212096\n      }\n    },\n    {\n      \"项目\": \"暂停12/13与完整验收否定明确\",\n      \"通过\": true,\n      \"报告行\": 9,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"B0不更新且原RZ/实测证据仍缺\",\n      \"通过\": true,\n      \"报告行\": 11,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"CPU32/47109仅seed2副本诊断\",\n      \"通过\": true,\n      \"报告行\": 110,\n      \"来源指针\": null,\n      \"细节\": {\n        \"CPU正无穷元素重求和\": 47109\n      }\n    },\n    {\n      \"项目\": \"已有116组464比较与641原独核正确\",\n      \"通过\": true,\n      \"报告行\": 21,\n      \"来源指针\": null,\n      \"细节\": null\n    },\n    {\n      \"项目\": \"P2修订后S与分项最大差正确分开\",\n      \"通过\": true,\n      \"报告行\": 96,\n      \"来源指针\": null,\n      \"细节\": {\n        \"S最大\": {\n          \"种子\": 4,\n          \"状态\": \"best\",\n          \"项\": \"S\",\n          \"原值\": 2.2489370432477584,\n          \"OBS值\": 2.248938923225186,\n          \"绝对差\": 1.8799774275102266e-06,\n          \"OBS原JSON数组索引\": 8\n        },\n        \"四项最大\": {\n          \"种子\": 4,\n          \"状态\": \"best\",\n          \"项\": \"Delta\",\n          \"原值\": 0.7937644148866335,\n          \"OBS值\": 0.7937687918810087,\n          \"绝对差\": 4.376994375165921e-06,\n          \"OBS原JSON数组索引\": 8\n        }\n      }\n    },\n    {\n      \"项目\": \"本次新版报告短读取窗口SHA稳定\",\n      \"通过\": true,\n      \"报告行\": null,\n      \"来源指针\": null,\n      \"细节\": null\n    }\n  ],\n  \"本地链接\": [\n    {\n      \"名称\": \"启动验收\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务01_启动与可追溯性/验收报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"排程验收\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务02_训练排程/验收报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"预算门禁判定\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务03_低保真精度修复/验收判定_预算门禁复核.json\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"两臂与四态验收\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务04_联合微调/正式两臂与四状态验收报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"条件判定报告\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务05_物理一致性/任务05_条件判定与有限退出报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"三臂600轮验收\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务06_时间响应特征/HF三臂真实600轮与六状态能源验收.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"修复版五种子与双轨能源\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务07_正式五种子重训/修复版五种子合法验证稳定性与双轨能源验收.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"F2五种子三态报告\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务08_贡献消融/F2_正式五种子三态能源与合法HF受限验收总报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"F3主序列报告\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务09_高保真数据效率/正式F3主序列汇总_录0096_20260916T122137+0800/F3主序列正式中文验收报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"25模型九档完整场\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/任10_全25真CUDA九档完整场后验正式中文验收_20260916T1258.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"新MLP正式汇总根审\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_新MLP五种子十原能源正式汇总根复审中文验收_20260916T172037+0800.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"Howard五HF尝试终态\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"真实三模态观察中文报告\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_新MLP真实三模态观察中文误差与验收_20260916T190502+0800.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"seed2中文诊断\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard_HF_seed2第304轮数值失败中文诊断_20260916T205117+0800.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"原五尝试终态与seed4现场\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"seed4真实56原件归档补证\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_seed4第210轮失败56普通原件真实归档补证_20260916T212451+0800.json\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"候选独立CPU中文复核\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/独立复核中文报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"任-01至任-10独立结果核对\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/任01至10已有完成结果独立核对报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"根116组四轮实核证据\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11暂停前既有116组与464数值中文四轮实核_20260916T211612+0800.json\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"总执行台账\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/多保真DeepONet预测精度优化总计划与执行台账.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"总任务状态\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/总任务状态.json\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"当前接续状态\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/当前接续状态.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"四必要方法已有结果独立盘点\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/任11四必要方法已有结果独立盘点报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"Howard成功0/1/3完整资格独立审核\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/独立成功013完整资格中文报告.md\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"暂停交付机器索引\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_20260916.json\",\n      \"存在\": true\n    },\n    {\n      \"名称\": \"最终收尾补证\",\n      \"路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json\",\n      \"存在\": true\n    }\n  ],\n  \"外部链接限界\": [\n    {\n      \"名称\": \"Howard等原论文\",\n      \"URL\": \"https://arxiv.org/html/2204.09157v2\",\n      \"限界\": \"只核URL书写及已有来源报告，不作网络可达性/新文献审查\"\n    },\n    {\n      \"名称\": \"作者代码页\",\n      \"URL\": \"https://amanda-howard.github.io/code/\",\n      \"限界\": \"只核URL书写及已有来源报告，不作网络可达性/新文献审查\"\n    }\n  ],\n  \"静态既有引用freshSHA原件数\": 171,\n  \"实际读取引用数\": 185,\n  \"实际读取SHA映射canonicalJSON_SHA256\": \"0e24bb217b1b1b48526bafeb48b590e5eb0798d3480f58c05f915b43427a5944\",\n  \"关键原JSON普通身份\": {\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json\": {\n      \"字节\": 207411,\n      \"SHA256\": \"ee19571311abf84a3682d4548d96a0fa13c98917940e1a64298d6eb65b561068\"\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP三模态合法观察_20260916T183039+0800/原始指标与中文映射.json\": {\n      \"字节\": 567116,\n      \"SHA256\": \"1bfb5008141f861dc7e6acad9c2c0353dd0e463278540f3cde6bd28f0d64ecc4\"\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json\": {\n      \"字节\": 901612,\n      \"SHA256\": \"214d29a2e88b79f1d285b64d62950b7b2d59235a59c7e675d2af82fbaa890d64\"\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json\": {\n      \"字节\": 813295,\n      \"SHA256\": \"b12063d59bf9a1440fb550c07e3116ac403aa20576b15ddc5b7f70626f1796fd\"\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json\": {\n      \"字节\": 1583006,\n      \"SHA256\": \"86001083b0b9528fef5b50669d0bba4de321f0f0d1dd2d69da5b9acca35ea47c\"\n    }\n  },\n  \"不调用PT_温度_GPU_训练_正式parser\": true\n}\n"
+    },
+    "结构化原stdout": {
+      "开始": "2026-09-16T21:49:10.584664+08:00",
+      "结束": "2026-09-16T21:49:10.615677+08:00",
+      "本次性质": "仅CPU现存报告/指标/命令元数据，非训练或工程验收",
+      "新版报告身份": {
+        "字节": 20108,
+        "SHA256": "78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e"
+      },
+      "行数": 137,
+      "审核检查数": 252,
+      "失败数": 0,
+      "失败逐项": [],
+      "数字与限界检查": [
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 35,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_本轮合法macro_v1",
+          "细节": {
+            "原均值": 2.1878699321887187,
+            "原std": 0.07997184178363899
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 35,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_历史B0合法macro_v1",
+          "细节": {
+            "原均值": 2.0016026997447276,
+            "原std": 0.06670546316950529
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 35,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_观测最佳_能源",
+          "细节": {
+            "原均值": 947.2563404248216,
+            "原std": 162.4107158206475
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 35,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任07_真末_能源",
+          "细节": {
+            "原均值": 925.388596244355,
+            "原std": 131.9218183466117
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 36,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任08_F2合法S",
+          "细节": {
+            "原均值": 1.9976233053756622,
+            "原std": 0.08967725801990671
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 49,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF3_bestS",
+          "细节": {
+            "原均值": 4.378246352405521,
+            "原std": 0.35797793090337177
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 49,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF3_finalS",
+          "细节": {
+            "原均值": 5.616279354980877,
+            "原std": 0.5184573919355734
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 50,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF6_bestS",
+          "细节": {
+            "原均值": 2.0031263084341275,
+            "原std": 0.08074308269510264
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 50,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF6_finalS",
+          "细节": {
+            "原均值": 2.3828903516249347,
+            "原std": 0.2207984293446149
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 51,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF9_bestS",
+          "细节": {
+            "原均值": 2.1269082569040267,
+            "原std": 0.034646491780418516
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 51,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任09_HF9_finalS",
+          "细节": {
+            "原均值": 2.2547285688190866,
+            "原std": 0.0843374211402781
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 61,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F1/无LF_隐藏两档双材料RMSE（K）",
+          "细节": {
+            "原均值": 2.0258727483817354,
+            "原std": 0.25701995379749865
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 62,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F2/lf_same_physics_coarse_隐藏两档双材料RMSE（K）",
+          "细节": {
+            "原均值": 1.629900263179825,
+            "原std": 0.5354404540273202
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 63,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F3/lf_same_physics_coarse_隐藏两档双材料RMSE（K）",
+          "细节": {
+            "原均值": 1.6567689080988715,
+            "原std": 0.2971430365687167
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 64,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F2/lf_contact_mismatch_coarse_隐藏两档双材料RMSE（K）",
+          "细节": {
+            "原均值": 1.9169342375426097,
+            "原std": 0.2425559333435048
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 65,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json#/已有五种子独立重算/任10_F3/lf_contact_mismatch_coarse_隐藏两档双材料RMSE（K）",
+          "细节": {
+            "原均值": 1.7512872359912017,
+            "原std": 0.14570514374496996
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 75,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法macro_v1_摄氏度",
+          "细节": {
+            "原均值": 2.23999930672501,
+            "原std": 0.11183406552166723
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 92,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/独立原能源/绝对平衡宏均值_瓦",
+          "细节": {
+            "原均值": 964.9120491609868,
+            "原std": 237.06611905476115
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 92,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/独立原能源/绝对平衡95分位_瓦",
+          "细节": {
+            "原均值": 2035.8767416558246,
+            "原std": 393.3531914237448
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 75,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/训练末/HF合法macro_v1_摄氏度",
+          "细节": {
+            "原均值": 2.8257541843956,
+            "原std": 0.21263706305174443
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 92,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/训练末/独立原能源/绝对平衡宏均值_瓦",
+          "细节": {
+            "原均值": 987.8240557630888,
+            "原std": 228.88441103601738
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 92,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/训练末/独立原能源/绝对平衡95分位_瓦",
+          "细节": {
+            "原均值": 2261.478670873682,
+            "原std": 752.4945600349774
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 92,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法分模态/顶部RMSE_摄氏度",
+          "细节": {
+            "原均值": 3.6159133568986235,
+            "原std": 0.44033406065341835
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 92,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法分模态/两环合并绝对RMSE_摄氏度",
+          "细节": {
+            "原均值": 1.5767103383938472,
+            "原std": 0.5868667474211582
+          }
+        },
+        {
+          "项目": "表列均值与ddof1样本标准差匹配",
+          "通过": true,
+          "报告行": 92,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/观测最佳/HF合法分模态/两环合并首时刻差分RMSE_摄氏度",
+          "细节": {
+            "原均值": 0.9967430502176284,
+            "原std": 0.22643266505041346
+          }
+        },
+        {
+          "项目": "新MLP表列原五seed双状态S",
+          "通过": true,
+          "报告行": 86,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/0",
+          "细节": null
+        },
+        {
+          "项目": "新MLP表列原五seed双状态S",
+          "通过": true,
+          "报告行": 87,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/1",
+          "细节": null
+        },
+        {
+          "项目": "新MLP表列原五seed双状态S",
+          "通过": true,
+          "报告行": 88,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/2",
+          "细节": null
+        },
+        {
+          "项目": "新MLP表列原五seed双状态S",
+          "通过": true,
+          "报告行": 89,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/3",
+          "细节": null
+        },
+        {
+          "项目": "新MLP表列原五seed双状态S",
+          "通过": true,
+          "报告行": 90,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/逐种子原统计/4",
+          "细节": null
+        },
+        {
+          "项目": "选模0.2与训练ABS5不混用",
+          "通过": true,
+          "报告行": 17,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "三功率等权且确定性不伪造五std",
+          "通过": true,
+          "报告行": 15,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "Ridge表列原组合指标S_摄氏度",
+          "通过": true,
+          "报告行": 74,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/S_摄氏度",
+          "细节": null
+        },
+        {
+          "项目": "Ridge表列原组合指标ABS_摄氏度",
+          "通过": true,
+          "报告行": 74,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/ABS_摄氏度",
+          "细节": null
+        },
+        {
+          "项目": "Ridge表列原组合指标Delta_摄氏度",
+          "通过": true,
+          "报告行": 74,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/Delta_摄氏度",
+          "细节": null
+        },
+        {
+          "项目": "Ridge表列原逐模态RMSETop",
+          "通过": true,
+          "报告行": 74,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/逐模态三功率等权宏平均_摄氏度/Top",
+          "细节": null
+        },
+        {
+          "项目": "Ridge表列原逐模态RMSEHot",
+          "通过": true,
+          "报告行": 74,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/逐模态三功率等权宏平均_摄氏度/Hot",
+          "细节": null
+        },
+        {
+          "项目": "Ridge表列原逐模态RMSECold",
+          "通过": true,
+          "报告行": 74,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json#/Ridge/逐模态三功率等权宏平均_摄氏度/Cold",
+          "细节": null
+        },
+        {
+          "项目": "FEM局部宏RMSE与完整S NULL",
+          "通过": true,
+          "报告行": 73,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "MLP本人循环成本合计不双计LF训练成本_秒",
+          "通过": true,
+          "报告行": 94,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/五种子累计总量/LF训练成本_秒",
+          "细节": null
+        },
+        {
+          "项目": "MLP本人循环成本合计不双计HF训练成本_秒",
+          "通过": true,
+          "报告行": 94,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/五种子累计总量/HF训练成本_秒",
+          "细节": null
+        },
+        {
+          "项目": "MLP本人循环成本合计不双计LF与HF训练成本合计_秒",
+          "通过": true,
+          "报告行": 94,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json#/五种子累计总量/LF与HF训练成本合计_秒",
+          "细节": null
+        },
+        {
+          "项目": "MLP总HF5560且会话30maxpeak正确",
+          "通过": true,
+          "报告行": 94,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "Howard原五尝试终态不是五成功",
+          "通过": true,
+          "报告行": 7,
+          "来源指针": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json#/后续唯一必要83493队列/原完整stdout及stderr工具合并输出",
+          "细节": null
+        },
+        {
+          "项目": "Howard成功seed原S/阶段/工件数",
+          "通过": true,
+          "报告行": 102,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "Howard成功seed原S/阶段/工件数",
+          "通过": true,
+          "报告行": 103,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "Howard成功seed原S/阶段/工件数",
+          "通过": true,
+          "报告行": 105,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "Howard两失败表列NULL与正确durable",
+          "通过": true,
+          "报告行": 104,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "Howard成功子集成本只作小计不冒全五成本",
+          "通过": true,
+          "报告行": 114,
+          "来源指针": null,
+          "细节": {
+            "原循环小计": 1670.536907872156,
+            "原会话小计": 3281.192143021064,
+            "原peakmax": 4326212096
+          }
+        },
+        {
+          "项目": "暂停12/13与完整验收否定明确",
+          "通过": true,
+          "报告行": 9,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "B0不更新且原RZ/实测证据仍缺",
+          "通过": true,
+          "报告行": 11,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "CPU32/47109仅seed2副本诊断",
+          "通过": true,
+          "报告行": 110,
+          "来源指针": null,
+          "细节": {
+            "CPU正无穷元素重求和": 47109
+          }
+        },
+        {
+          "项目": "已有116组464比较与641原独核正确",
+          "通过": true,
+          "报告行": 21,
+          "来源指针": null,
+          "细节": null
+        },
+        {
+          "项目": "P2修订后S与分项最大差正确分开",
+          "通过": true,
+          "报告行": 96,
+          "来源指针": null,
+          "细节": {
+            "S最大": {
+              "种子": 4,
+              "状态": "best",
+              "项": "S",
+              "原值": 2.2489370432477584,
+              "OBS值": 2.248938923225186,
+              "绝对差": 0.0000018799774275102266,
+              "OBS原JSON数组索引": 8
+            },
+            "四项最大": {
+              "种子": 4,
+              "状态": "best",
+              "项": "Delta",
+              "原值": 0.7937644148866335,
+              "OBS值": 0.7937687918810087,
+              "绝对差": 0.000004376994375165921,
+              "OBS原JSON数组索引": 8
+            }
+          }
+        },
+        {
+          "项目": "本次新版报告短读取窗口SHA稳定",
+          "通过": true,
+          "报告行": null,
+          "来源指针": null,
+          "细节": null
+        }
+      ],
+      "本地链接": [
+        {
+          "名称": "启动验收",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务01_启动与可追溯性/验收报告.md",
+          "存在": true
+        },
+        {
+          "名称": "排程验收",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务02_训练排程/验收报告.md",
+          "存在": true
+        },
+        {
+          "名称": "预算门禁判定",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务03_低保真精度修复/验收判定_预算门禁复核.json",
+          "存在": true
+        },
+        {
+          "名称": "两臂与四态验收",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务04_联合微调/正式两臂与四状态验收报告.md",
+          "存在": true
+        },
+        {
+          "名称": "条件判定报告",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务05_物理一致性/任务05_条件判定与有限退出报告.md",
+          "存在": true
+        },
+        {
+          "名称": "三臂600轮验收",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务06_时间响应特征/HF三臂真实600轮与六状态能源验收.md",
+          "存在": true
+        },
+        {
+          "名称": "修复版五种子与双轨能源",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务07_正式五种子重训/修复版五种子合法验证稳定性与双轨能源验收.md",
+          "存在": true
+        },
+        {
+          "名称": "F2五种子三态报告",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务08_贡献消融/F2_正式五种子三态能源与合法HF受限验收总报告.md",
+          "存在": true
+        },
+        {
+          "名称": "F3主序列报告",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务09_高保真数据效率/正式F3主序列汇总_录0096_20260916T122137+0800/F3主序列正式中文验收报告.md",
+          "存在": true
+        },
+        {
+          "名称": "25模型九档完整场",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务10_独立双层场基准/任10_全25真CUDA九档完整场后验正式中文验收_20260916T1258.md",
+          "存在": true
+        },
+        {
+          "名称": "新MLP正式汇总根审",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_新MLP五种子十原能源正式汇总根复审中文验收_20260916T172037+0800.md",
+          "存在": true
+        },
+        {
+          "名称": "Howard五HF尝试终态",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json",
+          "存在": true
+        },
+        {
+          "名称": "真实三模态观察中文报告",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_新MLP真实三模态观察中文误差与验收_20260916T190502+0800.md",
+          "存在": true
+        },
+        {
+          "名称": "seed2中文诊断",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard_HF_seed2第304轮数值失败中文诊断_20260916T205117+0800.md",
+          "存在": true
+        },
+        {
+          "名称": "原五尝试终态与seed4现场",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json",
+          "存在": true
+        },
+        {
+          "名称": "seed4真实56原件归档补证",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_seed4第210轮失败56普通原件真实归档补证_20260916T212451+0800.json",
+          "存在": true
+        },
+        {
+          "名称": "候选独立CPU中文复核",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/独立复核中文报告.md",
+          "存在": true
+        },
+        {
+          "名称": "任-01至任-10独立结果核对",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/任01至10已有完成结果独立核对报告.md",
+          "存在": true
+        },
+        {
+          "名称": "根116组四轮实核证据",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11暂停前既有116组与464数值中文四轮实核_20260916T211612+0800.json",
+          "存在": true
+        },
+        {
+          "名称": "总执行台账",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/多保真DeepONet预测精度优化总计划与执行台账.md",
+          "存在": true
+        },
+        {
+          "名称": "总任务状态",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/总任务状态.json",
+          "存在": true
+        },
+        {
+          "名称": "当前接续状态",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/当前接续状态.md",
+          "存在": true
+        },
+        {
+          "名称": "四必要方法已有结果独立盘点",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/任11四必要方法已有结果独立盘点报告.md",
+          "存在": true
+        },
+        {
+          "名称": "Howard成功0/1/3完整资格独立审核",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard_HF成功013完整资格独立CPU审核_20260916_FIgQWG/独立成功013完整资格中文报告.md",
+          "存在": true
+        },
+        {
+          "名称": "暂停交付机器索引",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_20260916.json",
+          "存在": true
+        },
+        {
+          "名称": "最终收尾补证",
+          "路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json",
+          "存在": true
+        }
+      ],
+      "外部链接限界": [
+        {
+          "名称": "Howard等原论文",
+          "URL": "https://arxiv.org/html/2204.09157v2",
+          "限界": "只核URL书写及已有来源报告，不作网络可达性/新文献审查"
+        },
+        {
+          "名称": "作者代码页",
+          "URL": "https://amanda-howard.github.io/code/",
+          "限界": "只核URL书写及已有来源报告，不作网络可达性/新文献审查"
+        }
+      ],
+      "静态既有引用freshSHA原件数": 171,
+      "实际读取引用数": 185,
+      "实际读取SHA映射canonicalJSON_SHA256": "0e24bb217b1b1b48526bafeb48b590e5eb0798d3480f58c05f915b43427a5944",
+      "关键原JSON普通身份": {
+        "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP五种子HF与双原能源汇总_20260916T165422+0800/机器汇总.json": {
+          "字节": 207411,
+          "SHA256": "ee19571311abf84a3682d4548d96a0fa13c98917940e1a64298d6eb65b561068"
+        },
+        "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/正式新MLP三模态合法观察_20260916T183039+0800/原始指标与中文映射.json": {
+          "字节": 567116,
+          "SHA256": "1bfb5008141f861dc7e6acad9c2c0353dd0e463278540f3cde6bd28f0d64ecc4"
+        },
+        "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_Howard原五HF有界尝试终态与seed4失败现场_20260916T212312+0800.json": {
+          "字节": 901612,
+          "SHA256": "214d29a2e88b79f1d285b64d62950b7b2d59235a59c7e675d2af82fbaa890d64"
+        },
+        "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_任01至10独立核对_20260916T204819+0800/文字修订后_完整核对机器证据.json": {
+          "字节": 813295,
+          "SHA256": "b12063d59bf9a1440fb550c07e3116ac403aa20576b15ddc5b7f70626f1796fd"
+        },
+        "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/交付前真实四轮复核_四方法完整机器证据.json": {
+          "字节": 1583006,
+          "SHA256": "86001083b0b9528fef5b50669d0bba4de321f0f0d1dd2d69da5b9acca35ea47c"
+        }
+      },
+      "不调用PT_温度_GPU_训练_正式parser": true
+    },
+    "结论": "仅本文既有数字/界限/引用核验0问题；不是模型成功、五HF全资格、十能源、真实观察、新测量、B0替换、工程验收或总goal完成。"
+  },
+  "独审未发现剩余确定P1_P2": {
+    "严重问题": [],
+    "重要问题": [],
+    "剩余确定P1_P2": false,
+    "第96行原P2": "已由根仅在新主报告修订，独立完整重读及现有40数字fresh actual0确认；历史原AGG/OBS及报告未改。",
+    "第137行暂态链接": "新增目标尚未落盘时同252检查实际exit1；根落盘后同一命令fresh实际exit0。两次原终态完整保留，不把后0替代前1。"
+  },
+  "最终停止状态": {
+    "GPU队列和必要根exec会话均终态": true,
+    "根台账锁已真实释放0": true,
+    "两独审本人所有必要会话终态且停止": true,
+    "原待初始化HF12任务已interrupt且明确不启动": true,
+    "不启动任12_13或任何新优化_失败重训_能源或OBS": true,
+    "暂停等待用户查看后发布下一任务": true,
+    "Howard原五HF三成功两失败及完整均值stdNULL不变": true,
+    "Howard完整科学验收通过": false,
+    "新MLP名义能源皆过": 0,
+    "原B0替换": false,
+    "原总计划全部完成": false,
+    "未将原总goal标为全部完成或虚假blocked": true
+  },
+  "失败与修订保留": "seed2/4真实训练失败、根/代理自身脚本错误均保留。第96行S/Delta原P2仅修新汇总，AGG/OBS/原S/历史不改；第137行暂态目标缺失252检查真实1以及落盘后同命令真实0完整保留，不以0抹1。",
+  "全部修改边界": "仅本项目，无失败目录/旧报告/冻结source/B0或项目外写入删除"
+}
+

@@ -1,0 +1,109 @@
+{
+  "结构版本": "任11主收尾汇总独审_封存逐件实际终态补存_v1",
+  "新增中文报告与前三JSON已实际普通SHA复核": true,
+  "完整实际命令与工具合并stdout_stderr原回包": {
+    "command": "env PYTHONDONTWRITEBYTECODE='1' OMP_NUM_THREADS='1' MKL_NUM_THREADS='1' CUDA_VISIBLE_DEVICES='' PYTEST_DISABLE_PLUGIN_AUTOLOAD='1' PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B -c 'import hashlib,json,os,re,stat\nfrom pathlib import Path\nfrom datetime import datetime\nroot=Path('\\''/home/phl/lyf/Temperature Field Prediction'\\'')\nfiles=[\"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_第96行P2与真实负终态保留.json\",\"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/第96行S及四分项40原值与精确指针独立实核.json\",\"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json\",\"研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md\"]\nbefore={}; started=datetime.now().astimezone().isoformat()\nfor name in files:\n p=root/name\n assert stat.S_ISREG(p.lstat().st_mode) and not p.is_symlink()\n b=p.read_bytes();before[str(p)]={'\\''字节'\\'':len(b),'\\''SHA256'\\'':hashlib.sha256(b).hexdigest(),'\\''普通文件'\\'':True}\n if p.suffix=='\\''.json'\\'':json.loads(b)\nmachine=json.loads((root/files[2]).read_bytes())\nfinal=machine['\\''最终实际核验'\\'']['\\''结构化原stdout'\\'']\nassert machine['\\''最终实际核验'\\'']['\\''完整实际命令与工具合并stdout_stderr原回包'\\'']['\\''exit_code'\\'']==0 and final['\\''审核检查数'\\'']==252 and final['\\''失败数'\\'']==0\nassert machine['\\''原失败保留'\\'']['\\''第137行实际1完整命令及工具回包'\\'']['\\''exit_code'\\'']==1\nassert len(machine['\\''第96行完整40原值及精确JSON指针实核'\\'']['\\''结构化原stdout'\\'']['\\''完整40原值及精确指针'\\''])==40\nassert all(x.get('\\''session_id'\\'') is None for x in machine['\\''实际只读命令与完整工具原回包'\\''])\nbody=(root/files[3]).read_text()\nlinks=[]\nfor label,target in re.findall(r'\\''\\[([^\\]]+)\\]\\(([^)]+)\\)'\\'',body):\n path=(root/files[3]).parent/target.strip('\\''<>'\\'')\n assert path.is_file()\n links.append({'\\''标签'\\'':label,'\\''精确路径'\\'':str(path.resolve()),'\\''存在'\\'':True})\nafter={}\nfor name in files:\n p=root/name;b=p.read_bytes();after[str(p)]={'\\''字节'\\'':len(b),'\\''SHA256'\\'':hashlib.sha256(b).hexdigest(),'\\''普通文件'\\'':stat.S_ISREG(p.lstat().st_mode) and not p.is_symlink()}\nassert before==after\nrefs={}\nfor name in ['\\''任11执行收尾与已完成任务结果汇总_20260916.md'\\'','\\''研究记录/任11完成后暂停结果整理_20260916.json'\\'','\\''研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json'\\'']:\n p=root/name;assert stat.S_ISREG(p.lstat().st_mode) and not p.is_symlink();b=p.read_bytes();refs[str(p)]={'\\''字节'\\'':len(b),'\\''SHA256'\\'':hashlib.sha256(b).hexdigest(),'\\''普通文件'\\'':True}\nassert refs[str(root/'\\''任11执行收尾与已完成任务结果汇总_20260916.md'\\'')]==dict(final['\\''新版报告身份'\\''],普通文件=True)\nprint(json.dumps({'\\''实际开始'\\'':started,'\\''实际结束'\\'':datetime.now().astimezone().isoformat(),'\\''PID'\\'':os.getpid(),'\\''cwd'\\'':str(Path.cwd()),'\\''Python'\\'':os.sys.executable,'\\''自有四件before'\\'':before,'\\''自有四件after'\\'':after,'\\''自有四件零漂移'\\'':before==after,'\\''自有中文报告四链接'\\'':links,'\\''根三新增引用当前普通身份'\\'':refs,'\\''252实际0与原1均完整保留'\\'':True,'\\''本人无遗留exec运行会话'\\'':True,'\\''限界'\\'':'\\''只读现有JSON/报告元数据；无PT_温度_Parquet_GPU_训练_正式parser，非工程或总目标完成'\\''},ensure_ascii=False,indent=2))\n'",
+    "chunk_id": "8e2114",
+    "wall_time_seconds": 0.000002603,
+    "exit_code": 0,
+    "original_token_count": 1292,
+    "output": "{\n  \"实际开始\": \"2026-09-16T21:51:16.381682+08:00\",\n  \"实际结束\": \"2026-09-16T21:51:16.386975+08:00\",\n  \"PID\": 1918721,\n  \"cwd\": \"/home/phl/lyf/Temperature Field Prediction\",\n  \"Python\": \"/home/phl/anaconda3/envs/PINN/bin/python\",\n  \"自有四件before\": {\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_第96行P2与真实负终态保留.json\": {\n      \"字节\": 216699,\n      \"SHA256\": \"796935886796bc219a4555e298b72b433207b3cae103e510a90b26fe99e5aaec\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/第96行S及四分项40原值与精确指针独立实核.json\": {\n      \"字节\": 78310,\n      \"SHA256\": \"9cb46330165414b862a4159f01b0c8f0aeacd50c86390ad7e9aa404acbdf0ade\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json\": {\n      \"字节\": 491472,\n      \"SHA256\": \"08fd8cd71489926434b2beb52094009a3bb2aa9fa9a8bd7b3c4f832297439149\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md\": {\n      \"字节\": 3941,\n      \"SHA256\": \"d59bc865e93b8e4fc61150acb4224b7e5296a3694d087967662906f9b1e0226d\",\n      \"普通文件\": true\n    }\n  },\n  \"自有四件after\": {\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_第96行P2与真实负终态保留.json\": {\n      \"字节\": 216699,\n      \"SHA256\": \"796935886796bc219a4555e298b72b433207b3cae103e510a90b26fe99e5aaec\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/第96行S及四分项40原值与精确指针独立实核.json\": {\n      \"字节\": 78310,\n      \"SHA256\": \"9cb46330165414b862a4159f01b0c8f0aeacd50c86390ad7e9aa404acbdf0ade\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json\": {\n      \"字节\": 491472,\n      \"SHA256\": \"08fd8cd71489926434b2beb52094009a3bb2aa9fa9a8bd7b3c4f832297439149\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md\": {\n      \"字节\": 3941,\n      \"SHA256\": \"d59bc865e93b8e4fc61150acb4224b7e5296a3694d087967662906f9b1e0226d\",\n      \"普通文件\": true\n    }\n  },\n  \"自有四件零漂移\": true,\n  \"自有中文报告四链接\": [\n    {\n      \"标签\": \"任11执行收尾与已完成任务结果汇总_20260916.md\",\n      \"精确路径\": \"/home/phl/lyf/Temperature Field Prediction/任11执行收尾与已完成任务结果汇总_20260916.md\",\n      \"存在\": true\n    },\n    {\n      \"标签\": \"完整机器证据\",\n      \"精确路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json\",\n      \"存在\": true\n    },\n    {\n      \"标签\": \"40原值双指针实核\",\n      \"精确路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/第96行S及四分项40原值与精确指针独立实核.json\",\n      \"存在\": true\n    },\n    {\n      \"标签\": \"原P2与真实负终态\",\n      \"精确路径\": \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_第96行P2与真实负终态保留.json\",\n      \"存在\": true\n    }\n  ],\n  \"根三新增引用当前普通身份\": {\n    \"/home/phl/lyf/Temperature Field Prediction/任11执行收尾与已完成任务结果汇总_20260916.md\": {\n      \"字节\": 20108,\n      \"SHA256\": \"78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_20260916.json\": {\n      \"字节\": 306348,\n      \"SHA256\": \"1fd51dd73e31534dca41d4ea7150e4ef464f79c704e8d5bc3898997a160d1b02\",\n      \"普通文件\": true\n    },\n    \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json\": {\n      \"字节\": 648705,\n      \"SHA256\": \"8e3a378ea539d275398a531f68e68ee08ec12a138d88fa21a8b4efa2c26904be\",\n      \"普通文件\": true\n    }\n  },\n  \"252实际0与原1均完整保留\": true,\n  \"本人无遗留exec运行会话\": true,\n  \"限界\": \"只读现有JSON/报告元数据；无PT_温度_Parquet_GPU_训练_正式parser，非工程或总目标完成\"\n}\n"
+  },
+  "结构化原stdout": {
+    "实际开始": "2026-09-16T21:51:16.381682+08:00",
+    "实际结束": "2026-09-16T21:51:16.386975+08:00",
+    "PID": 1918721,
+    "cwd": "/home/phl/lyf/Temperature Field Prediction",
+    "Python": "/home/phl/anaconda3/envs/PINN/bin/python",
+    "自有四件before": {
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_第96行P2与真实负终态保留.json": {
+        "字节": 216699,
+        "SHA256": "796935886796bc219a4555e298b72b433207b3cae103e510a90b26fe99e5aaec",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/第96行S及四分项40原值与精确指针独立实核.json": {
+        "字节": 78310,
+        "SHA256": "9cb46330165414b862a4159f01b0c8f0aeacd50c86390ad7e9aa404acbdf0ade",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json": {
+        "字节": 491472,
+        "SHA256": "08fd8cd71489926434b2beb52094009a3bb2aa9fa9a8bd7b3c4f832297439149",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md": {
+        "字节": 3941,
+        "SHA256": "d59bc865e93b8e4fc61150acb4224b7e5296a3694d087967662906f9b1e0226d",
+        "普通文件": true
+      }
+    },
+    "自有四件after": {
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_第96行P2与真实负终态保留.json": {
+        "字节": 216699,
+        "SHA256": "796935886796bc219a4555e298b72b433207b3cae103e510a90b26fe99e5aaec",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/第96行S及四分项40原值与精确指针独立实核.json": {
+        "字节": 78310,
+        "SHA256": "9cb46330165414b862a4159f01b0c8f0aeacd50c86390ad7e9aa404acbdf0ade",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json": {
+        "字节": 491472,
+        "SHA256": "08fd8cd71489926434b2beb52094009a3bb2aa9fa9a8bd7b3c4f832297439149",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核报告.md": {
+        "字节": 3941,
+        "SHA256": "d59bc865e93b8e4fc61150acb4224b7e5296a3694d087967662906f9b1e0226d",
+        "普通文件": true
+      }
+    },
+    "自有四件零漂移": true,
+    "自有中文报告四链接": [
+      {
+        "标签": "任11执行收尾与已完成任务结果汇总_20260916.md",
+        "精确路径": "/home/phl/lyf/Temperature Field Prediction/任11执行收尾与已完成任务结果汇总_20260916.md",
+        "存在": true
+      },
+      {
+        "标签": "完整机器证据",
+        "精确路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总最终独立只读审核_完整机器证据.json",
+        "存在": true
+      },
+      {
+        "标签": "40原值双指针实核",
+        "精确路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/第96行S及四分项40原值与精确指针独立实核.json",
+        "存在": true
+      },
+      {
+        "标签": "原P2与真实负终态",
+        "精确路径": "/home/phl/lyf/Temperature Field Prediction/研究记录/任11四必要方法已有结果独立盘点_20260916T212012+0800/主收尾汇总独审_第96行P2与真实负终态保留.json",
+        "存在": true
+      }
+    ],
+    "根三新增引用当前普通身份": {
+      "/home/phl/lyf/Temperature Field Prediction/任11执行收尾与已完成任务结果汇总_20260916.md": {
+        "字节": 20108,
+        "SHA256": "78f691f5c331ff243a6d9815c364b0b414e7ea6ef1694044ea16ad42180b042e",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任11完成后暂停结果整理_20260916.json": {
+        "字节": 306348,
+        "SHA256": "1fd51dd73e31534dca41d4ea7150e4ef464f79c704e8d5bc3898997a160d1b02",
+        "普通文件": true
+      },
+      "/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/任11_暂停交付最终核验补证_20260916.json": {
+        "字节": 648705,
+        "SHA256": "8e3a378ea539d275398a531f68e68ee08ec12a138d88fa21a8b4efa2c26904be",
+        "普通文件": true
+      }
+    },
+    "252实际0与原1均完整保留": true,
+    "本人无遗留exec运行会话": true,
+    "限界": "只读现有JSON/报告元数据；无PT_温度_Parquet_GPU_训练_正式parser，非工程或总目标完成"
+  },
+  "补存目的": "本文件只补存写报告之后实际解析、逐件SHA、链接与根新三件身份的真实0，不回写已封存原machine或旧文件。",
+  "范围与结束": "仅本人自有档案及已存在根新增报告/JSON元数据，无PT/温度/Parquet/GPU/训练/正式parser；所有本人必要会话终态。交付后停止，不开展任12/13或新任务。"
+}
+

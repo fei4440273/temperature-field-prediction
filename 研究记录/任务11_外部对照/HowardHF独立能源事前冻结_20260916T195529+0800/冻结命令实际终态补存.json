@@ -1,0 +1,49 @@
+{
+  "结构版本": 1,
+  "证据性质": "复制本次exec_command真实返回的退出码和终态JSON输出，不是独立原始stdout文件",
+  "工作目录": "/home/phl/lyf/Temperature Field Prediction",
+  "外层完整实际命令": "env CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH='/home/phl/lyf/Temperature Field Prediction/src' TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' TEMP='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' /home/phl/anaconda3/envs/PINN/bin/python -B '研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件/freeze_howard_energy_20260916T195529.py' freeze",
+  "exec_command实际退出码": 0,
+  "工具报告墙钟秒": 5.365434062,
+  "终态输出JSON对象": {
+    "冻结实际退出码": 0,
+    "登记时间": "2026-09-16T19:59:33+08:00",
+    "YAML": {
+      "相对路径": "研究记录/任务11_外部对照/Howard适配三网HF双状态独立能源事前登记.yaml",
+      "字节": 11689,
+      "SHA256": "e5c7038a82d8c7022b3152ab158c886387bd139f8ce05836fe34ffaa19edbc22",
+      "普通文件": true
+    },
+    "普通tar": {
+      "相对路径": "研究记录/任务11_外部对照/Howard适配三网HF双状态独立能源源码事前冻结.tar.gz",
+      "字节": 369661,
+      "SHA256": "0939ffe69c12bcdee49e12dbd10a294be2b41257ae5ffc8d0a6bebc616e195e0",
+      "普通文件": true
+    },
+    "机器证据": {
+      "相对路径": "研究记录/任务11_外部对照/HowardHF独立能源事前冻结_20260916T195529+0800/真实事前冻结机器证据.json",
+      "字节": 126217,
+      "SHA256": "1cba48f346ab8a3bc78aeaecf4880d058ddb2e5f6b4566e2c837944eb35529e9",
+      "普通文件": true
+    },
+    "登记前现场身份": {
+      "相对路径": "研究记录/任务11_外部对照/HowardHF独立能源事前冻结_20260916T195529+0800/登记前现场身份.json",
+      "字节": 23759,
+      "SHA256": "fbd9f9a6d145b22f558888979d0d483b395752e7a5b19f38c51822d6259a5454",
+      "普通文件": true
+    },
+    "ROOT前后SHA256": "aa6785eadfab41ada86398abafcaf644634bac1e1f4458d2f9af4c9ad3351be5",
+    "SOURCE85": 85,
+    "SOURCE82": 82,
+    "SOURCE85摘要SHA256": "1345b9389f9f98319cffa4852a17b9b12fa6fc52e2ef9f2b81422b4eb55866cc",
+    "纯合同_tar核验退出码": [0, 0],
+    "真实CLI56_help退出码": 0,
+    "真实CLI56_ROOT负门禁退出码": 1,
+    "未来六SHA_ROOT精确token_未激活": "TASK11_HOWARD_HF_ENERGY_GATE:v1; status=active; ENERGY_YAML_SHA256=e5c7038a82d8c7022b3152ab158c886387bd139f8ce05836fe34ffaa19edbc22; ENERGY_TAR_SHA256=0939ffe69c12bcdee49e12dbd10a294be2b41257ae5ffc8d0a6bebc616e195e0; YAML_SHA256=ed5513d20fc136457bc33b025728b42b33c41f6d40c777cdfc31e72e2916bf33; TAR_SHA256=61fe4167dad454a91aa4877a027b0eea290f2705c01afb4becaa1bddab9b4249; LF_CATALOG_SHA256=b3ad1acc8e56654a935d07d5275d98fb82648a39cf70d28a70814e2184e419de; HF_DATA_CATALOG_SHA256=7665603abb31fa225c5ef36394ddf7c3b97461340b8b3307863766cbae252e18"
+  },
+  "不改旧证据的准确性补注": {
+    "外层路径形式": "真实事前冻结机器证据.json的本轮完整实际命令是将外层脚本路径规范成绝对路径后的等价命令；真正exec外层使用上述相对路径，本补存保存原命令。所有子进程audit/help/负门禁argv的绝对路径本来就是真实调用。",
+    "负门禁定位": "旧机器证据负门禁说明中的preflight第235行是说明笔误；同一旧证据已保存的真实stderr准确定位第233行。本补存不重写旧文件；以真实stderr和当前源码第233行为准。",
+    "ROOT窗口": "两次审查结束时ROOT完整SHA均等于登记前历史快照，已通知根解除窗口；此快照不是今后ROOT必须持续不变的声明。"
+  }
+}

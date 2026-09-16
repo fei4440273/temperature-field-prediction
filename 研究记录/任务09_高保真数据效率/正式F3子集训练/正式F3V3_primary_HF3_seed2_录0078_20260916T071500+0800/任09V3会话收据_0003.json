@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "会话序号": 3,
+  "运行身份": {
+    "序列": "primary",
+    "HF功率数": 3,
+    "seed": 2
+  },
+  "项目内唯一固定canonical目录": "/home/phl/lyf/Temperature Field Prediction/研究记录/任务09_高保真数据效率/正式F3子集训练/正式F3V3_primary_HF3_seed2_录0078_20260916T071500+0800",
+  "V3事前登记SHA256": "87816d50efe82fc7a5c218707b1323a1b0d4a8cfd9eceb7c7771bb63c9edfb28",
+  "V3源码归档SHA256": "695e8b6c9ae9847ed2576609777dee5750c2f84c69f10667a69cd2a27a43765d",
+  "录0078行SHA256": "e8f9a9141282b8dace3622cfed2b91466f4fd77ff42a7341bcd18f0608e68870",
+  "前一会话收据SHA256": "0936f697c1f486aef4c7f2b7ee3a3b91e4eaba6f6cd6b976b0ae25b669c3aea9",
+  "起始完整全局轮次": 400,
+  "结束完整全局轮次": 600,
+  "实际新增轮次": 200,
+  "请求最多轮次": 200,
+  "会话末阶段": "task09_f3_correction",
+  "会话末校正实际轮次": 600,
+  "会话末联合实际轮次": 0,
+  "已提交真实校正末态SHA256": "76f0fa0f5657f3c6444dc88269379a7dd3b40ba684cb19a2add143f81ccfb142",
+  "会话末原件SHA256": {
+    "阶段_最近.pt": "8505b0e3c976d1e48ccc0bcf978d25707db2fbb1cb6cb18d3604acce4966f61c",
+    "training.jsonl": "3e79d7d53cb34445299bece7adbe1d17697cb555482d302af45456e76078a5a1",
+    "任09F3阶段报告.json": "541fe6ff5efff396bb999b11094d07995f8a58c952f1ffccd9874c48dc70db4b",
+    "任09V3阶段门禁报告.json": "a68b740c73c9bf5d232f6c7ae442873f3017c55d99a886f8d7ecce4ae31a2105"
+  },
+  "会话末终态SHA256": {
+    "阶段_校正末.pt": "76f0fa0f5657f3c6444dc88269379a7dd3b40ba684cb19a2add143f81ccfb142"
+  },
+  "本收据不等于五seed曲线或能源结论": true
+}

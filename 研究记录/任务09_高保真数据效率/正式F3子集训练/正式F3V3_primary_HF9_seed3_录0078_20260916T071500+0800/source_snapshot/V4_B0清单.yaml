@@ -1,0 +1,683 @@
+中文摘要:
+  清单用途: 锁定 V4 的 B0 基线、数据与协议来源、检查点、训练步数、诊断文件和阶段门控。
+  基线状态: 已有工件已锁定，但必须保留历史训练源码不完整的限制说明。
+  本轮限制: 未训练新网络，未读取 test_Data 温度，未修改冻结发布结果。
+  模型约束: 完整 SiC/Cu 低保真仿真场监督低保真输出；顶面、热环、冷环及物理约束作用于最终高保真场。
+  后续状态: E0/E1/E2 尚未开始，只有以本清单为共同起点并保持相同预算时才可开展对比。
+  字段说明文件: 报告字段说明.md
+schema_version: 1
+round_id: development_v4
+status: locked_existing_artifacts_with_historical_source_caveat
+locked_at_utc: '2026-09-09T14:42:04.931712+00:00'
+protocol_id: hf_fixed_12_3_3_v4
+test_labels_consumed_this_round: false
+frozen_release_results_modified: false
+model:
+  name: DeepONet-PINN additive multifidelity correction
+  surface_hard_guide: false
+  lf_inputs: complete_simulation_r_z_t_power_material_for_sic_and_cu
+  hf_observations:
+  - Top
+  - Hot
+  - Cold
+  physics_target: final_high_fidelity_field
+data_and_protocol_hashes:
+  checkpoint_training_provenance:
+    split_sha256: 89a1ebd7df4512ea1ffc1704799cc120182139e12d08e35d1dcb800ae9cc296e
+    raw_manifest_sha256: ed7a5c15f605f40ebba5c7133872aff9fad7b3304edd17c3644cadae086c112e
+    processed_manifest_sha256: 5b17c35f8b71458588538fb1a9a9186decd69689c1a547c3a69956d460117f82
+    physics_config_sha256: c66b309ba793bfccaef879f86cc20e4053b6fdbfe83fad49922bad99bca9851c
+  training_snapshot_physics_config_sha256: c66b309ba793bfccaef879f86cc20e4053b6fdbfe83fad49922bad99bca9851c
+  optimization_v4_config_sha256: 59c1e7f569ba846effc5b3fd7f1776d55f4c2341b25f012809e60b4c6b913334
+source:
+  historical_declared_dirty_commit: adcf37f1082a53e5bc1522e6c0eabdc8d05b3969-dirty
+  historical_exact_archive_available: false
+  diagnostic_git_head: bbe563e05ee65e28362ccab04d91773896d8d0c4
+  diagnostic_source_archive: source_snapshot.tar.gz
+  diagnostic_source_archive_sha256: 44d95eb78afb2ebea88d4842e43c7ce25a64afc13b8531af048913d9934db218
+effective_cli:
+  diagnostic:
+  - python
+  - scripts/07_export_development_diagnostics.py
+  historical_training_status: reconstructed_from_effective_metrics_not_literal_argv
+  per_seed:
+    '0': &id001
+    - python
+    - scripts/03_train_multifidelity.py
+    - --lf-checkpoint
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed0/best.pt
+    - --output
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed0
+    - --seed
+    - '0'
+    - --correction-epochs
+    - '1500'
+    - --joint-epochs
+    - '500'
+    - --batch-size
+    - '2048'
+    - --physics-collocation
+    - '256'
+    - --width
+    - '128'
+    - --depth
+    - '4'
+    - --patience
+    - '200'
+    - --sensor-absolute-weight
+    - '5.0'
+    - --sensor-delta-weight
+    - '1.0'
+    '1': &id002
+    - python
+    - scripts/03_train_multifidelity.py
+    - --lf-checkpoint
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed1/best.pt
+    - --output
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed1
+    - --seed
+    - '1'
+    - --correction-epochs
+    - '1500'
+    - --joint-epochs
+    - '500'
+    - --batch-size
+    - '2048'
+    - --physics-collocation
+    - '256'
+    - --width
+    - '128'
+    - --depth
+    - '4'
+    - --patience
+    - '200'
+    - --sensor-absolute-weight
+    - '5.0'
+    - --sensor-delta-weight
+    - '1.0'
+    '2': &id003
+    - python
+    - scripts/03_train_multifidelity.py
+    - --lf-checkpoint
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed2/best.pt
+    - --output
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed2
+    - --seed
+    - '2'
+    - --correction-epochs
+    - '1500'
+    - --joint-epochs
+    - '500'
+    - --batch-size
+    - '2048'
+    - --physics-collocation
+    - '256'
+    - --width
+    - '128'
+    - --depth
+    - '4'
+    - --patience
+    - '200'
+    - --sensor-absolute-weight
+    - '5.0'
+    - --sensor-delta-weight
+    - '1.0'
+    '3': &id004
+    - python
+    - scripts/03_train_multifidelity.py
+    - --lf-checkpoint
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed3/best.pt
+    - --output
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed3
+    - --seed
+    - '3'
+    - --correction-epochs
+    - '1500'
+    - --joint-epochs
+    - '500'
+    - --batch-size
+    - '2048'
+    - --physics-collocation
+    - '256'
+    - --width
+    - '128'
+    - --depth
+    - '4'
+    - --patience
+    - '200'
+    - --sensor-absolute-weight
+    - '5.0'
+    - --sensor-delta-weight
+    - '1.0'
+    '4': &id005
+    - python
+    - scripts/03_train_multifidelity.py
+    - --lf-checkpoint
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed4/best.pt
+    - --output
+    - reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed4
+    - --seed
+    - '4'
+    - --correction-epochs
+    - '1500'
+    - --joint-epochs
+    - '500'
+    - --batch-size
+    - '2048'
+    - --physics-collocation
+    - '256'
+    - --width
+    - '128'
+    - --depth
+    - '4'
+    - --patience
+    - '200'
+    - --sensor-absolute-weight
+    - '5.0'
+    - --sensor-delta-weight
+    - '1.0'
+parameters:
+  total: 282626
+  correction_stage_trainable: 50561
+  joint_stage_trainable: 282626
+checkpoints:
+- seed: 0
+  lf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed0/best.pt
+  lf_checkpoint_sha256: 5ab23ffd5b7c4b99ba90b81236ec0fba4a9b109a730288124c647030036e42f2
+  hf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed0/best.pt
+  hf_checkpoint_sha256: 0764c7e78f45e3509f0f8a525965a8f9d77a789aed47ce10ea8d536673644f4b
+  hf_best_epoch: 579
+  selected_stage: correction_lf_frozen
+  parameter_count_total: 282626
+  parameter_count_lf: 232065
+  parameter_count_hf_correction: 50561
+  checkpoint_code_commit: adcf37f1082a53e5bc1522e6c0eabdc8d05b3969-dirty
+  test_labels_consumed: false
+  reconstructed_effective_cli: *id001
+  actual_training: &id006
+    seed: 0
+    actual_epochs: 1700
+    actual_correction_epochs: 1500
+    actual_joint_epochs: 200
+    planned_correction_epochs: 1500
+    planned_joint_epochs: 500
+    data_optimizer_steps: 25500
+    physics_optimizer_steps: 1700
+    total_optimizer_steps: 27200
+    loss_optimization_steps:
+      top_ir:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean
+      hot_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      hot_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      sensor_combined:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean_hot_and_cold_combined
+      lf_simulation:
+        scheduled_optimizer_steps: 3000
+        epochs_with_nonzero_logged_mean: 200
+        log_resolution: epoch_mean
+      physics_pde:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_boundary:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_initial:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 0
+        log_resolution: one_physics_update_per_epoch
+      physics_interface:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+    logged_data_gradient_summary:
+      lf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.0
+        median: 0.0
+        maximum: 0.26913859575275406
+        nonzero_count: 200
+        meaning: last_data_batch_before_epoch_end_physics_update
+      hf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.020434795404600005
+        median: 0.11534035573929476
+        maximum: 1.0745326257615073
+        nonzero_count: 1700
+        meaning: last_data_batch_before_epoch_end_physics_update
+    step_definition: scheduled_optimizer_steps counts backward/update calls in which
+      the weighted loss was included; nonzero per-batch gradients cannot be reconstructed
+      from epoch means
+  validation_reproduction: &id011
+    seed: 0
+    top_macro_rmse_c: 3.3979257038516977
+    sensor_absolute_macro_rmse_c: 1.2193254570524357
+    sensor_delta_macro_rmse_c: 0.799417319569892
+    reproduced_macro_v1: 2.0187309612873077
+    stored_macro_v1: 2.0187304290886874
+    absolute_difference_c: 5.321986202844187e-07
+- seed: 1
+  lf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed1/best.pt
+  lf_checkpoint_sha256: e187044bac9175052604f7d77a213954d45655b2237739a0bb8bbea67fcfdbfb
+  hf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed1/best.pt
+  hf_checkpoint_sha256: cae7b3546d9c1358350d2866d87f773b10415290f62f88f38b007b79d7013906
+  hf_best_epoch: 980
+  selected_stage: correction_lf_frozen
+  parameter_count_total: 282626
+  parameter_count_lf: 232065
+  parameter_count_hf_correction: 50561
+  checkpoint_code_commit: adcf37f1082a53e5bc1522e6c0eabdc8d05b3969-dirty
+  test_labels_consumed: false
+  reconstructed_effective_cli: *id002
+  actual_training: &id007
+    seed: 1
+    actual_epochs: 1700
+    actual_correction_epochs: 1500
+    actual_joint_epochs: 200
+    planned_correction_epochs: 1500
+    planned_joint_epochs: 500
+    data_optimizer_steps: 25500
+    physics_optimizer_steps: 1700
+    total_optimizer_steps: 27200
+    loss_optimization_steps:
+      top_ir:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean
+      hot_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      hot_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      sensor_combined:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean_hot_and_cold_combined
+      lf_simulation:
+        scheduled_optimizer_steps: 3000
+        epochs_with_nonzero_logged_mean: 200
+        log_resolution: epoch_mean
+      physics_pde:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_boundary:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_initial:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 0
+        log_resolution: one_physics_update_per_epoch
+      physics_interface:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+    logged_data_gradient_summary:
+      lf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.0
+        median: 0.0
+        maximum: 0.41898043795600487
+        nonzero_count: 200
+        meaning: last_data_batch_before_epoch_end_physics_update
+      hf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.017604723549525317
+        median: 0.08999279800842153
+        maximum: 1.117538118751262
+        nonzero_count: 1700
+        meaning: last_data_batch_before_epoch_end_physics_update
+    step_definition: scheduled_optimizer_steps counts backward/update calls in which
+      the weighted loss was included; nonzero per-batch gradients cannot be reconstructed
+      from epoch means
+  validation_reproduction: &id012
+    seed: 1
+    top_macro_rmse_c: 3.4918730657295405
+    sensor_absolute_macro_rmse_c: 1.144823420531802
+    sensor_delta_macro_rmse_c: 0.5780411923912251
+    reproduced_macro_v1: 1.9540358828305116
+    stored_macro_v1: 1.9540362036249677
+    absolute_difference_c: 3.2079445611010726e-07
+- seed: 2
+  lf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed2/best.pt
+  lf_checkpoint_sha256: f3e6be959e185f7844fbceda220e12e91fbf0642b84aaf01990b8d3aca6ce252
+  hf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed2/best.pt
+  hf_checkpoint_sha256: a7dfffdea6c50fda21efd8c822d0585743aa3df9ae7ea1d363c3d221105b6802
+  hf_best_epoch: 1257
+  selected_stage: correction_lf_frozen
+  parameter_count_total: 282626
+  parameter_count_lf: 232065
+  parameter_count_hf_correction: 50561
+  checkpoint_code_commit: adcf37f1082a53e5bc1522e6c0eabdc8d05b3969-dirty
+  test_labels_consumed: false
+  reconstructed_effective_cli: *id003
+  actual_training: &id008
+    seed: 2
+    actual_epochs: 1700
+    actual_correction_epochs: 1500
+    actual_joint_epochs: 200
+    planned_correction_epochs: 1500
+    planned_joint_epochs: 500
+    data_optimizer_steps: 25500
+    physics_optimizer_steps: 1700
+    total_optimizer_steps: 27200
+    loss_optimization_steps:
+      top_ir:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean
+      hot_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      hot_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      sensor_combined:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean_hot_and_cold_combined
+      lf_simulation:
+        scheduled_optimizer_steps: 3000
+        epochs_with_nonzero_logged_mean: 200
+        log_resolution: epoch_mean
+      physics_pde:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_boundary:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_initial:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 0
+        log_resolution: one_physics_update_per_epoch
+      physics_interface:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+    logged_data_gradient_summary:
+      lf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.0
+        median: 0.0
+        maximum: 0.16070519835324262
+        nonzero_count: 200
+        meaning: last_data_batch_before_epoch_end_physics_update
+      hf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.013380306074883308
+        median: 0.1002503173351387
+        maximum: 1.0387153935575348
+        nonzero_count: 1700
+        meaning: last_data_batch_before_epoch_end_physics_update
+    step_definition: scheduled_optimizer_steps counts backward/update calls in which
+      the weighted loss was included; nonzero per-batch gradients cannot be reconstructed
+      from epoch means
+  validation_reproduction: &id013
+    seed: 2
+    top_macro_rmse_c: 3.462178999521406
+    sensor_absolute_macro_rmse_c: 0.7150835514485524
+    sensor_delta_macro_rmse_c: 0.6334143679396718
+    reproduced_macro_v1: 1.9266409444321764
+    stored_macro_v1: 1.9266398083027294
+    absolute_difference_c: 1.136129446965839e-06
+- seed: 3
+  lf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed3/best.pt
+  lf_checkpoint_sha256: f5378dead4dc770dae3a3ebef781314e3d38445c6cbac54f097e06755e5ff68d
+  hf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed3/best.pt
+  hf_checkpoint_sha256: 41ce3030c591b6f2f974d073184c8adde017dca75e53125a2759eaa122806f4b
+  hf_best_epoch: 997
+  selected_stage: correction_lf_frozen
+  parameter_count_total: 282626
+  parameter_count_lf: 232065
+  parameter_count_hf_correction: 50561
+  checkpoint_code_commit: adcf37f1082a53e5bc1522e6c0eabdc8d05b3969-dirty
+  test_labels_consumed: false
+  reconstructed_effective_cli: *id004
+  actual_training: &id009
+    seed: 3
+    actual_epochs: 1700
+    actual_correction_epochs: 1500
+    actual_joint_epochs: 200
+    planned_correction_epochs: 1500
+    planned_joint_epochs: 500
+    data_optimizer_steps: 25500
+    physics_optimizer_steps: 1700
+    total_optimizer_steps: 27200
+    loss_optimization_steps:
+      top_ir:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean
+      hot_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      hot_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      sensor_combined:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean_hot_and_cold_combined
+      lf_simulation:
+        scheduled_optimizer_steps: 3000
+        epochs_with_nonzero_logged_mean: 200
+        log_resolution: epoch_mean
+      physics_pde:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_boundary:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_initial:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 0
+        log_resolution: one_physics_update_per_epoch
+      physics_interface:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+    logged_data_gradient_summary:
+      lf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.0
+        median: 0.0
+        maximum: 0.10953133480659276
+        nonzero_count: 200
+        meaning: last_data_batch_before_epoch_end_physics_update
+      hf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.020064137351291755
+        median: 0.11668611483800309
+        maximum: 1.2790913021395456
+        nonzero_count: 1700
+        meaning: last_data_batch_before_epoch_end_physics_update
+    step_definition: scheduled_optimizer_steps counts backward/update calls in which
+      the weighted loss was included; nonzero per-batch gradients cannot be reconstructed
+      from epoch means
+  validation_reproduction: &id014
+    seed: 3
+    top_macro_rmse_c: 3.507577866654561
+    sensor_absolute_macro_rmse_c: 1.312835699114007
+    sensor_delta_macro_rmse_c: 0.6500939780781484
+    reproduced_macro_v1: 2.009199538434323
+    stored_macro_v1: 2.0091985951556657
+    absolute_difference_c: 9.432786574059548e-07
+- seed: 4
+  lf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_lf_seed4/best.pt
+  lf_checkpoint_sha256: bd4c3be31f730eeaac538bbb3c9ce13e74c3ab39bc29fe1716698c527d53b34e
+  hf_checkpoint: reports/runs/sic-cu-v2-gpu1-20260908T072729Z-r2/deeponet_pinn_mf_seed4/best.pt
+  hf_checkpoint_sha256: d27d0deb910580c5ca346a0c718efb92acbc971bbe10705a0e5fc61b9383f0ca
+  hf_best_epoch: 1175
+  selected_stage: correction_lf_frozen
+  parameter_count_total: 282626
+  parameter_count_lf: 232065
+  parameter_count_hf_correction: 50561
+  checkpoint_code_commit: adcf37f1082a53e5bc1522e6c0eabdc8d05b3969-dirty
+  test_labels_consumed: false
+  reconstructed_effective_cli: *id005
+  actual_training: &id010
+    seed: 4
+    actual_epochs: 1700
+    actual_correction_epochs: 1500
+    actual_joint_epochs: 200
+    planned_correction_epochs: 1500
+    planned_joint_epochs: 500
+    data_optimizer_steps: 25500
+    physics_optimizer_steps: 1700
+    total_optimizer_steps: 27200
+    loss_optimization_steps:
+      top_ir:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean
+      hot_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      hot_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_absolute:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      cold_delta:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: null
+      sensor_combined:
+        scheduled_optimizer_steps: 25500
+        epochs_with_nonzero_logged_mean: 1700
+        log_resolution: epoch_mean_hot_and_cold_combined
+      lf_simulation:
+        scheduled_optimizer_steps: 3000
+        epochs_with_nonzero_logged_mean: 200
+        log_resolution: epoch_mean
+      physics_pde:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_boundary:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+      physics_initial:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 0
+        log_resolution: one_physics_update_per_epoch
+      physics_interface:
+        scheduled_optimizer_steps: 1700
+        epochs_with_nonzero_logged_loss: 1700
+        log_resolution: one_physics_update_per_epoch
+    logged_data_gradient_summary:
+      lf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.0
+        median: 0.0
+        maximum: 0.20252179791195798
+        nonzero_count: 200
+        meaning: last_data_batch_before_epoch_end_physics_update
+      hf_gradient_l2:
+        sample_count: 1700
+        minimum: 0.026483677261358283
+        median: 0.13548311617580588
+        maximum: 3.140145458339447
+        nonzero_count: 1700
+        meaning: last_data_batch_before_epoch_end_physics_update
+    step_definition: scheduled_optimizer_steps counts backward/update calls in which
+      the weighted loss was included; nonzero per-batch gradients cannot be reconstructed
+      from epoch means
+  validation_reproduction: &id015
+    seed: 4
+    top_macro_rmse_c: 3.6283035820558247
+    sensor_absolute_macro_rmse_c: 1.054309954189886
+    sensor_delta_macro_rmse_c: 0.7795280049326995
+    reproduced_macro_v1: 2.099406171739319
+    stored_macro_v1: 2.0994066071827
+    absolute_difference_c: 4.3544338090839574e-07
+training_stage_steps:
+  '0': *id006
+  '1': *id007
+  '2': *id008
+  '3': *id009
+  '4': *id010
+collocation:
+  historical_physics_points_per_epoch: 256
+  diagnostic_gradient_points: 64
+  independent_validation_points: 512
+validation_selection:
+  metric: macro_v1
+  weights:
+    ir_rmse: 1.0
+    sensor_absolute_rmse: 0.2
+    sensor_delta_rmse: 1.0
+  reproductions:
+  - *id011
+  - *id012
+  - *id013
+  - *id014
+  - *id015
+schedule_decision:
+  locked_reference: epoch_end_physics
+  schedule_pilot_started: false
+  observed_seed0_top_physics_gradient_conflict: true
+  reason: fixed-state conflict does not establish cancellation frequency; collect
+    periodic evidence before changing schedule
+gates:
+  m0_d0_checks_passed: true
+  m1_artifacts_locked: true
+  historical_training_bitwise_reproducible: false
+  initial_time_semantics_fully_resolved: false
+  global_energy_balance_claim_supported: false
+  e0_e1_e2: not_started_until_separate_authorized_run_from_this_manifest
+diagnostic_file_sha256s:
+  diagnostics/d0_checks.json: 4e8c55444572fdeadda04305d79155fa7f9e888ba096864564bfeaf615d71169
+  diagnostics/gradient_diagnostics.json: 8821e3d5a42830997a360a2716d7a7b8d15accb3bab6e3072214951ede24849e
+  diagnostics/initial_state_audit.csv: 8fac8419c6ab2b9a75dfc8f1374b10990eb57c13d09d9a5a173f304dc34aa312
+  diagnostics/lf_retention.csv: 7b3075016a8a35df93f1bfc423fc247fae4a061bb99b5af7a536d95cabdd183e
+  diagnostics/physics_validation.json: 3095ee16fbccb8f37308261456b75d1b283e3fb8edda8858b701591a9cca652d
+  diagnostics/run_provenance.json: 919decac94ae3037dd099eb61fa034050fe67d1b3281c87ad338851340c13709
+  diagnostics/validation_by_power_modality.csv: 361cc8a2c7f2ae8271aae9653aa2c9381e59d7b8bd4cac09ae340df427e0c587
+  diagnostics/validation_by_radius.csv: 70521dc6b5a6f4d35bfe635f49c63e5c18a3ac2dc12c1eff6885a29eb855ae30
+  diagnostics/validation_by_time.csv: ccbaf1fdfd83c80f1ef071f564bc0ccc362b258cfdf01c6c8d2261311146abf0
+  diagnostics/validation_reproduction.csv: e3fe11fd05eacc206d3d3128891309a52862992d39d6a3527dc5e0d28df8b9d6
+report_file_sha256s:
+  diagnostic_report.md: a2835ac8c594b1ddf965144be332097bb5415bb2e95943950886c33ef167921e
+  decision_log.md: 9814e0180c3958e2370cfa7d8e6b9cedea4e4eb224246fa9a9f3a9e3f7736d85
+  报告字段说明.md: af1b82619645f63e8864a08da756d61ddf78c87c3dd0b03f53d3c6de2d2a6216

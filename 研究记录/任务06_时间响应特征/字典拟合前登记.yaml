@@ -1,0 +1,40 @@
+schema_version: 1
+registered_at: '2026-09-15T20:10:45+08:00'
+stage: '仅LF训练集字典准备；不构成E0/E1/E2的HF训练或验收'
+source:
+  split_config: configs/splits.yaml
+  split_key: simulation.training_powers_w
+  trajectories: data/processed/simulation/{power}W.parquet
+  power_count: 60
+  temperature_column: temperature_k
+  time_column: time_s
+  temperature_difference: '逐功率、逐节点减其t=0原始仿真温度，单位K；不使用LF代理输出'
+  forbidden_fit_sources:
+    - simulation.validation_powers_w
+    - simulation.test_powers_w
+    - high_fidelity.validation_powers_w
+    - high_fidelity.test_powers_w
+    - high_fidelity.training_powers_w
+node_selection:
+  source: '仅LF训练功率10W的t=0网格；核对60个训练功率节点标签及坐标一致'
+  per_material: 32
+  shared_across_all_training_powers: true
+  coordinate_rule: '各材料候选节点r_m/z_m按该材料可用范围分别缩放到[0,1]；从归一化坐标最接近顶部中心(0,1)的节点开始，依次选择到已选节点最短欧氏距离最大的未选节点；距离相同时取较小node_label'
+  copper_exclusion: '排除Cu最大r_m外圆的定温零响应节点；19条外缘曲线只计数并单列核对，不用于拟合或峰值归一化'
+  silicon_carbide_exclusion: none
+  freeze_record: '每个材料32条选定node_label和坐标在首次拟合前写独立节点清单及源文件SHA；拟合失败不重新选点'
+curve_weighting:
+  time_points: '训练曲线公共t=2..200 s的100帧，各时刻等权；t=0单列零特征一致性核查'
+  amplitude_scale_k: '每条曲线max(0.1, max_t |T(t)-T(0)|) K；两种材料和60功率各组等权，组内32条曲线等权'
+  signed_amplitudes: true
+  ridge_lambda: 1.0e-6
+dictionary:
+  modes: 4
+  dtype: float64
+  model: 'sum_j a_j * (-expm1(-time_s/tau_j))'
+  tau_seconds_initial_group_1: [2, 10, 50, 200]
+  tau_seconds_initial_group_2: [1, 5, 25, 100]
+  tau_seconds_constraint: '四个正、有序；两组初值分别求解并保存，不增加模式数或第三组初值'
+  validation: 'LF合法验证仅评价冻结字典的表示质量，允许单独线性幅值表示诊断；不得回传tau梯度或把验证幅值带入校正器'
+  failure_handling: '非有限尺度、病态幅值或不收敛要记录诊断并保留固定E1，不宣称E2成功'
+  hf_feature_contract: '仅成功冻结的tau注册buffer，使用-torch.expm1(-t/tau)，保持t一阶/二阶导数；HF E0/E1/E2训练设置待任04/05结论后另行共同锁定'

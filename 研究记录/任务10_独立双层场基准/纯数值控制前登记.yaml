@@ -1,0 +1,38 @@
+schema_version: 1
+registered_at: '2026-09-15T20:21:19+08:00'
+stage: '任-10独立求解器纯数值控制；任-07冻结前禁止主模型成绩比较'
+interpretation: '人为的一维双层板基准，并非原轴对称三维装置或内部实验温度真值'
+materials_source: configs/materials.yaml
+geometry:
+  silicon_carbide_thickness_m: 0.012
+  copper_thickness_m: 0.0055
+  cross_section_area_m2: 0.0028274333882308137
+  virtual_probe_depths_from_top_m: [0.013, 0.016]
+  observed_top_depth_from_top_m: 0.0
+thermal_conditions:
+  initial_temperature_k: 295.15
+  bottom_fixed_temperature_k: 295.15
+  top_constant_heat_flux_w_m2: 50000.0
+  power_definition: '已指定面热通量×横截面积，禁止将其解释为真实激光整束功率或原装置吸收率'
+  benchmark_contact_resistance_m2_k_w: 0.0001
+  contact_value_status: '人为固定且向以后所有基准PINN方案平等开放，不是LF辨识初值或实测接触真值'
+  coarse_mismatch_contact_multiplier: 0.7
+low_fidelity_sources:
+  same_physics_coarse_grid: '同材料/边界/接触热阻，人为缩小SiC/Cu单元数并使用粗时间步'
+  coarse_contact_mismatch: '与上项相同，只把接触热阻改为0.7倍；不是实际材料参数估计'
+reference_controls:
+  mesh_time_pairs:
+    - {silicon_carbide_cells: 24, copper_cells: 11, time_step_s: 2.0}
+    - {silicon_carbide_cells: 48, copper_cells: 22, time_step_s: 1.0}
+    - {silicon_carbide_cells: 96, copper_cells: 44, time_step_s: 0.5}
+    - {silicon_carbide_cells: 192, copper_cells: 88, time_step_s: 0.25}
+  end_time_s: 200.0
+  comparison_times_s: [1, 2, 5, 10, 50, 100, 200]
+  refinement_target_max_difference_c: 0.1
+  refinement_rule: '最细相邻两级在允许深度点的差异不超过0.1℃，否则只继续加密或限制结论，不改物理参数/测试点'
+  analytic_steady_top_delta_k: 'q*(L_SiC/k_SiC + R_contact + L_Cu/k_Cu)'
+  integrated_balance: '每时间步单元储热率之和 + 底部外流 - 顶部已知面通量 = 0（每平方米）'
+data_isolation:
+  solver_reference_full_field: '生成后封存，后续训练只开放顶部及深度13/16mm两个虚拟探针的训练折；完整参考场不得用于监督或早停'
+  existing_hf_test_temperature: '禁止读取'
+  original_lf_or_hf_label: '此纯数值控制阶段不读取任何原装置训练/验证/测试温度'

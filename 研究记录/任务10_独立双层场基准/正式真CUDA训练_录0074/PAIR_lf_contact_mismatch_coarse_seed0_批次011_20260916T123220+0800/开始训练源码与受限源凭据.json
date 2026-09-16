@@ -1,0 +1,12 @@
+{
+  "事前预算_SHA256": "cf05d16a3cd754e7f75321418ec6186e42673e33f8774492f3eea985105fba94",
+  "数值六源tar_SHA256": "368f0f8458c994101bd1d20c241f61f8e64d8bedb0e74b3f733d7369e7a01c2f",
+  "方法源码tar_SHA256": "22e6df62cf1aaddf55a8a33e8d8a71e558d89110db96466dc904d1b10c03069d",
+  "受限源清单_SHA256": "b59bc80c678faa29224e564dc3f4dd7d61903fc59d6c7e6c2274e1a59651bedb",
+  "运行方法": "PAIR",
+  "单LF来源": "lf_contact_mismatch_coarse",
+  "随机种子": 0,
+  "设备": "cuda",
+  "起点时刻": "2026-09-16T12:34:46.467076+08:00",
+  "完整内部场后验评价已执行": false
+}

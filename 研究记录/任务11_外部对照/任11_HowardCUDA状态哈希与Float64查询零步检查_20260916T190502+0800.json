@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "状态": "真CUDA零优化步组件检查PASS；非本人正式HF资格",
+  "完整实跑命令": "env PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 CUDA_VISIBLE_DEVICES=0 TMPDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/临时文件' CUDA_CACHE_PATH='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' XDG_CACHE_HOME='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/应用缓存' MPLCONFIGDIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/绘图缓存' TORCH_EXTENSIONS_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Torch扩展缓存' TORCHINDUCTOR_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/Inductor缓存' TRITON_CACHE_DIR='/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/HowardLF正式执行环境_20260916T172037+0800/GPU缓存' WORLD_SIZE=1 /home/phl/anaconda3/envs/PINN/bin/python -B -u -c 'import os,sys,json; from pathlib import Path; root=Path(\"/home/phl/lyf/Temperature Field Prediction\"); blocked=[]\ndef guard(event,args):\n if event=='\\''open'\\'':\n  name,mode,flags=args; write=(isinstance(mode,str) and any(c in mode for c in '\\''wax+'\\'')) or (isinstance(flags,int) and bool(flags&(os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND))); targets=[name] if write and isinstance(name,(str,bytes,os.PathLike)) else []\n elif event in ('\\''os.mkdir'\\'','\\''os.remove'\\'','\\''os.rmdir'\\'','\\''os.chmod'\\'','\\''os.chown'\\'','\\''os.utime'\\'','\\''os.truncate'\\''): targets=[args[0]]\n elif event in ('\\''os.rename'\\'','\\''os.replace'\\'','\\''os.link'\\''): targets=list(args[:2])\n elif event=='\\''os.symlink'\\'': targets=[args[1]]\n else: return\n for value in targets:\n  if isinstance(value,int): continue\n  path=Path(os.fsdecode(value)).resolve()\n  if root not in path.parents:\n   blocked.append({'\\''事件'\\'':event,'\\''目标'\\'':str(path)}); raise PermissionError('\\''项目外写入已阻止'\\'')\nsys.addaudithook(guard)\n\nimport hashlib,time,random\nfrom datetime import datetime\nstarted=time.perf_counter()\nnames=['\\''src/sic_cu/train/task11_howard_hf_formal.py'\\'','\\''scripts/55_run_task11_howard_hf_formal.py'\\'','\\''tests/test_task11_howard_hf_formal.py'\\'','\\''src/sic_cu/train/task11_howard_hf_initialization.py'\\'','\\''tests/test_task11_howard_hf_initialization.py'\\'','\\''src/sic_cu/models/task11_howard_composite.py'\\'','\\''tests/test_task11_howard_composite.py'\\'']\nbefore={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in names}\nsys.path.insert(0,str(root/'\\''src'\\''))\nimport numpy as np\nimport torch\nimport sic_cu.train.task11_howard_hf_formal as hf\nfrom sic_cu.train.task11_howard_hf_initialization import _state_content_sha as cpu_sha\nassert torch.cuda.is_available() and torch.cuda.device_count()==1\ntorch.cuda.set_device(0)\ntorch.cuda.init()\nrng_cpu=torch.get_rng_state().clone()\nrng_cuda=torch.cuda.get_rng_state(0).clone()\nrng_python=random.getstate()\nrng_numpy=np.random.get_state()\ndefault_dtype=torch.get_default_dtype()\nmodel=hf._fresh_cpu_model()\nassert len(list(model.parameters()))==56\nassert all(p.dtype==torch.float32 and p.device.type=='\\''cpu'\\'' for p in model.parameters())\nquery_cpu={name:value.detach().clone() for name,value in model.named_buffers()}\nassert len(query_cpu)==2 and all(b.dtype==torch.float64 and b.shape==(24,4) for b in query_cpu.values())\nfull_cpu=hf._state_content_sha(model.state_dict())\nlf_cpu=hf._state_content_sha(model.low_fidelity_subnet.state_dict())\nassert lf_cpu==cpu_sha(model.low_fidelity_subnet.state_dict())\nmodel=model.to(torch.device('\\''cuda'\\'',0))\nassert all(p.dtype==torch.float32 and p.device.type=='\\''cuda'\\'' for p in model.parameters())\nassert all(value.dtype==torch.float64 and value.device.type=='\\''cuda'\\'' and torch.equal(value.cpu(),query_cpu[name]) for name,value in model.named_buffers())\nnegative=None\ntry:\n cpu_sha(model.low_fidelity_subnet.state_dict())\nexcept TypeError as exc:\n negative=str(exc)\nassert negative is not None and '\\''numpy'\\'' in negative.lower() and '\\''cpu'\\'' in negative.lower()\nassert hf._state_content_sha(model.state_dict())==full_cpu\nassert hf._state_content_sha(model.low_fidelity_subnet.state_dict())==lf_cpu\nmeta=hf._state_metadata({'\\''seed'\\'':0,'\\''限定'\\'':'\\''随机初始化零优化步设备边界检查；未正式来源资格'\\''},model,[],hf.STAGE1,log_sha=hashlib.sha256(b'\\'''\\'').hexdigest(),initialization={'\\''限定'\\'':'\\''合成未资格；非本人完训LF迁移'\\''})\nassert meta['\\''当前LF子网内容SHA256'\\'']==lf_cpu and meta['\\''执行设备'\\'']=='\\''cuda:0'\\'' and meta['\\''HF训练许可'\\''] is False\nassert all(value==0 for value in meta['\\''消费累计'\\''].values())\nassert torch.equal(torch.get_rng_state(),rng_cpu) and torch.equal(torch.cuda.get_rng_state(0),rng_cuda)\nassert random.getstate()==rng_python\nnp_after=np.random.get_state()\nassert np_after[0]==rng_numpy[0] and np.array_equal(np_after[1],rng_numpy[1]) and np_after[2:]==rng_numpy[2:]\nassert torch.get_default_dtype()==default_dtype==torch.float32\nafter={name:hashlib.sha256((root/name).read_bytes()).hexdigest() for name in names}\nassert before==after and not blocked\nprint(json.dumps({'\\''实际检查'\\'':'\\''PASS：真实CUDA零优化步状态哈希桥与Float64查询边界'\\'','\\''实际时间'\\'':datetime.now().astimezone().isoformat(),'\\''墙钟秒'\\'':time.perf_counter()-started,'\\''GPU'\\'':torch.cuda.get_device_name(0),'\\''参数张量数'\\'':56,'\\''参数dtype'\\'':'\\''torch.float32'\\'','\\''查询buffer数'\\'':2,'\\''查询dtype'\\'':'\\''torch.float64'\\'','\\''各查询尺寸'\\'':[24,4],'\\''冻结CPU专用helper真实负例TypeError'\\'':negative,'\\''新HF设备桥LF内容SHA256'\\'':lf_cpu,'\\''新HF设备桥完整模型内容SHA256'\\'':full_cpu,'\\''metadata零消费'\\'':meta['\\''消费累计'\\''],'\\''CPU及CUDA及Python及NumPyRNG不变'\\'':True,'\\''实际优化步'\\'':0,'\\''正式HowardHF训练许可'\\'':False,'\\''读取真实catalog_PT_PARQ_温度_ROOT'\\'':False,'\\''候选及冻结七源前后SHA256'\\'':before,'\\''项目外Python写入阻止记录'\\'':blocked,'\\''限定'\\'':'\\''仅随机初始化模型设备部件真实CUDA验证；无模型前向/优化/正式LF来源资格，不替代本人HF事前门禁或完训资格'\\''},ensure_ascii=False))\n'",
+  "cwd": "/home/phl/lyf/Temperature Field Prediction",
+  "工具实际退出码": 0,
+  "完整实跑stdout": "{\"实际检查\": \"PASS：真实CUDA零优化步状态哈希桥与Float64查询边界\", \"实际时间\": \"2026-09-16T19:02:48.194239+08:00\", \"墙钟秒\": 0.9480889849946834, \"GPU\": \"NVIDIA GeForce RTX 4090 D\", \"参数张量数\": 56, \"参数dtype\": \"torch.float32\", \"查询buffer数\": 2, \"查询dtype\": \"torch.float64\", \"各查询尺寸\": [24, 4], \"冻结CPU专用helper真实负例TypeError\": \"can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.\", \"新HF设备桥LF内容SHA256\": \"32471ad948c5c266c5fc1d21999a4b03018346dfd871c92443f667f0cf3495f9\", \"新HF设备桥完整模型内容SHA256\": \"882cf238a5207a38b0a9917a7416008b1a18bf24733dbb9d64f7571e49feb914\", \"metadata零消费\": {\"HF观测点\": 0, \"HF传感器点\": 0, \"HF混合优化步\": 0, \"物理优化步\": 0, \"物理配点\": 0, \"LF回放点\": 0, \"LF回放小批\": 0, \"LF混合梯度更新\": 0, \"AdamW优化步\": 0, \"正则显式次数\": 0}, \"CPU及CUDA及Python及NumPyRNG不变\": true, \"实际优化步\": 0, \"正式HowardHF训练许可\": false, \"读取真实catalog_PT_PARQ_温度_ROOT\": false, \"候选及冻结七源前后SHA256\": {\"src/sic_cu/train/task11_howard_hf_formal.py\": \"1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860\", \"scripts/55_run_task11_howard_hf_formal.py\": \"4b956baecb0839d6638a24941b4dc8e929e50b80f618b54781527d83a6b5af2b\", \"tests/test_task11_howard_hf_formal.py\": \"f13721f3d12e68d083344dcdc35831450502ff8dcfe4e18cdec976fc34d67f49\", \"src/sic_cu/train/task11_howard_hf_initialization.py\": \"aa0bc8f3d91914f03631a7e29d807af3412eb84727288c38710bad4c2d237b70\", \"tests/test_task11_howard_hf_initialization.py\": \"e9b3f46e8696f0995e00dc124d1686050415dd7d31e7b93b6ea82bcde8385abc\", \"src/sic_cu/models/task11_howard_composite.py\": \"16d4621faebb8a57e8940d24e941e784f8f7a361c51e76a22a735453b9490d36\", \"tests/test_task11_howard_composite.py\": \"a2c05ae46bff28ba570812190adc50f87a2ef66e42090a281ad2106799f69d1c\"}, \"项目外Python写入阻止记录\": [], \"限定\": \"仅随机初始化模型设备部件真实CUDA验证；无模型前向/优化/正式LF来源资格，不替代本人HF事前门禁或完训资格\"}\n",
+  "真实结果": {
+    "实际检查": "PASS：真实CUDA零优化步状态哈希桥与Float64查询边界",
+    "实际时间": "2026-09-16T19:02:48.194239+08:00",
+    "墙钟秒": 0.9480889849946834,
+    "GPU": "NVIDIA GeForce RTX 4090 D",
+    "参数张量数": 56,
+    "参数dtype": "torch.float32",
+    "查询buffer数": 2,
+    "查询dtype": "torch.float64",
+    "各查询尺寸": [
+      24,
+      4
+    ],
+    "冻结CPU专用helper真实负例TypeError": "can't convert cuda:0 device type tensor to numpy. Use Tensor.cpu() to copy the tensor to host memory first.",
+    "新HF设备桥LF内容SHA256": "32471ad948c5c266c5fc1d21999a4b03018346dfd871c92443f667f0cf3495f9",
+    "新HF设备桥完整模型内容SHA256": "882cf238a5207a38b0a9917a7416008b1a18bf24733dbb9d64f7571e49feb914",
+    "metadata零消费": {
+      "HF观测点": 0,
+      "HF传感器点": 0,
+      "HF混合优化步": 0,
+      "物理优化步": 0,
+      "物理配点": 0,
+      "LF回放点": 0,
+      "LF回放小批": 0,
+      "LF混合梯度更新": 0,
+      "AdamW优化步": 0,
+      "正则显式次数": 0
+    },
+    "CPU及CUDA及Python及NumPyRNG不变": true,
+    "实际优化步": 0,
+    "正式HowardHF训练许可": false,
+    "读取真实catalog_PT_PARQ_温度_ROOT": false,
+    "候选及冻结七源前后SHA256": {
+      "src/sic_cu/train/task11_howard_hf_formal.py": "1ff9df9538473337393574ad1d165cfc849b8719c1033b5d8bb8db666eb14860",
+      "scripts/55_run_task11_howard_hf_formal.py": "4b956baecb0839d6638a24941b4dc8e929e50b80f618b54781527d83a6b5af2b",
+      "tests/test_task11_howard_hf_formal.py": "f13721f3d12e68d083344dcdc35831450502ff8dcfe4e18cdec976fc34d67f49",
+      "src/sic_cu/train/task11_howard_hf_initialization.py": "aa0bc8f3d91914f03631a7e29d807af3412eb84727288c38710bad4c2d237b70",
+      "tests/test_task11_howard_hf_initialization.py": "e9b3f46e8696f0995e00dc124d1686050415dd7d31e7b93b6ea82bcde8385abc",
+      "src/sic_cu/models/task11_howard_composite.py": "16d4621faebb8a57e8940d24e941e784f8f7a361c51e76a22a735453b9490d36",
+      "tests/test_task11_howard_composite.py": "a2c05ae46bff28ba570812190adc50f87a2ef66e42090a281ad2106799f69d1c"
+    },
+    "项目外Python写入阻止记录": [],
+    "限定": "仅随机初始化模型设备部件真实CUDA验证；无模型前向/优化/正式LF来源资格，不替代本人HF事前门禁或完训资格"
+  },
+  "限制": "随机初始化56参数，0前向/0优化、未读真实PT/PARQ/catalog/温度/ROOT，不是实际完训LF迁移、不授予正式HF许可；必须另自身登记及ROOT门禁"
+}

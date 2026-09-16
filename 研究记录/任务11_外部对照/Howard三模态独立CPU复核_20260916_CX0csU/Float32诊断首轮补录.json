@@ -1,0 +1,16 @@
+{
+  "证据性质": "独立审查自身夹具诊断的首次实际工具调用失败补录；不是Howard候选RED，未重跑或覆盖旧证据",
+  "实际退出码": 1,
+  "实际argv": [
+    "/home/phl/anaconda3/envs/PINN/bin/python",
+    "-B",
+    "研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/诊断Float32求和.py"
+  ],
+  "完整CPU环境取自": "独立追加IO病例.command.json:实际环境；与首次实际诊断工具调用一致",
+  "首次执行脚本当时原件": "Float32诊断首轮脚本原件.py",
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"/home/phl/lyf/Temperature Field Prediction/研究记录/任务11_外部对照/Howard三模态独立CPU复核_20260916_CX0csU/诊断Float32求和.py\", line 24, in <module>\n    assert records and all(row[\"Polars归一逐点bitwise相同\"] for row in records)\nAssertionError\n",
+  "失败原因": "自身诊断误设跨Polars归约和NumPy Float32独立除法逐点bitwise必相同；实际独立除法亦存在舍入差，需保留原frame_weight，不能由该断言判候选错误",
+  "后续实际诊断": "诊断Float32求和.py改为独立Float64理想归一容差，实际exit0，结构化终态stdout及CPU守卫保存在Float32求和根因实际证据.json",
+  "所有修改限定": "自身CPU档案夹具和诊断，不修改候选源或父依赖，不改原Float32帧权重"
+}
