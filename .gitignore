@@ -51,7 +51,9 @@ dist/
 /研究记录/**/pycache*/
 /研究记录/**/*缓存*/
 /研究记录/**/test_*/
+/研究记录/**/test_*
 /研究记录/**/synthetic*/
+/研究记录/**/real_cpu_epoch_only*
 /研究记录/**/隔离项目/
 /研究记录/**/project/
 /研究记录/**/tmp/
