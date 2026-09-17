@@ -1,0 +1,47 @@
+# 一个模型、一个优化过程、连续8000轮；不预训练、不冻结切阶段、不早停。
+physical:
+  simulation_cooling_c: 22.0
+  experiment_cooling_c: 25.0
+  experiment_initial_c: null  # 沿用已有初温；水冷25℃不自动等于初温25℃。
+model:
+  width: 128
+  latent_dim: 128
+  blocks: 3
+  correction_width: 128
+  correction_depth: 3
+  temperature_scale_k: 250.0
+  learn_contact: true
+training:
+  epochs: 8000
+  seed: 0
+  device: auto
+  ir_batch_size: 2048
+  simulation_points_per_power_material: 16
+  sensor_points_per_curve: 32
+  physics_points_per_region: 32
+  learning_rate: 0.0001
+  final_learning_rate: 0.00001
+  contact_learning_rate: 0.00001
+  weight_decay: 0.000001
+  gradient_clip_norm: 1.0
+  validation_every: 100
+  plots_every: 100
+loss_weights:
+  仿真温度: 1.0
+  顶部温度: 1.0
+  环温绝对值: 5.0
+  环温温升: 1.0
+  传热方程: 1.0
+  边界条件: 1.0
+  初始条件: 1.0
+  材料界面: 1.0
+  仿真水冷: 1.0
+  热阻正则: 0.0001
+visualization:
+  export_test_after_training: true
+  all_measured_surface_times: true
+  animation_time_step_s: 5.0
+  animation_fps: 5
+  image_dpi: 140
+  decimals: 3
+  raw_test_surface: data/test_Data/topdata
