@@ -1,9 +1,12 @@
 # 一个模型、一个优化过程、连续8000轮；不预训练、不冻结切阶段、不早停。
+data:
+  low_fidelity_mode: all_training
 physical:
   simulation_cooling_c: 22.0
   experiment_cooling_c: 25.0
   experiment_initial_c: null  # 沿用已有初温；水冷25℃不自动等于初温25℃。
 model:
+  time_response: monotone_heating
   width: 128
   latent_dim: 128
   blocks: 3

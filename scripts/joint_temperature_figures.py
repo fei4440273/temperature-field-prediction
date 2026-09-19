@@ -1,11 +1,18 @@
 """从模型和实测数值生成中文图册，不生成示意温度或虚构实验曲线。"""
 from __future__ import annotations
+import base64
 import csv
 import html
 import json
 import math
+import mimetypes
+import os
 import re
+import shutil
+import tempfile
+from datetime import datetime
 from pathlib import Path
+from urllib.parse import quote
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
@@ -14,7 +21,9 @@ from matplotlib import font_manager
 from matplotlib.colors import Normalize
 from matplotlib.ticker import FormatStrFormatter
 from PIL import Image
-from joint_temperature_core import KELVIN, predict, load_observations, table_metrics, read_parquet
+from joint_temperature_core import KELVIN, predict, load_observations, table_metrics, read_parquet, sha256
+
+FIXED_GALLERY = Path('研究记录/联合训练8000轮_20260917_114704/结果总览.html')
 
 
 def setup_font():
@@ -42,7 +51,9 @@ def save_curve(path:Path,x,series,title,xlabel,ylabel,log=False):
 def training_plots(history:list,out:Path,config:dict):
     setup_font(); folder=out/'训练曲线'; folder.mkdir(exist_ok=True)
     epochs=np.asarray([row['轮次'] for row in history])
-    names=['总损失','仿真温度','顶部温度','环温绝对值','环温温升','传热方程','边界条件','材料界面']
+    names=['总损失','仿真温度','顶部温度','环温绝对值','热端绝对温度','冷端绝对温度',
+           '环温温升','功率平滑','传热方程','边界条件','材料界面']
+    names=[name for name in names if any(name in row for row in history)]
     series=[(name,np.maximum([row.get(name,np.nan) for row in history],1e-16)) for name in names]
     save_curve(folder/'损失函数变化.png',epochs,series,'联合训练损失变化','训练轮次','无量纲损失（对数）',True)
     rows=[r for r in history if '验证综合分数_℃' in r]
@@ -95,7 +106,58 @@ def raw_surface_frames(root:Path,config:dict,power:float):
     return sorted(matches)
 
 
-def surface_images(model,root,out,power,table,config):
+def surface_error_rows(frames):
+    rows=[]
+    for t,measured,predicted,_,source in sorted(frames,key=lambda frame:frame[0]):
+        measured=np.asarray(measured,dtype=np.float64)
+        predicted=np.asarray(predicted,dtype=np.float64)
+        if not np.isfinite(t) or measured.shape!=predicted.shape:
+            raise ValueError('顶面误差数据的时间或实验与预测网格不一致。')
+        valid=np.isfinite(measured)&np.isfinite(predicted)
+        if not valid.any():
+            raise ValueError(f'顶面{float(t):.3f}秒没有可比较的有效点。')
+        error=predicted[valid]-measured[valid]
+        rows.append({'时间_s':float(t),'有效点数':int(valid.sum()),
+                     '均方根误差_℃':float(np.sqrt(np.mean(error**2))),
+                     '平均绝对误差_℃':float(np.mean(np.abs(error))),
+                     '平均偏差_℃':float(np.mean(error)),
+                     '最大绝对误差_℃':float(np.max(np.abs(error))),'数据来源':source})
+    if not rows:
+        raise ValueError('顶面没有实测时刻，不能生成误差曲线。')
+    return rows
+
+
+def save_surface_error_curve(out:Path,power:float,frames):
+    rows=surface_error_rows(frames)
+    setup_font()
+    folder=out/f'{power:.3f}W';folder.mkdir(parents=True,exist_ok=True)
+    fig,ax=plt.subplots(figsize=(8,5.2))
+    series=(('均方根误差_℃','#0072B2','-','o'),
+            ('平均绝对误差_℃','#D55E00','--','s'),('平均偏差_℃','#009E73','-.','^'))
+    for name,color,style,marker in series:
+        ax.plot([row['时间_s'] for row in rows],[row[name] for row in rows],
+                label=name.removesuffix('_℃'),color=color,linestyle=style,
+                marker=marker,markersize=3,linewidth=1.6)
+    ax.axhline(0.,color='#666666',linestyle=':',linewidth=.9)
+    ax.set(title=f'{power:.3f} W 顶面温度误差随时间变化',xlabel='时间 / s',ylabel='误差 / ℃')
+    ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
+    ax.grid(True,alpha=.25);ax.legend(fontsize=10)
+    sources={row['数据来源'] for row in rows}
+    scope='顶面原始有效像素' if sources=={'实验温度'} else (
+        '实验环平均数据还原的有效网格点' if sources=={'实验环平均数据还原'} else '各时刻云图的有效网格点')
+    fig.text(.5,.07,f'统计范围：{scope}',ha='center',fontsize=10)
+    fig.text(.5,.025,'平均偏差 = 预测 - 实验；负值表示预测偏低',ha='center',fontsize=10)
+    fig.tight_layout(rect=(0.,.12,1.,1.))
+    fig.savefig(folder/'顶面温度误差随时间.png',dpi=300)
+    fig.savefig(folder/'顶面温度误差随时间.pdf')
+    plt.close(fig)
+    with (folder/'顶面温度误差逐时刻.csv').open('w',encoding='utf-8-sig',newline='') as handle:
+        writer=csv.DictWriter(handle,fieldnames=list(rows[0]))
+        writer.writeheader();writer.writerows(rows)
+    return rows
+
+
+def surface_images(model,root,out,power,table,config,*,error_curve_only:bool=False):
     folder=out/f'{power:.3f}W'/'表面逐时刻'; folder.mkdir(parents=True,exist_ok=True)
     mask=np.abs(table.x[:,3]-power)<1e-3
     x=table.x[mask]; measured=table.y[mask,0]-KELVIN
@@ -103,9 +165,10 @@ def surface_images(model,root,out,power,table,config):
     raw=dict(raw_surface_frames(root,config,power)); frames=[]
     for t in times:
         rows=x[:,2]==t; radius=x[rows,0]; reference=measured[rows]
-        pred_curve=predict(model,x[rows])-KELVIN
-        save_comparison_curve(folder/f'{float(t):08.3f}秒_径向对比.png',radius*1000,reference,pred_curve,
-                              f'{power:.3f} W，{float(t):.3f} s，碳化硅表面','半径 / mm')
+        if not error_curve_only:
+            pred_curve=predict(model,x[rows])-KELVIN
+            save_comparison_curve(folder/f'{float(t):08.3f}秒_径向对比.png',radius*1000,reference,pred_curve,
+                                  f'{power:.3f} W，{float(t):.3f} s，碳化硅表面','半径 / mm')
         entry=next((path for rt,path in raw.items() if abs(rt-float(t))<1e-4),None)
         if entry is not None:
             import polars as pl
@@ -131,6 +194,9 @@ def surface_images(model,root,out,power,table,config):
             source='实验环平均数据还原'
         frames.append((float(t),a,b,extent,source))
     if not frames: raise ValueError('测试表面没有实测时刻。')
+    error_rows=save_surface_error_curve(out,power,frames)
+    if error_curve_only:
+        return error_rows
     lower=min(float(np.nanmin(a)) for _,a,b,_,_ in frames)
     lower=min(lower,min(float(np.nanmin(b)) for _,a,b,_,_ in frames))
     upper=max(max(float(np.nanmax(a)),float(np.nanmax(b))) for _,a,b,_,_ in frames)
@@ -206,36 +272,124 @@ def three_dimensional_animation(model,out,power,config,fidelity='high'):
     for frame in frames:frame.close()
 
 
-def write_gallery(out:Path,metrics:dict):
+def gallery_html(out:Path,metrics:dict,destination:Path,publication:dict|None=None,*,embed_images:bool=False):
+    def asset_url(path):
+        relative = Path(os.path.relpath(path, destination.parent)).as_posix()
+        return html.escape(quote(relative, safe='/'), quote=True)
+    def image_url(path):
+        if not embed_images:
+            return asset_url(path)
+        mime = mimetypes.guess_type(path.name)[0]
+        if mime not in ('image/png', 'image/gif'):
+            raise ValueError(f'不支持内嵌此图像格式：{path.name}')
+        encoded = base64.b64encode(path.read_bytes()).decode('ascii')
+        return f'data:{mime};base64,{encoded}'
     pieces=['<!doctype html><html lang="zh"><meta charset="utf-8"><title>温度预测结果总览</title>',
-            '<style>body{font-family:sans-serif;max-width:1500px;margin:auto;padding:24px}img{max-width:100%;height:auto}section{margin:30px 0}table{border-collapse:collapse}td,th{padding:8px;border:1px solid #aaa}</style>',
+            '<meta name="viewport" content="width=device-width, initial-scale=1">',
+            '<style>body{font-family:sans-serif;max-width:1500px;margin:auto;padding:24px}p{overflow-wrap:anywhere}img{max-width:100%;height:auto}section{margin:30px 0}table{border-collapse:collapse;width:100%;max-width:760px;table-layout:fixed;font-size:14px}td,th{padding:6px;border:1px solid #aaa}</style>',
             '<h1>多保真DeepONet温度预测结果</h1><p>连续8000轮训练后，依据验证集确定模型，再对测试集生成以下结果。三维图为模型预测；不是虚构的内部实测。</p>',
-            '<p>表面实验与预测采用相同温度色标；三维动画全时段采用固定色标。表面原始像素不可读取时，图题明确标注“实验环平均数据还原”。</p>',
-            '<h2>测试集分项误差</h2><table><tr><th>功率/W</th><th>位置</th><th>均方根误差/℃</th><th>平均绝对误差/℃</th></tr>']
+            '<p>表面实验与预测采用相同温度色标；三维动画全时段采用固定色标。表面原始像素不可读取时，图题明确标注“实验环平均数据还原”。</p>']
+    if publication is not None:
+        source = out / publication['来源图册文件名']
+        pieces.extend([
+            f'<p>来源运行：<a href="{asset_url(source)}">{html.escape(out.name)}</a></p>',
+            f'<p>完成轮数：{publication["完成轮数"]}；展示检查点：{html.escape(publication["出图检查点"])}；'
+            f'训练完成时间：{html.escape(publication["训练完成记录时间"])}；更新于：{html.escape(publication["更新时刻"])}</p>',
+        ])
+    pieces.append('<h2>测试集分项误差</h2><table><tr><th>功率/W</th><th>位置</th><th>均方根误差/℃</th><th>平均绝对误差/℃</th></tr>')
     for name,info in metrics.items():
         for row in info['逐功率']:
             pieces.append(f'<tr><td>{row["功率_W"]:.3f}</td><td>{name}</td><td>{row["均方根误差_℃"]:.3f}</td><td>{row["平均绝对误差_℃"]:.3f}</td></tr>')
     pieces.append('</table>')
+    top_curves=sorted(out.glob('*W/顶面温度误差随时间.png'))
+    if top_curves:
+        pieces.append('<h2>顶面温度误差随时间变化</h2>')
+        pieces.append('<p>曲线按每个实测时刻的顶面云图有效点计算；上方表格按径向环平均温度及其数据权重计算，统计方式不同。</p>')
+        for path in top_curves:
+            pieces.append(f'<section><h3>{html.escape(path.parent.name)}</h3><img loading="lazy" src="{image_url(path)}"></section>')
     for path in sorted((out/'训练曲线').glob('*.png')):
-        rel=path.relative_to(out).as_posix();pieces.append(f'<section><h2>{html.escape(path.stem)}</h2><img loading="lazy" src="{html.escape(rel)}"></section>')
+        pieces.append(f'<section><h2>{html.escape(path.stem)}</h2><img loading="lazy" src="{image_url(path)}"></section>')
     for folder in sorted(out.glob('*W')):
         if not folder.is_dir():continue
         pieces.append(f'<h2>{html.escape(folder.name)}</h2>')
         for path in sorted(folder.glob('*.png'))+sorted(folder.glob('*.gif')):
-            rel=path.relative_to(out).as_posix();pieces.append(f'<section><h3>{html.escape(path.stem)}</h3><img loading="lazy" src="{html.escape(rel)}"></section>')
+            if path.name=='顶面温度误差随时间.png':continue
+            pieces.append(f'<section><h3>{html.escape(path.stem)}</h3><img loading="lazy" src="{image_url(path)}"></section>')
         pieces.append('<details><summary>展开全部实测时刻的表面对比图</summary>')
         for path in sorted((folder/'表面逐时刻').glob('*_并排对比.png')):
-            rel=path.relative_to(out).as_posix();pieces.append(f'<h3>{html.escape(path.stem)}</h3><img loading="lazy" src="{html.escape(rel)}">')
+            pieces.append(f'<h3>{html.escape(path.stem)}</h3><img loading="lazy" src="{image_url(path)}">')
         pieces.append('</details>')
-    pieces.append('</html>');(out/'结果总览.html').write_text('\n'.join(pieces),encoding='utf-8')
+    pieces.append('</html>')
+    return '\n'.join(pieces)
+
+
+def write_text_atomic(path:Path,text:str):
+    path.parent.mkdir(parents=True,exist_ok=True)
+    with tempfile.NamedTemporaryFile(mode='w',encoding='utf-8',dir=path.parent,
+                                     prefix='临时图册发布_',delete=False) as handle:
+        temporary=Path(handle.name)
+        handle.write(text)
+    try:
+        temporary.chmod(path.stat().st_mode & 0o777 if path.exists() else 0o644)
+        temporary.replace(path)
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def write_gallery(out:Path,metrics:dict,*,destination:Path|None=None,publication:dict|None=None):
+    destination=out/'结果总览.html' if destination is None else destination
+    write_text_atomic(destination,gallery_html(out,metrics,destination,publication))
+    return destination
+
+
+def completed_gallery_lock(out:Path):
+    out=out.resolve()
+    lock_path=out/'测试出图锁定记录.json'
+    if not lock_path.is_file():
+        raise RuntimeError('缺少测试出图锁定记录，不能更新固定图册。')
+    lock=json.loads(lock_path.read_text(encoding='utf-8'))
+    if lock.get('完成轮数')!=8000:
+        raise RuntimeError('完整8000轮训练尚未结束，不能更新固定图册。')
+    checkpoint=(out/lock['出图检查点']).resolve()
+    if out not in checkpoint.parents or not checkpoint.is_file() or sha256(checkpoint)!=lock['检查点SHA256']:
+        raise RuntimeError('出图检查点不存在、超出运行目录或SHA256不一致，不能更新固定图册。')
+    return lock
+
+
+def publish_latest_gallery(root:Path,out:Path):
+    root,out=root.resolve(),out.resolve()
+    destination=root/FIXED_GALLERY
+    backup=destination.with_name('结果总览_原始运行.html')
+    record_path=destination.with_name('固定图册更新记录.json')
+    if root not in out.parents or any(root not in p.resolve().parents for p in (destination,backup,record_path)):
+        raise ValueError('图册来源及固定入口必须位于本项目内，不能发布到项目外。')
+    lock=completed_gallery_lock(out)
+    source=out/'结果总览.html'
+    regenerated=out/'结果总览_本次重出图.html'
+    if out==destination.parent and regenerated.is_file():
+        source=regenerated
+    if not source.is_file():
+        raise RuntimeError('来源运行的结果图册尚未生成，不能更新固定图册。')
+    metrics=json.loads((out/'测试指标_原始精度.json').read_text(encoding='utf-8'))
+    record={'更新时刻':datetime.now().astimezone().isoformat(timespec='seconds'),
+            '来源运行目录':out.relative_to(root).as_posix(),'固定入口':FIXED_GALLERY.as_posix(),
+            '完成轮数':lock['完成轮数'],'出图检查点':lock['出图检查点'],
+            '检查点SHA256':lock['检查点SHA256'],'训练完成记录时间':lock.get('时间','未记录'),
+            '来源图册文件名':backup.name if source==destination else source.name,
+            '图片保存方式':'内嵌原始PNG/GIF，无需外部图片路径'}
+    # 先完成读取、校验和渲染，再备份及原子替换，避免坏结果破坏当前入口。
+    content=gallery_html(out,metrics,destination,record,embed_images=True)
+    destination.parent.mkdir(parents=True,exist_ok=True)
+    if destination.exists() and not backup.exists():
+        shutil.copy2(destination,backup)
+    write_text_atomic(destination,content)
+    write_text_atomic(record_path,json.dumps(record,ensure_ascii=False,indent=2))
+    return destination
 
 
 def export_results(model,root:Path,out:Path,splits:dict,config:dict):
     setup_font()
-    if not (out/'测试出图锁定记录.json').exists():
-        raise RuntimeError('必须先完成8000轮并锁定检查点，再读取测试温度出图。')
-    lock=json.loads((out/'测试出图锁定记录.json').read_text(encoding='utf-8'))
-    if lock['完成轮数']!=8000:raise RuntimeError('完整训练尚未结束。')
+    completed_gallery_lock(out)
     tables=load_observations(root,'test',splits,model.geometry)
     metrics={name:table_metrics(table,predict(model,table.x)) for name,table in tables.items()}
     (out/'测试指标_原始精度.json').write_text(json.dumps(metrics,ensure_ascii=False,indent=2),encoding='utf-8')
@@ -244,4 +398,7 @@ def export_results(model,root:Path,out:Path,splits:dict,config:dict):
         for name in ('热端','冷端'):ring_images(model,out,power,name,tables[name])
         three_dimensional_animation(model,out,power,config,'high')
         three_dimensional_animation(model,out,power,config,'low')
-    write_gallery(out,metrics)
+    # 固定入口所在的旧运行重出图时，先写独立来源页，保留当前入口待发布。
+    destination=out/'结果总览_本次重出图.html' if out.resolve()==(root/FIXED_GALLERY).parent.resolve() else None
+    write_gallery(out,metrics,destination=destination)
+    return publish_latest_gallery(root,out)

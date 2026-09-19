@@ -20,5 +20,6 @@ if __name__=='__main__':
     model,state=load_model(checkpoint,args.device)
     final=torch.load(out/'第8000轮模型.pt',map_location='cpu',weights_only=False)
     training_plots(final['history'],out,state['config'])
-    export_results(model,Path(args.root).resolve(),out,state['splits'],state['config'])
+    fixed_gallery=export_results(model,Path(args.root).resolve(),out,state['splits'],state['config'])
     print(out/'结果总览.html')
+    print(f'固定图册已更新：{fixed_gallery}')

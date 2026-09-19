@@ -76,6 +76,9 @@ class PhysicalSettings:
             raise ValueError('本入口要求当前装置的铜外圆柱面定温水冷配置。')
         if b['laser']['profile'] != 'gaussian':
             raise ValueError('本入口沿用已确认的高斯激光热流，不静默替换热源类型。')
+        if (config.get('model', {}).get('time_response', 'free') == 'monotone_heating'
+                and b['laser'].get('constant_during_heating') is not True):
+            raise ValueError('持续升温模式仅适用于恒定加热，不能用于关断热源后的冷却过程。')
         ext = b['external_surface']
         nominal = ext.get('nominal_modeling_values', {})
         def eps(name):
@@ -141,20 +144,47 @@ class Encoder(nn.Module):
 
 
 class JointDeepONet(nn.Module):
-    """保留功率分支/时空分支与温度残差结构；全部参数从第1轮共同训练。"""
+    """功率分支与空间分支联合训练；新模式从结构上保证持续加热时不降温。"""
     def __init__(self, geometry: Geometry, settings: PhysicalSettings, config: dict):
         super().__init__()
         self.geometry, self.settings = geometry, settings
         self.model_config = copy.deepcopy(config)
+        self.time_response = config.get('time_response', 'free')
+        if self.time_response not in ('free', 'monotone_heating'):
+            raise ValueError('未知温度响应模式：' + str(self.time_response))
+        heating = self.time_response == 'monotone_heating'
+        self.correction_power_degree = config.get('correction_power_degree')
+        if self.correction_power_degree is not None:
+            if (not heating or type(self.correction_power_degree) is not int
+                    or not 1 <= self.correction_power_degree <= 3):
+                raise ValueError('低阶功率校正要求持续升温模式，功率多项式次数必须为1、2或3。')
+        if heating:
+            if (settings.initial_simulation_k > min(settings.ambient_k, settings.cooling_simulation_k)
+                    or settings.initial_experiment_k > min(settings.ambient_k, settings.cooling_experiment_k)):
+                raise ValueError('持续升温模式要求名义初温不高于环境和水冷温度；预热后的冷却需另用模型。')
+            if geometry.time_max <= 0 or float(config.get('temperature_scale_k', 250.0)) <= 0:
+                raise ValueError('持续升温模式的时间范围和温度尺度必须为正数。')
         width, rank = int(config['width']), int(config['latent_dim'])
         self.branch = Encoder(1,width,int(config['blocks']))
-        self.trunk = Encoder(4,width,int(config['blocks']))
+        self.trunk = Encoder(3 if heating else 4,width,int(config['blocks']))
         self.branch_projection = nn.Linear(width,rank)
         self.trunk_projection = nn.Linear(width,rank)
         nn.init.zeros_(self.branch_projection.weight)
         nn.init.zeros_(self.branch_projection.bias)
         self.low_bias = nn.Parameter(torch.zeros(1))
-        self.correction = mlp(6,1,int(config['correction_width']),int(config['correction_depth']),True)
+        correction_inputs = 5 if heating else 6
+        correction_outputs = rank + 1 if heating else 1
+        if self.correction_power_degree is not None:
+            correction_inputs = 3
+            correction_outputs *= self.correction_power_degree + 1
+        self.correction = mlp(correction_inputs,correction_outputs,
+                              int(config['correction_width']),int(config['correction_depth']),True)
+        if heating:
+            self.heating_bias = nn.Parameter(torch.tensor(math.log(math.expm1(.02 / rank))))
+            centers = torch.expm1(torch.linspace(0, math.log1p(geometry.time_max), rank))
+            self.register_buffer('heating_centers', centers)
+            self.register_buffer('heating_widths', .5 + .15 * centers)
+            self.register_buffer('experiment_temperature_offset', torch.tensor(settings.initial_experiment_k))
         self.register_buffer('temperature_scale', torch.tensor(float(config.get('temperature_scale_k',250.0))))
         self.register_buffer('temperature_offset', torch.tensor(settings.initial_simulation_k))
         self.log_contact = nn.Parameter(torch.tensor(math.log(settings.contact_initial)),
@@ -171,14 +201,58 @@ class JointDeepONet(nn.Module):
             2*x[:,2]/g.time_max-1, 2*x[:,3]/g.power_max-1, 2*x[:,4]-1),dim=1)
 
     def forward_low(self,x):
+        if self.time_response == 'monotone_heating':
+            _, raw, basis = self.heating_features(x)
+            coefficients = torch.nn.functional.softplus(raw)
+            return self.temperature_offset + self.temperature_scale * (
+                self.low_bias + (coefficients * basis).sum(1, keepdim=True))
         z = self.scaled(x)
         b = self.branch_projection(self.branch(z[:,3:4]))
         t = self.trunk_projection(self.trunk(z[:,[0,1,2,4]]))
         return self.temperature_offset + self.temperature_scale*((b*t).sum(1,keepdim=True)/math.sqrt(b.shape[1])+self.low_bias)
 
+    def heating_features(self, x):
+        z = self.scaled(x)
+        branch = self.branch_projection(self.branch(z[:, 3:4]))
+        spatial = self.trunk_projection(self.trunk(z[:, [0, 1, 4]]))
+        raw = branch * spatial / math.sqrt(branch.shape[1]) + self.heating_bias
+        # 系数不含时间；延迟升温基函数在0秒为0，导数非负，也能表达S型升温。
+        initial = torch.sigmoid(-self.heating_centers / self.heating_widths)
+        basis = (torch.sigmoid((x[:, 2:3] - self.heating_centers) / self.heating_widths)
+                 - initial) / (1 - initial)
+        return z, raw, basis
+
+    def heating_correction(self, z, raw):
+        if self.correction_power_degree is None:
+            low_amplitude = torch.nn.functional.softplus(raw).sum(1, keepdim=True) + self.low_bias
+            return self.correction(torch.cat((z[:, [0, 1, 3, 4]], low_amplitude), dim=1))
+        # 空间网络不接收功率；功率只能通过低阶多项式进入校正，减少工况间的窄谷。
+        radius = torch.where(z[:,4]>0,self.geometry.radius_sic,self.geometry.radius_cu)
+        relative_radius = (z[:,0]+1)*self.geometry.radius_cu/(2*radius)
+        spatial = torch.stack((2*relative_radius.square()-1, z[:, 1], z[:, 4]), dim=1)
+        p = z[:, 3:4]
+        polynomials = [torch.ones_like(p), p]
+        if self.correction_power_degree >= 2:
+            polynomials.append((3 * p.square() - 1) / 2)
+        if self.correction_power_degree >= 3:
+            polynomials.append((5 * p.pow(3) - 3 * p) / 2)
+        coefficients = self.correction(spatial).reshape(len(z), self.correction_power_degree + 1, -1)
+        return (coefficients * torch.cat(polynomials, dim=1).unsqueeze(-1)).sum(1)
+
     def forward(self,x,fidelity='high'):
         if x.ndim != 2 or x.shape[1] != 5:
             raise ValueError('坐标列必须为：半径、高度、时间、功率、材料标签。')
+        if self.time_response == 'monotone_heating':
+            if fidelity == 'low':
+                return self.forward_low(x)
+            if fidelity != 'high':
+                raise ValueError('未知保真度。')
+            z, raw, basis = self.heating_features(x)
+            correction = self.heating_correction(z, raw)
+            coefficients = torch.nn.functional.softplus(raw + correction[:, :-1])
+            # 初温偏移可学习，仍接受原初始条件软约束；不修改真实初温标签。
+            return self.experiment_temperature_offset + self.temperature_scale * (
+                self.low_bias + correction[:, -1:] + (coefficients * basis).sum(1, keepdim=True))
         low = self.forward_low(x)
         if fidelity == 'low':
             return low
@@ -328,14 +402,22 @@ def power_keys(values):
     return np.rint(np.asarray(values,dtype=np.float64)*10000).astype(np.int64)
 
 
-def fixed_splits(root: Path):
+def fixed_splits(root: Path, low_fidelity_mode: str = 'legacy_split'):
+    """训练入口显式选择低保真模式；旧配置和调用保留原60/10/10划分。"""
+    if low_fidelity_mode not in ('legacy_split','all_training'):
+        raise ValueError('未知低保真数据模式；只支持legacy_split或all_training。')
     d=read_yaml(root/'configs/splits.yaml')
     hf={k:tuple(float(x) for x in d['high_fidelity'][k+'_powers_w']) for k in ('training','validation','test')}
-    lf={k:tuple(float(x) for x in d['simulation'][k+'_powers_w']) for k in ('validation','test')}
-    lf['training']=tuple(float(p) for p in range(10,801,10) if p not in lf['validation']+lf['test'])
-    for source,expected in ((hf,(12,3,3)),(lf,(60,10,10))):
+    if low_fidelity_mode=='all_training':
+        lf={'training':tuple(float(p) for p in range(10,801,10)),'validation':(),'test':()}
+        lf_counts=(80,0,0)
+    else:
+        lf={k:tuple(float(x) for x in d['simulation'][k+'_powers_w']) for k in ('validation','test')}
+        lf['training']=tuple(float(p) for p in range(10,801,10) if p not in lf['validation']+lf['test'])
+        lf_counts=(60,10,10)
+    for source,expected in ((hf,(12,3,3)),(lf,lf_counts)):
         for i,k in enumerate(('training','validation','test')):
-            if len(source[k])!=expected[i]: raise ValueError('现有固定功率划分不符合12/3/3或60/10/10。')
+            if len(source[k])!=expected[i]: raise ValueError(f'功率划分数量不符合当前模式要求：高保真12/3/3，低保真{lf_counts}。')
         sets=[set(source[k]) for k in ('training','validation','test')]
         if any(sets[i]&sets[j] for i in range(3) for j in range(i)):
             raise ValueError('功率划分出现交集。')
@@ -414,26 +496,109 @@ class Pool:
         return np.concatenate([rng.choice(g,int(per_group),replace=len(g)<per_group) for g in self.groups])
 
 
-def grouped_mse(error:Tensor,weights:Tensor,group:Tensor):
+def grouped_mse(error:Tensor,weights:Tensor,group:Tensor,worst_fraction=0.,group_weights=None):
+    if not math.isfinite(float(worst_fraction)) or not 0 <= float(worst_fraction) <= 1:
+        raise ValueError('最差工况损失比例必须在0到1之间。')
     group=group.view(-1)
     n=int(group.max())+1
     den=torch.zeros(n,device=error.device,dtype=error.dtype).scatter_add_(0,group,weights.view(-1))
     num=torch.zeros_like(den).scatter_add_(0,group,(weights*error.square()).view(-1))
     good=den>0
-    return (num[good]/den[good]).mean()
+    values=num[good]/den[good]
+    if not len(values):
+        raise ValueError('损失没有有效权重。')
+    if group_weights is None:
+        average=values.mean()
+    else:
+        gw=group_weights[good]
+        if not torch.isfinite(gw).all() or (gw<0).any() or gw.sum()<=0:
+            raise ValueError('工况损失权重无效。')
+        average=(values*gw).sum()/gw.sum()
+    return (1-float(worst_fraction))*average+float(worst_fraction)*values.max()
 
 
-def observation_loss(model:JointDeepONet,pool:Pool,ids,with_delta=False):
+def observation_loss(model:JointDeepONet,pool:Pool,ids,with_delta=False,
+                     worst_fraction=0.,power_weight=0.,edge_weight=0.):
     x,y,w=pool.tensors(ids); pred=model(x)
     _,group=np.unique(pool.table.group[ids],return_inverse=True)
     group=torch.as_tensor(group,device=x.device)
-    absolute=grouped_mse((pred-y)/model.temperature_scale,w,group)
+    group_weights=None
+    if power_weight or edge_weight:
+        if min(float(power_weight),float(edge_weight))<0 or not all(math.isfinite(float(v)) for v in (power_weight,edge_weight)):
+            raise ValueError('功率和边缘损失权重必须是有限非负数。')
+        if edge_weight:
+            w=w*(1+float(edge_weight)*(x[:,0:1]/model.geometry.radius_sic).square())
+        if power_weight:
+            group_weights=torch.stack([1+float(power_weight)*x[group==gid,3].mean()/model.geometry.power_max
+                                      for gid in range(int(group.max())+1)])
+    absolute=grouped_mse((pred-y)/model.temperature_scale,w,group,worst_fraction,group_weights)
     if not with_delta: return absolute
     refs=pool.table.refs[ids]
     rx,ry,_=pool.tensors(refs)
     base=model(rx)
-    delta=grouped_mse(((pred-base)-(y-ry))/model.temperature_scale,w,group)
+    delta=grouped_mse(((pred-base)-(y-ry))/model.temperature_scale,w,group,worst_fraction,group_weights)
     return absolute,delta
+
+
+def low_parameters(model):
+    return [p for name,p in model.named_parameters()
+            if not name.startswith('correction.') and name!='log_contact']
+
+
+def set_low_trainable(model,enabled):
+    for parameter in low_parameters(model):
+        parameter.requires_grad_(bool(enabled))
+
+
+def initialize_low_network(model,path:Path):
+    """只借用已有低保真权重；实验校正与热阻重新拟合，不冒充续训。"""
+    source,state=load_model(path,'cpu')
+    if model.time_response!='monotone_heating' or source.time_response!='monotone_heating':
+        raise ValueError('低保真初始化只支持相同的持续升温结构。')
+    if model.geometry!=source.geometry:
+        raise ValueError('低保真初始化的几何不一致。')
+    simulation_settings={name:value for name,value in asdict(model.settings).items()
+                         if name not in ('cooling_experiment_k','initial_experiment_k')}
+    if any(getattr(source.settings,name)!=value for name,value in simulation_settings.items()):
+        raise ValueError('低保真初始化的仿真物性或边界条件不一致。')
+    if float(model.temperature_scale)!=float(source.temperature_scale):
+        raise ValueError('低保真初始化的温度尺度不一致，不能静默覆盖新配置。')
+    current=model.state_dict()
+    copied={name:value for name,value in source.state_dict().items()
+            if not name.startswith('correction.') and name not in ('log_contact','experiment_temperature_offset')}
+    expected={name for name in current
+              if not name.startswith('correction.') and name not in ('log_contact','experiment_temperature_offset')}
+    if set(copied)!=expected or any(current[name].shape!=value.shape for name,value in copied.items()):
+        raise ValueError('低保真初始化的网络尺寸不一致，不能混接权重。')
+    current.update(copied)
+    model.load_state_dict(current)
+    return {'来源检查点':str(Path(path).resolve()),'检查点SHA256':sha256(Path(path)),
+            '来源轮次':int(state['epoch']),'迁移内容':'仅低保真网络；校正网络和接触热阻未迁移'}
+
+
+def power_smoothness_loss(model,count,generator,step_w=40.):
+    """对最终温度的功率二阶差分施加软约束，不强制温度按功率排序。"""
+    g=model.geometry
+    if not math.isfinite(float(step_w)) or not 0<float(step_w)<(g.power_max-10)/2:
+        raise ValueError('功率平滑间隔不在模型功率范围内。')
+    n=max(4,int(count))
+    parameter=next(model.parameters())
+    device,dtype=parameter.device,parameter.dtype
+    random=torch.rand(n,5,device=device,dtype=dtype,generator=generator)
+    material=(random[:,4]>=.5).to(dtype)
+    radius=torch.where(material>0,g.radius_sic,g.radius_cu)
+    bottom=torch.where(material>0,g.bottom_sic,g.bottom_cu)
+    r=random[:,0].sqrt()*radius
+    z=bottom+random[:,1]*(-bottom)
+    # 铜点落入嵌入体时移到其下方；SiC与铜不混用材料标签。
+    inside=(material==0)&(r<g.radius_sic)&(z>g.bottom_sic)
+    z=torch.where(inside,g.bottom_cu+random[:,1]*(g.bottom_sic-g.bottom_cu),z)
+    x=torch.stack((r,z,random[:,2]*g.time_max,
+                   10+step_w+random[:,3]*(g.power_max-10-2*step_w),material),dim=1)
+    left=x.clone(); right=x.clone()
+    left[:,3]-=step_w; right[:,3]+=step_w
+    return torch.stack([((model(left,fidelity)-2*model(x,fidelity)+model(right,fidelity))
+                         /model.temperature_scale).square().mean() for fidelity in ('low','high')]).mean()
 
 
 @torch.no_grad()
@@ -465,16 +630,17 @@ def table_metrics(table:Table,prediction):
     return {'汇总':summary,'逐功率':rows}
 
 
-def evaluate(model,tables):
+def evaluate(model,tables,selection_config=None):
+    from joint_temperature_selection import selection_score
     detail={name:table_metrics(table,predict(model,table.x)) for name,table in tables.items()}
-    top=detail['顶部']['汇总']['均方根误差_℃']
-    absolute=np.mean([detail[n]['汇总']['均方根误差_℃'] for n in ('热端','冷端')])
-    delta=np.mean([detail[n]['汇总']['温升均方根误差_℃'] for n in ('热端','冷端')])
-    return {'综合选择分数_℃':float((top+.2*absolute+delta)/2.2),'分项':detail}
+    return {'综合选择分数_℃':selection_score(detail,selection_config),'分项':detail}
 
 
 def snapshot(model,optimizer,scheduler,epoch,history,config,splits,best_score,rng):
-    return {'schema':'joint_deeponet_8000_v1','epoch':int(epoch),'planned_epochs':TOTAL_EPOCHS,
+    schema = ('joint_deeponet_8000_v3_smooth_power' if model.correction_power_degree is not None else
+              'joint_deeponet_8000_v2_heating' if model.time_response == 'monotone_heating'
+              else 'joint_deeponet_8000_v1')
+    return {'schema':schema,'epoch':int(epoch),'planned_epochs':TOTAL_EPOCHS,
             'model_state':model.state_dict(),'model_config':model.model_config,
             'geometry':asdict(model.geometry),'physical_settings':asdict(model.settings),
             'optimizer':optimizer.state_dict(),'scheduler':scheduler.state_dict(),
@@ -486,8 +652,14 @@ def snapshot(model,optimizer,scheduler,epoch,history,config,splits,best_score,rn
 
 def load_model(path:Path,device='cpu'):
     state=torch.load(path,map_location=device,weights_only=False)
-    if state.get('schema')!='joint_deeponet_8000_v1':
+    schemas = {'joint_deeponet_8000_v1': 'free', 'joint_deeponet_8000_v2_heating': 'monotone_heating',
+               'joint_deeponet_8000_v3_smooth_power':'monotone_heating'}
+    if state.get('schema') not in schemas:
         raise ValueError('该入口只读取本轮联合训练的检查点，不冒充旧模型兼容。')
+    if state['model_config'].get('time_response', 'free') != schemas[state['schema']]:
+        raise ValueError('检查点版本与温度响应模式不一致，禁止把旧权重解释为新的持续升温模型。')
+    if (state['model_config'].get('correction_power_degree') is not None)!=(state['schema']=='joint_deeponet_8000_v3_smooth_power'):
+        raise ValueError('检查点版本与低阶功率校正配置不一致，禁止混接权重。')
     model=JointDeepONet(Geometry(**state['geometry']),PhysicalSettings(**state['physical_settings']),state['model_config']).to(device)
     model.load_state_dict(state['model_state'])
     return model,state
