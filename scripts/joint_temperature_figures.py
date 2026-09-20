@@ -21,9 +21,19 @@ from matplotlib import font_manager
 from matplotlib.colors import Normalize
 from matplotlib.ticker import FormatStrFormatter
 from PIL import Image
-from joint_temperature_core import KELVIN, predict, load_observations, table_metrics, read_parquet, sha256
+from joint_temperature_core import KELVIN, predict, load_observations, table_metrics, read_parquet, read_yaml, sha256
 
 FIXED_GALLERY = Path('研究记录/联合训练8000轮_20260917_114704/结果总览.html')
+
+
+def configured_epochs(out:Path):
+    config_path=out/'实际配置.yaml'
+    if not config_path.is_file():
+        return 8000  # 原有图册运行没有独立配置文件时保留旧发布口径。
+    planned=read_yaml(config_path)['training']['epochs']
+    if type(planned) is not int or planned<1:
+        raise RuntimeError('运行配置中的训练轮数无效，不能发布图册。')
+    return planned
 
 
 def setup_font():
@@ -44,7 +54,12 @@ def save_curve(path:Path,x,series,title,xlabel,ylabel,log=False):
     ax.set(title=title,xlabel=xlabel,ylabel=ylabel)
     if log: ax.set_yscale('log')
     else: ax.yaxis.set_major_formatter(FormatStrFormatter('%.3f'))
-    ax.grid(True,alpha=.25); ax.legend(); fig.tight_layout()
+    ax.grid(True,alpha=.25)
+    if len(series)>8:
+        ax.legend(loc='upper left',bbox_to_anchor=(1.01,1.),fontsize=8)
+    else:
+        ax.legend()
+    fig.tight_layout()
     fig.savefig(path,dpi=140); plt.close(fig)
 
 
@@ -52,7 +67,9 @@ def training_plots(history:list,out:Path,config:dict):
     setup_font(); folder=out/'训练曲线'; folder.mkdir(exist_ok=True)
     epochs=np.asarray([row['轮次'] for row in history])
     names=['总损失','仿真温度','顶部温度','环温绝对值','热端绝对温度','冷端绝对温度',
-           '环温温升','功率平滑','传热方程','边界条件','材料界面']
+           '环温温升','热端末段趋势','冷端末段趋势','热端末点绝对温度',
+           '热端早期温升','冷端早期温升',
+           '功率平滑','传热方程','边界条件','材料界面']
     names=[name for name in names if any(name in row for row in history)]
     series=[(name,np.maximum([row.get(name,np.nan) for row in history],1e-16)) for name in names]
     save_curve(folder/'损失函数变化.png',epochs,series,'联合训练损失变化','训练轮次','无量纲损失（对数）',True)
@@ -63,7 +80,7 @@ def training_plots(history:list,out:Path,config:dict):
                    '验证集预测误差','训练轮次','误差 / ℃')
     rc=np.asarray([row['接触热阻_m2K_W'] for row in history])*1e5
     save_curve(folder/'界面接触热阻变化.png',epochs,[('拟合接触热阻',rc)],
-               '界面接触热阻随训练轮次的变化','训练轮次','接触热阻 / (10⁻⁵ m²·K/W)')
+               '界面接触热阻随训练轮次的变化','训练轮次','接触热阻 / (10^-5 m²·K/W)')
 
 
 def save_comparison_curve(path:Path,x,measured,predicted,title,xlabel):
@@ -287,10 +304,12 @@ def gallery_html(out:Path,metrics:dict,destination:Path,publication:dict|None=No
     pieces=['<!doctype html><html lang="zh"><meta charset="utf-8"><title>温度预测结果总览</title>',
             '<meta name="viewport" content="width=device-width, initial-scale=1">',
             '<style>body{font-family:sans-serif;max-width:1500px;margin:auto;padding:24px}p{overflow-wrap:anywhere}img{max-width:100%;height:auto}section{margin:30px 0}table{border-collapse:collapse;width:100%;max-width:760px;table-layout:fixed;font-size:14px}td,th{padding:6px;border:1px solid #aaa}</style>',
-            '<h1>多保真DeepONet温度预测结果</h1><p>连续8000轮训练后，依据验证集确定模型，再对测试集生成以下结果。三维图为模型预测；不是虚构的内部实测。</p>',
+            f'<h1>多保真DeepONet温度预测结果</h1><p>连续{configured_epochs(out)}轮训练后，依据验证集确定模型，再对测试集生成以下结果。三维图为模型预测；不是虚构的内部实测。</p>',
             '<p>表面实验与预测采用相同温度色标；三维动画全时段采用固定色标。表面原始像素不可读取时，图题明确标注“实验环平均数据还原”。</p>']
     if publication is not None:
         source = out / publication['来源图册文件名']
+        if embed_images and (out / '实施记录.md').is_file():
+            source = out / '实施记录.md'
         pieces.extend([
             f'<p>来源运行：<a href="{asset_url(source)}">{html.escape(out.name)}</a></p>',
             f'<p>完成轮数：{publication["完成轮数"]}；展示检查点：{html.escape(publication["出图检查点"])}；'
@@ -348,8 +367,9 @@ def completed_gallery_lock(out:Path):
     if not lock_path.is_file():
         raise RuntimeError('缺少测试出图锁定记录，不能更新固定图册。')
     lock=json.loads(lock_path.read_text(encoding='utf-8'))
-    if lock.get('完成轮数')!=8000:
-        raise RuntimeError('完整8000轮训练尚未结束，不能更新固定图册。')
+    planned=configured_epochs(out)
+    if lock.get('完成轮数')!=planned:
+        raise RuntimeError(f'完整{planned}轮训练尚未结束，不能更新固定图册。')
     checkpoint=(out/lock['出图检查点']).resolve()
     if out not in checkpoint.parents or not checkpoint.is_file() or sha256(checkpoint)!=lock['检查点SHA256']:
         raise RuntimeError('出图检查点不存在、超出运行目录或SHA256不一致，不能更新固定图册。')

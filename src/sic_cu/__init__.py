@@ -1,7 +1,3 @@
-"""SiC-Cu multi-fidelity transient temperature-field prediction."""
-
-from .prediction import Prediction, Predictor, predict
+"""Raw-data preparation and audit tools for SiC-Cu temperature prediction."""
 
 __version__ = "0.1.0"
-
-__all__ = ["Prediction", "Predictor", "predict"]

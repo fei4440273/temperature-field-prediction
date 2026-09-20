@@ -92,7 +92,7 @@ def checkpoint_state(model):
 
 
 def test_default_configuration_uses_monotone_heating():
-    cfg = read_yaml(ROOT / 'configs/联合训练8000轮.yaml')
+    cfg = read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
     assert cfg['model'].get('time_response') == 'monotone_heating'
 
 
@@ -307,7 +307,7 @@ def test_project_heating_mode_requires_constant_laser(project_tmpdir, mode, cons
     else:
         boundary['laser']['constant_during_heating'] = constant_heating
     (configs / 'boundary_conditions.yaml').write_text(yaml.safe_dump(boundary), encoding='utf-8')
-    cfg = read_yaml(ROOT / 'configs/联合训练8000轮.yaml')
+    cfg = read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
     cfg['model']['time_response'] = mode
     if raises:
         with pytest.raises(ValueError):

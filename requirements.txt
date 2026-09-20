@@ -1,9 +1,6 @@
 matplotlib>=3.8
-networkx>=3.2
 numpy>=2.0
+Pillow>=9.4
 polars>=1.20
 PyYAML>=6.0
-scipy>=1.13
 torch>=2.4
-tqdm>=4.66
-

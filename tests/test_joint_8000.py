@@ -30,10 +30,10 @@ def coordinates():
     return torch.tensor([[.01,-.003,5.,400.,1.],[.035,-.015,20.,400.,0.]],requires_grad=True)
 
 
-def test_fixed_8000():
+def test_current_training_config_uses_600_epochs_and_distinct_cooling():
     assert TOTAL_EPOCHS==8000
-    cfg=read_yaml(Path(__file__).resolve().parents[1]/'configs/联合训练8000轮.yaml')
-    assert cfg['training']['epochs']==8000
+    cfg=read_yaml(ROOT/'configs/联合训练600轮_低保真初温平滑锚定.yaml')
+    assert cfg['training']['epochs']==600
     assert cfg['physical']['simulation_cooling_c']==22.
     assert cfg['physical']['experiment_cooling_c']==25.
     assert 'early_stopping' not in cfg['training']
@@ -94,10 +94,10 @@ def test_group_metrics_and_sensor_reference():
 def test_save_reload_and_sources(tmp_path):
     m=model();opt=torch.optim.AdamW(m.parameters(),lr=.0001)
     scheduler=torch.optim.lr_scheduler.LambdaLR(opt,lambda _:1.)
-    state=snapshot(m,opt,scheduler,123,[],{}, {},2.5,np.random.default_rng(1))
+    state=snapshot(m,opt,scheduler,123,[],{'training':{'epochs':600}}, {},2.5,np.random.default_rng(1))
     path=tmp_path/'最近模型.pt';save_atomic(state,path)
     loaded,payload=load_model(path)
-    assert payload['epoch']==123 and payload['planned_epochs']==8000
+    assert payload['epoch']==123 and payload['planned_epochs']==600
     assert torch.equal(m(coordinates()),loaded(coordinates()))
     assert loaded.settings.cooling_experiment_k==298.15
 
@@ -123,7 +123,7 @@ def test_plot_outputs_are_real_files(tmp_path):
 
 
 def test_default_config_uses_all_low_fidelity_for_training():
-    cfg=read_yaml(ROOT/'configs/联合训练8000轮.yaml')
+    cfg=read_yaml(ROOT/'configs/联合训练600轮_低保真初温平滑锚定.yaml')
     assert cfg.get('data',{}).get('low_fidelity_mode')=='all_training'
 
 
@@ -165,7 +165,7 @@ def small_joint_project(tmp_path):
                 top.append({'split':split,'source_dataset':'experiment','power_w':power,
                             'r_m':.01,'time_s':t,'temperature_mean_k':295.15+power*t/1000.,'frame_weight':1.})
             for tag,r in (('hot',.028),('cold',.0415)):
-                for t in (1.,2.):
+                for t in (1.,2.,3.,5.):
                     sensors.append({'split':split,'source_dataset':'experiment','power_w':power,
                                     'sensor_type':tag,'time_raw':t,'radius_raw':r,'value_mean_raw':25.+power*t/10000.})
     pl.DataFrame(top).write_parquet(processed/'experiment_ir_radial.parquet')
@@ -194,19 +194,24 @@ def test_simulation_sampling_covers_every_power_and_material(small_joint_project
 def small_training_entrypoint(monkeypatch):
     spec=importlib.util.spec_from_file_location('joint_8000_test_entrypoint',ROOT/'scripts/联合训练8000轮.py')
     trainer=importlib.util.module_from_spec(spec); spec.loader.exec_module(trainer)
-    # 仅在测试进程把循环缩到1轮；正式配置与入口仍强制8000轮。
+    # 只在测试进程使用小数据和短训练；正式轮数由实际运行配置指定。
     monkeypatch.setattr(trainer,'TOTAL_EPOCHS',1)
     return trainer
 
 
 def small_training_config(mode):
-    cfg=copy.deepcopy(read_yaml(ROOT/'configs/联合训练8000轮.yaml'))
-    if mode=='all_training': cfg['data']={'low_fidelity_mode':mode}
+    cfg=copy.deepcopy(read_yaml(ROOT/'configs/联合训练600轮_低保真初温平滑锚定.yaml'))
+    if mode=='all_training':
+        cfg['data']={'low_fidelity_mode':mode}
     else:
         cfg.pop('data',None)
-        cfg['model'].pop('time_response',None)
+        for name in ('time_response','correction_power_degree','power_independent_initial',
+                     'high_response_center_max_s','low_initial_floor_width_k'):
+            cfg['model'].pop(name,None)
     cfg['model'].update(width=8,latent_dim=8,blocks=1,correction_width=8,correction_depth=2)
-    cfg['training'].update(epochs=1,device='cpu',ir_batch_size=24,physics_points_per_region=4,
+    cfg['training'].pop('initialize_low_from',None)
+    cfg['training'].update(epochs=1,device='cpu',low_freeze_epochs=0,
+                           sensor_tail_window_s=4., ir_batch_size=24,physics_points_per_region=4,
                            validation_every=1,plots_every=2)
     cfg['visualization']['export_test_after_training']=False
     return cfg
@@ -217,11 +222,11 @@ def test_joint_training_uses_selected_split_without_high_fidelity_test_labels(sm
     import yaml
     trainer=small_training_entrypoint(monkeypatch)
     cfg=small_training_config(mode)
-    path=small_joint_project/'configs/联合训练8000轮.yaml'
+    path=small_joint_project/'configs/current.yaml'
     path.write_text(yaml.safe_dump(cfg,allow_unicode=True),encoding='utf-8')
     trainer.train(argparse.Namespace(root=str(small_joint_project),config=str(path),device='cpu',output=None,resume=None))
     output,=tuple((small_joint_project/'研究记录').iterdir())
-    assert output.name.startswith('联合训练8000轮_低保真全量_持续升温_' if mode=='all_training' else '联合训练8000轮_')
+    assert output.name.startswith('联合训练1轮_低保真全量_持续升温_' if mode=='all_training' else '联合训练1轮_')
     source=json.loads((output/'运行来源.json').read_text(encoding='utf-8'))
     assert tuple(len(source['功率划分']['low'][k]) for k in ('training','validation','test'))==counts
     assert tuple(len(source['功率划分']['high'][k]) for k in ('training','validation','test'))==(12,3,3)
@@ -231,7 +236,7 @@ def test_joint_training_uses_selected_split_without_high_fidelity_test_labels(sm
     assert ('仿真验证抽样均方根误差_℃' in row)==(mode=='legacy_split')
     _,state=load_model(output/'最近模型.pt')
     assert state['config']==cfg
-    assert state['schema']==('joint_deeponet_8000_v2_heating' if mode=='all_training' else 'joint_deeponet_8000_v1')
+    assert state['schema']==('joint_deeponet_8000_v6_fixed_low_initial' if mode=='all_training' else 'joint_deeponet_8000_v1')
     assert tuple(len(state['splits']['low'][k]) for k in ('training','validation','test'))==counts
     best_metrics=json.loads((output/'验证最佳指标.json').read_text(encoding='utf-8'))
     assert best_metrics['验证最佳轮次']==1
@@ -243,7 +248,7 @@ def test_joint_training_uses_selected_split_without_high_fidelity_test_labels(sm
 def test_old_checkpoint_rejects_full_low_fidelity_config_without_overwrite(small_joint_project,monkeypatch):
     import yaml
     trainer=small_training_entrypoint(monkeypatch)
-    path=small_joint_project/'configs/联合训练8000轮.yaml'
+    path=small_joint_project/'configs/current.yaml'
     old=small_training_config('legacy_split')
     path.write_text(yaml.safe_dump(old,allow_unicode=True),encoding='utf-8')
     output=small_joint_project/'单元测试旧划分'
@@ -268,7 +273,7 @@ def test_config_resumes_interrupted_training_with_a_new_update(small_joint_proje
     trainer=small_training_entrypoint(monkeypatch)
     monkeypatch.setattr(trainer,'TOTAL_EPOCHS',2)
     cfg=small_training_config(mode); cfg['training']['epochs']=2
-    path=small_joint_project/'configs/联合训练8000轮.yaml'
+    path=small_joint_project/'configs/current.yaml'
     path.write_text(yaml.safe_dump(cfg,allow_unicode=True),encoding='utf-8')
     output=small_joint_project/'单元测试中断恢复'
     args=argparse.Namespace(root=str(small_joint_project),config=str(path),device='cpu',output=str(output),resume=None)
@@ -297,19 +302,19 @@ def test_config_resumes_interrupted_training_with_a_new_update(small_joint_proje
     assert new_step==old_step+1
 
 
-def test_old_full_lf_model_cannot_resume_as_heating_without_overwrite(small_joint_project,monkeypatch):
+def test_current_model_cannot_resume_with_changed_low_initial_response(small_joint_project,monkeypatch):
     import yaml
     trainer=small_training_entrypoint(monkeypatch)
     cfg=small_training_config('all_training')
-    cfg['model'].pop('time_response')
-    path=small_joint_project/'configs/联合训练8000轮.yaml'
+    path=small_joint_project/'configs/current.yaml'
     path.write_text(yaml.safe_dump(cfg,allow_unicode=True),encoding='utf-8')
-    output=small_joint_project/'单元测试同划分旧响应'
+    output=small_joint_project/'单元测试当前初温配置恢复'
     args=argparse.Namespace(root=str(small_joint_project),config=str(path),device='cpu',output=str(output),resume=None)
     trainer.train(args)
     frozen={name:sha256(output/name) for name in ('最近模型.pt','验证最佳模型.pt','训练记录.jsonl','运行来源.json')}
-    cfg['model']['time_response']='monotone_heating'
-    path.write_text(yaml.safe_dump(cfg,allow_unicode=True),encoding='utf-8')
+    changed=copy.deepcopy(cfg)
+    changed['model']['low_initial_floor_width_k']=1.
+    path.write_text(yaml.safe_dump(changed,allow_unicode=True),encoding='utf-8')
     args.resume=str(output/'最近模型.pt')
     with pytest.raises(ValueError,match='恢复时配置、划分或物理条件发生变化'):
         trainer.train(args)

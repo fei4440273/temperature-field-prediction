@@ -1,0 +1,79 @@
+# 第09轮：第08轮配置仅增加低保真仿真初温的平滑约束。
+data:
+  low_fidelity_mode: all_training
+physical:
+  simulation_cooling_c: 22.0
+  experiment_cooling_c: 25.0
+  experiment_initial_c: null
+model:
+  time_response: monotone_heating
+  correction_power_degree: 2
+  power_independent_initial: true
+  high_response_center_max_s: 160.0
+  low_initial_floor_width_k: 0.5
+  width: 128
+  latent_dim: 128
+  blocks: 3
+  correction_width: 64
+  correction_depth: 2
+  temperature_scale_k: 250.0
+  learn_contact: true
+training:
+  epochs: 600
+  seed: 0
+  device: auto
+  initialize_low_from: 研究记录/联合训练600轮_第09轮_低保真初温平滑锚定_20260920/低保真初始化模型.pt
+  low_freeze_epochs: 300
+  ir_batch_size: 2048
+  simulation_points_per_power_material: 16
+  sensor_sampling: full
+  sensor_tail_window_s: 20.0
+  sensor_early_window_s: 5.0
+  sensor_points_per_curve: 32
+  physics_points_per_region: 32
+  power_smoothness_points: 64
+  power_smoothness_step_w: 40.0
+  learning_rate: 0.0003
+  low_learning_rate: 0.00001
+  final_learning_rate: 0.00003
+  contact_learning_rate: 0.00001
+  weight_decay: 0.000001
+  gradient_clip_norm: 1.0
+  validation_every: 25
+  plots_every: 100
+observation_weighting:
+  top_power_weight: 1.0
+  top_edge_weight: 2.0
+  top_worst_fraction: 0.1
+  sensor_worst_fraction: 0.2
+validation_selection:
+  weights:
+    顶部: 0.5
+    热端: 0.25
+    冷端: 0.25
+  worst_power_fraction: 0.2
+loss_weights:
+  仿真温度: 1.0
+  顶部温度: 2.0
+  热端绝对温度: 10.0
+  冷端绝对温度: 10.0
+  热端末段趋势: 30.0
+  冷端末段趋势: 30.0
+  热端早期温升: 10.0
+  冷端早期温升: 10.0
+  环温温升: 1.0
+  功率平滑: 10.0
+  传热方程: 0.05
+  边界条件: 0.1
+  初始条件: 0.1
+  材料界面: 0.05
+  仿真水冷: 1.0
+  热阻正则: 0.001
+visualization:
+  export_test_after_training: false
+  all_measured_surface_times: true
+  animation_time_step_s: 5.0
+  animation_fps: 5
+  image_dpi: 140
+  decimals: 3
+  raw_test_surface: data/test_Data/topdata

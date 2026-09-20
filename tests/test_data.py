@@ -1,12 +1,13 @@
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 from pathlib import Path
 
 import numpy as np
 import polars as pl
 import pytest
-import torch
 
 from sic_cu.config import PROJECT_ROOT
 from sic_cu.data.common import parse_ir_power_time, parse_power
@@ -24,6 +25,17 @@ from sic_cu.data.splits import (
 
 
 DATA_ROOT = PROJECT_ROOT / "data"
+
+
+def test_data_build_import_does_not_load_legacy_prediction_stack() -> None:
+    result = subprocess.run(
+        [sys.executable, "-c", "import sys; import sic_cu.data.build; "
+         "unexpected = {'sic_cu.prediction', 'sic_cu.models', "
+         "'sic_cu.train.simulation', 'sic_cu.physics.heat_equation'} "
+         "& sys.modules.keys(); assert not unexpected, unexpected"],
+        cwd=PROJECT_ROOT, capture_output=True, text=True, check=False,
+    )
+    assert result.returncode == 0, result.stderr
 
 
 def test_filename_parsing() -> None:
@@ -72,17 +84,6 @@ def test_hf_leakage_is_fatal() -> None:
     with pytest.raises(RuntimeError, match="leakage"):
         assert_no_hf_leakage({"ir": [115.2, 309.0], "hot": [254.5]}, [309.0, 593.5])
     assert_no_hf_leakage({"ir": [115.2, 254.5], "hot": [364.3]}, [309.0, 593.5])
-
-
-def test_explicit_power_filter_handles_float32_sensor_keys() -> None:
-    from sic_cu.train.multifidelity import _sensor_tensors
-
-    coordinates, target, delta, baseline = _sensor_tensors(
-        torch.device("cpu"), split="train", powers_w=[216.8, 364.3]
-    )
-    assert len(coordinates) == len(target) == len(delta) == len(baseline) > 0
-    observed = {round(float(value), 4) for value in coordinates[:, 3].unique()}
-    assert observed == {216.8, 364.3}
 
 
 @pytest.mark.parametrize(

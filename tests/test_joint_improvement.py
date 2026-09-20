@@ -16,13 +16,16 @@ from test_joint_heating import physical_settings, trajectories, signed_parameter
 from test_joint_8000 import small_joint_project, small_training_entrypoint, small_training_config
 
 
-def smooth_model(degree=2):
+def smooth_model(degree=2, independent_initial=False):
     torch.manual_seed(42)
-    return core.JointDeepONet(core.Geometry(), physical_settings(), {
+    config = {
         'time_response': 'monotone_heating', 'width': 8, 'latent_dim': 8, 'blocks': 1,
         'correction_width': 8, 'correction_depth': 2, 'temperature_scale_k': 250.,
         'learn_contact': True, 'correction_power_degree': degree,
-    })
+    }
+    if independent_initial:
+        config['power_independent_initial'] = True
+    return core.JointDeepONet(core.Geometry(), physical_settings(), config)
 
 
 def test_power_correction_has_spatial_only_inputs_and_small_polynomial_degree():
@@ -40,6 +43,136 @@ def test_raw_correction_is_quadratic_in_power_not_an_unrestricted_power_mlp():
     corrections = model.heating_correction(z, raw)
     third_difference = corrections[3] - 3 * corrections[2] + 3 * corrections[1] - corrections[0]
     torch.testing.assert_close(third_difference, torch.zeros_like(third_difference), rtol=0., atol=1e-12)
+
+
+def test_new_mode_keeps_preheating_temperature_independent_of_laser_power():
+    model = smooth_model(independent_initial=True).double()
+    signed_parameters(model)
+    x = torch.tensor([[.028, -.0175, 0., p, 0.] for p in (55., 216.8, 729.)], dtype=torch.float64)
+    initial = model(x)
+    torch.testing.assert_close(initial, initial[:1].expand_as(initial), rtol=0., atol=1e-12)
+    warming = x.clone()
+    warming[:, 2] = 100.
+    warmed = model(warming)
+    assert (warmed.max() - warmed.min()).item() > 1e-6
+    assert_heating(model.float(), 'high')
+
+
+def test_independent_initial_is_only_valid_for_smooth_heating_correction():
+    with pytest.raises(ValueError, match='初温|功率'):
+        smooth_model(degree=None, independent_initial=True)
+
+
+def test_training_configuration_enables_power_independent_initial():
+    config = core.read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
+    assert config['model']['power_independent_initial'] is True
+    settings = core.PhysicalSettings.from_project(ROOT, config)
+    model = core.JointDeepONet(core.Geometry.from_project(ROOT), settings, config['model'])
+    x = torch.tensor([[.028, -.0175, 0., power, 0.] for power in (55., 115.2, 729.)])
+    predicted = model(x)
+    torch.testing.assert_close(predicted, predicted[:1].expand_as(predicted), rtol=0., atol=1e-6)
+
+
+def test_current_development_configuration_runs_600_epochs_without_test_export():
+    config = core.read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
+    assert config['training']['epochs'] == 600
+    assert config['visualization']['export_test_after_training'] is False
+    assert config['training']['sensor_sampling'] == 'full'
+    assert config['loss_weights']['热端末段趋势'] > 0
+    assert config['loss_weights']['冷端末段趋势'] > 0
+
+
+def test_removed_copper_sensor_sampling_option_is_rejected_before_training(
+        small_joint_project, monkeypatch):
+    import argparse
+    import yaml
+
+    config = small_training_config('all_training')
+    config['training']['simulation_sensor_anchors'] = True
+    path = small_joint_project / 'configs/unsupported_sampling.yaml'
+    path.write_text(yaml.safe_dump(config, allow_unicode=True), encoding='utf-8')
+    out = small_joint_project / '研究记录/unsupported_sampling'
+    trainer = small_training_entrypoint(monkeypatch)
+    with pytest.raises(ValueError, match='不支持.*仿真铜测点采样'):
+        trainer.train(argparse.Namespace(root=str(small_joint_project), config=str(path),
+                                     device='cpu', output=str(out), resume=None))
+    assert not out.exists()
+
+
+def test_fixed_low_initial_training_changes_only_simulation_initial_response():
+    config = core.read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
+    assert config['model']['low_initial_floor_width_k'] == .5
+    assert config['model']['high_response_center_max_s'] == 160.
+    assert config['model']['power_independent_initial'] is True
+    assert config['model']['correction_power_degree'] == 2
+    assert config['training']['epochs'] == 600
+    assert config['data']['low_fidelity_mode'] == 'all_training'
+    assert config['visualization']['export_test_after_training'] is False
+
+
+def test_current_sensor_losses_and_selection_match_saved_best_checkpoint():
+    import json
+
+    config = core.read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
+    assert config['training']['sensor_sampling'] == 'full'
+    assert config['training']['low_freeze_epochs'] == 300
+    assert config['loss_weights']['热端绝对温度'] == config['loss_weights']['冷端绝对温度'] == 10.
+    assert config['loss_weights']['热端末段趋势'] == config['loss_weights']['冷端末段趋势'] == 30.
+    assert config['validation_selection']['weights'] == {'顶部': .5, '热端': .25, '冷端': .25}
+    saved = ROOT / '研究记录/联合训练600轮_第09轮_低保真初温平滑锚定_20260920'
+    _, state = core.load_model(saved / '验证最佳模型.pt')
+    complete = json.loads((saved / '开发集完成记录.json').read_text(encoding='utf-8'))
+    assert state['schema'] == 'joint_deeponet_8000_v6_fixed_low_initial'
+    assert state['epoch'] == complete['验证最佳轮次'] == 575
+    assert complete['完成轮数'] == 600
+    assert complete['验证最佳检查点SHA256'] == core.sha256(saved / '验证最佳模型.pt')
+    assert not complete['测试标签参与训练']
+    assert not complete['测试标签参与选模']
+    assert not complete['测试数据已读取']
+    original = copy.deepcopy(state['config'])
+    original['training']['initialize_low_from'] = config['training']['initialize_low_from']
+    assert original == config
+
+
+def test_low_fidelity_initialization_is_available_and_unchanged():
+    config = core.read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
+    source = (ROOT / config['training']['initialize_low_from']).resolve()
+    assert ROOT in source.parents
+    assert source.is_file()
+    assert core.sha256(source) == 'ef2793367e335513189a72961337c84754d18d788fd326d4f52c4f4d14169a02'
+
+
+def test_higher_power_correction_schema_remains_loadable_without_changing_default():
+    config = core.read_yaml(ROOT / 'configs/联合训练600轮_低保真初温平滑锚定.yaml')
+    assert config['model']['correction_power_degree'] == 2
+    model = smooth_model(degree=3, independent_initial=True).double()
+    signed_parameters(model)
+    x = torch.tensor([[.028, -.0175, 0., p, 0.]
+                      for p in (400., 450., 500., 550., 600.)], dtype=torch.float64)
+    initial = model(x)
+    torch.testing.assert_close(initial, initial[:1].expand_as(initial), rtol=0., atol=1e-12)
+    z, raw, _ = model.heating_features(x)
+    corrections = model.heating_correction(z, raw)
+    third = corrections[3] - 3 * corrections[2] + 3 * corrections[1] - corrections[0]
+    fourth = corrections[4] - 4 * corrections[3] + 6 * corrections[2] - 4 * corrections[1] + corrections[0]
+    assert torch.max(third.abs()) > 1e-7
+    torch.testing.assert_close(fourth, torch.zeros_like(fourth), rtol=0., atol=1e-12)
+    assert_heating(model.float(), 'high')
+
+
+def test_simulation_sampling_uses_single_random_stream_without_sensor_anchors():
+    x = np.array([[.028, -.0175, t, p, 0.] for p in (100., 200.) for t in (0., 2., 4.)],
+                 dtype=np.float32)
+    table = core.Table(x, np.full(len(x), 295.15), np.ones(len(x)),
+                       np.repeat([0, 2], 3)).validate()
+    pool = core.Pool(table, torch.device('cpu'))
+    rng = np.random.default_rng(42)
+    picked = pool.sample(4, rng)
+    expected_rng = np.random.default_rng(42)
+    expected = np.concatenate([expected_rng.choice(group, 4, replace=True)
+                               for group in pool.groups])
+    np.testing.assert_array_equal(picked, expected)
+    assert rng.bit_generator.state == expected_rng.bit_generator.state
 
 
 @pytest.mark.parametrize('degree', [-1, 0, 4, 2.5, True])
@@ -75,6 +208,178 @@ def test_smooth_power_checkpoint_has_distinct_schema_and_roundtrips(tmp_path):
     core.save_atomic(state, path)
     restored, _ = core.load_model(path)
     assert torch.equal(model(trajectories()), restored(trajectories()))
+
+
+def test_independent_initial_checkpoint_roundtrips_without_reinterpreting_v3(tmp_path):
+    model = smooth_model(independent_initial=True)
+    signed_parameters(model)
+    state = checkpoint(model)
+    assert state['schema'] == 'joint_deeponet_8000_v4_power_independent_initial'
+    path = tmp_path / 'independent.pt'
+    core.save_atomic(state, path)
+    restored, _ = core.load_model(path)
+    assert torch.equal(model(trajectories()), restored(trajectories()))
+    state['schema'] = 'joint_deeponet_8000_v3_smooth_power'
+    core.save_atomic(state, path)
+    with pytest.raises(ValueError, match='版本|模式|检查点'):
+        core.load_model(path)
+
+
+def test_high_observed_window_omits_only_unmeasured_late_high_basis():
+    baseline = smooth_model(independent_initial=True)
+    signed_parameters(baseline)
+    config = copy.deepcopy(baseline.model_config)
+    config['high_response_center_max_s'] = 160.
+    capped = core.JointDeepONet(core.Geometry(), physical_settings(), config)
+    capped.load_state_dict(baseline.state_dict())
+    x = torch.tensor([[.028, -.0175, t, 729., 0.] for t in (0., 80., 160., 180., 200.)])
+    torch.testing.assert_close(capped(x, 'low'), baseline(x, 'low'), rtol=0., atol=0.)
+    torch.testing.assert_close(capped(x[:1], 'high'), baseline(x[:1], 'high'), rtol=0., atol=0.)
+    assert torch.all(capped(x[1:], 'high') < baseline(x[1:], 'high'))
+    baseline_late = baseline(x[-1:], 'high') - baseline(x[-2:-1], 'high')
+    capped_late = capped(x[-1:], 'high') - capped(x[-2:-1], 'high')
+    assert torch.all(0 <= capped_late) and torch.all(capped_late < baseline_late)
+    assert_heating(capped, 'high')
+
+
+@pytest.mark.parametrize('limit', [-1., 0., 200., float('nan'), True])
+def test_high_observed_window_requires_a_finite_intermediate_time(limit):
+    config = copy.deepcopy(smooth_model(independent_initial=True).model_config)
+    config['high_response_center_max_s'] = limit
+    with pytest.raises(ValueError, match='时间|中心|观测'):
+        core.JointDeepONet(core.Geometry(), physical_settings(), config)
+
+
+def test_high_observed_window_schema_roundtrips_without_reinterpreting_v4(tmp_path):
+    old = smooth_model(independent_initial=True)
+    signed_parameters(old)
+    config = copy.deepcopy(old.model_config)
+    config['high_response_center_max_s'] = 160.
+    capped = core.JointDeepONet(core.Geometry(), physical_settings(), config)
+    core.initialize_low_network(capped, _saved_checkpoint(old, tmp_path / 'old.pt'))
+    torch.testing.assert_close(old(trajectories(), 'low'), capped(trajectories(), 'low'),
+                               rtol=0., atol=0.)
+    state = checkpoint(capped)
+    assert state['schema'] == 'joint_deeponet_8000_v5_high_observed_window'
+    path = tmp_path / 'capped.pt'
+    core.save_atomic(state, path)
+    restored, _ = core.load_model(path)
+    torch.testing.assert_close(capped(trajectories()), restored(trajectories()), rtol=0., atol=0.)
+    state['schema'] = 'joint_deeponet_8000_v4_power_independent_initial'
+    core.save_atomic(state, path)
+    with pytest.raises(ValueError, match='版本|模式|检查点'):
+        core.load_model(path)
+
+
+def test_low_initial_floor_matches_simulation_initial_and_preserves_high_predictions():
+    config = copy.deepcopy(smooth_model(independent_initial=True).model_config)
+    config['high_response_center_max_s'] = 160.
+    baseline = core.JointDeepONet(core.Geometry(), physical_settings(), config).double()
+    with torch.no_grad():
+        baseline.low_bias.fill_(-4.25 / 250.)
+    config['low_initial_floor_width_k'] = .5
+    floored = core.JointDeepONet(core.Geometry(), physical_settings(), config).double()
+    floored.load_state_dict(baseline.state_dict())
+    query = trajectories((0., 2., 10., 100., 200.)).double()
+    initial = query[query[:, 2] == 0.]
+    torch.testing.assert_close(floored(initial, 'low'),
+                               floored.temperature_offset.expand(len(initial), 1),
+                               rtol=0., atol=0.)
+    assert float(floored.temperature_offset) - 273.15 == pytest.approx(22., abs=1e-5)
+    torch.testing.assert_close(floored(query, 'high'), baseline(query, 'high'), rtol=0., atol=0.)
+    warming = floored(query, 'low').reshape(-1, 5)
+    assert bool((warming[:, 1:] >= warming[:, :-1]).all())
+    assert (baseline(initial, 'low') < 295.15).all()
+
+
+def test_low_initial_floor_is_smooth_and_has_finite_physics_derivatives():
+    config = copy.deepcopy(smooth_model(independent_initial=True).model_config)
+    config.update(high_response_center_max_s=160., low_initial_floor_width_k=.5)
+    model = core.JointDeepONet(core.Geometry(), physical_settings(), config).double()
+    with torch.no_grad():
+        model.low_bias.fill_(-4.25 / 250.)
+    query = trajectories((0., 2., 100., 200.)).double().requires_grad_()
+    first = core.grad(model(query, 'low'), query)
+    assert torch.isfinite(first).all()
+    assert bool((first[:, 2] >= -1e-10).all())
+    assert torch.isfinite(core.grad(first[:, 0:1], query)).all()
+    assert torch.isfinite(core.grad(first[:, 1:2], query)).all()
+
+
+@pytest.mark.parametrize('width', [-1., 0., float('inf'), float('nan'), True, '0.5'])
+def test_low_initial_floor_rejects_invalid_width(width):
+    config = copy.deepcopy(smooth_model(independent_initial=True).model_config)
+    config.update(high_response_center_max_s=160., low_initial_floor_width_k=width)
+    with pytest.raises(ValueError, match='初温|低保真'):
+        core.JointDeepONet(core.Geometry(), physical_settings(), config)
+
+
+def test_low_initial_floor_requires_observed_high_time_window():
+    config = copy.deepcopy(smooth_model(independent_initial=True).model_config)
+    config['low_initial_floor_width_k'] = .5
+    with pytest.raises(ValueError, match='初温|低保真'):
+        core.JointDeepONet(core.Geometry(), physical_settings(), config)
+
+
+def test_low_initial_floor_checkpoint_roundtrips_and_rejects_mislabeling(tmp_path):
+    config = copy.deepcopy(smooth_model(independent_initial=True).model_config)
+    config.update(high_response_center_max_s=160., low_initial_floor_width_k=.5)
+    model = core.JointDeepONet(core.Geometry(), physical_settings(), config)
+    with torch.no_grad():
+        model.low_bias.fill_(-4.25 / 250.)
+    state = checkpoint(model)
+    assert state['schema'] == 'joint_deeponet_8000_v6_fixed_low_initial'
+    path = tmp_path / 'fixed_low.pt'
+    core.save_atomic(state, path)
+    restored, _ = core.load_model(path)
+    for fidelity in ('low', 'high'):
+        torch.testing.assert_close(model(trajectories(), fidelity),
+                                   restored(trajectories(), fidelity), rtol=0., atol=0.)
+    state['schema'] = 'joint_deeponet_8000_v5_high_observed_window'
+    core.save_atomic(state, path)
+    with pytest.raises(ValueError, match='版本|模式|检查点'):
+        core.load_model(path)
+    state['schema'] = 'joint_deeponet_8000_v6_fixed_low_initial'
+    state['model_config'].pop('low_initial_floor_width_k')
+    core.save_atomic(state, path)
+    with pytest.raises(ValueError, match='版本|模式|检查点'):
+        core.load_model(path)
+
+
+def _saved_checkpoint(model, path):
+    core.save_atomic(checkpoint(model), path)
+    return path
+
+
+@pytest.mark.parametrize('fixed_low, expected_schema', [
+    (False, 'v5_high_observed_window'), (True, 'v6_fixed_low_initial'),
+])
+def test_high_observed_window_training_records_actual_checkpoint_schema(
+        small_joint_project, monkeypatch, fixed_low, expected_schema):
+    import argparse
+    import yaml
+    trainer = small_training_entrypoint(monkeypatch)
+    config = small_training_config('all_training')
+    config['model'].update(correction_power_degree=2, power_independent_initial=True,
+                           high_response_center_max_s=5.)
+    if not fixed_low:
+        config['model'].pop('low_initial_floor_width_k')
+    path = small_joint_project / 'configs/high_observed_window.yaml'
+    path.write_text(yaml.safe_dump(config, allow_unicode=True), encoding='utf-8')
+    out = small_joint_project / '研究记录/high_observed_window'
+    trainer.train(argparse.Namespace(root=str(small_joint_project), config=str(path),
+                                 device='cpu', output=str(out), resume=None))
+    _, state = core.load_model(out / '验证最佳模型.pt')
+    assert state['schema'] == 'joint_deeponet_8000_' + expected_schema
+    record = (out / '实施记录.md').read_text(encoding='utf-8')
+    assert '检查点' + expected_schema in record
+    initial_description = (
+        '低保真零秒固定仿真初温22℃；高保真初温仍可拟合，原初始与水冷软约束保留'
+        if fixed_low else '初温仍可拟合，原初始与水冷软约束保留'
+    )
+    assert ('|启用持续升温响应|低保真与高保真输出均使用非负升温系数；'
+            + initial_description + '|') in record
+    assert not (small_joint_project / 'data/processed/test_sensor_ring_raw.parquet').exists()
 
 
 def test_v2_schema_cannot_claim_smooth_power_correction(tmp_path):
@@ -214,6 +519,41 @@ def test_diagnostic_training_limit_requires_validation_only_and_cannot_read_test
         trainer.training_limit(8000, 8001, True)
 
 
+def test_snapshot_records_configured_epoch_total():
+    model = smooth_model()
+    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-4)
+    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda _: 1.)
+    state = core.snapshot(model, optimizer, scheduler, 0, [], {'training': {'epochs': 2000}},
+                          {}, 1., np.random.default_rng(0))
+    assert state['planned_epochs'] == 2000
+
+
+def test_formal_training_uses_configured_epoch_total(small_joint_project, monkeypatch, capsys):
+    import argparse
+    import yaml
+    trainer = small_training_entrypoint(monkeypatch)
+    cfg = small_training_config('all_training')
+    cfg['training']['epochs'] = 2
+    path = small_joint_project / 'configs/short_formal.yaml'
+    path.write_text(yaml.safe_dump(cfg, allow_unicode=True), encoding='utf-8')
+    out = small_joint_project / '研究记录/联合训练2轮_单元测试'
+    trainer.train(argparse.Namespace(root=str(small_joint_project), config=str(path),
+                                     device='cpu', output=str(out), resume=None))
+    output = capsys.readouterr().out
+    assert '第2/2轮' in output
+    assert '未读取测试' in output
+    assert '图册：' not in output
+    assert (out / '第2轮模型.pt').is_file()
+    _, state = core.load_model(out / '第2轮模型.pt')
+    assert state['epoch'] == state['planned_epochs'] == 2
+    complete = __import__('json').loads((out / '开发集完成记录.json').read_text(encoding='utf-8'))
+    assert complete['完成轮数'] == 2
+    assert complete['测试数据已读取'] is False
+    assert complete['固定图册已更新'] is False
+    assert not (out / '测试出图锁定记录.json').exists()
+    assert not (out / '结果总览.html').exists()
+
+
 def test_improvement_diagnostic_freeze_resume_and_no_test_publication(small_joint_project, monkeypatch):
     import argparse
     import json
@@ -222,9 +562,9 @@ def test_improvement_diagnostic_freeze_resume_and_no_test_publication(small_join
     monkeypatch.setattr(trainer, 'TOTAL_EPOCHS', 3)
     cfg = small_training_config('all_training')
     cfg['model']['correction_power_degree'] = 2
+    cfg['model']['power_independent_initial'] = True
     cfg['training'].update(epochs=3, low_freeze_epochs=1, low_learning_rate=1e-5,
                            sensor_sampling='full', validation_every=1)
-    cfg['loss_weights'].pop('环温绝对值')
     cfg['loss_weights'].update(热端绝对温度=10., 冷端绝对温度=10., 功率平滑=10.)
     cfg['validation_selection'] = {'weights': {'顶部': .5, '热端': .25, '冷端': .25},
                                    'worst_power_fraction': .2}
@@ -235,6 +575,7 @@ def test_improvement_diagnostic_freeze_resume_and_no_test_publication(small_join
                               output=str(out), resume=None, max_epochs=1, validation_only=True)
     trainer.train(args)
     _, first = core.load_model(out / '最近模型.pt')
+    assert first['schema'] == 'joint_deeponet_8000_v6_fixed_low_initial'
     assert all(torch.equal(first['model_state'][k], core.load_model(out / '验证最佳模型.pt')[1]['model_state'][k])
                for k in first['model_state'])
     best_metrics = json.loads((out / '验证最佳指标.json').read_text(encoding='utf-8'))
@@ -245,6 +586,12 @@ def test_improvement_diagnostic_freeze_resume_and_no_test_publication(small_join
     assert all(key in first['history'][0] for key in ('热端绝对温度', '冷端绝对温度', '功率平滑'))
     args.resume = str(out / '最近模型.pt')
     args.max_epochs = 3
+    legacy_config = copy.deepcopy(cfg)
+    legacy_config['model']['power_independent_initial'] = False
+    path.write_text(yaml.safe_dump(legacy_config, allow_unicode=True), encoding='utf-8')
+    with pytest.raises(ValueError, match='恢复时配置'):
+        trainer.train(args)
+    path.write_text(yaml.safe_dump(cfg, allow_unicode=True), encoding='utf-8')
     trainer.train(args)
     _, resumed = core.load_model(out / '最近模型.pt')
     assert resumed['epoch'] == 3 and len(resumed['history']) == 3
@@ -279,3 +626,49 @@ def test_training_loss_plot_includes_both_absolute_sensor_losses_and_power_smoot
     names = plotted['损失函数变化.png']
     assert all(name in names for name in ('热端绝对温度', '冷端绝对温度', '功率平滑'))
     assert '环温绝对值' not in names
+
+
+def test_training_loss_plot_shows_early_rise_losses_when_present(tmp_path, monkeypatch):
+    import joint_temperature_figures as figures
+    plotted = {}
+    monkeypatch.setattr(figures, 'save_curve',
+                        lambda path, x, series, *args, **kwargs:
+                        plotted.update({path.name: [name for name, _ in series]}))
+    history = [{'轮次': 1, '接触热阻_m2K_W': 7e-5, '总损失': .1,
+                '热端早期温升': .001, '冷端早期温升': .002,
+                '热端末点绝对温度': .003}]
+    figures.training_plots(history, tmp_path, {})
+    assert all(name in plotted['损失函数变化.png'] for name in ('热端早期温升', '冷端早期温升'))
+    assert '热端末点绝对温度' in plotted['损失函数变化.png']
+
+
+def test_contact_resistance_plot_has_readable_scale_label(tmp_path, monkeypatch):
+    import joint_temperature_figures as figures
+    labels = {}
+    monkeypatch.setattr(figures, 'save_curve',
+                        lambda path, x, series, title, xlabel, ylabel, *args, **kwargs:
+                        labels.update({path.name: ylabel}))
+    figures.training_plots([{'轮次': 1, '总损失': .1,
+                             '接触热阻_m2K_W': 7e-5}], tmp_path, {})
+    label = labels['界面接触热阻变化.png']
+    assert '10^-5' in label
+    assert '\N{SUPERSCRIPT MINUS}' not in label
+    assert '\N{SUPERSCRIPT FIVE}' not in label
+
+
+def test_multi_series_loss_curve_places_legend_outside_the_data_axes(tmp_path, monkeypatch):
+    import joint_temperature_figures as figures
+    from matplotlib.axes import Axes
+    figures.setup_font()
+    actual_legend = Axes.legend
+    seen = []
+    def record_legend(axis, *args, **kwargs):
+        seen.append(kwargs)
+        return actual_legend(axis, *args, **kwargs)
+    monkeypatch.setattr(Axes, 'legend', record_legend)
+    names = [(f'第{i}项', np.ones(4) * (i + 1)) for i in range(15)]
+    figures.save_curve(tmp_path / '复杂损失.png', range(4), names, '损失', '轮次', '损失', True)
+    assert seen[-1]['bbox_to_anchor'][0] >= 1.
+    assert (tmp_path / '复杂损失.png').is_file()
+    figures.save_curve(tmp_path / '普通曲线.png', range(4), names[:2], '损失', '轮次', '损失', True)
+    assert 'bbox_to_anchor' not in seen[-1]

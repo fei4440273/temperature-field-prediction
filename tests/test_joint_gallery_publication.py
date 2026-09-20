@@ -65,11 +65,14 @@ class Images(HTMLParser):
     def __init__(self, text):
         super().__init__()
         self.sources = []
+        self.links = []
         self.feed(text)
 
     def handle_starttag(self, tag, attributes):
         if tag == 'img':
             self.sources.append(dict(attributes)['src'])
+        if tag == 'a':
+            self.links.append(dict(attributes)['href'])
 
 
 def assert_assets_from(destination, out, *, embedded=False, expected_count=4):
@@ -136,6 +139,16 @@ def test_fixed_gallery_images_remain_readable_without_the_source_directory(proje
         with Image.open(io.BytesIO(base64.b64decode(source.split(',', 1)[1], validate=True))) as image:
             image.load()
             assert image.size == (10, 6)
+
+
+def test_embedded_gallery_links_to_retained_run_record(project):
+    out = complete_run(project)
+    record = out / '实施记录.md'
+    record.write_text('# 训练记录\n', encoding='utf-8')
+    fixed = gallery.publish_latest_gallery(project, out)
+    links = Images(fixed.read_text(encoding='utf-8')).links
+    assert len(links) == 1
+    assert (fixed.parent / unquote(urlsplit(links[0]).path)).resolve() == record.resolve()
 
 
 @pytest.fixture
@@ -230,6 +243,33 @@ def test_first_publication_updates_metrics_and_assets_and_preserves_original(pro
     assert record['来源运行目录'] == out.relative_to(project).as_posix()
     assert record['完成轮数'] == 8000
     assert record['检查点SHA256'] == json.loads((out / '测试出图锁定记录.json').read_text())['检查点SHA256']
+
+
+def test_completed_2000_epoch_run_can_publish_with_matching_config(project):
+    out = complete_run(project)
+    (out / '实际配置.yaml').write_text('training:\n  epochs: 2000\n', encoding='utf-8')
+    lock_path = out / '测试出图锁定记录.json'
+    lock = json.loads(lock_path.read_text(encoding='utf-8'))
+    lock['完成轮数'] = 2000
+    lock_path.write_text(json.dumps(lock, ensure_ascii=False), encoding='utf-8')
+    gallery.write_gallery(out, metrics(3.))
+    destination = gallery.publish_latest_gallery(project, out)
+    assert '连续2000轮训练后' in (out / '结果总览.html').read_text(encoding='utf-8')
+    assert '完成轮数：2000' in destination.read_text(encoding='utf-8')
+    record = json.loads(destination.with_name('固定图册更新记录.json').read_text(encoding='utf-8'))
+    assert record['完成轮数'] == 2000
+
+
+def test_2000_epoch_run_cannot_publish_before_configured_total(project):
+    out = complete_run(project)
+    (out / '实际配置.yaml').write_text('training:\n  epochs: 2000\n', encoding='utf-8')
+    lock_path = out / '测试出图锁定记录.json'
+    lock = json.loads(lock_path.read_text(encoding='utf-8'))
+    lock['完成轮数'] = 1999
+    lock_path.write_text(json.dumps(lock, ensure_ascii=False), encoding='utf-8')
+    with pytest.raises(RuntimeError, match='完整|轮'):
+        gallery.publish_latest_gallery(project, out)
+    assert not (project / FIXED).exists()
 
 
 def test_next_publication_changes_source_but_not_original_backup_or_runs(project):
