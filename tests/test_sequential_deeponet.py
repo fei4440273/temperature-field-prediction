@@ -64,6 +64,77 @@ def test_interpolation_cannot_use_current_simulation_node_temperature():
         np.testing.assert_array_equal(left,right)
 
 
+def test_exact_power_history_is_independent_of_shorter_neighbor():
+    data = module("sequential_deeponet_data")
+    times = np.arange(131, dtype=float)
+    values = np.column_stack((295.15+.1*times, 295.15+.05*times))
+    target = {634.: (times, values)}
+    neighbors = {169.: (times[:81], values[:81]),
+                 339.: (times[:101], values[:101]), **target}
+    single = data.HistoryProvider(target, Geometry(), config())
+    combined = data.HistoryProvider(neighbors, Geometry(), config())
+    for time_s in (79., 82., 99., 102., 120., 130.):
+        for actual, expected in zip(combined.build([634.], [time_s]),
+                                    single.build([634.], [time_s])):
+            np.testing.assert_array_equal(actual, expected)
+            assert np.all(actual[..., 4] == 1)
+
+
+def test_interpolated_power_uses_both_active_histories():
+    data = module("sequential_deeponet_data")
+    times = np.arange(11, dtype=float)
+    values = np.column_stack((295.15+times, 295.15+times))
+    provider = data.HistoryProvider({100.: (times[:6], values[:6]),
+                                    200.: (times, values+10)}, Geometry(), config())
+    temperatures, valid = provider._curve(150., np.array([4., 7.]), 8.)
+    np.testing.assert_allclose(temperatures[:, 0], [304.15, 306.15])
+    np.testing.assert_array_equal(valid, [1., 0.])
+
+
+def test_history_mask_is_stable_between_observation_timestamps():
+    data = module("sequential_deeponet_data")
+    provider = data.HistoryProvider(curves(), Geometry(), config())
+    times = np.array([4., 4.001, 4.999, 5., 5.001])
+    long, local = provider.build(np.full(len(times), 100.), times)
+    assert np.all(long[..., 4] == 1.)
+    assert np.all(local[..., 4] == 1.)
+    np.testing.assert_allclose(local[1, -1, 2:4]-local[0, -1, 2:4],
+                               [.001/80., .0005/80.], atol=1e-8)
+
+
+def test_fractional_history_uses_past_values_and_declared_recording_window():
+    data = module("sequential_deeponet_data")
+    a = data.HistoryProvider(curves(), Geometry(), config())
+    b = data.HistoryProvider(curves(999.), Geometry(), config())
+    for left, right in zip(a.build([100.], [5.999]), b.build([100.], [5.999])):
+        np.testing.assert_array_equal(left, right)
+        assert left[0, -1, 4] == 1.
+        assert left[0, -1, 2] == pytest.approx(4.999/80.)
+    _, local = a.build([100.], [12.])
+    assert local[0, -1, 4] == 0.
+    assert local[0, -1, 2] == pytest.approx(10./80.)
+
+
+def test_fractional_history_recovers_affine_past_sensor_trend():
+    data = module("sequential_deeponet_data")
+    provider = data.HistoryProvider(curves(), Geometry(), config())
+    long, local = provider.build([100.], [5.5])
+    assert long[0, -1, 2] == pytest.approx(4.5/80.)
+    assert local[0, -1, 3] == pytest.approx(2.25/80.)
+
+
+def test_endpoint_trend_needs_warmup_and_is_bounded_to_one_past_interval():
+    data = module("sequential_deeponet_data")
+    times = np.array([0., 2., 4., 20.])
+    values = np.column_stack((295.15+times, 295.15+.5*times))
+    provider = data.HistoryProvider({100.:(times, values)}, Geometry(), config())
+    early, _ = provider._curve(100., np.array([3.]), 3.)
+    np.testing.assert_allclose(early, [[297.15, 296.15]])
+    mature, valid = provider._curve(100., np.array([4.5, 8.]), 10.)
+    np.testing.assert_allclose(mature, [[299.65, 297.40], [301.15, 298.15]])
+    np.testing.assert_array_equal(valid, [1., 1.])
+
+
 def test_metrics_keep_kelvin_and_temperature_rise_denominators_distinct():
     data = module("sequential_deeponet_data")
     result = data.metrics(np.array([296.15,297.15]),np.array([298.15,295.15]))

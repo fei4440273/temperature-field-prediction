@@ -84,6 +84,12 @@ def evaluate(output,device):
         for name,pred in high.items():
             high_predictions[name][method] = pred
         high_metrics = {name:metrics(table.y,high[name]) for name,table in high_tables.items()}
+        high_by_power = {}
+        for power in np.unique(high_tables["热端"].x[:,3]):
+            high_by_power[f"{power:g}"] = {
+                name:metrics(table.y[np.isclose(table.x[:,3],power)],
+                             high[name][np.isclose(table.x[:,3],power)])
+                for name,table in high_tables.items()}
         low_metrics = metrics(low_table.y,low)
         cases = dict(simulation=per_case_metrics(low_table,low,exclude_initial=True),
                      top=per_case_metrics(high_tables["顶部"],high["顶部"]))
@@ -93,7 +99,7 @@ def evaluate(output,device):
             raise ValueError("Validation-best checkpoint identity does not match its method.")
         best_metrics = {name:metrics(table.y,table_predict(best,table,high_provider,"high"))
                         for name,table in high_tables.items()}
-        results[method] = dict(final_epoch=1000,high_test=high_metrics,low_test=low_metrics,
+        results[method] = dict(final_epoch=1000,high_test=high_metrics,high_test_by_power=high_by_power,low_test=low_metrics,
             low_test_by_material={tag:metrics(low_table.y[low_table.x[:,4]==material],low[low_table.x[:,4]==material])
                                   for tag,material in (("copper",0),("sic",1))},
             combined_test_rmse_k=composite(high_metrics),parameters=info["parameters"],
@@ -163,7 +169,7 @@ def evaluate(output,device):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs")
+    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
     parser.add_argument("--device",default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
     torch.set_num_threads(4)

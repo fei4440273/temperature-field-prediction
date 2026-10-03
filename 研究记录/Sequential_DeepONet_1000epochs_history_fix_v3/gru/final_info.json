@@ -1,0 +1,14 @@
+{
+  "method": "gru",
+  "label": "GRU-DeepONet",
+  "epochs_completed": 1000,
+  "seed": 123,
+  "parameters": 65667,
+  "training_seconds": 119.78618106100475,
+  "best_epoch": 1000,
+  "best_validation_rmse_k": 5.524213242748044,
+  "device": "cuda",
+  "history_length": 1000,
+  "boundary_attention": false,
+  "protocol": "conditional_past_sensor_history"
+}

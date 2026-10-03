@@ -1,0 +1,16 @@
+{
+  "epoch": 1000,
+  "seed": 123,
+  "checkpoint_sha256": {
+    "fnn": "2a06442abf33eecca2c2fdda02f803827b8a7bcf89cf939350346a368e2fd9bf",
+    "gru": "c7eeeedf8b4ea262c15b1a911edcad572b4adcdc02fb2214fb1e3ea568b2d046",
+    "lstm": "1a992d4f7478d43ee483e2fc37d34646c363f7e9ab62a8b376ce15f9cf0ee823",
+    "asl": "ddd501f68b7b374c4383bc64f4930fd4e7ef1f4398be75202b14891885919026"
+  },
+  "evaluation_script_sha256": "6c649505e3bc47f827023a3277a92bdf1179b77bea0e275948fbb6b0bf2b8223",
+  "training_checkpoints_verified_before_test_labels": true,
+  "inference_timing_definition": "one complete simulation-test prediction after common history-cache prefill and per-model warmup; same GPU, no repeated benchmark",
+  "input_history_policy": "same held-out past sensor measurements for each method; current and future labels excluded",
+  "percentile_policy": "nearest ranked field by per-case relative L2 in Kelvin; initial t=0 excluded",
+  "raw_ir_fields": "supplied is_recovered flag preserved; not independent unprocessed radiometric measurements"
+}

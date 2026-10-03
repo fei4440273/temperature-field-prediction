@@ -1,0 +1,61 @@
+{
+  "experiment": {
+    "methods": [
+      "fnn",
+      "gru",
+      "lstm",
+      "asl"
+    ],
+    "seed": 123,
+    "output": "研究记录/Sequential_DeepONet_1000epochs_history_fix_v3",
+    "asl_source_commit": "4477c971007624133eec92bd7eeb5bb58d3b9c26",
+    "s_deeponet_source_commit": "f502cfa322c0e1d619ee091f4889ee84c5d561eb"
+  },
+  "physical": {
+    "simulation_cooling_c": 22.0,
+    "experiment_cooling_c": 25.0,
+    "experiment_initial_c": null
+  },
+  "model": {
+    "boundary_attention": false,
+    "hidden_dim": 48,
+    "latent_dim": 64,
+    "trunk_width": 96,
+    "trunk_depth": 3,
+    "long_seq_len": 32,
+    "local_seq_len": 8,
+    "local_window_s": 20.0,
+    "sensor_lag_s": 1.0,
+    "sensor_scale_k": 80.0,
+    "ssm_state_dim": 16,
+    "maturity_tau_s": 18.0,
+    "initial_tau_s": 5.0,
+    "temperature_scale_k": 250.0
+  },
+  "training": {
+    "epochs": 1000,
+    "learning_rate": 0.001,
+    "final_learning_rate": 5e-05,
+    "weight_decay": 1e-06,
+    "gradient_clip": 5.0,
+    "simulation_points_per_power_material": 8,
+    "top_points_per_power": 64,
+    "sensor_points_per_power": 16,
+    "physics_points_per_region": 8,
+    "validation_every": 25,
+    "checkpoint_every": 100,
+    "cpu_threads": 4
+  },
+  "loss_weights": {
+    "simulation": 1.0,
+    "top": 2.0,
+    "hot": 10.0,
+    "cold": 10.0,
+    "pde": 0.05,
+    "boundary": 0.1,
+    "initial": 0.1,
+    "interface": 0.05,
+    "low_cooling": 1.0,
+    "contact_prior": 0.001
+  }
+}

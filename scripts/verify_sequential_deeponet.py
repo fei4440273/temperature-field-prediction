@@ -10,9 +10,10 @@ import numpy as np
 from PIL import Image
 import torch
 
-from sequential_deeponet_core import METHODS
-from sequential_deeponet_data import metrics
-from train_sequential_deeponet import ROOT,digest,write_json
+from joint_temperature_core import Geometry,Table,fixed_splits
+from sequential_deeponet_core import METHODS,load_checkpoint
+from sequential_deeponet_data import experiment_history,metrics
+from train_sequential_deeponet import ROOT,digest,table_predict,write_json
 
 
 def close(actual,expected,label):
@@ -85,6 +86,13 @@ def audit(output):
             expected = result[method]["low_test"] if name is None else result[method]["high_test"][name]
             for key,value in actual.items():
                 close(value,expected[key],f"{method}/{tag}/{key}")
+            if name is not None:
+                for power in np.unique(x[:,3]):
+                    mask = np.isclose(x[:,3],power)
+                    group = metrics(y[mask],pack[method][mask])
+                    for key,value in group.items():
+                        close(value,result[method]["high_test_by_power"][f"{power:g}"][name][key],
+                              f"{method}/{tag}/{power}/{key}")
             if tag=="simulation":
                 for region,material in (("copper",0),("sic",1)):
                     mask = x[:,4]==material
@@ -96,10 +104,11 @@ def audit(output):
         score = np.sqrt(.5*high["顶部"]["rmse_k"]**2+.25*high["热端"]["rmse_k"]**2+.25*high["冷端"]["rmse_k"]**2)
         close(score,result[method]["combined_test_rmse_k"],"Combined test score")
     manifest = json.loads((output/"figures/manifest.json").read_text(encoding="utf-8"))
-    expected_names = {"Figure_1_training_curves.png","Figure_2_accuracy_and_cost.png",
-        "Figure_3_relative_error_histograms.png","Figure_5_common_full_field_and_errors.png",
+    expected_names = {"Figure_1_training_curves.png","Figure_2_test_accuracy.png",
+        "Figure_3_test_errors_by_power.png","appendix/Figure_3_relative_error_histograms.png",
+        "appendix/Figure_5_common_full_field_and_errors.png",
         "Figure_7_top_radial_profiles.png","Figure_8_temporal_response.png","Figure_9_actual_vs_predicted.png"}
-    expected_names.update(f"Figure_4_{method}_percentile_fields.png" for method in METHODS)
+    expected_names.update(f"appendix/Figure_4_{method}_percentile_fields.png" for method in METHODS)
     expected_names.update(f"Figure_6_surface_634W_{t}s.png" for t in (5,30,60,90,120))
     if set(manifest["figures"])!=expected_names:
         raise AssertionError("Required figure types/cases are missing.")
@@ -124,20 +133,106 @@ def audit(output):
     report = output/"对比总结.md"
     if not report.is_file() or report.stat().st_size<2000:
         raise AssertionError("Comparison report is missing.")
+    maxima = json.loads((output/"evaluation/cloud_maxima.json").read_text(encoding="utf-8"))
+    if {(row["time_s"],row["method"]) for row in maxima}!={(t,m) for t in (5,30,60,90,120) for m in METHODS} or len(maxima)!=20:
+        raise AssertionError("Missing or duplicate experimental cloud maxima.")
+    for row in maxima:
+        path = output/"evaluation"/f"surface_634W_{row['time_s']}s.npz"
+        if digest(path)!=row["source_npz_sha256"]:
+            raise AssertionError("Annotated cloud values came from different predictions.")
+        pack = np.load(path)
+        error = np.abs(pack[row["method"]]-pack["y"])
+        index = np.argmax(error)
+        close(error[index],row["max_abs_error_k"],"Cloud maximum")
+        close(np.sqrt(np.mean(error**2)),row["rmse_k"],"Cloud RMSE")
+        for coordinate,key in zip(pack["xy_mm"][index],("x_mm","y_mm")):
+            close(coordinate,row[key],"Cloud maximum position")
+    temporal = json.loads((output/"temporal_audit.json").read_text(encoding="utf-8"))
+    if (temporal["mode"]!="four_retrained_models" or not temporal["no_prediction_smoothing"]
+            or len(temporal["curves"])!=24
+            or digest(ROOT/"scripts/audit_sequential_temporal.py")!=temporal["audit_script_sha256"]):
+        raise AssertionError("Temporal comparison is incomplete or uses changed audit source.")
+    for method in METHODS:
+        if temporal["corrected_checkpoint_sha256"][method]!=checks[method]["checkpoint_sha256"]:
+            raise AssertionError("Temporal audit used different corrected weights.")
+    baseline_directory = Path(temporal["baseline"])
+    if not baseline_directory.is_absolute():
+        baseline_directory = ROOT/baseline_directory
+    for row in temporal["curves"]:
+        for version,directory in (("original",baseline_directory),("corrected",output)):
+            pack = np.load(directory/"evaluation"/f"{row['sensor']}_predictions.npz")
+            ids = np.flatnonzero(np.isclose(pack["x"][:,3],row["power_w"]))
+            ids = ids[np.argsort(pack["x"][ids,2])]
+            times = pack["x"][ids,2]
+            steps = np.diff(pack[row["method"]][ids])
+            eligible = np.flatnonzero(times[:-1]>=temporal["late_start_s"])
+            peak = eligible[np.argmax(np.abs(steps[eligible]))]
+            for value,key in ((abs(steps[peak]),"late_max_abs_step_k"),
+                              (times[peak],"late_peak_from_s"),(times[peak+1],"late_peak_to_s")):
+                close(value,row[version][key],"Temporal jump measurement")
+    if not all(row["exact_power_neighbor_invariance"] and row["corrected_invalid_local_tokens"]==0
+               for row in temporal["history_masks"]):
+        raise AssertionError("History masks still change within actual measured time ranges.")
+    expected_dense = {(s,p,m) for s in ("hot","cold") for p in (169.,339.,634.) for m in METHODS}
+    if {(r["sensor"],r["power_w"],r["method"]) for r in temporal["dense_curves"]}!=expected_dense or len(temporal["dense_curves"])!=24:
+        raise AssertionError("Dense-time audit is incomplete.")
+    dense_tables,provider = experiment_history(ROOT,"test",fixed_splits(ROOT),Geometry.from_project(ROOT),cfg["model"])
+    models = {m:load_checkpoint(output/m/"epoch_1000.pt","cpu")[0] for m in METHODS}
+    for sensor in ("hot","cold"):
+        for power in (169.,339.,634.):
+            name = f"dense_{sensor}_{power:g}W_predictions.npz"
+            path = output/"evaluation"/name
+            if digest(path)!=temporal["dense_prediction_sha256"][name]:
+                raise AssertionError("Dense-time prediction source changed.")
+            pack = np.load(path)
+            x,n = pack["x"],int(pack["grid_count"])
+            observed = dense_tables["热端" if sensor=="hot" else "冷端"].x
+            sample = observed[np.isclose(observed[:,3],power)]
+            horizon = sample[:,2].max()
+            grid = np.arange(0.,horizon+.01,.1,dtype=np.float32)
+            knots = np.arange(2.,horizon,dtype=np.float32)
+            epsilon_times = np.stack((knots-.001,knots,knots+.001),axis=1).reshape(-1)
+            if n!=len(grid):
+                raise AssertionError("Dense grid does not cover the full measured sensor range.")
+            np.testing.assert_array_equal(x[:,2],np.r_[grid,epsilon_times])
+            np.testing.assert_array_equal(x[:,[0,1,3,4]],np.repeat(sample[:1,[0,1,3,4]],len(x),axis=0))
+            times = x[:n,2]
+            np.testing.assert_allclose(np.diff(times),.1,rtol=0,atol=1e-5)
+            table = Table(x,np.zeros(len(x)),np.ones(len(x)),np.zeros(len(x))).validate()
+            for method,model in models.items():
+                actual = table_predict(model,table,provider,"high")
+                np.testing.assert_allclose(actual,pack[method],rtol=0,atol=2e-4)
+                row = next(r for r in temporal["dense_curves"] if (r["sensor"],r["power_w"],r["method"])==(sensor,power,method))
+                steps = np.diff(pack[method][:n])
+                late = times[:-1]>=75.
+                close(float(np.abs(steps[late]).max()),row["late_max_abs_step_k"],"Dense-time maximum step")
+                close(float(np.abs(steps).max()),row["max_abs_step_k"],"All-time dense maximum step")
+                peak = int(np.argmax(np.abs(steps)))
+                close(float(times[peak]),row["peak_from_s"],"All-time dense peak start")
+                close(float(times[peak+1]),row["peak_to_s"],"All-time dense peak end")
+                epsilon = pack[method][n:].reshape(-1,3)
+                knots = x[n:,2].reshape(-1,3)[:,1]
+                for delta,tag in ((epsilon[:,2]-epsilon[:,1],"outgoing"),(epsilon[:,1]-epsilon[:,0],"incoming")):
+                    close(float(np.abs(delta).max()),row[f"{tag}_integer_max_jump_k"],"Integer boundary jump")
+                    close(float(knots[np.argmax(np.abs(delta))]),row[f"{tag}_peak_time_s"],"Integer peak time")
+                    close(float(np.abs(delta[knots>=75.]).max()),row[f"late_{tag}_integer_max_jump_k"],"Late integer boundary jump")
     audit_result = dict(status="passed",methods=checks,figures=images,
         training_source_and_input_hashes_verified=True,all_prediction_metrics_recomputed=True,
-        no_boundary_attention=True,report=str(report),
-        note="Source/metric/image checks supplement manual visual inspection and the 19 focused tests.")
+        no_boundary_attention=True,report=str(report),experimental_cloud_maxima_verified=True,
+        original_and_corrected_temporal_jumps_verified=True,
+        dense_predictions_recomputed_from_all_four_models=True,
+        note="Source/metric/image checks supplement manual visual inspection and the 25 focused tests.")
     write_json(output/"verification.json",audit_result)
     print("Verified four actual 1000-update runs, exact shared initialization, source/data hashes, "
-          "recomputed test metrics, 16 nonblank 300-DPI PNGs/PDFs and the Chinese report.")
+          "recomputed test metrics, 17 nonblank 300-DPI PNGs/PDFs, cloud maxima and raw dense-time predictions.")
     return audit_result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs")
+    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
     args = parser.parse_args()
+    torch.set_num_threads(2)
     audit(args.output.resolve())
 
 
