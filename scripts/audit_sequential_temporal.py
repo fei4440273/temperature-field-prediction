@@ -76,12 +76,12 @@ def dense_statistics(times, prediction):
         late_max_abs_rate_k_per_s=float(np.max(np.abs(steps[eligible]/np.diff(times)[eligible]))))
 
 
-def audit_dense_predictions(output, cfg):
+def audit_dense_predictions(output, cfg, sensors=(("hot","热端"),("cold","冷端"))):
     tables, provider = experiment_history(ROOT, "test", fixed_splits(ROOT),
                                            Geometry.from_project(ROOT), cfg["model"])
     models = {m:load_checkpoint(output/m/"epoch_1000.pt", "cpu")[0] for m in METHODS}
     rows, files = [], {}
-    for sensor, name in (("hot", "热端"), ("cold", "冷端")):
+    for sensor, name in sensors:
         observed = tables[name]
         for power in np.unique(observed.x[:,3]):
             sample = observed.x[np.isclose(observed.x[:,3], power)]
@@ -90,7 +90,8 @@ def audit_dense_predictions(output, cfg):
             knots = np.arange(2., end, dtype=np.float32)
             epsilon_times = np.stack((knots-.001, knots, knots+.001), axis=1).reshape(-1)
             query = np.r_[grid, epsilon_times]
-            x = np.repeat(sample[:1], len(query), axis=0)
+            coordinate = sample[[np.argmin(sample[:,0])]]
+            x = np.repeat(coordinate, len(query), axis=0)
             x[:,2] = query
             table = Table(x, np.zeros(len(x)), np.ones(len(x)), np.zeros(len(x))).validate()
             pack = dict(x=x,grid_count=np.array(len(grid)),epsilon_s=np.array(.001))
@@ -108,6 +109,7 @@ def audit_dense_predictions(output, cfg):
                     incoming_integer_max_jump_k=float(incoming.max()),
                     incoming_peak_time_s=float(knots[np.argmax(incoming)]),
                     outgoing_peak_time_s=float(knots[np.argmax(outgoing)]),
+                    post_warmup_incoming_integer_max_jump_k=float(incoming[knots>=3.].max()),
                     late_outgoing_integer_max_jump_k=float(outgoing[late].max()),
                     late_incoming_integer_max_jump_k=float(incoming[late].max())))
             path = output/"evaluation"/f"dense_{sensor}_{power:g}W_predictions.npz"
@@ -145,10 +147,12 @@ def adaptation_comparison(output, previous, cfg, dense_rows):
         curves=curves,rate_mode=cfg["model"]["asl_rate_mode"],
         rate_window_s=cfg["model"]["asl_rate_window_s"],rate_scale_k_per_s=cfg["model"]["asl_rate_scale_k_per_s"],
         temporal_weight=cfg["loss_weights"]["temporal"],delta_s=cfg["training"]["temporal_probe_delta_s"],
-        comparison_scope="input rate adaptation plus shared temporal regularization; not an isolated rate-only ablation")
+        comparison_scope=("input rate adaptation, shared temporal regularization and measured temperature objectives; combined comparison"
+            if cfg["loss_weights"].get("top_center",0)>0 else
+            "input rate adaptation plus shared temporal regularization; not an isolated rate-only ablation"))
 
 
-def audit(output, baseline, *, counterfactual=False, adaptation_baseline=None):
+def audit(output, baseline, *, counterfactual=False, adaptation_baseline=None,temperature_baseline=None):
     cfg = json.loads((output/"config.json").read_text(encoding="utf-8"))
     rows = []
     providers = None
@@ -183,12 +187,21 @@ def audit(output, baseline, *, counterfactual=False, adaptation_baseline=None):
     if not counterfactual:
         result["corrected_checkpoint_sha256"] = {m:digest(output/m/"epoch_1000.pt") for m in METHODS}
         result["dense_curves"], result["dense_prediction_sha256"] = audit_dense_predictions(output, cfg)
+        if cfg["loss_weights"].get("top_center",0)>0:
+            result["dense_top_curves"],result["dense_top_prediction_sha256"] = audit_dense_predictions(
+                output,cfg,sensors=(("top","顶部"),))
         result["history_mask_semantics"] = "known recording-window coverage"
         result["endpoint_reconstruction"] = "last-two-past-observation linear trend, three-point warmup, one-cadence cap, within recording coverage"
         if cfg["model"].get("asl_rate_mode")=="thermal_trend":
             if adaptation_baseline is None:
                 raise ValueError("Thermal adaptation audit requires its previous raw-curve baseline.")
             result["asl_adaptation"] = adaptation_comparison(output,adaptation_baseline,cfg,result["dense_curves"])
+        if cfg["loss_weights"].get("top_center",0)>0:
+            if temperature_baseline is None:
+                raise ValueError("Temperature optimization requires its thermal-adapted baseline.")
+            comparison = adaptation_comparison(output,temperature_baseline,cfg,result["dense_curves"])
+            comparison["comparison_scope"] = "same learned architecture and inputs; measured central/tail objectives and full-top reweighting"
+            result["temperature_optimization"] = comparison
     path = output/("temporal_counterfactual.json" if counterfactual else "temporal_audit.json")
     write_json(path, result)
     for row in rows:
@@ -199,14 +212,15 @@ def audit(output, baseline, *, counterfactual=False, adaptation_baseline=None):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_ASL_thermal")
+    parser.add_argument("--output", type=Path, default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_temperature_tail")
     parser.add_argument("--baseline", type=Path, default=ROOT/"研究记录/Sequential_DeepONet_1000epochs")
     parser.add_argument("--adaptation-baseline",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
+    parser.add_argument("--temperature-baseline",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_ASL_thermal")
     parser.add_argument("--counterfactual", action="store_true")
     args = parser.parse_args()
     torch.set_num_threads(2)
     audit(args.output.resolve(), args.baseline.resolve(), counterfactual=args.counterfactual,
-          adaptation_baseline=args.adaptation_baseline.resolve())
+          adaptation_baseline=args.adaptation_baseline.resolve(),temperature_baseline=args.temperature_baseline.resolve())
 
 
 if __name__ == "__main__":

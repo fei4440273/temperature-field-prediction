@@ -1,0 +1,14 @@
+{
+  "method": "asl",
+  "label": "ASL-DeepONet",
+  "epochs_completed": 1000,
+  "seed": 123,
+  "parameters": 76227,
+  "training_seconds": 358.0031185320113,
+  "best_epoch": 950,
+  "best_validation_rmse_k": 5.429412759521058,
+  "device": "cuda",
+  "history_length": 1000,
+  "boundary_attention": false,
+  "protocol": "conditional_past_sensor_history"
+}

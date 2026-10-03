@@ -1,0 +1,68 @@
+experiment:
+  methods: [fnn, gru, lstm, asl]
+  seed: 123
+  output: 研究记录/Sequential_DeepONet_1000epochs_temperature_tail
+  asl_source_commit: 4477c971007624133eec92bd7eeb5bb58d3b9c26
+  s_deeponet_source_commit: f502cfa322c0e1d619ee091f4889ee84c5d561eb
+physical:
+  simulation_cooling_c: 22.0
+  experiment_cooling_c: 25.0
+  experiment_initial_c: null
+model:
+  boundary_attention: false
+  hidden_dim: 48
+  latent_dim: 64
+  trunk_width: 96
+  trunk_depth: 3
+  long_seq_len: 32
+  local_seq_len: 8
+  local_window_s: 20.0
+  sensor_lag_s: 1.0
+  sensor_scale_k: 80.0
+  ssm_state_dim: 16
+  maturity_tau_s: 18.0
+  asl_rate_mode: thermal_trend
+  asl_rate_window_s: 18.0
+  asl_rate_scale_k_per_s: 0.5
+  initial_tau_s: 5.0
+  temperature_scale_k: 250.0
+training:
+  epochs: 1000
+  learning_rate: 0.001
+  final_learning_rate: 0.00005
+  weight_decay: 0.000001
+  gradient_clip: 5.0
+  simulation_points_per_power_material: 8
+  top_points_per_power: 64
+  sensor_points_per_power: 16
+  physics_points_per_region: 8
+  validation_every: 25
+  checkpoint_every: 100
+  cpu_threads: 4
+  temporal_probe_delta_s: 0.1
+  top_center_radius_m: 0.005
+  top_center_points_per_power: 32
+  top_tail_window_s: 20.0
+validation_selection:
+  tail_fraction: 0.7
+  weights:
+    顶部: 0.5
+    中心后段: 0.25
+    热端: 0.125
+    冷端: 0.125
+loss_weights:
+  simulation: 1.0
+  top: 8.0
+  hot: 10.0
+  cold: 10.0
+  pde: 0.05
+  boundary: 0.1
+  initial: 0.1
+  interface: 0.05
+  low_cooling: 1.0
+  contact_prior: 0.001
+  temporal: 1.0
+  top_center: 4.0
+  top_tail: 2.0
+  top_tail_slope: 10.0
+  top_tail_endpoint: 2.0

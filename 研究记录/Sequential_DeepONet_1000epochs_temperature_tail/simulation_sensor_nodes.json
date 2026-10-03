@@ -1,0 +1,842 @@
+[
+  {
+    "power_w": 10.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 10.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 20.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 20.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 30.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 30.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 40.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 40.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 60.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 60.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 70.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 70.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 80.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 80.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 100.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 100.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 110.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 110.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 120.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 120.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 140.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 140.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 150.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 150.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 160.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 160.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 180.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 180.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 190.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 190.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 200.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 200.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 220.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 220.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 230.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 230.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 240.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 240.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 260.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 260.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 270.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 270.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 280.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 280.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 300.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 300.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 310.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 310.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 320.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 320.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 340.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 340.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 350.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 350.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 360.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 360.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 380.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 380.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 390.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 390.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 400.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 400.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 420.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 420.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 430.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 430.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 440.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 440.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 460.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 460.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 470.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 470.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 480.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 480.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 500.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 500.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 510.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 510.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 520.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 520.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 540.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 540.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 550.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 550.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 560.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 560.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 580.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 580.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 590.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 590.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 600.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 600.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 620.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 620.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 630.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 630.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 640.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 640.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 660.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 660.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 670.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 670.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 680.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 680.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 700.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 700.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 710.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 710.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 720.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 720.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 740.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 740.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 750.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 750.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 760.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 760.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 780.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 780.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 790.0,
+    "nominal_radius_m": 0.028,
+    "node_label": 101,
+    "actual_radius_m": 0.02803090028464794,
+    "actual_height_m": -0.017500000074505806
+  },
+  {
+    "power_w": 790.0,
+    "nominal_radius_m": 0.0415,
+    "node_label": 114,
+    "actual_radius_m": 0.04116480052471161,
+    "actual_height_m": -0.017500000074505806
+  }
+]

@@ -64,7 +64,7 @@ def training_figures(output,directory):
         ax.set(xlabel="训练轮次",title=title,xlim=(0,1000))
         ax.grid(alpha=.2)
     axes[0].set(yscale="log",ylabel="加权归一化损失")
-    axes[1].set(yscale="log",ylabel="综合 RMSE / K")
+    axes[1].set(yscale="log",ylabel="验证选取分数 / K")
     axes[1].legend(fontsize=9)
     save(fig,directory,"Figure_1_training_curves")
 
@@ -381,13 +381,46 @@ def report(output,results,figures):
             "它只使用训练功率、时间和测点坐标，不读取测试标签，也不强制单调。", "",
             f"六条 ASL 热端/冷端曲线的全时间段最大到达跳变（整数秒前 0.001 s → 整数秒）"
             f"由 {old_jump:.6f} K 变为 {new_jump:.6f} K；顶部测试 RMSE 由 {old_top:.4f} K 变为 {new_top:.4f} K。"
-            "这是输入适配与共同时间损失的整体改进，不能解释为仅改变升温率的单独消融结果。", "",
+            "这是当前完整训练方案相对 history_fix_v3 的比较；若另有温度约束，亦包含其影响。", "",
             f"当前全时段最大到达跳变位于 {worst['power_w']:g} W {'热端' if worst['sensor']=='hot' else '冷端'}、"
             f"{worst['incoming_peak_time_s']:g} s，即初始历史建立阶段。"
-            f"误差取舍为：{accuracy_tradeoff}，两端误差略增；综合 RMSE "
+            f"两端误差变化为：{accuracy_tradeoff}；综合 RMSE "
             f"{adaptation['previous']['combined_test_rmse_k']:.4f} → {adaptation['adapted']['combined_test_rmse_k']:.4f} K。", "",
             "旧检查点配置缺少 asl_rate_mode 时仍走 original 预处理；新模型明确保存 thermal_trend 配置。"
             "history_fix_v3 的原检查点、原始密集预测及其哈希保留用于复核。", ""]
+    if cfg["loss_weights"].get("top_center",0)>0:
+        bias = json.loads((output/"diagnostics/temperature_bias.json").read_text(encoding="utf-8"))
+        before = bias["runs"]["baseline"]["splits"]["test"]["asl"]
+        after = bias["runs"]["current"]["splits"]["test"]["asl"]
+        lines += ["## 顶部后段误差优化", "",
+            "本轮以前一版 thermal_trend ASL 为基线，保持 SSM → LSTM、所有可训练模块、参数数量、输入历史与初始化不变。"
+            "旧损失把顶部各半径混合采样，中心偏低、边缘偏高可以同时出现；后期趋势和末时刻偏差没有单独约束。"
+            "训练数据本身也存在这一现象，故不能只归因为测试功率插值。", "",
+            f"四种方法统一增加半径≤{cfg['training']['top_center_radius_m']*1000:g} mm 的训练观测，"
+            f"并用每个训练功率最后 {cfg['training']['top_tail_window_s']:g} s 的实测时刻约束温度、末时刻与升温趋势。"
+            "趋势误差按功率和半径分别拟合、分别平方，中心与边缘的相反偏差不能互相抵消。"
+            f"完整顶部温度损失权重为 {cfg['loss_weights']['top']:g}，避免仅改善后段而损害前段拟合。"
+            "网络输出未经平滑、偏移校准或强制单调。", "",
+            "配置比较使用训练与验证集；诊断中曾查看过旧测试结果，故不宣称盲测。"
+            "验证选取同时考虑整个顶部、实测近中心后段以及两端误差。"
+            "本表后段定义为每个功率自身实测末时刻的后30%，中心为各帧实际测得的最小半径。", "",
+            "验证选取分数 = sqrt(0.5×顶部RMSE² + 0.25×中心后段RMSE² + 0.125×热端RMSE² + 0.125×冷端RMSE²)。"
+            "它用于验证选型，与主表三类测点的测试综合RMSE不同。", "",
+            "| 测试功率 / W | 中心后段 RMSE：原→新 / K | 末时刻有符号误差：原→新 / K |",
+            "|---|---:|---:|"]
+        for power in ("169","339","634"):
+            old,new = before["顶部"]["by_power"][power],after["顶部"]["by_power"][power]
+            lines.append(f"| {power} | {old['center_tail']['rmse_k']:.4f} → {new['center_tail']['rmse_k']:.4f} | "
+                         f"{old['center_final_bias_k']:+.4f} → {new['center_final_bias_k']:+.4f} |")
+        lines += ["", f"整个顶部测试 RMSE：{before['顶部']['full']['rmse_k']:.4f} → {after['顶部']['full']['rmse_k']:.4f} K；"
+            f"中心后段汇总 RMSE：{before['顶部']['center_tail']['rmse_k']:.4f} → {after['顶部']['center_tail']['rmse_k']:.4f} K。",
+            "两端误差变化为："+"；".join(f"{name} RMSE {before[name]['full']['rmse_k']:.4f} → {after[name]['full']['rmse_k']:.4f} K"
+                                     for name in ("热端","冷端"))+"。",
+            "末时刻偏差减小仍不等于每条曲线的后段斜率误差均降低；339 W 仍存在低估，"
+            "634 W 后段由较大负偏差趋向较小负偏差。逐功率斜率误差另存于诊断文件，保留实际结果。"]
+        lines += ["", "正误差表示模型高于实测，负误差表示低于实测。"
+            "完整逐功率、逐区域、后段斜率及实际中心时刻数据保存在 [temperature_bias.json](diagnostics/temperature_bias.json)，"
+            "验证选型记录保存在 [selection.json](diagnostics/selection.json)。", ""]
     lines += ["以下为 t ≥ 75 s 的最大相邻测量时刻跳变，单位 K，单元格为 V5 → 修复后。", "",
         "| 测点 | 功率 / W | FNN | GRU | LSTM | ASL |", "|---|---:|---:|---:|---:|---:|"]
     for sensor in ("hot","cold"):
@@ -406,6 +439,17 @@ def report(output,results,figures):
         f"整数秒之后 0.001 s 的最大变化为 {outgoing:.6f} K。"
         f"整数秒新观测到达时的最大变化为 {incoming:.5f} K，允许输入更新，"
         "不能把这一检查解释为严格数学连续或强制单调。", "",
+    ]
+    if "dense_top_curves" in temporal:
+        top_rows = [r for r in temporal["dense_top_curves"] if r["method"]=="asl"]
+        late_jump = max(r["late_incoming_integer_max_jump_k"] for r in top_rows)
+        warm_jump = max(r["post_warmup_incoming_integer_max_jump_k"] for r in top_rows)
+        initial = max(top_rows,key=lambda r:r["incoming_integer_max_jump_k"])
+        lines += [f"另外检查12条顶部近中心原始密集预测。ASL在 t ≥ 75 s 的最大观测到达变化为 {late_jump:.6f} K，"
+            f"t ≥ 3 s 为 {warm_jump:.6f} K。初始历史建立阶段仍存在 {initial['incoming_integer_max_jump_k']:.4f} K 的变化"
+            f"（{initial['power_w']:g} W、{initial['incoming_peak_time_s']:g} s）。"
+            "顶部实测从5 s开始，保留早期原始诊断，不把这段视为已验证平滑。", ""]
+    lines += [
         "## LF、HF 与旧 Figure 3", "",
         "LF（Low Fidelity）指低保真的有限元仿真参考，HF（High Fidelity）指高保真的实验测量。"
         "两者是训练与参考数据来源，不是另外两种模型。实验没有内部全场测量，"
@@ -445,6 +489,7 @@ def report(output,results,figures):
     lines += ["", "```bash", "/home/phl/anaconda3/envs/PINN/bin/python scripts/train_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'",
         "/home/phl/anaconda3/envs/PINN/bin/python scripts/evaluate_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'",
         "/home/phl/anaconda3/envs/PINN/bin/python scripts/audit_sequential_temporal.py --output '研究记录/Sequential_DeepONet_new'",
+        "/home/phl/anaconda3/envs/PINN/bin/python scripts/analyze_sequential_temperature_bias.py --output '研究记录/Sequential_DeepONet_new' --methods fnn gru lstm asl --splits train validation test --selection-from '研究记录/Sequential_DeepONet_1000epochs_temperature_tail/diagnostics/selection.json'",
         "/home/phl/anaconda3/envs/PINN/bin/python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_new'", "```", "",
         "同一次训练中断时添加 --resume。每种方法保存 initial.pt、best.pt、latest.pt、epoch_1000.pt、history.csv、training.log、final_info.json。evaluation 保存逐点预测 NPZ、逐工况 CSV、汇总表、模型 SHA256 与指标 JSON。"]
     (output/"对比总结.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
@@ -452,7 +497,7 @@ def report(output,results,figures):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_ASL_thermal")
+    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_temperature_tail")
     args = parser.parse_args()
     output = args.output.resolve()
     evaluation,directory = output/"evaluation",output/"figures"

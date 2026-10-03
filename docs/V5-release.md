@@ -21,19 +21,33 @@ ASL 分支保留选择性 SSM、长历史升温率、LSTM 状态初始化及成�
 四种方法均从同一初始化重新训练1000轮，使用共同损失、数据及学习率计划。
 原始V5标签保留原始快照，V5分支包含修复结果；旧运行仅作为诊断对照。
 
+本轮继续优化顶部温度误差。旧损失混合各半径的误差，中心低估和边缘高估可能同时存在，
+且没有单独约束后段温度、末时刻和实测升温趋势。新增半径5 mm内的训练观测，
+以及每个训练功率最后20秒的逐半径温度、末时刻与线性趋势损失；
+趋势分别拟合后平方，不允许不同半径的误差互相抵消。
+第一候选改善中心却损害完整顶部，依据验证集拒绝；第二候选只将完整顶部权重2提高到8，
+验证顶部与中心后段均改善后锁定配置，再完成四种方法各1000次更新。
+ASL输入、可训练模块和参数数量均与前一版ASL_thermal一致。
+
 ## 发布内容
 
-- `configs/sequential_deeponet.yaml`：四种方法共用的训练配置。
+- `configs/sequential_deeponet_temperature.yaml`：最新四种方法共用的训练配置。
+- `configs/sequential_deeponet_tail.yaml`：第一候选配置，保留选型依据。
+- `configs/sequential_deeponet.yaml`：前一版输入适配配置。
 - `scripts/sequential_deeponet_core.py`：四种分支、共同主干和模型检查点。
 - `scripts/sequential_deeponet_data.py`：因果历史和分层采样。
 - `scripts/train_sequential_deeponet.py`：连续训练和断点恢复。
+- `scripts/sequential_temperature_objective.py`：训练观测的中心、后段、末时刻与趋势约束。
+- `scripts/analyze_sequential_temperature_bias.py`：逐功率、逐半径有符号误差与真实时刻诊断。
 - `scripts/evaluate_sequential_deeponet.py`：最终轮与验证最优轮的测试评价。
 - `scripts/plot_sequential_deeponet.py`：从真实保存预测导出 PNG/PDF 和中文报告。
 - `scripts/audit_sequential_temporal.py`：原始V5对照、全功率历史掩码和密集时间步检查。
 - `scripts/verify_sequential_deeponet.py`：检查实际优化步数、哈希、指标和图像。
 - `tests/test_sequential_deeponet.py`：31 项因果性、数值、求导、连续性及模型/报告契约测试。
-- `研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/`：四组训练模型、历史、逐点预测、
+- `tests/test_sequential_temperature_objective.py`、`tests/test_sequential_temperature_bias.py`：7项真实时刻、偏差/趋势、空间抵消与验证选型回归测试。
+- `研究记录/Sequential_DeepONet_1000epochs_temperature_tail/`：最新四组训练模型、历史、逐点预测、
   指标、17 张 PNG（11张实验主图、6张附录）、同名 PDF、源码快照与对比报告。
+- `研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/`：前一版输入适配结果，作为本轮基线。
 - `研究记录/Sequential_DeepONet_1000epochs_history_fix_v3/`：保留适配前的检查点和密集预测作对照。
 - `研究记录/Sequential_DeepONet_1000epochs/`：保留原始V5输出作缺陷对照。
 
@@ -54,36 +68,44 @@ ASL 分支保留选择性 SSM、长历史升温率、LSTM 状态初始化及成�
 这是给定过去 hot/cold 测量的温度场条件重构。仿真内部场作为低保真参考，
 实验表面场作为高保真参考；二者指标分别解释。当前为单随机种子、恒定加热数据，
 尚未验证任意时变负载。更多实现细节和诊断轮披露见
-[完整对比报告](../研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/对比总结.md)。
+[完整对比报告](../研究记录/Sequential_DeepONet_1000epochs_temperature_tail/对比总结.md)。
 
-六条ASL曲线的全时段最大观测到达跳变由0.3422降至0.1264 K，剩余最大值
-位于169 W热端2秒的初始阶段；75秒之后最大值为0.00931 K。
-顶部RMSE由6.8127降至6.7109 K，综合RMSE由4.8405降至4.7706 K；
-热端/冷端RMSE由0.6419/0.6957变为0.6834/0.7034 K，存在小幅精度取舍。
-结果来自原始预测，不使用绘图平滑或强制单调；改进同时包含输入适配和共同时间损失，
-未将其解释为单独升温率消融，也不宣称此前查看过测试集的修复实验是盲测。
+ASL顶部RMSE由6.7109降至6.1333 K，综合RMSE由4.7706降至4.3873 K；
+中心后段汇总RMSE由6.1361降至3.6970 K。169/339/634 W中心后段分别由
+3.5420/7.9046/5.6227变为0.8061/5.7943/2.0941 K，末时刻绝对偏差均减小。
+热端/冷端RMSE由0.6834/0.7034变为0.9489/0.9259 K；
+339 W仍低估约6.26 K，后段斜率误差并非所有曲线均下降。
+75秒之后ASL传感器最大到达跳变0.01428 K，顶部近中心为0.08569 K；
+顶部2秒仍有约4.24 K的初始历史建立变化，顶部实测从5秒开始，保留这段原始诊断。
+结果来自原始预测，不使用绘图平滑或强制单调；本轮比较包含温度约束和损失再加权，
+不宣称此前查看过测试集的修复实验是盲测，也不宣称ASL全面优于其他结构。
 
 ## 检查与复现
 
 在仓库根目录安装 `pip install -e '.[test]'` 后运行：
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_sequential_deeponet.py -q -o addopts=''
-python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs_ASL_thermal'
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_sequential_deeponet.py tests/test_sequential_temperature_objective.py tests/test_sequential_temperature_bias.py -q -o addopts=''
+python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs_temperature_tail'
 ```
 
 无需原始数据即可测试核心实现并从保存预测重绘图像。对照上游 ASL 源码的测试
 需要本地参考路径 `references/ASL-PINN-code/src/models/ssm_lstm.py`；缺少时跳过
-这一项。本机全部 31 项已通过，对应上游提交为
+这一项。本机全部 38 项已通过，对应上游提交为
 `4477c971007624133eec92bd7eeb5bb58d3b9c26`。
 
 重新训练、重新推理和审计输入数据哈希需要按照原项目格式准备 `data/`。
 正式实验目录内 `verification.json` 记录已执行的完整审计。
+本次隔离发布目录执行全量 `pytest tests`：275项通过，1项因没有上游参考仓库跳过；
+2项因缺少未发布的V4旧图册、实际配置和第600轮模型失败。
+相应测试及开发分析源码与上一提交完全一致，旧文件在上一提交中也未发布。
+本项目ASL的38项针对性测试已在数据及参考源码齐全的工作区全部通过。
 
 ```bash
 python scripts/train_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
 python scripts/evaluate_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
 python scripts/audit_sequential_temporal.py --output '研究记录/Sequential_DeepONet_new'
+python scripts/analyze_sequential_temperature_bias.py --output '研究记录/Sequential_DeepONet_new' --methods fnn gru lstm asl --splits train validation test --selection-from '研究记录/Sequential_DeepONet_1000epochs_temperature_tail/diagnostics/selection.json'
 python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_new'
 python scripts/verify_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_new'
 ```

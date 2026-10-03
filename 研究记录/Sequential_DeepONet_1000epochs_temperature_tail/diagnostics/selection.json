@@ -1,0 +1,42 @@
+{
+  "locked_at_utc": "2026-10-03 16:15:25 UTC",
+  "selection_data": ["train", "validation"],
+  "test_set_previously_inspected": true,
+  "selected_candidate": "candidate_2",
+  "selected_config": "configs/sequential_deeponet_temperature.yaml",
+  "selected_config_json_sha256": "8ad22f2fc0b10d0f1aa29358de84efee0980304f769ba078d469c9f1f8fe5d76",
+  "criterion": "sqrt(0.5*top_rmse^2+0.25*center_tail_rmse^2+0.125*hot_rmse^2+0.125*cold_rmse^2)",
+  "center_tail_fraction": 0.7,
+  "baseline": {
+    "validation_score_k": 6.662182663206487,
+    "validation_top_rmse_k": 7.810944289795248,
+    "validation_center_tail_rmse_k": 7.387251712001016,
+    "validation_hot_rmse_k": 0.9644947391364319,
+    "validation_cold_rmse_k": 0.9802010485338704
+  },
+  "candidate_1": {
+    "config": "configs/sequential_deeponet_tail.yaml",
+    "config_json_sha256": "b6c63c9a560e277b508e72d8336f8f584a36f6990c7fdaa1fc58c071e21e96a8",
+    "checkpoint_sha256": "1a863bd056c97e52b1e3075f1eac3c63fa7fb75d178d56e5a7168f3957068a05",
+    "validation_score_k": 6.703940616365314,
+    "validation_top_rmse_k": 8.931241495445098,
+    "validation_center_tail_rmse_k": 4.363620254575119,
+    "validation_hot_rmse_k": 1.285823244320715,
+    "validation_cold_rmse_k": 0.8593921306754136,
+    "decision": "rejected: full-top validation error increased"
+  },
+  "candidate_2": {
+    "config": "configs/sequential_deeponet_temperature.yaml",
+    "config_json_sha256": "8ad22f2fc0b10d0f1aa29358de84efee0980304f769ba078d469c9f1f8fe5d76",
+    "checkpoint_sha256": "5e0885118da1e25354835fa7a8531c1945a6010a50afc0572bf6b0cf94015e3e",
+    "validation_score_k": 5.484524673406901,
+    "validation_top_rmse_k": 7.308412178158709,
+    "validation_center_tail_rmse_k": 3.5274706900487307,
+    "validation_hot_rmse_k": 1.2214088395764395,
+    "validation_cold_rmse_k": 0.781405394489501,
+    "change_from_candidate_1": "full-top observation loss weight 2 -> 8; all other settings unchanged",
+    "decision": "selected: lower selection score, full-top error and center-tail error"
+  },
+  "candidate_archives": "Both complete runs, checkpoints, validation diagnostics and source snapshots are retained locally under Sequential_DeepONet_temperature_tail_candidate_1 and candidate_2.",
+  "formal_budget": "Four same-protocol runs from their shared initial operator weights; 1000 optimizer updates each."
+}
