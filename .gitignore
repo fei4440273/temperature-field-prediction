@@ -56,3 +56,6 @@ dist/
 /研究记录/**/*.parquet
 /研究记录/**/*.lock
 /研究记录/**/*.claim
+
+# Local upstream reference checkouts for the V5 comparison.
+/references/

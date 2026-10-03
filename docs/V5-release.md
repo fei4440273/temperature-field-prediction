@@ -1,0 +1,64 @@
+# V5 发布说明
+
+V5 在 V4 基础上新增 FNN、GRU、LSTM 和 ASL 四种 DeepONet 比较，
+参考 [S-DeepONet 论文](https://arxiv.org/abs/2306.08218)、
+[作者实现](https://github.com/Jasiuk-Research-Group/S-DeepONet) 和
+[ASL-PINN 实现](https://github.com/fei4440273/Temperature-Reconstruction-ASL-PINN)。
+ASL 分支保留选择性 SSM、长历史升温率、LSTM 状态初始化及成熟度上下文门控，
+未加入边界注意力。这里是适配本项目传感器历史的比较，并非原文实验的逐项复现。
+
+## 发布内容
+
+- `configs/sequential_deeponet.yaml`：四种方法共用的训练配置。
+- `scripts/sequential_deeponet_core.py`：四种分支、共同主干和模型检查点。
+- `scripts/sequential_deeponet_data.py`：因果历史和分层采样。
+- `scripts/train_sequential_deeponet.py`：连续训练和断点恢复。
+- `scripts/evaluate_sequential_deeponet.py`：最终轮与验证最优轮的测试评价。
+- `scripts/plot_sequential_deeponet.py`：从真实保存预测导出 PNG/PDF 和中文报告。
+- `scripts/verify_sequential_deeponet.py`：检查实际优化步数、哈希、指标和图像。
+- `tests/test_sequential_deeponet.py`：19 项因果性、数值、求导和模型契约测试。
+- `研究记录/Sequential_DeepONet_1000epochs/`：四组训练模型、历史、逐点预测、
+  指标、16 张 PNG、同名 PDF、源码快照与对比报告。
+
+公共模块 `scripts/joint_temperature_core.py` 同步为本次实验真实使用的源码，
+包含轴对称轴线极限、高/低保真物理条件和已有铜区可选模块。
+其默认轮数为 1000；V4 的历史入口仍按自身 600 轮配置运行，
+对应默认轮数测试同步为 1000。V4 的配置、入口和已发布模型继续保留。
+
+本次发布包含约 60 MB 正式实验结果。原始/处理后 `data/`、第三方参考仓库、
+诊断运行、短运行及工作区其他未提交任务不进入 V5。
+
+## 结果口径
+
+四种方法均完成 1000 次 AdamW 更新。每轮按训练功率分层采样并计算物理损失，
+不是遍历全部约 702 万个仿真点的一次全量 epoch。主结果采用第 1000 轮模型，
+验证最优检查点另列补充结果，训练没有提前结束。
+
+这是给定过去 hot/cold 测量的温度场条件重构。仿真内部场作为低保真参考，
+实验表面场作为高保真参考；二者指标分别解释。当前为单随机种子、恒定加热数据，
+尚未验证任意时变负载。更多实现细节和诊断轮披露见
+[完整对比报告](../研究记录/Sequential_DeepONet_1000epochs/对比总结.md)。
+
+## 检查与复现
+
+在仓库根目录安装 `pip install -e '.[test]'` 后运行：
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_sequential_deeponet.py -q -o addopts=''
+python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs'
+```
+
+无需原始数据即可测试核心实现并从保存预测重绘图像。对照上游 ASL 源码的测试
+需要本地参考路径 `references/ASL-PINN-code/src/models/ssm_lstm.py`；缺少时跳过
+这一项。本机全部 19 项已通过，对应上游提交为
+`4477c971007624133eec92bd7eeb5bb58d3b9c26`。
+
+重新训练、重新推理和审计输入数据哈希需要按照原项目格式准备 `data/`。
+正式实验目录内 `verification.json` 记录已执行的完整审计。
+
+```bash
+python scripts/train_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
+python scripts/evaluate_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
+python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_new'
+python scripts/verify_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_new'
+```

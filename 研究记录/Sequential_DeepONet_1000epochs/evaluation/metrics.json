@@ -1,0 +1,446 @@
+{
+  "fnn": {
+    "final_epoch": 1000,
+    "high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 9.168015573357062,
+        "mae_k": 6.630001013288861,
+        "max_abs_error_k": 35.49432373046875,
+        "relative_l2_kelvin_pct": 1.8137084242177477,
+        "relative_l2_rise_pct": 4.039082917603348,
+        "r2": 0.9931757321207658
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 1.3590140466821883,
+        "mae_k": 0.9722094765813404,
+        "max_abs_error_k": 3.73565673828125,
+        "relative_l2_kelvin_pct": 0.44217074261901623,
+        "relative_l2_rise_pct": 10.386783358208744,
+        "r2": 0.9206050274645381
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 0.6991846750880267,
+        "mae_k": 0.4125491234564012,
+        "max_abs_error_k": 4.5540771484375,
+        "relative_l2_kelvin_pct": 0.23061498961452634,
+        "relative_l2_rise_pct": 8.349675586112376,
+        "r2": 0.9149651688743636
+      }
+    },
+    "low_test": {
+      "n": 1170590,
+      "rmse_k": 11.776892529843831,
+      "mae_k": 7.61670561164544,
+      "max_abs_error_k": 111.30484008789062,
+      "relative_l2_kelvin_pct": 3.045217618598625,
+      "relative_l2_rise_pct": 9.847530317246068,
+      "r2": 0.9818689832791383
+    },
+    "low_test_by_material": {
+      "copper": {
+        "n": 829210,
+        "rmse_k": 8.884445373484278,
+        "mae_k": 6.00546697177998,
+        "max_abs_error_k": 39.98699951171875,
+        "relative_l2_kelvin_pct": 2.5503292588288904,
+        "relative_l2_rise_pct": 12.366865939255245,
+        "r2": 0.9711256460082344
+      },
+      "sic": {
+        "n": 341380,
+        "rmse_k": 16.848036218184316,
+        "mae_k": 11.53039473392219,
+        "max_abs_error_k": 111.30484008789062,
+        "relative_l2_kelvin_pct": 3.607843428058561,
+        "relative_l2_rise_pct": 8.81789844868206,
+        "r2": 0.9739658017886238
+      }
+    },
+    "combined_test_rmse_k": 6.527648839658745,
+    "parameters": 77763,
+    "training_seconds": 46.705600399000105,
+    "inference_low_test_seconds": 0.4432755059679039,
+    "inference_low_test_points": 1170590,
+    "best_epoch": 975,
+    "best_high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 9.287112570546906,
+        "mae_k": 6.686756515381093,
+        "max_abs_error_k": 35.69134521484375,
+        "relative_l2_kelvin_pct": 1.8372693819161607,
+        "relative_l2_rise_pct": 4.091552576172132,
+        "r2": 0.9929972793652544
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 1.2241321247191865,
+        "mae_k": 0.9029276072020699,
+        "max_abs_error_k": 3.31451416015625,
+        "relative_l2_kelvin_pct": 0.39828536869969283,
+        "relative_l2_rise_pct": 9.355896807927085,
+        "r2": 0.9355828209912759
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 0.6897219525927495,
+        "mae_k": 0.41074671591481854,
+        "max_abs_error_k": 4.54656982421875,
+        "relative_l2_kelvin_pct": 0.22749386049409934,
+        "relative_l2_rise_pct": 8.236671589011,
+        "r2": 0.917251305631889
+      }
+    },
+    "best_combined_test_rmse_k": 6.60445182484282,
+    "simulation_case_statistics": {
+      "cases": 1000,
+      "mean_l2_kelvin_pct": 2.578710682595224,
+      "std_across_cases_l2_kelvin_pct": 1.1986741918532877,
+      "p90_l2_kelvin_pct": 3.990305121547813,
+      "max_l2_kelvin_pct": 7.112493327430886
+    },
+    "top_case_statistics": {
+      "cases": 62,
+      "mean_l2_kelvin_pct": 1.4569335345630823,
+      "std_across_cases_l2_kelvin_pct": 0.9134895186809181,
+      "p90_l2_kelvin_pct": 2.4489142489388964,
+      "max_l2_kelvin_pct": 4.946943579130741
+    }
+  },
+  "gru": {
+    "final_epoch": 1000,
+    "high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 42.73870108162841,
+        "mae_k": 17.067859041694632,
+        "max_abs_error_k": 223.31442260742188,
+        "relative_l2_kelvin_pct": 8.454996784379334,
+        "relative_l2_rise_pct": 18.829064597252934,
+        "r2": 0.8516976546184954
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 2.248073305485079,
+        "mae_k": 1.0218971963864047,
+        "max_abs_error_k": 17.70098876953125,
+        "relative_l2_kelvin_pct": 0.7314363272219975,
+        "relative_l2_rise_pct": 17.181757947573523,
+        "r2": 0.7827468665816166
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 1.2860164881131573,
+        "mae_k": 0.7718535392515121,
+        "max_abs_error_k": 7.87615966796875,
+        "relative_l2_kelvin_pct": 0.4241721674076836,
+        "relative_l2_rise_pct": 15.35763133364518,
+        "r2": 0.7123223478946457
+      }
+    },
+    "low_test": {
+      "n": 1170590,
+      "rmse_k": 11.764930615143047,
+      "mae_k": 7.646426796524741,
+      "max_abs_error_k": 139.723876953125,
+      "relative_l2_kelvin_pct": 3.042124558752261,
+      "relative_l2_rise_pct": 9.837528076216037,
+      "r2": 0.9819057963060712
+    },
+    "low_test_by_material": {
+      "copper": {
+        "n": 829210,
+        "rmse_k": 9.137810535437765,
+        "mae_k": 6.132024811060047,
+        "max_abs_error_k": 47.5975341796875,
+        "relative_l2_kelvin_pct": 2.6230591320550096,
+        "relative_l2_rise_pct": 12.719542202076097,
+        "r2": 0.9694552952273106
+      },
+      "sic": {
+        "n": 341380,
+        "rmse_k": 16.486339804737074,
+        "mae_k": 11.324900258259989,
+        "max_abs_error_k": 139.723876953125,
+        "relative_l2_kelvin_pct": 3.530389651766251,
+        "relative_l2_rise_pct": 8.628594354025145,
+        "r2": 0.9750716159939236
+      }
+    },
+    "combined_test_rmse_k": 30.248557041138778,
+    "parameters": 65667,
+    "training_seconds": 116.78962036495795,
+    "inference_low_test_seconds": 0.451422082958743,
+    "inference_low_test_points": 1170590,
+    "best_epoch": 700,
+    "best_high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 29.507174390468606,
+        "mae_k": 13.567909204171741,
+        "max_abs_error_k": 196.65652465820312,
+        "relative_l2_kelvin_pct": 5.837403998568751,
+        "relative_l2_rise_pct": 12.999751480967843,
+        "r2": 0.9293095691904879
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 1.8198533405576842,
+        "mae_k": 0.8372257146804662,
+        "max_abs_error_k": 13.70245361328125,
+        "relative_l2_kelvin_pct": 0.592110070544597,
+        "relative_l2_rise_pct": 13.908923486282081,
+        "r2": 0.8576301943955636
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 1.429371991950942,
+        "mae_k": 0.8665561799080141,
+        "max_abs_error_k": 6.953826904296875,
+        "relative_l2_kelvin_pct": 0.4714557095198927,
+        "relative_l2_rise_pct": 17.06958526109431,
+        "r2": 0.6446113218723859
+      }
+    },
+    "best_combined_test_rmse_k": 20.89677996421677,
+    "simulation_case_statistics": {
+      "cases": 1000,
+      "mean_l2_kelvin_pct": 2.534438530991245,
+      "std_across_cases_l2_kelvin_pct": 1.2159045260378336,
+      "p90_l2_kelvin_pct": 4.11793545913574,
+      "max_l2_kelvin_pct": 7.783939342713605
+    },
+    "top_case_statistics": {
+      "cases": 62,
+      "mean_l2_kelvin_pct": 3.1086289472559656,
+      "std_across_cases_l2_kelvin_pct": 6.040988436788039,
+      "p90_l2_kelvin_pct": 4.658866383929079,
+      "max_l2_kelvin_pct": 29.261710370923282
+    }
+  },
+  "lstm": {
+    "final_epoch": 1000,
+    "high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 29.89064166875526,
+        "mae_k": 17.063424138739556,
+        "max_abs_error_k": 135.214111328125,
+        "relative_l2_kelvin_pct": 5.913265326189259,
+        "relative_l2_rise_pct": 13.168692744297342,
+        "r2": 0.9274602828164512
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 1.8048513437356084,
+        "mae_k": 1.0284916426974477,
+        "max_abs_error_k": 8.335723876953125,
+        "relative_l2_kelvin_pct": 0.5872289995271341,
+        "relative_l2_rise_pct": 13.794265001837532,
+        "r2": 0.8599677761554408
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 0.867982235899798,
+        "mae_k": 0.6576595183341734,
+        "max_abs_error_k": 4.709014892578125,
+        "relative_l2_kelvin_pct": 0.2862901912036674,
+        "relative_l2_rise_pct": 10.365459001742762,
+        "r2": 0.8689506937916436
+      }
+    },
+    "low_test": {
+      "n": 1170590,
+      "rmse_k": 10.312451765531113,
+      "mae_k": 6.393300505916838,
+      "max_abs_error_k": 118.2232666015625,
+      "relative_l2_kelvin_pct": 2.6665488988511874,
+      "relative_l2_rise_pct": 8.623003152050673,
+      "r2": 0.9860977659725285
+    },
+    "low_test_by_material": {
+      "copper": {
+        "n": 829210,
+        "rmse_k": 7.32182707973592,
+        "mae_k": 4.910784485670743,
+        "max_abs_error_k": 40.331268310546875,
+        "relative_l2_kelvin_pct": 2.1017710216628918,
+        "relative_l2_rise_pct": 10.191750876846454,
+        "r2": 0.9803894140867427
+      },
+      "sic": {
+        "n": 341380,
+        "rmse_k": 15.311621738192013,
+        "mae_k": 9.994323146810459,
+        "max_abs_error_k": 118.2232666015625,
+        "relative_l2_kelvin_pct": 3.2788351797007222,
+        "relative_l2_rise_pct": 8.013772277286826,
+        "r2": 0.9784975465846735
+      }
+    },
+    "combined_test_rmse_k": 21.159582937020986,
+    "parameters": 75075,
+    "training_seconds": 116.17410797200864,
+    "inference_low_test_seconds": 0.44114063296001405,
+    "inference_low_test_points": 1170590,
+    "best_epoch": 525,
+    "best_high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 18.606557788555136,
+        "mae_k": 13.189478272030202,
+        "max_abs_error_k": 78.83172607421875,
+        "relative_l2_kelvin_pct": 3.6809351311387086,
+        "relative_l2_rise_pct": 8.197349701014257,
+        "r2": 0.9718915140087327
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 1.8792351248831596,
+        "mae_k": 1.0328205268099377,
+        "max_abs_error_k": 10.161285400390625,
+        "relative_l2_kelvin_pct": 0.611430612328061,
+        "relative_l2_rise_pct": 14.362771429000826,
+        "r2": 0.8481875622193762
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 1.2144265494133155,
+        "mae_k": 0.9023619621030746,
+        "max_abs_error_k": 5.00189208984375,
+        "relative_l2_kelvin_pct": 0.40055936015087407,
+        "relative_l2_rise_pct": 14.502703036914285,
+        "r2": 0.743459723674321
+      }
+    },
+    "best_combined_test_rmse_k": 13.204301779876493,
+    "simulation_case_statistics": {
+      "cases": 1000,
+      "mean_l2_kelvin_pct": 2.2352046622597466,
+      "std_across_cases_l2_kelvin_pct": 1.0690601228015302,
+      "p90_l2_kelvin_pct": 3.519746334253951,
+      "max_l2_kelvin_pct": 6.099676045340925
+    },
+    "top_case_statistics": {
+      "cases": 62,
+      "mean_l2_kelvin_pct": 3.1115578991985915,
+      "std_across_cases_l2_kelvin_pct": 3.6761952600736683,
+      "p90_l2_kelvin_pct": 4.965884128124318,
+      "max_l2_kelvin_pct": 17.259439348071925
+    }
+  },
+  "asl": {
+    "final_epoch": 1000,
+    "high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 9.953204193109036,
+        "mae_k": 6.438468311739897,
+        "max_abs_error_k": 44.12310791015625,
+        "relative_l2_kelvin_pct": 1.9690422805849432,
+        "relative_l2_rise_pct": 4.3850074980930644,
+        "r2": 0.9919567566371849
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 1.16058260715667,
+        "mae_k": 0.6905944431709706,
+        "max_abs_error_k": 5.637237548828125,
+        "relative_l2_kelvin_pct": 0.3776088073040994,
+        "relative_l2_rise_pct": 8.870195373823437,
+        "r2": 0.9420975117330851
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 0.7583660023419555,
+        "mae_k": 0.5332191713394657,
+        "max_abs_error_k": 4.56402587890625,
+        "relative_l2_kelvin_pct": 0.2501350129450153,
+        "relative_l2_rise_pct": 9.056420028506858,
+        "r2": 0.8999606727214596
+      }
+    },
+    "low_test": {
+      "n": 1170590,
+      "rmse_k": 9.011093946069986,
+      "mae_k": 5.464912206966387,
+      "max_abs_error_k": 116.02523803710938,
+      "relative_l2_kelvin_pct": 2.3300494572640553,
+      "relative_l2_rise_pct": 7.5348416911004445,
+      "r2": 0.9893851033625457
+    },
+    "low_test_by_material": {
+      "copper": {
+        "n": 829210,
+        "rmse_k": 6.3199336364698935,
+        "mae_k": 4.173461318181954,
+        "max_abs_error_k": 36.50408935546875,
+        "relative_l2_kelvin_pct": 1.8141719588991017,
+        "relative_l2_rise_pct": 8.797147007113775,
+        "r2": 0.9853891100542859
+      },
+      "sic": {
+        "n": 341380,
+        "rmse_k": 13.469070730885344,
+        "mae_k": 8.60183877410254,
+        "max_abs_error_k": 116.02523803710938,
+        "relative_l2_kelvin_pct": 2.8842707653982917,
+        "relative_l2_rise_pct": 7.049420856234506,
+        "r2": 0.9833612422299651
+      }
+    },
+    "combined_test_rmse_k": 7.07203327199804,
+    "parameters": 76227,
+    "training_seconds": 330.42084664897993,
+    "inference_low_test_seconds": 0.4382040409836918,
+    "inference_low_test_points": 1170590,
+    "best_epoch": 1000,
+    "best_high_test": {
+      "顶部": {
+        "n": 6262,
+        "rmse_k": 9.953204193109036,
+        "mae_k": 6.438468311739897,
+        "max_abs_error_k": 44.12310791015625,
+        "relative_l2_kelvin_pct": 1.9690422805849432,
+        "relative_l2_rise_pct": 4.3850074980930644,
+        "r2": 0.9919567566371849
+      },
+      "热端": {
+        "n": 311,
+        "rmse_k": 1.16058260715667,
+        "mae_k": 0.6905944431709706,
+        "max_abs_error_k": 5.637237548828125,
+        "relative_l2_kelvin_pct": 0.3776088073040994,
+        "relative_l2_rise_pct": 8.870195373823437,
+        "r2": 0.9420975117330851
+      },
+      "冷端": {
+        "n": 310,
+        "rmse_k": 0.7583660023419555,
+        "mae_k": 0.5332191713394657,
+        "max_abs_error_k": 4.56402587890625,
+        "relative_l2_kelvin_pct": 0.2501350129450153,
+        "relative_l2_rise_pct": 9.056420028506858,
+        "r2": 0.8999606727214596
+      }
+    },
+    "best_combined_test_rmse_k": 7.07203327199804,
+    "simulation_case_statistics": {
+      "cases": 1000,
+      "mean_l2_kelvin_pct": 2.006024670821023,
+      "std_across_cases_l2_kelvin_pct": 0.8869456801773412,
+      "p90_l2_kelvin_pct": 3.195815896947743,
+      "max_l2_kelvin_pct": 6.551733824014753
+    },
+    "top_case_statistics": {
+      "cases": 62,
+      "mean_l2_kelvin_pct": 1.3379269753436736,
+      "std_across_cases_l2_kelvin_pct": 1.1036652711183343,
+      "p90_l2_kelvin_pct": 2.8569370477978504,
+      "max_l2_kelvin_pct": 4.893892486838798
+    }
+  }
+}

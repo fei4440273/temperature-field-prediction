@@ -1,0 +1,184 @@
+{
+  "status": "passed",
+  "methods": {
+    "fnn": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 975,
+      "checkpoint_sha256": "ad165b9478f10b1d6987abce300ee9e7ea8821ec1ad64ad4cc4f16fa21815b37"
+    },
+    "gru": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 700,
+      "checkpoint_sha256": "d5f7848b52f7b5c94b7982b2684eec014c445ca436fcbe6aa2627222e1a2a8b0"
+    },
+    "lstm": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 525,
+      "checkpoint_sha256": "1b643274f51265c809bc4a375caba489efe5f2370f4c94931d1b406e6c4dd4f9"
+    },
+    "asl": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 1000,
+      "checkpoint_sha256": "5164f63a4ea9e6c91a7b037f7eae9fa45047af1577425264bc31145a9e84f26b"
+    }
+  },
+  "figures": [
+    {
+      "name": "Figure_1_training_curves.png",
+      "width_px": 3994,
+      "height_px": 1144,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_2_accuracy_and_cost.png",
+      "width_px": 3754,
+      "height_px": 2164,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_3_relative_error_histograms.png",
+      "width_px": 4354,
+      "height_px": 2074,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_4_asl_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_4_fnn_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_4_gru_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_4_lstm_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_5_common_full_field_and_errors.png",
+      "width_px": 3964,
+      "height_px": 2014,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_120s.png",
+      "width_px": 4296,
+      "height_px": 1924,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_30s.png",
+      "width_px": 4296,
+      "height_px": 1924,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_5s.png",
+      "width_px": 4296,
+      "height_px": 1924,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_60s.png",
+      "width_px": 4296,
+      "height_px": 1924,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_90s.png",
+      "width_px": 4296,
+      "height_px": 1924,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_7_top_radial_profiles.png",
+      "width_px": 3994,
+      "height_px": 1174,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_8_temporal_response.png",
+      "width_px": 3994,
+      "height_px": 3034,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_9_actual_vs_predicted.png",
+      "width_px": 2640,
+      "height_px": 2584,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    }
+  ],
+  "training_source_and_input_hashes_verified": true,
+  "all_prediction_metrics_recomputed": true,
+  "no_boundary_attention": true,
+  "report": "/home/phl/lyf/temperature-field-prediction-V5/研究记录/Sequential_DeepONet_1000epochs/对比总结.md",
+  "note": "Source/metric/image checks supplement manual visual inspection and the 19 focused tests."
+}

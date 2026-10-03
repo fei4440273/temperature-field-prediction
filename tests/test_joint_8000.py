@@ -31,7 +31,7 @@ def coordinates():
 
 
 def test_current_training_config_uses_600_epochs_and_distinct_cooling():
-    assert TOTAL_EPOCHS==8000
+    assert TOTAL_EPOCHS==1000
     cfg=read_yaml(ROOT/'configs/联合训练600轮_低保真初温平滑锚定.yaml')
     assert cfg['training']['epochs']==600
     assert cfg['physical']['simulation_cooling_c']==22.

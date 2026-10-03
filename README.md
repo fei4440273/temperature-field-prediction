@@ -1,10 +1,58 @@
 # SiC-Cu 多保真温度场预测
 
+## V5：四种序列 DeepONet 对比
+
+V5 新增 FNN、GRU、LSTM、ASL 四种 DeepONet，均不含边界注意力。
+四种方法使用统一配置、数据划分、主干/输出头初始化和采样种子，
+已分别完成 1000 个采样 epochs，主表统一评价第 1000 轮模型。
+分支采用过去 hot/cold 测量历史，历史截止于查询时刻前 1 秒。
+
+| 方法 | 实验顶部 RMSE / K | 仿真全场 RMSE / K |
+|---|---:|---:|
+| FNN-DeepONet | **9.1680** | 11.7769 |
+| GRU-DeepONet | 42.7387 | 11.7649 |
+| LSTM-DeepONet | 29.8906 | 10.3125 |
+| ASL-DeepONet | 9.9532 | **9.0111** |
+
+FNN 的实验顶部误差最低；ASL 的仿真全场 RMSE 比 FNN 低约 23.5%，
+训练耗时约为 FNN 的 7.1 倍。本轮是单种子条件重构比较，使用恒定加热数据。
+
+- [完整对比报告与 16 张 300 DPI PNG](研究记录/Sequential_DeepONet_1000epochs/对比总结.md)
+- [汇总指标 CSV](研究记录/Sequential_DeepONet_1000epochs/evaluation/summary.csv)
+- [独立审计结果](研究记录/Sequential_DeepONet_1000epochs/verification.json)
+- [统一配置](configs/sequential_deeponet.yaml)
+- [版本文件与复现说明](docs/V5-release.md)
+
+每种方法均发布 `initial.pt`、`best.pt`、`latest.pt`、`epoch_1000.pt`、
+完整训练历史和日志，并保留逐点预测、源码快照、模型/输入哈希及同名 PDF。
+以下命令在项目根目录执行；新训练必须使用新输出目录。
+
+```bash
+pip install -e '.[test]'
+python scripts/train_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
+python scripts/evaluate_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
+python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_new'
+```
+
+训练中断后，在同一次训练命令中添加 `--resume`。原始与处理后数据仍按仓库惯例
+不随代码发布，训练、重新推理和完整输入审计需要准备项目 `data/`；
+重绘已发布的图像可直接使用保存的预测结果。
+
+```bash
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_sequential_deeponet.py -q -o addopts=''
+python scripts/verify_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs'
+```
+
+ASL 与原始源码逐权重对齐的测试需要本地 `references/ASL-PINN-code`，
+没有该参考仓库时只跳过该项测试。本机已完成全部 19 项测试和完整实验审计。
+
+## V4 保留代码
+
 当前代码使用联合训练 DeepONet：低保真分支拟合仿真温度场，高保真校正分支拟合实验顶面、铜板热端和冷端温度。模型只适用于持续加热过程，不用于激光关闭后的冷却。
 
 训练入口为 `scripts/联合训练8000轮.py`，模型和预测函数位于 `scripts/joint_temperature_core.py`。入口文件名是历史名称，当前配置实际训练600轮。
 
-## 当前版本
+## V4 保留模型
 
 - 训练配置：[第09轮600轮配置](configs/联合训练600轮_低保真初温平滑锚定.yaml)。低保真使用80个仿真功率训练、不另划验证或测试；高保真实验为12个训练、3个验证和3个留用测试功率。当前开发训练与分析没有读取测试温度。
 - **正式预测只用第09轮的`验证最佳模型.pt`（第575轮）**。同目录的`低保真初始化模型.pt`是复训起点，不是正式预测模型；该起点来自曾使用实验训练数据的旧联合训练检查点，不应称为纯仿真预训练。

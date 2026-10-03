@@ -1,0 +1,16 @@
+{
+  "method": "fnn",
+  "label": "FNN-DeepONet",
+  "epochs_completed": 1000,
+  "seed": 123,
+  "parameters": 77763,
+  "training_seconds": 46.705600399000105,
+  "best_epoch": 975,
+  "best_validation_rmse_k": 7.094121839874178,
+  "device": "cuda",
+  "history_length": 1000,
+  "boundary_attention": false,
+  "protocol": "conditional_past_sensor_history",
+  "status": "completed",
+  "pid": 3028197
+}
