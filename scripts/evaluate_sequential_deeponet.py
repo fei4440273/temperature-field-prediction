@@ -169,7 +169,7 @@ def evaluate(output,device):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
+    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_ASL_thermal")
     parser.add_argument("--device",default="cuda" if torch.cuda.is_available() else "cpu")
     args = parser.parse_args()
     torch.set_num_threads(4)

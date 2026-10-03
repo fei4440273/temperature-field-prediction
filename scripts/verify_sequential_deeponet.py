@@ -39,6 +39,7 @@ def audit(output):
         if digest(ROOT/name)!=expected:
             raise AssertionError(f"Input data changed after training: {name}")
     initial_shared = None
+    temporal_rng_state = None
     for method in METHODS:
         path = output/method/"epoch_1000.pt"
         state = torch.load(path,map_location="cpu",weights_only=False)
@@ -53,6 +54,14 @@ def audit(output):
             raise AssertionError(f"Missing or duplicate training epochs for {method}")
         if not all(np.isfinite(row["loss"]) and row["loss"]>=0 for row in history):
             raise AssertionError("Invalid training losses.")
+        if cfg["loss_weights"].get("temporal",0)>0:
+            if not all("temporal" in row and np.isfinite(row["temporal"]) and row["temporal"]>=0 for row in history):
+                raise AssertionError("Shared temporal regularization was not trained in every update.")
+            current_rng = state["extra"]["temporal_rng"]
+            if temporal_rng_state is None:
+                temporal_rng_state = current_rng
+            elif temporal_rng_state!=current_rng:
+                raise AssertionError("Temporal sampling RNG differs across methods.")
         steps = [int(float(value["step"])) for value in state["optimizer"]["state"].values()]
         if not steps or set(steps)!={1000}:
             raise AssertionError(f"Actual optimizer steps differ from 1000: {method}, {set(steps)}")
@@ -216,12 +225,60 @@ def audit(output):
                     close(float(np.abs(delta).max()),row[f"{tag}_integer_max_jump_k"],"Integer boundary jump")
                     close(float(knots[np.argmax(np.abs(delta))]),row[f"{tag}_peak_time_s"],"Integer peak time")
                     close(float(np.abs(delta[knots>=75.]).max()),row[f"late_{tag}_integer_max_jump_k"],"Late integer boundary jump")
+    if cfg["model"].get("asl_rate_mode")=="thermal_trend":
+        adaptation = temporal["asl_adaptation"]
+        previous = Path(adaptation["previous_result_directory"])
+        if not previous.is_absolute():
+            previous = ROOT/previous
+        if (digest(previous/"asl/epoch_1000.pt")!=adaptation["previous_checkpoint_sha256"]
+                or digest(previous/"evaluation/metrics.json")!=adaptation["previous_metrics_sha256"]):
+            raise AssertionError("Previous adaptation baseline changed.")
+        previous_state = torch.load(previous/"asl/epoch_1000.pt",map_location="cpu",weights_only=False)
+        current_state = torch.load(output/"asl/epoch_1000.pt",map_location="cpu",weights_only=False)
+        if previous_state["model_config"].get("asl_rate_mode","original")!="original":
+            raise AssertionError("Adaptation baseline already uses thermal rate processing.")
+        if (previous_state["model_state"].keys()!=current_state["model_state"].keys()
+                or any(v.shape!=current_state["model_state"][k].shape for k,v in previous_state["model_state"].items())):
+            raise AssertionError("ASL learned architecture changed during input adaptation.")
+        previous_model,_ = load_checkpoint(previous/"asl/epoch_1000.pt","cpu")
+        _,previous_provider = experiment_history(ROOT,"test",fixed_splits(ROOT),
+            Geometry.from_project(ROOT),previous_state["model_config"])
+        for tag,name in (("top","顶部"),("hot","热端"),("cold","冷端")):
+            for version,directory in (("previous",previous),("adapted",output)):
+                pack = np.load(directory/"evaluation"/f"{tag}_predictions.npz")
+                actual = metrics(pack["y"],pack["asl"])
+                for key,value in actual.items():
+                    close(value,adaptation[version]["high_test"][name][key],"Adaptation comparison metric")
+        for row in adaptation["curves"]:
+            name = f"dense_{row['sensor']}_{row['power_w']:g}W_predictions.npz"
+            if digest(previous/"evaluation"/name)!=adaptation["previous_dense_prediction_sha256"][name]:
+                raise AssertionError("Previous adaptation dense predictions changed.")
+            for version,directory in (("previous",previous),("adapted",output)):
+                pack = np.load(directory/"evaluation"/name)
+                n = int(pack["grid_count"])
+                if version=="previous":
+                    table = Table(pack["x"],np.zeros(len(pack["x"])),
+                        np.ones(len(pack["x"])),np.zeros(len(pack["x"]))).validate()
+                    actual = table_predict(previous_model,table,previous_provider,"high")
+                    np.testing.assert_allclose(actual,pack["asl"],rtol=0,atol=2e-4)
+                steps = np.diff(pack["asl"][:n])
+                times = pack["x"][:n,2]
+                epsilon = pack["asl"][n:].reshape(-1,3)
+                values = dict(max_abs_step_k=float(np.abs(steps).max()),
+                    late_max_abs_step_k=float(np.abs(steps[times[:-1]>=75.]).max()),
+                    incoming_integer_max_jump_k=float(np.abs(epsilon[:,1]-epsilon[:,0]).max()),
+                    outgoing_integer_max_jump_k=float(np.abs(epsilon[:,2]-epsilon[:,1]).max()))
+                for key,value in values.items():
+                    close(value,row[version][key],"Adaptation raw-curve comparison")
     audit_result = dict(status="passed",methods=checks,figures=images,
         training_source_and_input_hashes_verified=True,all_prediction_metrics_recomputed=True,
         no_boundary_attention=True,report=str(report),experimental_cloud_maxima_verified=True,
         original_and_corrected_temporal_jumps_verified=True,
         dense_predictions_recomputed_from_all_four_models=True,
-        note="Source/metric/image checks supplement manual visual inspection and the 25 focused tests.")
+        shared_temporal_loss_verified=temporal_rng_state is not None,
+        asl_thermal_adaptation_verified=cfg["model"].get("asl_rate_mode")=="thermal_trend",
+        previous_asl_dense_predictions_recomputed=cfg["model"].get("asl_rate_mode")=="thermal_trend",
+        note="Source/metric/image checks supplement manual visual inspection and the 31 focused tests.")
     write_json(output/"verification.json",audit_result)
     print("Verified four actual 1000-update runs, exact shared initialization, source/data hashes, "
           "recomputed test metrics, 17 nonblank 300-DPI PNGs/PDFs, cloud maxima and raw dense-time predictions.")
@@ -230,7 +287,7 @@ def audit(output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
+    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_ASL_thermal")
     args = parser.parse_args()
     torch.set_num_threads(2)
     audit(args.output.resolve())

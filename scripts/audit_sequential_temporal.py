@@ -116,7 +116,39 @@ def audit_dense_predictions(output, cfg):
     return rows, files
 
 
-def audit(output, baseline, *, counterfactual=False):
+def adaptation_comparison(output, previous, cfg, dense_rows):
+    before = json.loads((previous/"evaluation/metrics.json").read_text(encoding="utf-8"))["asl"]
+    after = json.loads((output/"evaluation/metrics.json").read_text(encoding="utf-8"))["asl"]
+    curves,hashes = [],{}
+    for sensor in ("hot","cold"):
+        for power in (169.,339.,634.):
+            name = f"dense_{sensor}_{power:g}W_predictions.npz"
+            old = np.load(previous/"evaluation"/name)
+            new = np.load(output/"evaluation"/name)
+            np.testing.assert_array_equal(old["x"],new["x"])
+            n = int(old["grid_count"])
+            epsilon = old["asl"][n:].reshape(-1,3)
+            old_statistics = dense_statistics(old["x"][:n,2],old["asl"][:n])
+            old_statistics["incoming_integer_max_jump_k"] = float(np.abs(epsilon[:,1]-epsilon[:,0]).max())
+            old_statistics["outgoing_integer_max_jump_k"] = float(np.abs(epsilon[:,2]-epsilon[:,1]).max())
+            current = next(r for r in dense_rows if (r["sensor"],r["power_w"],r["method"])==(sensor,power,"asl"))
+            keys = ("max_abs_step_k","late_max_abs_step_k","incoming_integer_max_jump_k","outgoing_integer_max_jump_k")
+            curves.append(dict(sensor=sensor,power_w=power,
+                previous={k:old_statistics[k] for k in keys},adapted={k:current[k] for k in keys}))
+            hashes[name] = digest(previous/"evaluation"/name)
+    return dict(previous_result_directory=str(previous.relative_to(ROOT)) if previous.is_relative_to(ROOT) else str(previous),
+        previous_checkpoint_sha256=digest(previous/"asl/epoch_1000.pt"),
+        previous_metrics_sha256=digest(previous/"evaluation/metrics.json"),
+        previous_dense_prediction_sha256=hashes,
+        previous=dict(high_test=before["high_test"],combined_test_rmse_k=before["combined_test_rmse_k"]),
+        adapted=dict(high_test=after["high_test"],combined_test_rmse_k=after["combined_test_rmse_k"]),
+        curves=curves,rate_mode=cfg["model"]["asl_rate_mode"],
+        rate_window_s=cfg["model"]["asl_rate_window_s"],rate_scale_k_per_s=cfg["model"]["asl_rate_scale_k_per_s"],
+        temporal_weight=cfg["loss_weights"]["temporal"],delta_s=cfg["training"]["temporal_probe_delta_s"],
+        comparison_scope="input rate adaptation plus shared temporal regularization; not an isolated rate-only ablation")
+
+
+def audit(output, baseline, *, counterfactual=False, adaptation_baseline=None):
     cfg = json.loads((output/"config.json").read_text(encoding="utf-8"))
     rows = []
     providers = None
@@ -153,6 +185,10 @@ def audit(output, baseline, *, counterfactual=False):
         result["dense_curves"], result["dense_prediction_sha256"] = audit_dense_predictions(output, cfg)
         result["history_mask_semantics"] = "known recording-window coverage"
         result["endpoint_reconstruction"] = "last-two-past-observation linear trend, three-point warmup, one-cadence cap, within recording coverage"
+        if cfg["model"].get("asl_rate_mode")=="thermal_trend":
+            if adaptation_baseline is None:
+                raise ValueError("Thermal adaptation audit requires its previous raw-curve baseline.")
+            result["asl_adaptation"] = adaptation_comparison(output,adaptation_baseline,cfg,result["dense_curves"])
     path = output/("temporal_counterfactual.json" if counterfactual else "temporal_audit.json")
     write_json(path, result)
     for row in rows:
@@ -163,12 +199,14 @@ def audit(output, baseline, *, counterfactual=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
+    parser.add_argument("--output", type=Path, default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_ASL_thermal")
     parser.add_argument("--baseline", type=Path, default=ROOT/"研究记录/Sequential_DeepONet_1000epochs")
+    parser.add_argument("--adaptation-baseline",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
     parser.add_argument("--counterfactual", action="store_true")
     args = parser.parse_args()
     torch.set_num_threads(2)
-    audit(args.output.resolve(), args.baseline.resolve(), counterfactual=args.counterfactual)
+    audit(args.output.resolve(), args.baseline.resolve(), counterfactual=args.counterfactual,
+          adaptation_baseline=args.adaptation_baseline.resolve())
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 from pathlib import Path
 from dataclasses import replace
 import importlib
+import json
 import sys
 from types import SimpleNamespace
 
@@ -268,3 +269,133 @@ def test_shared_history_keeps_coordinate_jacobian_pointwise():
         lambda query:model.forward_explicit(query,long,local,inverse),x)
     torch.testing.assert_close(jacobian[0,0,1],torch.zeros(5,dtype=x.dtype),rtol=0,atol=0)
     torch.testing.assert_close(jacobian[1,0,0],torch.zeros(5,dtype=x.dtype),rtol=0,atol=0)
+
+
+def thermal_history():
+    t = torch.linspace(0., 30., 32, dtype=torch.float64)
+    history = torch.zeros(1, 32, 5, dtype=torch.float64)
+    history[0, :, 0] = t/200.
+    history[0, :, 1] = .5
+    history[0, :, 2] = .4*t/80.
+    history[0, :, 3] = .2*t/80.
+    history[..., 4] = 1.
+    return history
+
+
+def test_thermal_rate_uses_physical_units_and_recovers_affine_trend():
+    core = module("sequential_deeponet_core")
+    history = thermal_history()
+    result = core.thermal_heating_rate_history(history, 200., 80., 18., .5)
+    torch.testing.assert_close(result[..., :4], history[..., :4])
+    assert result[0, 0, 4] == 0.
+    torch.testing.assert_close(result[0, 1:, 4],
+        torch.full((31,), np.tanh(.3/.5), dtype=torch.float64))
+
+
+def test_thermal_rate_is_causal_and_excludes_invalid_temperatures():
+    core = module("sequential_deeponet_core")
+    history = thermal_history()
+    changed = history.clone()
+    changed[:, 16:, 2:4] += 100.
+    before = core.thermal_heating_rate_history(history, 200., 80., 18., .5)
+    after = core.thermal_heating_rate_history(changed, 200., 80., 18., .5)
+    torch.testing.assert_close(before[:, :16], after[:, :16], rtol=0, atol=0)
+    history[:, 16, 4] = 0.
+    changed = history.clone()
+    changed[:, 16, 2:4] = 1e6
+    before = core.thermal_heating_rate_history(history, 200., 80., 18., .5)
+    after = core.thermal_heating_rate_history(changed, 200., 80., 18., .5)
+    torch.testing.assert_close(before[..., 4], after[..., 4], rtol=0, atol=0)
+    assert before[0, 16, 4] == 0.
+    duplicate = history[:, :1].expand(-1, 32, -1)
+    assert torch.count_nonzero(core.thermal_heating_rate_history(duplicate, 200., 80., 18., .5)[..., 4]) == 0
+
+
+def test_thermal_rate_reduces_endpoint_noise_amplification():
+    core = module("sequential_deeponet_core")
+    history = thermal_history()
+    noisy = history.clone()
+    noisy[:, -1, 2:4] += .08/80.
+    legacy_change = (core.causal_heating_rate_history(noisy)-
+                     core.causal_heating_rate_history(history))[0, -1, 4].abs()
+    thermal_change = (core.thermal_heating_rate_history(noisy, 200., 80., 18., .5)-
+                      core.thermal_heating_rate_history(history, 200., 80., 18., .5))[0, -1, 4].abs()
+    assert thermal_change < .2*legacy_change
+
+
+def test_thermal_asl_preserves_modules_checkpoint_and_physics(tmp_path):
+    core = module("sequential_deeponet_core")
+    data = module("sequential_deeponet_data")
+    cfg = dict(config(), asl_rate_mode="thermal_trend", asl_rate_window_s=18.,
+               asl_rate_scale_k_per_s=.5)
+    torch.manual_seed(123)
+    original = core.SequentialDeepONet("asl", Geometry(), physical(), config())
+    torch.manual_seed(123)
+    adapted = core.SequentialDeepONet("asl", Geometry(), physical(), cfg)
+    assert original.state_dict().keys() == adapted.state_dict().keys()
+    for name, value in original.state_dict().items():
+        torch.testing.assert_close(value, adapted.state_dict()[name], rtol=0, atol=0)
+    assert adapted.branch.rate_mode == "thermal_trend"
+    provider = data.HistoryProvider(curves(), Geometry(), cfg)
+    adapted.set_history_providers(low=provider, high=provider)
+    parts = physics_loss(adapted, 4, torch.Generator().manual_seed(7))
+    sum(parts.values()).backward()
+    assert all(p.grad is None or torch.isfinite(p.grad).all() for p in adapted.parameters())
+    path = tmp_path/"adapted.pt"
+    core.save_checkpoint(path, adapted, epoch=1000, config={"model":cfg}, history=[], seed=123)
+    restored, _ = core.load_checkpoint(path)
+    restored.set_history_providers(low=provider, high=provider)
+    x = torch.tensor([[.01, -.003, 5., 100., 1.]])
+    torch.testing.assert_close(restored(x), adapted(x))
+    assert restored.branch.rate_mode == "thermal_trend"
+
+
+def test_temporal_regularizer_detects_raw_arrival_jump_without_labels():
+    training = module("train_sequential_deeponet")
+    data = module("sequential_deeponet_data")
+    t = np.array([0., 3., 10.])
+    provider = data.HistoryProvider({100.:(t, np.full((3, 2), 295.15))}, Geometry(), config())
+    tables = {name:SimpleNamespace(x=np.array([[r, -.0175, 3., 100., 0.]], dtype=np.float32))
+              for name,r in (("热端", .028), ("冷端", .0415))}
+
+    class Response(torch.nn.Module):
+        def __init__(self, jump):
+            super().__init__()
+            self.jump = torch.nn.Parameter(torch.tensor(float(jump)))
+            self.temperature_scale = 250.
+
+        def forward_explicit(self, x, long, local, inverse, fidelity):
+            self.queries = x
+            return (4.+1.5*x[:, 2]+self.jump*(x[:, 2] >= 4.))[:, None]
+
+    smooth, jumping = Response(0.), Response(1.)
+    zero = training.temporal_sensor_curvature(smooth, provider, tables,
+                                             np.random.default_rng(123), .1)
+    penalty = training.temporal_sensor_curvature(jumping, provider, tables,
+                                                np.random.default_rng(123), .1)
+    assert zero < 1e-10
+    assert penalty.item() == pytest.approx(.16, rel=1e-5)
+    penalty.backward()
+    assert jumping.jump.grad.item() > 0.
+    np.testing.assert_allclose(jumping.queries[:, 2].detach().numpy(),
+                               [3.9, 4., 4.1, 3.9, 4., 4.1])
+    assert torch.all(jumping.queries[:, 3] == 100.)
+
+
+def test_legacy_figure_report_does_not_claim_thermal_adaptation(tmp_path):
+    plotting = module("plot_sequential_deeponet")
+    core = module("sequential_deeponet_core")
+    result = {method:dict(high_test={name:dict(rmse_k=1.) for name in ("顶部","热端","冷端")},
+        combined_test_rmse_k=1.,best_epoch=1000,best_combined_test_rmse_k=1.) for method in core.METHODS}
+    rows = [dict(sensor=sensor,power_w=power,method=method,
+        original=dict(late_max_abs_step_k=1.),corrected=dict(late_max_abs_step_k=.1))
+        for sensor in ("hot","cold") for power in (169.,339.,634.) for method in core.METHODS]
+    temporal = dict(curves=rows,dense_curves=[dict(late_outgoing_integer_max_jump_k=.001,
+        late_incoming_integer_max_jump_k=.01,late_max_abs_step_k=.02)])
+    (tmp_path/"temporal_audit.json").write_text(json.dumps(temporal),encoding="utf-8")
+    (tmp_path/"config.json").write_text(json.dumps(dict(model=config(),loss_weights={})),encoding="utf-8")
+    plotting.report(tmp_path,result,[])
+    text = (tmp_path/"对比总结.md").read_text(encoding="utf-8")
+    assert "在此基础上进行下述 ASL 项目适配" not in text
+    assert "本项目正式 ASL 使用上述 thermal_trend" not in text
+    assert "热阻先验和共同时间连续性损失" not in text

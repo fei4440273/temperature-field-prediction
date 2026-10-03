@@ -1,6 +1,6 @@
 # SiC-Cu 多保真温度场预测
 
-## V5 修复版：四种序列 DeepONet 对比
+## V5 项目适配版：四种序列 DeepONet 对比
 
 V5 新增 FNN、GRU、LSTM、ASL 四种 DeepONet，均不含边界注意力。
 四种方法使用统一配置、数据划分、主干/输出头初始化和采样种子，
@@ -9,9 +9,13 @@ V5 新增 FNN、GRU、LSTM、ASL 四种 DeepONet，均不含边界注意力。
 
 修复了精确功率混用相邻曲线采集终点、非整数秒有效标记错误翻转两处历史处理问题，
 并对四种方法分别重新训练1000轮。原始V5结果受这些缺陷影响，保留作诊断对照，
-当前正式结论以修复版报告为准。这是单种子、恒定加热数据的条件重构比较。
+当前正式结论以项目适配版报告为准。这是单种子、恒定加热数据的条件重构比较。
 同时用最近已到达观测的有界趋势重构采样间隔内的末段输入，减少旧温度保持导致的
 ASL升温率锯齿；这一输入处理统一用于四种方法，不读取未来温度。
+进一步保留 ASL 的两层选择性 SSM → LSTM、状态初始化及上下文门控，
+将相邻点求导改为过去18秒的因果加权趋势，使用 K/s 归一化。
+四种方法共同增加训练传感器更新前后 ±0.1秒的预测连续性损失。
+ASL 可训练参数仍为76,227个，旧检查点保留原预处理逻辑。
 
 主图直接对比实验测试集。Figure 3改为按功率分组的RMSE，仿真参考放入附录；
 温度云图增加分级色带与等温线，误差云图标出最大值和位置。
@@ -19,15 +23,20 @@ Figure 8热端/冷端使用0.1秒网格的原始预测，没有平滑或强制�
 
 | 方法 | 实验顶部 RMSE / K | 热端 RMSE / K | 冷端 RMSE / K | 综合 RMSE / K |
 |---|---:|---:|---:|---:|
-| FNN-DeepONet | 8.3112 | 1.2985 | **0.6750** | 5.9223 |
-| GRU-DeepONet | 8.7332 | 0.8824 | 0.6789 | 6.2004 |
-| LSTM-DeepONet | 7.9019 | 0.9150 | 0.7781 | 5.6197 |
-| ASL-DeepONet | **6.8127** | **0.6419** | 0.6957 | **4.8405** |
+| FNN-DeepONet | 8.2405 | 1.3052 | **0.6793** | 5.8732 |
+| GRU-DeepONet | 9.1410 | 1.0016 | 0.7451 | 6.4937 |
+| LSTM-DeepONet | 7.7468 | 0.9421 | 0.8050 | 5.5127 |
+| ASL-DeepONet | **6.7109** | **0.6834** | 0.7034 | **4.7706** |
 
-- [完整修复版报告与 17 张 300 DPI PNG](研究记录/Sequential_DeepONet_1000epochs_history_fix_v3/对比总结.md)
-- [汇总指标 CSV](研究记录/Sequential_DeepONet_1000epochs_history_fix_v3/evaluation/summary.csv)
-- [密集时间步检查](研究记录/Sequential_DeepONet_1000epochs_history_fix_v3/temporal_audit.json)
-- [独立审计结果](研究记录/Sequential_DeepONet_1000epochs_history_fix_v3/verification.json)
+与适配前的 history_fix_v3 相比，六条 ASL 曲线的全时段最大观测到达跳变
+从0.3422降至0.1264 K，剩余最大值位于169 W热端2秒的初始历史建立阶段。
+75秒之后的最大到达跳变为0.00931 K。顶部及综合RMSE略降，热端/冷端RMSE略增，
+具体取舍和全部原始曲线见报告。这是输入适配与共同时间损失的整体结果。
+
+- [项目适配版报告与 17 张 300 DPI PNG](研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/对比总结.md)
+- [汇总指标 CSV](研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/evaluation/summary.csv)
+- [密集时间步检查](研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/temporal_audit.json)
+- [独立审计结果](研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/verification.json)
 - [统一配置](configs/sequential_deeponet.yaml)
 - [版本文件与复现说明](docs/V5-release.md)
 
@@ -49,11 +58,11 @@ python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_Dee
 
 ```bash
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_sequential_deeponet.py -q -o addopts=''
-python scripts/verify_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs_history_fix_v3'
+python scripts/verify_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs_ASL_thermal'
 ```
 
 ASL 与原始源码逐权重对齐的测试需要本地 `references/ASL-PINN-code`，
-没有该参考仓库时只跳过该项测试。本机已完成全部 25 项测试和完整实验审计。
+没有该参考仓库时只跳过该项测试。本机已完成全部 31 项测试和完整实验审计。
 
 ## V4 保留代码
 

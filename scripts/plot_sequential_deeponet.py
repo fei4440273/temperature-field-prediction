@@ -312,6 +312,13 @@ def parity_figure(evaluation,results,directory):
 
 
 def report(output,results,figures):
+    cfg = json.loads((output/"config.json").read_text(encoding="utf-8"))
+    thermal = cfg["model"].get("asl_rate_mode","original")=="thermal_trend"
+    adaptation_note = ("在此基础上进行下述 ASL 项目适配，保持种子和训练预算不变，" if thermal
+                       else "保持架构、损失、种子和训练预算不变，")
+    source_alignment = ("原始预处理模式在相同权重下已与原始源码核对；本项目正式 ASL 使用上述 thermal_trend 输入适配，不宣称其输出与原算法逐值相同。" if thermal
+                        else "相同权重下的分支输出已与原始源码核对。")
+    extra_loss = "和共同时间连续性" if cfg["loss_weights"].get("temporal",0)>0 else ""
     baseline = results["fnn"]["combined_test_rmse_k"]
     ranked = sorted(METHODS,key=lambda key:results[key]["combined_test_rmse_k"])
     lines = ["# 四种 DeepONet 的 1000 epochs 对比", "",
@@ -345,12 +352,42 @@ def report(output,results,figures):
         "现在用最近两条已到达观测的线性趋势估计末段温度，最多延伸一个历史采样间隔，"
         "仅在已知采集范围内使用，并等待至少三个历史点以避开初始锚点的首段斜率。"
         "该末段值是过去观测构建的输入估计，不是非整数秒实测温度，"
-        "不引入未来温度作为插值端点。"
-        "保持架构、损失、种子和训练预算不变，"
+        "不引入未来温度作为插值端点。"+adaptation_note+
         "重新训练全部四种方法各 1000 轮。训练、验证、测试所有功率均检查了相邻曲线独立性。"
         "Figure 8 的热端/冷端使用 0.1 s 网格的原始模型预测，顶部使用实际采集时刻；"
         "没有平滑、插值修饰或强制单调后处理。", ""]
     temporal = json.loads((output/"temporal_audit.json").read_text(encoding="utf-8"))
+    if "asl_adaptation" in temporal:
+        adaptation = temporal["asl_adaptation"]
+        old_jump = max(r["previous"]["incoming_integer_max_jump_k"] for r in adaptation["curves"])
+        new_jump = max(r["adapted"]["incoming_integer_max_jump_k"] for r in adaptation["curves"])
+        old_top = adaptation["previous"]["high_test"]["顶部"]["rmse_k"]
+        new_top = adaptation["adapted"]["high_test"]["顶部"]["rmse_k"]
+        worst = max((r for r in temporal["dense_curves"] if r["method"]=="asl"),
+                    key=lambda r:r["incoming_integer_max_jump_k"])
+        accuracy_tradeoff = "；".join(f"{name} RMSE {adaptation['previous']['high_test'][name]['rmse_k']:.4f} → "
+            f"{adaptation['adapted']['high_test'][name]['rmse_k']:.4f} K" for name in ("热端","冷端"))
+        lines += ["## ASL 针对本项目的改造", "",
+            "此前 history_fix_v3 已修复历史掩码和末段估计，但原 ASL 仍对相邻历史点直接求导。"
+            "新观测替换末段预测时的小幅温差会被升温率通道放大：634 W、29 s 附近的输入修正约 0.089 K，"
+            "热端和冷端输出却分别跳变约 0.326 K 和 0.342 K。固定升温率通道的诊断使该处输出变化降至约 0.008 K / 0.003 K。", "",
+            "本次保留两个选择性 SSM → LSTM、h/c 初始化、成熟度上下文门控，以及全部可训练模块与参数数量。"
+            f"仅把升温率计算改为过去 {adaptation['rate_window_s']:g} s 有效历史的因果加权线性拟合，"
+            f"使用物理单位 K/s 并按 {adaptation['rate_scale_k_per_s']:g} K/s 归一化。"
+            "每个历史位置只使用该位置及更早的有效采样点。", "",
+            f"四种方法统一增加训练传感器到达时刻前后 ±{adaptation['delta_s']:g} s 的预测二阶差分损失，"
+            "按温度尺度及时间间隔平方归一化，使用单独的可恢复随机数状态。"
+            "该项作用于原始模型输出并实际重新构造两侧的历史输入，补充固定历史的 PDE 偏导。"
+            "它只使用训练功率、时间和测点坐标，不读取测试标签，也不强制单调。", "",
+            f"六条 ASL 热端/冷端曲线的全时间段最大到达跳变（整数秒前 0.001 s → 整数秒）"
+            f"由 {old_jump:.6f} K 变为 {new_jump:.6f} K；顶部测试 RMSE 由 {old_top:.4f} K 变为 {new_top:.4f} K。"
+            "这是输入适配与共同时间损失的整体改进，不能解释为仅改变升温率的单独消融结果。", "",
+            f"当前全时段最大到达跳变位于 {worst['power_w']:g} W {'热端' if worst['sensor']=='hot' else '冷端'}、"
+            f"{worst['incoming_peak_time_s']:g} s，即初始历史建立阶段。"
+            f"误差取舍为：{accuracy_tradeoff}，两端误差略增；综合 RMSE "
+            f"{adaptation['previous']['combined_test_rmse_k']:.4f} → {adaptation['adapted']['combined_test_rmse_k']:.4f} K。", "",
+            "旧检查点配置缺少 asl_rate_mode 时仍走 original 预处理；新模型明确保存 thermal_trend 配置。"
+            "history_fix_v3 的原检查点、原始密集预测及其哈希保留用于复核。", ""]
     lines += ["以下为 t ≥ 75 s 的最大相邻测量时刻跳变，单位 K，单元格为 V5 → 修复后。", "",
         "| 测点 | 功率 / W | FNN | GRU | LSTM | ASL |", "|---|---:|---:|---:|---:|---:|"]
     for sensor in ("hot","cold"):
@@ -386,10 +423,10 @@ def report(output,results,figures):
     lines += ["", "训练没有提前终止。最优轮次只由验证集选择，以上补充表不会替换主表的第 1000 轮结果。", "",
         "## 实现与比较口径", "",
         "参考 [S-DeepONet 论文](https://arxiv.org/abs/2306.08218)及[作者代码](https://github.com/Jasiuk-Research-Group/S-DeepONet)，将序列编码器作为分支网络，与 FNN 主干输出做点积。GRU/LSTM 使用长历史编码器和局部历史解码器，隐藏宽度 48；这是适配本项目输入的实现，未照搬原文 101 点负载及其大型编码器/解码器层数。", "",
-        "ASL 来自[用户 ASL-PINN 仓库](https://github.com/fei4440273/Temperature-Reconstruction-ASL-PINN)，提交 4477c971007624133eec92bd7eeb5bb58d3b9c26。保留两个选择性 SSM、因果卷积、输入相关 Δ/B/C、稳定对角 A、D 跳连、门控残差、长历史升温率特征、SSM 终态初始化 LSTM 的 h/c，以及成熟度门控持续上下文。相同权重下的分支输出已与原始源码核对。主干与高/低保真输出头采用相同初始权重。边界注意力未导入或实例化。", "",
+        "ASL 来自[用户 ASL-PINN 仓库](https://github.com/fei4440273/Temperature-Reconstruction-ASL-PINN)，提交 4477c971007624133eec92bd7eeb5bb58d3b9c26。保留两个选择性 SSM、因果卷积、输入相关 Δ/B/C、稳定对角 A、D 跳连、门控残差、长历史升温率特征、SSM 终态初始化 LSTM 的 h/c，以及成熟度门控持续上下文。"+source_alignment+"主干与高/低保真输出头采用相同初始权重。边界注意力未导入或实例化。", "",
         "共同输入为 32 点长历史与 8 点局部历史，每点包含时间、功率、hot 温度、cold 温度和有效性。局部窗口 20 s，历史截止于 t−1 s；插值和有界末段趋势估计也只允许使用截止时刻之前的观测。有效性表示已知采集时间范围，而非该重采样时刻恰好有一条测量；范围是离线实验的元数据，不读取未来温度。在线采集若结束时刻未知，需要显式提供采集状态。初温统一为 22 ℃，时间/功率尺度为本项目的 200 s / 800 W。", "",
         "仿真按现有配置使用 60/10/10 个训练/验证/测试功率；实验使用 12/3/3 个功率，实验测试功率为 169、339、634 W。仿真传感器历史来自最接近两个底面传感器位置的铜网格节点；对应节点坐标保存在 JSON。", "",
-        "每轮按全部训练功率分层随机采样，低保真每个功率/材料 8 点，顶部每功率 64 点，两端每功率各 16 点，并计算传热方程、边界、初值、界面和热阻先验损失，再执行一次 AdamW 更新。因此 1000 epochs 指当前项目的采样训练轮次，不是对全部 702 万个仿真点循环 1000 次。所有方法使用同一配置、采样种子和学习率计划。", "",
+        "每轮按全部训练功率分层随机采样，低保真每个功率/材料 8 点，顶部每功率 64 点，两端每功率各 16 点，并计算传热方程、边界、初值、界面、热阻先验"+extra_loss+"损失，再执行一次 AdamW 更新。因此 1000 epochs 指当前项目的采样训练轮次，不是对全部 702 万个仿真点循环 1000 次。所有方法使用同一配置、采样种子和学习率计划。", "",
         "## 结果适用范围", "",
         "这是 T(r,z,t,P | 过去 hot/cold 测量) 的条件重构。测试功率的过去传感器测量用于推理输入，当前/未来温度不进入输入；因此传感器误差含历史相关信息，顶部误差更适合评估从测量到空间场的泛化。PDE 对坐标求导时保持历史输入固定，沿用 ASL 源码定义，不能把该残差解释为沿整个更新历史的总时间导数。", "",
         "本项目为恒定激光加热数据，没有据此验证任意变动负载。仿真内部温度只作为低保真全场参考；实验没有内部全场标签。二维顶部图使用用户提供的 IR 派生温度 CSV，保留 is_recovered 标志，不把已恢复像素当成独立原始辐射测量。", "",
@@ -415,7 +452,7 @@ def report(output,results,figures):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_history_fix_v3")
+    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/Sequential_DeepONet_1000epochs_ASL_thermal")
     args = parser.parse_args()
     output = args.output.resolve()
     evaluation,directory = output/"evaluation",output/"figures"
