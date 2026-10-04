@@ -1,0 +1,16 @@
+{
+  "status": "archived_not_selected",
+  "reasons": [
+    "Maximum sensor late-rate error exceeds 0.003 K/s."
+  ],
+  "maximum_tail_rate_error_k_per_s": 0.004177341213474026,
+  "accuracy_acceptance": {
+    "顶部": true,
+    "热端": true,
+    "冷端": true,
+    "综合": true
+  },
+  "selected_epoch": 925,
+  "verification_status": "diagnostic_only_passed",
+  "no_prediction_postprocessing": true
+}

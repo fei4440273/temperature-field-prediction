@@ -1,0 +1,370 @@
+{
+  "status": "passed",
+  "acceptance_targets_enforced": true,
+  "accuracy_acceptance": {
+    "顶部": true,
+    "热端": true,
+    "冷端": true,
+    "综合": true
+  },
+  "all_three_baseline_models_histories_metrics_and_prediction_arrays_unchanged": true,
+  "all_asl_prediction_arrays_recomputed_from_selected_model": true,
+  "checked_prediction_files": [
+    "top_predictions.npz",
+    "hot_predictions.npz",
+    "cold_predictions.npz",
+    "simulation_predictions.npz",
+    "surface_634W_120s.npz",
+    "surface_634W_30s.npz",
+    "surface_634W_5s.npz",
+    "surface_634W_60s.npz",
+    "surface_634W_90s.npz",
+    "dense_cold_169W_predictions.npz",
+    "dense_cold_339W_predictions.npz",
+    "dense_cold_634W_predictions.npz",
+    "dense_hot_169W_predictions.npz",
+    "dense_hot_339W_predictions.npz",
+    "dense_hot_634W_predictions.npz",
+    "dense_top_169W_predictions.npz",
+    "dense_top_339W_predictions.npz",
+    "dense_top_634W_predictions.npz"
+  ],
+  "early_gate_derivatives": [
+    {
+      "sensor": "热端",
+      "power_w": 169.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.09106245636940002,
+      "right_rate_k_per_s": 0.09107125550508499,
+      "abs_rate_change_k_per_s": 8.799135684967041e-06
+    },
+    {
+      "sensor": "热端",
+      "power_w": 169.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.09261920303106308,
+      "right_rate_k_per_s": 0.09262673556804657,
+      "abs_rate_change_k_per_s": 7.53253698348999e-06
+    },
+    {
+      "sensor": "热端",
+      "power_w": 169.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.05158104747533798,
+      "right_rate_k_per_s": 0.051580484956502914,
+      "abs_rate_change_k_per_s": 5.62518835067749e-07
+    },
+    {
+      "sensor": "热端",
+      "power_w": 339.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.15635548532009125,
+      "right_rate_k_per_s": 0.1563664972782135,
+      "abs_rate_change_k_per_s": 1.1011958122253418e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 339.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.15820181369781494,
+      "right_rate_k_per_s": 0.15820826590061188,
+      "abs_rate_change_k_per_s": 6.452202796936035e-06
+    },
+    {
+      "sensor": "热端",
+      "power_w": 339.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.08495869487524033,
+      "right_rate_k_per_s": 0.08495713025331497,
+      "abs_rate_change_k_per_s": 1.564621925354004e-06
+    },
+    {
+      "sensor": "热端",
+      "power_w": 634.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.18808405101299286,
+      "right_rate_k_per_s": 0.18807221949100494,
+      "abs_rate_change_k_per_s": 1.1831521987915039e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 634.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.16122010350227356,
+      "right_rate_k_per_s": 0.16121011972427368,
+      "abs_rate_change_k_per_s": 9.98377799987793e-06
+    },
+    {
+      "sensor": "热端",
+      "power_w": 634.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.14071479439735413,
+      "right_rate_k_per_s": 0.14071398973464966,
+      "abs_rate_change_k_per_s": 8.046627044677734e-07
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 169.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.05284377932548523,
+      "right_rate_k_per_s": 0.05284719169139862,
+      "abs_rate_change_k_per_s": 3.4123659133911133e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 169.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.05041999742388725,
+      "right_rate_k_per_s": 0.05042770504951477,
+      "abs_rate_change_k_per_s": 7.7076256275177e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 169.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.04938128590583801,
+      "right_rate_k_per_s": 0.0493808388710022,
+      "abs_rate_change_k_per_s": 4.470348358154297e-07
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 339.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.10761699825525284,
+      "right_rate_k_per_s": 0.10762209445238113,
+      "abs_rate_change_k_per_s": 5.0961971282958984e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 339.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.10321018099784851,
+      "right_rate_k_per_s": 0.10321667045354843,
+      "abs_rate_change_k_per_s": 6.489455699920654e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 339.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.08502914011478424,
+      "right_rate_k_per_s": 0.0850282609462738,
+      "abs_rate_change_k_per_s": 8.791685104370117e-07
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 634.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.11511044949293137,
+      "right_rate_k_per_s": 0.11508911848068237,
+      "abs_rate_change_k_per_s": 2.133101224899292e-05
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 634.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.07795026153326035,
+      "right_rate_k_per_s": 0.07794100046157837,
+      "abs_rate_change_k_per_s": 9.261071681976318e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 634.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.14791932702064514,
+      "right_rate_k_per_s": 0.14791922271251678,
+      "abs_rate_change_k_per_s": 1.043081283569336e-07
+    }
+  ],
+  "dense_sensor_checks": [
+    {
+      "file": "dense_cold_169W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.016937255859375,
+      "early_new_max_second_difference_k": 0.000335693359375,
+      "late_max_0_1s_step_k": 0.000823974609375,
+      "late_max_incoming_arrival_jump_k": 0.0
+    },
+    {
+      "file": "dense_cold_339W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.029083251953125,
+      "early_new_max_second_difference_k": 0.00103759765625,
+      "late_max_0_1s_step_k": 0.00177001953125,
+      "late_max_incoming_arrival_jump_k": 3.0517578125e-05
+    },
+    {
+      "file": "dense_cold_634W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.040802001953125,
+      "early_new_max_second_difference_k": 0.001617431640625,
+      "late_max_0_1s_step_k": 0.002349853515625,
+      "late_max_incoming_arrival_jump_k": 6.103515625e-05
+    },
+    {
+      "file": "dense_hot_169W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.022735595703125,
+      "early_new_max_second_difference_k": 0.00048828125,
+      "late_max_0_1s_step_k": 0.00079345703125,
+      "late_max_incoming_arrival_jump_k": 0.0
+    },
+    {
+      "file": "dense_hot_339W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.035400390625,
+      "early_new_max_second_difference_k": 0.001556396484375,
+      "late_max_0_1s_step_k": 0.00115966796875,
+      "late_max_incoming_arrival_jump_k": 3.0517578125e-05
+    },
+    {
+      "file": "dense_hot_634W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.05609130859375,
+      "early_new_max_second_difference_k": 0.002655029296875,
+      "late_max_0_1s_step_k": 0.0028076171875,
+      "late_max_incoming_arrival_jump_k": 9.1552734375e-05
+    }
+  ],
+  "verification_script_sha256": "d16f39276dc5345a1b9f68bdb8421fe7dabba7a292bb2e2f669f984dfe5cc553",
+  "no_prediction_smoothing": true,
+  "experimental_copper_initial_c": 25.0,
+  "actual_asl_parameters": 76227,
+  "selected_epoch": 700,
+  "completed_new_updates": 1000,
+  "total_asl_training_updates": 3675,
+  "sensor_shape": {
+    "curves": [
+      {
+        "power_w": 169.0,
+        "observed_rate_k_per_s": 0.0037853686840503245,
+        "predicted_rate_k_per_s": 0.003831541383421266,
+        "rate_error_k_per_s": 4.617269937094151e-05,
+        "tail_bias_k": -0.1839541480654762,
+        "sensor": "hot",
+        "previous_rate_error_k_per_s": 0.008653754692573052,
+        "previous_predicted_rate_k_per_s": 0.012439123376623376,
+        "previous_tail_bias_k": -0.27655465262276785,
+        "previous_slope_waviness_k_per_s": 0.0092798276579653,
+        "slope_waviness_k_per_s": 0.003755549860395993,
+        "late_max_incoming_jump_k": 3.0517578125e-05,
+        "rate_error_improved": true,
+        "waviness_improved": true
+      },
+      {
+        "power_w": 339.0,
+        "observed_rate_k_per_s": 0.004510299880783279,
+        "predicted_rate_k_per_s": 0.0033517812753652595,
+        "rate_error_k_per_s": -0.0011585186054180198,
+        "tail_bias_k": 0.18341500418526785,
+        "sensor": "hot",
+        "previous_rate_error_k_per_s": 0.011239306957690747,
+        "previous_predicted_rate_k_per_s": 0.015749606838474026,
+        "previous_tail_bias_k": 0.32992117745535715,
+        "previous_slope_waviness_k_per_s": 0.02517181905196434,
+        "slope_waviness_k_per_s": 0.008322745414532344,
+        "late_max_incoming_jump_k": 3.0517578125e-05,
+        "rate_error_improved": true,
+        "waviness_improved": true
+      },
+      {
+        "power_w": 634.0,
+        "observed_rate_k_per_s": 0.0047389042841923705,
+        "predicted_rate_k_per_s": 0.003522758979301948,
+        "rate_error_k_per_s": -0.0012161453048904224,
+        "tail_bias_k": -0.008209228515625,
+        "sensor": "hot",
+        "previous_rate_error_k_per_s": 0.005345133991984577,
+        "previous_predicted_rate_k_per_s": 0.010084038276176948,
+        "previous_tail_bias_k": 0.5151657831101191,
+        "previous_slope_waviness_k_per_s": 0.032873889613187664,
+        "slope_waviness_k_per_s": 0.013970100068755532,
+        "late_max_incoming_jump_k": 3.0517578125e-05,
+        "rate_error_improved": true,
+        "waviness_improved": true
+      },
+      {
+        "power_w": 169.0,
+        "observed_rate_k_per_s": 0.0024278516893262987,
+        "predicted_rate_k_per_s": 0.0023072478059050325,
+        "rate_error_k_per_s": -0.0001206038834212662,
+        "tail_bias_k": 0.09864443824404762,
+        "sensor": "cold",
+        "previous_rate_error_k_per_s": 0.006902996905438311,
+        "previous_predicted_rate_k_per_s": 0.00933084859476461,
+        "previous_tail_bias_k": 0.07953316824776786,
+        "previous_slope_waviness_k_per_s": 0.0064938420433442,
+        "slope_waviness_k_per_s": 0.003189285967535247,
+        "late_max_incoming_jump_k": 3.0517578125e-05,
+        "rate_error_improved": true,
+        "waviness_improved": true
+      },
+      {
+        "power_w": 339.0,
+        "observed_rate_k_per_s": 0.0029721743100649353,
+        "predicted_rate_k_per_s": 0.0041725455940543835,
+        "rate_error_k_per_s": 0.0012003712839894483,
+        "tail_bias_k": 0.4931844075520833,
+        "sensor": "cold",
+        "previous_rate_error_k_per_s": 0.01142177829494724,
+        "previous_predicted_rate_k_per_s": 0.014393952605012176,
+        "previous_tail_bias_k": 0.7868332635788691,
+        "previous_slope_waviness_k_per_s": 0.017284692515823402,
+        "slope_waviness_k_per_s": 0.006226527597776161,
+        "late_max_incoming_jump_k": 3.0517578125e-05,
+        "rate_error_improved": true,
+        "waviness_improved": true
+      },
+      {
+        "power_w": 634.0,
+        "observed_rate_k_per_s": 0.0028988132229099024,
+        "predicted_rate_k_per_s": 0.004462938184862013,
+        "rate_error_k_per_s": 0.001564124961952111,
+        "tail_bias_k": 0.37297857375372023,
+        "sensor": "cold",
+        "previous_rate_error_k_per_s": 0.0049598594764610395,
+        "previous_predicted_rate_k_per_s": 0.007858672699370942,
+        "previous_tail_bias_k": 0.9676295689174107,
+        "previous_slope_waviness_k_per_s": 0.020991501437194398,
+        "slope_waviness_k_per_s": 0.008168569439754445,
+        "late_max_incoming_jump_k": 6.103515625e-05,
+        "rate_error_improved": true,
+        "waviness_improved": true
+      }
+    ],
+    "source_sha256": {
+      "hot_predictions.npz": {
+        "current": "2a79532bb9ac7a71b32c5f4a8101e94c78257756d039fa6892c393899990b417",
+        "previous": "6e7b4b1ce7536a291430392648cfbdd0ec2162319019828987e645b9fde88d1a"
+      },
+      "dense_hot_169W_predictions.npz": {
+        "current": "3dff00932b36fcf2d7a3ab62d2b59b6c7ffb0475606f9ae3575f9b265ee4ddae",
+        "previous": "b76754c995861daddaab5247d57fa3506757f7374e612f22113880edcb8db70b"
+      },
+      "dense_hot_339W_predictions.npz": {
+        "current": "046c3a493bfc9c2b8168f5c2bac90df42a1bd773eff36fd2204f26915491c7be",
+        "previous": "ee5ababedc80970cf9a3dee13ec087f10b1e227ef81a3f364ba42b653c797eb5"
+      },
+      "dense_hot_634W_predictions.npz": {
+        "current": "3265cc018388112e02f264bab712402d51226b438ecc929a4739cb673ba28898",
+        "previous": "df9e2da6c00c9f0839e9ece2353b540221cd645abcf9fd32d30a7c5c30c1558e"
+      },
+      "cold_predictions.npz": {
+        "current": "29dac52bfc9f826858276e5d984bb3af1c406b5c292eb00d38ea3f55d5685b07",
+        "previous": "9f22ac3bf5fd65420e0c1578c29589f06d21e27d516c30756e173021a2929262"
+      },
+      "dense_cold_169W_predictions.npz": {
+        "current": "0895be46d555aacab3d2d66b48caafedd7f8a42c00afca98c58d86563a90c582",
+        "previous": "0621a6c7acb4b54e4fb640b0e596ec3b45fd5b09b9ed655c241a9fb326ba8a87"
+      },
+      "dense_cold_339W_predictions.npz": {
+        "current": "cde9782ba4494d5de033af6c25279cabdf2c05284496385a41bd765ba8f52eb8",
+        "previous": "616bdbd993867f5996315a2cb19867f611afa586928fdcbed8444f4fbf502231"
+      },
+      "dense_cold_634W_predictions.npz": {
+        "current": "d9a788b4fa5eba79a6f99eefafad5a4d2be0c0500fde7276318822729d39bfe8",
+        "previous": "6d682d44798290dc3b9245830314a1d01a647ebefdcdca64650d0ea966c2250a"
+      }
+    },
+    "tail_window_s": 20.0,
+    "all_six_rate_errors_improved": true,
+    "all_six_waviness_metrics_improved": true,
+    "tail_rate_rmse_k_per_s": 0.0010587122754080692,
+    "previous_tail_rate_rmse_k_per_s": 0.008490077937238993,
+    "no_prediction_postprocessing": true,
+    "audit_script_sha256": "68e407ab820cabe7cdaf819a039cd3975d2f4c1fd2d12196b939fb147d79b8c2"
+  }
+}

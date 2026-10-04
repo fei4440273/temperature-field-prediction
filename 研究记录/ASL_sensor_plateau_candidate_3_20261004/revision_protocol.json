@@ -1,0 +1,18 @@
+{
+  "mode": "asl_only_balanced_smooth_iteration",
+  "data_revision": "cold169_sensor25_20261004",
+  "config_json_sha256": "dbf4d41d3de486a6a766f8277c66350f7334994208a6bd15ba9b6521eed3c6a1",
+  "selection_data": [
+    "train",
+    "validation"
+  ],
+  "hyperparameter_search": true,
+  "test_labels_for_selection": false,
+  "known_test_benchmark": true,
+  "experimental_copper_initial_c": 25.0,
+  "simulation_initial_c": 22.0,
+  "experimental_sic_initial_c": 22.0,
+  "raw_source_sha256": {
+    "data/test_Data/colddata/colddata169W.csv": "7dc61260ff268ea3fcf9f44c1e94b660cc289b050b1b7ac4665a7953222a32d3"
+  }
+}

@@ -14,11 +14,26 @@ import torch
 from joint_temperature_core import Geometry,Table,fixed_splits
 from sequential_deeponet_core import METHODS,LABELS,load_checkpoint
 from sequential_deeponet_data import experiment_history,simulation_history,metrics
-from train_sequential_deeponet import ROOT,digest,table_predict,write_json
+from train_sequential_deeponet import ROOT,digest,table_predict,write_json,training_updates_in_checkpoint
 from evaluate_sequential_deeponet import composite,per_case_metrics
 from audit_sequential_temporal import dense_statistics
 
 BASELINES = ("fnn","gru","lstm")
+
+
+def executed_updates_in_lineage(config,completed_updates):
+    total,seen = int(completed_updates),set()
+    checkpoint = config["training"].get("initial_checkpoint")
+    while checkpoint:
+        ancestor = (ROOT/checkpoint).resolve()
+        if ancestor in seen:
+            raise ValueError("Training checkpoint ancestry contains a cycle.")
+        seen.add(ancestor)
+        info = json.loads((ancestor.parent/"final_info.json").read_text(encoding="utf-8"))
+        total += int(info["epochs_completed"])
+        config = json.loads((ancestor.parent.parent/"config.json").read_text(encoding="utf-8"))
+        checkpoint = config["training"].get("initial_checkpoint")
+    return total
 
 
 def replace_asl(pack,prediction):
@@ -58,6 +73,9 @@ def evaluate(output,checkpoint_name,device):
     write_json(output/"selection.json",dict(checkpoint=checkpoint_name,checkpoint_sha256=digest(checkpoint),
         selected_epoch=state["epoch"],completed_updates=1000,
         total_training_updates=info.get("total_training_updates",1000),
+        selected_checkpoint_training_updates=training_updates_in_checkpoint(state),
+        executed_updates_in_lineage=executed_updates_in_lineage(cfg,info["epochs_completed"]),
+        execution_scope="completed saved runs in the ancestry; excludes other candidates and discarded interruption work",
         selection_data=["train","validation"],known_test_benchmark=True,
         selection_rule=cfg["validation_selection"],baseline_sources=baseline_sources))
     geometry,splits = Geometry.from_project(ROOT),fixed_splits(ROOT)
@@ -125,6 +143,10 @@ def evaluate(output,checkpoint_name,device):
     write_json(destination/"metrics.json",results)
     write_json(destination/"case_metrics.json",cases)
     write_json(destination/"provenance.json",record)
+    if cfg["experiment"].get("sensor_plateau_revision"):
+        from asl_sensor_shape import audit
+        previous = ROOT/cfg["experiment"]["previous_asl_output"]
+        write_json(output/"sensor_shape_audit.json",audit(output,previous))
     with (destination/"summary.csv").open("w",encoding="utf-8",newline="") as handle:
         writer = csv.DictWriter(handle,["method","selected_epoch","top_rmse_k","hot_rmse_k","cold_rmse_k","combined_rmse_k","simulation_rmse_k"])
         writer.writeheader()
@@ -153,15 +175,18 @@ def export(output):
         "font.family":["Noto Sans CJK JP","DejaVu Sans"],"axes.spines.top":False,"axes.spines.right":False})
     results = json.loads((evaluation/"metrics.json").read_text(encoding="utf-8"))
     cases = json.loads((evaluation/"case_metrics.json").read_text(encoding="utf-8"))
+    selection = json.loads((output/"selection.json").read_text(encoding="utf-8"))
+    model_epochs = {m:(selection["selected_epoch"] if m=="asl" else 1000) for m in METHODS}
     with np.load(evaluation/"simulation_predictions.npz") as simulation:
         histories = {m:(output if m=="asl" else baseline)/m/"history.csv" for m in METHODS}
         plot.training_figures(output,directory,history_sources=histories,comparable_validation=True)
         plot.metric_figures(results,directory)
         plot.test_power_figures(results,directory)
         plot.histograms(cases,appendix)
-        write_json(evaluation/"percentile_field_selections.json",plot.percentile_fields(simulation,cases,appendix))
-        plot.shared_simulation(simulation,appendix)
-    selection = json.loads((output/"selection.json").read_text(encoding="utf-8"))
+        write_json(evaluation/"percentile_field_selections.json",plot.percentile_fields(
+            simulation,cases,appendix,model_epochs=model_epochs))
+        plot.shared_simulation(simulation,appendix,
+            model_caption=f"FNN/GRU/LSTM update 1000; ASL update {selection['selected_epoch']}")
     plot.surface_fields(evaluation,directory,model_caption=f"固定基线；ASL 本轮第 {selection['selected_epoch']} 次更新")
     plot.profile_figures(evaluation,directory)
     plot.parity_figure(evaluation,results,directory)
@@ -170,10 +195,18 @@ def export(output):
         png_sha256={name:digest(directory/name) for name in plot.FIGURES},
         export_script_sha256=digest(Path(__file__)),plot_script_sha256=digest(ROOT/"scripts/plot_sequential_deeponet.py")))
     selection = json.loads((output/"selection.json").read_text(encoding="utf-8"))
+    selected_updates = selection.get("selected_checkpoint_training_updates")
+    if selected_updates is None:
+        _,state = load_checkpoint(output/"asl"/selection["checkpoint"],"cpu")
+        selected_updates = training_updates_in_checkpoint(state)
+    executed_updates = selection.get("executed_updates_in_lineage")
+    if executed_updates is None:
+        executed_updates = executed_updates_in_lineage(cfg,selection["completed_updates"])
     lines = ["# ASL 专项改造与固定基线对比","",
         "FNN、GRU、LSTM 使用上一版原始模型及预测，未重新训练。ASL 保留 SSM→LSTM 主体及参数规模，",
         "取消 18 秒硬切换门控，平滑局部窗口过渡，并平衡三个实验区域的监督。",
-        f"本轮训练完成 1000 次更新，ASL 包含初始化训练的累计预算为 {selection['total_training_updates']} 次更新，另外三种基线仍为原来的 1000 次。",
+        f"本轮实际完成 1000 次更新，完成轮次的权重沿袭更新数为 {selection['total_training_updates']}；所选检查点沿袭 {selected_updates} 次。",
+        f"包含原始训练及沿袭路径中的完整轮次，共完成 {executed_updates} 次有效更新（不含其他候选及中断后重做的更新）；另外三种基线仍为原来的 1000 次。",
         f"依据训练/验证记录选取本轮第 {selection['selected_epoch']} 次更新的检查点。选型和预算见 selection.json。",
         "这是已检查过的现有测试基准上的改进，不能视为未接触测试集的盲测结论。","",
         "| 方法 | 顶部 RMSE / K | 热端 RMSE / K | 冷端 RMSE / K | 综合 RMSE / K |",
@@ -187,6 +220,18 @@ def export(output):
               "主图直接对照实验数据；仿真全场诊断放在 appendix。","",
               "原模型与预测不变的逐数组核验记录见 verification.json，来源见 evaluation/provenance.json。","",
               "## 图片","",*[f"- [{name}](figures/{name})" for name in plot.FIGURES]]
+    if cfg["experiment"].get("sensor_plateau_revision"):
+        shape = json.loads((output/"sensor_shape_audit.json").read_text(encoding="utf-8"))
+        lines += ["","## 冷热端平滑与后段趋势","",
+            "输入端对已到达的过去观测进行一个采样间隔的连续融入，SSM→LSTM 模块未改变。",
+            "新增冷热端实测后段温度、端点、升温率和内部曲率监督，仅使用训练数据。",
+            "后段斜率目标来自各工况实测数据，保留真实的缓慢升温；没有把预测后段强制置平。",
+            f"六条测试曲线末20秒斜率误差 RMSE：{shape['previous_tail_rate_rmse_k_per_s']:.6f} → {shape['tail_rate_rmse_k_per_s']:.6f} K/s。",
+            "", "| 传感器 | 功率 / W | 实测后段升温率 | 上版 ASL | 本版 ASL |",
+            "|---|---:|---:|---:|---:|"]
+        for row in shape["curves"]:
+            lines.append(f"| {row['sensor']} | {row['power_w']:g} | {row['observed_rate_k_per_s']:.6f} | {row['previous_predicted_rate_k_per_s']:.6f} | {row['predicted_rate_k_per_s']:.6f} |")
+        lines += ["","所有斜率单位为 K/s。逐条波动和到达时刻检查见 sensor_shape_audit.json。"]
     (output/"对比总结.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
 
 

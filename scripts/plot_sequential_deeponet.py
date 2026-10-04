@@ -158,7 +158,7 @@ def draw_section(ax,x,values,norm,cmap):
     return artists[-1]
 
 
-def percentile_fields(simulation,cases,directory):
+def percentile_fields(simulation,cases,directory,*,model_epochs=None):
     selection_rows = []
     x,y = simulation["x"],simulation["y"]
     for method in METHODS:
@@ -187,12 +187,13 @@ def percentile_fields(simulation,cases,directory):
             axes[i,0].text(0.,1.42,f"{label}: {row['power_w']:g} W, {row['time_s']:g} s; L2 = {row['relative_l2_kelvin_pct']:.3f}%",
                            transform=axes[i,0].transAxes,fontsize=10,ha="left")
             selection_rows.append(dict(method=method,percentile=label,**row))
-        fig.suptitle(f"{LABELS[method]} | held-out simulation fields | epoch 1000",fontsize=13)
+        epoch = 1000 if model_epochs is None else model_epochs[method]
+        fig.suptitle(f"{LABELS[method]} | held-out simulation fields | update {epoch}",fontsize=13)
         save(fig,directory,f"Figure_4_{method}_percentile_fields")
     return selection_rows
 
 
-def shared_simulation(simulation,directory):
+def shared_simulation(simulation,directory,*,model_caption="epoch 1000"):
     x,y = simulation["x"],simulation["y"]
     mask = np.isclose(x[:,3],610.)&np.isclose(x[:,2],100.)
     all_temps = np.concatenate([simulation[key][mask] for key in METHODS]+[y[mask]])-273.15
@@ -211,7 +212,7 @@ def shared_simulation(simulation,directory):
                 axes[i,j].set_ylabel("")
             if j in (1,2):
                 fig.colorbar(artist,ax=axes[i,j],fraction=.03,pad=.02,label="Error (K)" if j==2 else "Temperature (deg C)")
-    fig.suptitle("Common held-out case: 610 W, 100 s | epoch 1000",fontsize=13)
+    fig.suptitle(f"Common held-out case: 610 W, 100 s | {model_caption}",fontsize=13)
     save(fig,directory,"Figure_5_common_full_field_and_errors")
 
 
@@ -587,7 +588,7 @@ def report(output,results,figures):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/ASL_balanced_smooth_candidate_2_20261004")
+    parser.add_argument("--output",type=Path,default=ROOT/"研究记录/ASL_sensor_plateau_candidate_3_20261004")
     args = parser.parse_args()
     output = args.output.resolve()
     cfg = json.loads((output/"config.json").read_text(encoding="utf-8"))

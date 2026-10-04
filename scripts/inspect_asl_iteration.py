@@ -10,6 +10,7 @@ import torch
 from joint_temperature_core import Geometry,fixed_splits
 from sequential_deeponet_core import load_checkpoint
 from sequential_deeponet_data import experiment_history,metrics
+from sequential_temperature_objective import sensor_tail_metrics
 from train_sequential_deeponet import ROOT,table_predict,digest,write_json,validate
 
 
@@ -27,16 +28,25 @@ def inspect(output,device="cuda"):
         model,state = load_checkpoint(path,device)
         model.eval()
         measured = {}
+        tail_measured = {}
         for split,(tables,provider) in datasets.items():
-            measured[split] = {name:metrics(table.y,table_predict(model,table,provider,"high"))
-                               for name,table in tables.items()}
+            predictions = {name:table_predict(model,table,provider,"high") for name,table in tables.items()}
+            measured[split] = {name:metrics(table.y,predictions[name]) for name,table in tables.items()}
+            if cfg["experiment"].get("sensor_plateau_revision"):
+                tail_measured[split] = {name:sensor_tail_metrics(tables[name],predictions[name])
+                                        for name in ("热端","冷端")}
         tables,provider = datasets["validation"]
         score,_ = validate(model,tables,provider,cfg["validation_selection"])
         result["checkpoints"][filename] = dict(epoch=state["epoch"],sha256=digest(path),
                                              validation_score=score,metrics=measured)
+        if tail_measured:
+            result["checkpoints"][filename]["sensor_tail"] = tail_measured
         print(json.dumps(dict(checkpoint=filename,epoch=state["epoch"],validation_score=score,
               rmse_k={split:{name:m["rmse_k"] for name,m in rows.items()}
                       for split,rows in measured.items()}),ensure_ascii=False),flush=True)
+        if tail_measured:
+            print(json.dumps(dict(checkpoint=filename,tail_rate_rmse_k_per_s={split:{name:r["rate_rmse_k_per_s"]
+                for name,r in rows.items()} for split,rows in tail_measured.items()}),ensure_ascii=False),flush=True)
     write_json(output/"candidate_validation.json",result)
     return result
 

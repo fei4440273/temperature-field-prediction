@@ -1,0 +1,14 @@
+{
+  "status": "selected",
+  "reasons": [],
+  "maximum_tail_rate_error_k_per_s": 0.001564124961952111,
+  "accuracy_acceptance": {
+    "顶部": true,
+    "热端": true,
+    "冷端": true,
+    "综合": true
+  },
+  "selected_epoch": 700,
+  "verification_status": "passed",
+  "no_prediction_postprocessing": true
+}

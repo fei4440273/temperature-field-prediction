@@ -1,0 +1,611 @@
+{
+  "config_sha256": "e4929f8e4fe5fe8f587122ed76d8a1e5c56715c350e81300a080987d168934a5",
+  "selection_data": [
+    "train",
+    "validation"
+  ],
+  "checkpoints": {
+    "best.pt": {
+      "epoch": 925,
+      "sha256": "4cc2dabd64b69bd4bb5d6a07b854ae5aa48ddf41a84fb263771d1026b9fa9874",
+      "validation_score": 0.9455954597339686,
+      "metrics": {
+        "train": {
+          "顶部": {
+            "n": 29593,
+            "rmse_k": 5.5250977698751615,
+            "mae_k": 3.834525640491087,
+            "max_abs_error_k": 38.03375244140625,
+            "relative_l2_kelvin_pct": 1.0851816129323866,
+            "relative_l2_rise_pct": 2.4310432461761824,
+            "r2": 0.9969509200719089
+          },
+          "热端": {
+            "n": 1493,
+            "rmse_k": 0.35762670721496326,
+            "mae_k": 0.2705688680966908,
+            "max_abs_error_k": 1.511322021484375,
+            "relative_l2_kelvin_pct": 0.11603737730912554,
+            "relative_l2_rise_pct": 2.586198750887565,
+            "r2": 0.9941476290457574
+          },
+          "冷端": {
+            "n": 1492,
+            "rmse_k": 0.3499660215919939,
+            "mae_k": 0.2858649246174912,
+            "max_abs_error_k": 0.91845703125,
+            "relative_l2_kelvin_pct": 0.11514675695339244,
+            "relative_l2_rise_pct": 3.816304177908627,
+            "r2": 0.9830046101765816
+          }
+        },
+        "validation": {
+          "顶部": {
+            "n": 7272,
+            "rmse_k": 6.2190315133740945,
+            "mae_k": 4.00004157558395,
+            "max_abs_error_k": 29.439453125,
+            "relative_l2_kelvin_pct": 1.2245136839777824,
+            "relative_l2_rise_pct": 2.7078074551795988,
+            "r2": 0.996963338694698
+          },
+          "热端": {
+            "n": 376,
+            "rmse_k": 0.8319570337020371,
+            "mae_k": 0.6768263958870097,
+            "max_abs_error_k": 1.870697021484375,
+            "relative_l2_kelvin_pct": 0.2697319428520467,
+            "relative_l2_rise_pct": 5.8318800741023535,
+            "r2": 0.9754003590007632
+          },
+          "冷端": {
+            "n": 376,
+            "rmse_k": 0.6750736187970844,
+            "mae_k": 0.5439145514305602,
+            "max_abs_error_k": 1.205078125,
+            "relative_l2_kelvin_pct": 0.2218815438866524,
+            "relative_l2_rise_pct": 7.0156227074805555,
+            "r2": 0.9548375442487097
+          }
+        }
+      },
+      "sensor_tail": {
+        "train": {
+          "热端": {
+            "rate_rmse_k_per_s": 0.0018810574536933323,
+            "curves": [
+              {
+                "power_w": 55.0,
+                "observed_rate_k_per_s": 0.00488748921976461,
+                "predicted_rate_k_per_s": 0.004828633890523539,
+                "rate_error_k_per_s": -5.885532924107106e-05,
+                "tail_bias_k": 0.20467267717633927
+              },
+              {
+                "power_w": 216.8000030517578,
+                "observed_rate_k_per_s": 0.002594311206371753,
+                "predicted_rate_k_per_s": 0.004402854225852273,
+                "rate_error_k_per_s": 0.0018085430194805198,
+                "tail_bias_k": -0.1553955078125
+              },
+              {
+                "power_w": 254.5,
+                "observed_rate_k_per_s": 0.001619452934760552,
+                "predicted_rate_k_per_s": 0.00532626858005276,
+                "rate_error_k_per_s": 0.0037068156452922077,
+                "tail_bias_k": -0.24225289481026785
+              },
+              {
+                "power_w": 257.0,
+                "observed_rate_k_per_s": 0.0037492231889204547,
+                "predicted_rate_k_per_s": 0.001698283406047078,
+                "rate_error_k_per_s": -0.0020509397828733767,
+                "tail_bias_k": 0.14282081240699404
+              },
+              {
+                "power_w": 309.0,
+                "observed_rate_k_per_s": 0.0051139137961647724,
+                "predicted_rate_k_per_s": 0.007477797471083604,
+                "rate_error_k_per_s": 0.0023638836749188315,
+                "tail_bias_k": -0.2538263230096726
+              },
+              {
+                "power_w": 364.29998779296875,
+                "observed_rate_k_per_s": 0.001443243646002435,
+                "predicted_rate_k_per_s": 0.005157193270596591,
+                "rate_error_k_per_s": 0.003713949624594156,
+                "tail_bias_k": 0.37272716703869047
+              },
+              {
+                "power_w": 430.0,
+                "observed_rate_k_per_s": 0.004334764356737013,
+                "predicted_rate_k_per_s": 0.004289582487824676,
+                "rate_error_k_per_s": -4.518186891233709e-05,
+                "tail_bias_k": 0.4853108723958333
+              },
+              {
+                "power_w": 494.20001220703125,
+                "observed_rate_k_per_s": 0.0033321231990665586,
+                "predicted_rate_k_per_s": 0.004060026887175325,
+                "rate_error_k_per_s": 0.0007279036881087664,
+                "tail_bias_k": -0.25490606398809523
+              },
+              {
+                "power_w": 532.0,
+                "observed_rate_k_per_s": 0.004056142831777598,
+                "predicted_rate_k_per_s": 0.004666573660714286,
+                "rate_error_k_per_s": 0.0006104308289366879,
+                "tail_bias_k": 0.3744928269159226
+              },
+              {
+                "power_w": 558.5,
+                "observed_rate_k_per_s": 0.004192441469663149,
+                "predicted_rate_k_per_s": 0.00425557718648539,
+                "rate_error_k_per_s": 6.313571682224021e-05,
+                "tail_bias_k": -0.054962158203125
+              },
+              {
+                "power_w": 593.5,
+                "observed_rate_k_per_s": 0.0020751556792816556,
+                "predicted_rate_k_per_s": 0.001170646370231331,
+                "rate_error_k_per_s": -0.0009045093090503246,
+                "tail_bias_k": -0.23826962425595238
+              },
+              {
+                "power_w": 729.0,
+                "observed_rate_k_per_s": 0.004941231863839286,
+                "predicted_rate_k_per_s": 0.005303717278814935,
+                "rate_error_k_per_s": 0.0003624854149756494,
+                "tail_bias_k": 0.24036371140252977
+              }
+            ]
+          },
+          "冷端": {
+            "rate_rmse_k_per_s": 0.0026915040617953097,
+            "curves": [
+              {
+                "power_w": 55.0,
+                "observed_rate_k_per_s": 0.001664000672179383,
+                "predicted_rate_k_per_s": 0.0019793621905438313,
+                "rate_error_k_per_s": 0.00031536151836444827,
+                "tail_bias_k": 0.11533319382440477
+              },
+              {
+                "power_w": 216.8000030517578,
+                "observed_rate_k_per_s": 0.0020030628551136365,
+                "predicted_rate_k_per_s": 0.0020485221565543833,
+                "rate_error_k_per_s": 4.5459301440746794e-05,
+                "tail_bias_k": -0.17485409691220238
+              },
+              {
+                "power_w": 254.5,
+                "observed_rate_k_per_s": 0.0010807185978084415,
+                "predicted_rate_k_per_s": 0.0026629955737621754,
+                "rate_error_k_per_s": 0.001582276975953734,
+                "tail_bias_k": -0.21262613932291666
+              },
+              {
+                "power_w": 257.0,
+                "observed_rate_k_per_s": 0.002406013786018669,
+                "predicted_rate_k_per_s": 0.0033044195794439935,
+                "rate_error_k_per_s": 0.0008984057934253247,
+                "tail_bias_k": 0.4181939987909226
+              },
+              {
+                "power_w": 309.0,
+                "observed_rate_k_per_s": 0.004507882254464286,
+                "predicted_rate_k_per_s": 0.004052298409598214,
+                "rate_error_k_per_s": -0.0004555838448660719,
+                "tail_bias_k": -0.36930774507068453
+              },
+              {
+                "power_w": 364.29998779296875,
+                "observed_rate_k_per_s": 0.000942755364752435,
+                "predicted_rate_k_per_s": 0.0016313825334821428,
+                "rate_error_k_per_s": 0.0006886271687297078,
+                "tail_bias_k": 0.14369419642857142
+              },
+              {
+                "power_w": 430.0,
+                "observed_rate_k_per_s": 0.0025450471159699675,
+                "predicted_rate_k_per_s": 0.007942417689732143,
+                "rate_error_k_per_s": 0.005397370573762175,
+                "tail_bias_k": 0.8678821382068452
+              },
+              {
+                "power_w": 494.20001220703125,
+                "observed_rate_k_per_s": 0.002283230075588474,
+                "predicted_rate_k_per_s": 0.0023853252460430195,
+                "rate_error_k_per_s": 0.00010209517045454541,
+                "tail_bias_k": -0.23986380440848215
+              },
+              {
+                "power_w": 532.0,
+                "observed_rate_k_per_s": 0.002384255149147727,
+                "predicted_rate_k_per_s": 0.007658128614549513,
+                "rate_error_k_per_s": 0.005273873465401786,
+                "tail_bias_k": 0.8428969610305059
+              },
+              {
+                "power_w": 558.5,
+                "observed_rate_k_per_s": 0.0029471261160714285,
+                "predicted_rate_k_per_s": 0.0034378646256087663,
+                "rate_error_k_per_s": 0.0004907385095373378,
+                "tail_bias_k": -0.24163673037574404
+              },
+              {
+                "power_w": 593.5,
+                "observed_rate_k_per_s": 0.0012543120941558442,
+                "predicted_rate_k_per_s": -0.002305821010044643,
+                "rate_error_k_per_s": -0.0035601331042004873,
+                "tail_bias_k": -0.45713006882440477
+              },
+              {
+                "power_w": 729.0,
+                "observed_rate_k_per_s": 0.0028235101080560064,
+                "predicted_rate_k_per_s": 0.006424227627840909,
+                "rate_error_k_per_s": 0.0036007175197849024,
+                "tail_bias_k": 0.3076447986421131
+              }
+            ]
+          }
+        },
+        "validation": {
+          "热端": {
+            "rate_rmse_k_per_s": 0.0031997835246756977,
+            "curves": [
+              {
+                "power_w": 115.19999694824219,
+                "observed_rate_k_per_s": 0.004814445198356331,
+                "predicted_rate_k_per_s": -0.0005805473823051948,
+                "rate_error_k_per_s": -0.005394992580661526,
+                "tail_bias_k": -1.8204854329427083
+              },
+              {
+                "power_w": 403.0,
+                "observed_rate_k_per_s": 0.004569591175426137,
+                "predicted_rate_k_per_s": 0.005511633142248376,
+                "rate_error_k_per_s": 0.0009420419668222397,
+                "tail_bias_k": 0.35576811290922616
+              },
+              {
+                "power_w": 630.5,
+                "observed_rate_k_per_s": 0.0031309846159699676,
+                "predicted_rate_k_per_s": 0.002281010615361201,
+                "rate_error_k_per_s": -0.0008499740006087664,
+                "tail_bias_k": -0.6491001674107143
+              }
+            ]
+          },
+          "冷端": {
+            "rate_rmse_k_per_s": 0.003491544827394035,
+            "curves": [
+              {
+                "power_w": 115.19999694824219,
+                "observed_rate_k_per_s": 0.003693895216112013,
+                "predicted_rate_k_per_s": -0.0019008487850040584,
+                "rate_error_k_per_s": -0.005594744001116071,
+                "tail_bias_k": -1.1524527413504464
+              },
+              {
+                "power_w": 403.0,
+                "observed_rate_k_per_s": 0.003194199599228896,
+                "predicted_rate_k_per_s": 0.005317073673396916,
+                "rate_error_k_per_s": 0.0021228740741680197,
+                "tail_bias_k": 0.16182309105282738
+              },
+              {
+                "power_w": 630.5,
+                "observed_rate_k_per_s": 0.001591194450081169,
+                "predicted_rate_k_per_s": 0.0007166082208806818,
+                "rate_error_k_per_s": -0.0008745862292004872,
+                "tail_bias_k": -0.7886555989583334
+              }
+            ]
+          }
+        }
+      }
+    },
+    "epoch_1000.pt": {
+      "epoch": 1000,
+      "sha256": "e5ae1e5194755eddd53d4340519d4a15c0a5f01cc1256431ef74b6a88e11c2df",
+      "validation_score": 0.9823768248721876,
+      "metrics": {
+        "train": {
+          "顶部": {
+            "n": 29593,
+            "rmse_k": 5.525924963258973,
+            "mae_k": 3.8443811702989303,
+            "max_abs_error_k": 37.850738525390625,
+            "relative_l2_kelvin_pct": 1.0853440815597013,
+            "relative_l2_rise_pct": 2.4314072112991094,
+            "r2": 0.9969500070138407
+          },
+          "热端": {
+            "n": 1493,
+            "rmse_k": 0.3608992190949103,
+            "mae_k": 0.2716423591669981,
+            "max_abs_error_k": 1.54522705078125,
+            "relative_l2_kelvin_pct": 0.11709919313020671,
+            "relative_l2_rise_pct": 2.609864114702513,
+            "r2": 0.9940400331679077
+          },
+          "冷端": {
+            "n": 1492,
+            "rmse_k": 0.3599633453936645,
+            "mae_k": 0.2995717966524589,
+            "max_abs_error_k": 0.867950439453125,
+            "relative_l2_kelvin_pct": 0.11843610318403136,
+            "relative_l2_rise_pct": 3.925322843259805,
+            "r2": 0.9820197416255819
+          }
+        },
+        "validation": {
+          "顶部": {
+            "n": 7272,
+            "rmse_k": 6.242892156580523,
+            "mae_k": 4.0165012892585645,
+            "max_abs_error_k": 29.5902099609375,
+            "relative_l2_kelvin_pct": 1.22921179236523,
+            "relative_l2_rise_pct": 2.7181965370520422,
+            "r2": 0.996939992394047
+          },
+          "热端": {
+            "n": 376,
+            "rmse_k": 0.8429958834328402,
+            "mae_k": 0.6857524628334857,
+            "max_abs_error_k": 1.888702392578125,
+            "relative_l2_kelvin_pct": 0.273310890158366,
+            "relative_l2_rise_pct": 5.909260569943125,
+            "r2": 0.9747432258171382
+          },
+          "冷端": {
+            "n": 376,
+            "rmse_k": 0.7013323418192318,
+            "mae_k": 0.5562274202387384,
+            "max_abs_error_k": 1.235595703125,
+            "relative_l2_kelvin_pct": 0.2305121966664603,
+            "relative_l2_rise_pct": 7.288513379511088,
+            "r2": 0.9512557929835076
+          }
+        }
+      },
+      "sensor_tail": {
+        "train": {
+          "热端": {
+            "rate_rmse_k_per_s": 0.0018697902496330853,
+            "curves": [
+              {
+                "power_w": 55.0,
+                "observed_rate_k_per_s": 0.00488748921976461,
+                "predicted_rate_k_per_s": 0.004701014927455357,
+                "rate_error_k_per_s": -0.00018647429230925303,
+                "tail_bias_k": 0.17805844261532738
+              },
+              {
+                "power_w": 216.8000030517578,
+                "observed_rate_k_per_s": 0.002594311206371753,
+                "predicted_rate_k_per_s": 0.004368412959111201,
+                "rate_error_k_per_s": 0.0017741017527394482,
+                "tail_bias_k": -0.18522280738467262
+              },
+              {
+                "power_w": 254.5,
+                "observed_rate_k_per_s": 0.001619452934760552,
+                "predicted_rate_k_per_s": 0.005274467963676948,
+                "rate_error_k_per_s": 0.003655015028916396,
+                "tail_bias_k": -0.27275884719122023
+              },
+              {
+                "power_w": 257.0,
+                "observed_rate_k_per_s": 0.0037492231889204547,
+                "predicted_rate_k_per_s": 0.001686353807325487,
+                "rate_error_k_per_s": -0.0020628693815949676,
+                "tail_bias_k": 0.10904657273065477
+              },
+              {
+                "power_w": 309.0,
+                "observed_rate_k_per_s": 0.0051139137961647724,
+                "predicted_rate_k_per_s": 0.007463846578226461,
+                "rate_error_k_per_s": 0.0023499327820616887,
+                "tail_bias_k": -0.28452264694940477
+              },
+              {
+                "power_w": 364.29998779296875,
+                "observed_rate_k_per_s": 0.001443243646002435,
+                "predicted_rate_k_per_s": 0.005147443498883929,
+                "rate_error_k_per_s": 0.0037041998528814938,
+                "tail_bias_k": 0.3369329543340774
+              },
+              {
+                "power_w": 430.0,
+                "observed_rate_k_per_s": 0.004334764356737013,
+                "predicted_rate_k_per_s": 0.004260412439123376,
+                "rate_error_k_per_s": -7.43519176136364e-05,
+                "tail_bias_k": 0.4443853469122024
+              },
+              {
+                "power_w": 494.20001220703125,
+                "observed_rate_k_per_s": 0.0033321231990665586,
+                "predicted_rate_k_per_s": 0.004135171469155844,
+                "rate_error_k_per_s": 0.0008030482700892858,
+                "tail_bias_k": -0.2850559779575893
+              },
+              {
+                "power_w": 532.0,
+                "observed_rate_k_per_s": 0.004056142831777598,
+                "predicted_rate_k_per_s": 0.004681158685064935,
+                "rate_error_k_per_s": 0.0006250158532873371,
+                "tail_bias_k": 0.33378528413318453
+              },
+              {
+                "power_w": 558.5,
+                "observed_rate_k_per_s": 0.004192441469663149,
+                "predicted_rate_k_per_s": 0.004367659927962663,
+                "rate_error_k_per_s": 0.00017521845829951335,
+                "tail_bias_k": -0.08515712193080358
+              },
+              {
+                "power_w": 593.5,
+                "observed_rate_k_per_s": 0.0020751556792816556,
+                "predicted_rate_k_per_s": 0.0013375418526785714,
+                "rate_error_k_per_s": -0.0007376138266030842,
+                "tail_bias_k": -0.26310511997767855
+              },
+              {
+                "power_w": 729.0,
+                "observed_rate_k_per_s": 0.004941231863839286,
+                "predicted_rate_k_per_s": 0.005486664214691558,
+                "rate_error_k_per_s": 0.0005454323508522728,
+                "tail_bias_k": 0.21094040643601192
+              }
+            ]
+          },
+          "冷端": {
+            "rate_rmse_k_per_s": 0.0026851832745611055,
+            "curves": [
+              {
+                "power_w": 55.0,
+                "observed_rate_k_per_s": 0.001664000672179383,
+                "predicted_rate_k_per_s": 0.0019970386059253247,
+                "rate_error_k_per_s": 0.0003330379337459417,
+                "tail_bias_k": 0.07707287016369048
+              },
+              {
+                "power_w": 216.8000030517578,
+                "observed_rate_k_per_s": 0.0020030628551136365,
+                "predicted_rate_k_per_s": 0.0020274769176136364,
+                "rate_error_k_per_s": 2.4414062499999913e-05,
+                "tail_bias_k": -0.2157650902157738
+              },
+              {
+                "power_w": 254.5,
+                "observed_rate_k_per_s": 0.0010807185978084415,
+                "predicted_rate_k_per_s": 0.002635886452414773,
+                "rate_error_k_per_s": 0.0015551678546063313,
+                "tail_bias_k": -0.254119873046875
+              },
+              {
+                "power_w": 257.0,
+                "observed_rate_k_per_s": 0.002406013786018669,
+                "predicted_rate_k_per_s": 0.003276874492694805,
+                "rate_error_k_per_s": 0.0008708607066761362,
+                "tail_bias_k": 0.37370082310267855
+              },
+              {
+                "power_w": 309.0,
+                "observed_rate_k_per_s": 0.004507882254464286,
+                "predicted_rate_k_per_s": 0.004062920112114448,
+                "rate_error_k_per_s": -0.0004449621423498378,
+                "tail_bias_k": -0.41052100771949407
+              },
+              {
+                "power_w": 364.29998779296875,
+                "observed_rate_k_per_s": 0.000942755364752435,
+                "predicted_rate_k_per_s": 0.0016513180423092532,
+                "rate_error_k_per_s": 0.0007085626775568182,
+                "tail_bias_k": 0.09835670107886904
+              },
+              {
+                "power_w": 430.0,
+                "observed_rate_k_per_s": 0.0025450471159699675,
+                "predicted_rate_k_per_s": 0.007901436941964286,
+                "rate_error_k_per_s": 0.005356389825994318,
+                "tail_bias_k": 0.8176938011532738
+              },
+              {
+                "power_w": 494.20001220703125,
+                "observed_rate_k_per_s": 0.002283230075588474,
+                "predicted_rate_k_per_s": 0.002462253322849026,
+                "rate_error_k_per_s": 0.00017902324726055182,
+                "tail_bias_k": -0.279693603515625
+              },
+              {
+                "power_w": 532.0,
+                "observed_rate_k_per_s": 0.002384255149147727,
+                "predicted_rate_k_per_s": 0.007663954697646104,
+                "rate_error_k_per_s": 0.005279699548498377,
+                "tail_bias_k": 0.7937752859933036
+              },
+              {
+                "power_w": 558.5,
+                "observed_rate_k_per_s": 0.0029471261160714285,
+                "predicted_rate_k_per_s": 0.003537026937905844,
+                "rate_error_k_per_s": 0.0005899008218344156,
+                "tail_bias_k": -0.28092738560267855
+              },
+              {
+                "power_w": 593.5,
+                "observed_rate_k_per_s": 0.0012543120941558442,
+                "predicted_rate_k_per_s": -0.002145465008624188,
+                "rate_error_k_per_s": -0.0033997771027800324,
+                "tail_bias_k": -0.4913242885044643
+              },
+              {
+                "power_w": 729.0,
+                "observed_rate_k_per_s": 0.0028235101080560064,
+                "predicted_rate_k_per_s": 0.006569087040888799,
+                "rate_error_k_per_s": 0.0037455769328327924,
+                "tail_bias_k": 0.2700224376860119
+              }
+            ]
+          }
+        },
+        "validation": {
+          "热端": {
+            "rate_rmse_k_per_s": 0.0031428252420214933,
+            "curves": [
+              {
+                "power_w": 115.19999694824219,
+                "observed_rate_k_per_s": 0.004814445198356331,
+                "predicted_rate_k_per_s": -0.0005035004058441558,
+                "rate_error_k_per_s": -0.005317945604200487,
+                "tail_bias_k": -1.839170910063244
+              },
+              {
+                "power_w": 403.0,
+                "observed_rate_k_per_s": 0.004569591175426137,
+                "predicted_rate_k_per_s": 0.00551520013189935,
+                "rate_error_k_per_s": 0.0009456089564732137,
+                "tail_bias_k": 0.31956263950892855
+              },
+              {
+                "power_w": 630.5,
+                "observed_rate_k_per_s": 0.0031309846159699676,
+                "predicted_rate_k_per_s": 0.0024547230113636364,
+                "rate_error_k_per_s": -0.0006762616046063312,
+                "tail_bias_k": -0.6702662876674107
+              }
+            ]
+          },
+          "冷端": {
+            "rate_rmse_k_per_s": 0.0034504766317680056,
+            "curves": [
+              {
+                "power_w": 115.19999694824219,
+                "observed_rate_k_per_s": 0.003693895216112013,
+                "predicted_rate_k_per_s": -0.0018430635526582792,
+                "rate_error_k_per_s": -0.005536958768770292,
+                "tail_bias_k": -1.1834673200334822
+              },
+              {
+                "power_w": 403.0,
+                "observed_rate_k_per_s": 0.003194199599228896,
+                "predicted_rate_k_per_s": 0.005322582690746753,
+                "rate_error_k_per_s": 0.0021283830915178573,
+                "tail_bias_k": 0.11589704241071429
+              },
+              {
+                "power_w": 630.5,
+                "observed_rate_k_per_s": 0.001591194450081169,
+                "predicted_rate_k_per_s": 0.0008635681945008117,
+                "rate_error_k_per_s": -0.0007276262555803572,
+                "tail_bias_k": -0.8195277622767857
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

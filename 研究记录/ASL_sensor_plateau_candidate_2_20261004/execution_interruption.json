@@ -1,0 +1,11 @@
+{
+  "exit_code": 143,
+  "termination_cause": "unknown; external SIGTERM without a Python traceback",
+  "last_logged_epoch_before_termination": 125,
+  "recovery_checkpoint": "asl/latest.pt",
+  "recovered_epoch": 100,
+  "discarded_updates_at_least": 25,
+  "exact_discarded_update_count": null,
+  "resume_restores": ["model", "optimizer", "scheduler", "training_history", "sampling_rng", "physics_rng", "torch_rng", "cuda_rng"],
+  "budget_note": "Completed epoch counts exclude discarded computations after the last saved checkpoint."
+}

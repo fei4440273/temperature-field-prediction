@@ -1,0 +1,16 @@
+{
+  "status": "archived_not_selected",
+  "reasons": [
+    "Regional accuracy does not beat all frozen baselines."
+  ],
+  "maximum_tail_rate_error_k_per_s": 0.0017902721058238639,
+  "accuracy_acceptance": {
+    "顶部": true,
+    "热端": false,
+    "冷端": true,
+    "综合": true
+  },
+  "selected_epoch": 925,
+  "verification_status": "diagnostic_only_passed",
+  "no_prediction_postprocessing": true
+}

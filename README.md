@@ -2,8 +2,9 @@
 
 ## V5 最新 ASL 专项改造
 
-ASL 保留两层选择性 SSM→LSTM 和 76,227 个参数，改为连续门控与平滑局部窗口，
-平衡三类实验监督，并按三个区域中最差的相对验证误差选模。
+ASL 保留两层选择性 SSM→LSTM 和 76,227 个参数，沿用连续门控与平滑局部窗口。
+新观测在输入端连续融入；新增冷热端实测后段温度、升温率、端点和曲率约束，
+原始曲线更平滑并趋于稳定。验证选模同时检查区域温度误差和后段升温率误差。
 FNN、GRU、LSTM 模型、训练历史、指标及逐点预测均保持上一版原值。
 
 | 方法 | 顶部 RMSE / ℃ | 热端 RMSE / ℃ | 冷端 RMSE / ℃ | 综合 RMSE / ℃ |
@@ -11,26 +12,29 @@ FNN、GRU、LSTM 模型、训练历史、指标及逐点预测均保持上一版
 | FNN | 5.9399 | 1.3498 | 0.7533 | 4.2707 |
 | GRU | 6.1591 | 0.6426 | 0.6450 | 4.3789 |
 | LSTM | 7.0958 | 1.1419 | 0.8475 | 5.0677 |
-| ASL | **5.0914** | **0.4672** | **0.4386** | **3.6144** |
+| ASL | **4.6503** | **0.3615** | **0.2688** | **3.2959** |
 
-ASL 仿真测试全场 RMSE 为 7.7799 ℃，也低于三种基线。原 18 秒门控硬启动及
-21 秒窗口过渡的人工拐折已改为连续过渡，原始模型输出未做滤波或强制单调处理。
+ASL 仿真测试全场 RMSE 为 6.9404 ℃，也低于三种基线。六条冷热端曲线的局部
+升温率波动降低约51%–67%；末20秒升温率误差RMSE从0.008490降至0.001059 ℃/s。
+后段目标来自各训练工况实测数据，保留真实缓慢升温；原始输出未做滤波或强制置平。
 铜热端、冷端零秒仍为 25 ℃；SiC 与仿真初温为 22 ℃。
 
-ASL 从上一版 1000 次更新的模型额外训练 1000 次，按验证集选取本轮第 750 次更新。
-另外三种方法仍是原来 1000 次更新的模型，这次不作为相同预算的架构比较。
+本轮完成1000次更新，验证选择第700次；所选权重沿袭3375次更新，完成轮次沿袭
+3675次，沿袭路径完整轮次共完成4000次有效更新，不含其他候选和中断重做。
+另外三种方法仍是原来1000次更新的模型，这次不作为相同预算的架构比较。
 这是已检查过的现有测试基准上的改进，不称为全新盲测。
 
-- [最新报告及 PNG 图片](研究记录/ASL_balanced_smooth_candidate_2_20261004/对比总结.md)
-- [Figure 8](研究记录/ASL_balanced_smooth_candidate_2_20261004/figures/Figure_8_temporal_response.png)
-- [指标 CSV](研究记录/ASL_balanced_smooth_candidate_2_20261004/evaluation/summary.csv)
-- [专项配置](configs/asl_balanced_smooth_2.yaml)
-- [选模与预算](研究记录/ASL_balanced_smooth_candidate_2_20261004/selection.json)
-- [基线不变及模型重算核验](研究记录/ASL_balanced_smooth_candidate_2_20261004/verification.json)
+- [最新报告及 PNG 图片](研究记录/ASL_sensor_plateau_candidate_3_20261004/对比总结.md)
+- [Figure 8](研究记录/ASL_sensor_plateau_candidate_3_20261004/figures/Figure_8_temporal_response.png)
+- [指标 CSV](研究记录/ASL_sensor_plateau_candidate_3_20261004/evaluation/summary.csv)
+- [专项配置](configs/asl_sensor_plateau_3.yaml)
+- [选模与预算](研究记录/ASL_sensor_plateau_candidate_3_20261004/selection.json)
+- [基线不变及模型重算核验](研究记录/ASL_sensor_plateau_candidate_3_20261004/verification.json)
+- [六条曲线后段趋势与波动](研究记录/ASL_sensor_plateau_candidate_3_20261004/sensor_shape_audit.json)
 - [版本与复现说明](docs/V5-release.md)
 
 ```bash
-python scripts/train_sequential_deeponet.py --config configs/asl_balanced_smooth_2.yaml --methods asl --output '研究记录/ASL_new'
+python scripts/train_sequential_deeponet.py --config configs/asl_sensor_plateau_3.yaml --methods asl --output '研究记录/ASL_new'
 python scripts/inspect_asl_iteration.py '研究记录/ASL_new'
 python scripts/evaluate_asl_iteration.py '研究记录/ASL_new' --checkpoint best.pt --figures
 python scripts/verify_asl_iteration.py '研究记录/ASL_new'

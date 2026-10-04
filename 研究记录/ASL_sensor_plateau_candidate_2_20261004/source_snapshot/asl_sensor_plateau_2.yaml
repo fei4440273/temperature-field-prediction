@@ -1,0 +1,87 @@
+experiment:
+  methods: [asl]
+  seed: 123
+  output: 研究记录/ASL_sensor_plateau_candidate_2_20261004
+  baseline_output: 研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004
+  previous_asl_output: 研究记录/ASL_balanced_smooth_candidate_2_20261004
+  data_revision: cold169_sensor25_20261004
+  asl_iteration: true
+  sensor_plateau_revision: true
+  asl_source_commit: 4477c971007624133eec92bd7eeb5bb58d3b9c26
+  s_deeponet_source_commit: f502cfa322c0e1d619ee091f4889ee84c5d561eb
+physical:
+  simulation_cooling_c: 22.0
+  experiment_cooling_c: 25.0
+  experiment_initial_c: null
+model:
+  boundary_attention: false
+  hidden_dim: 48
+  latent_dim: 64
+  trunk_width: 96
+  trunk_depth: 3
+  long_seq_len: 32
+  local_seq_len: 8
+  local_window_s: 20.0
+  local_window_mode: smooth
+  history_arrival_mode: smooth
+  sensor_lag_s: 1.0
+  sensor_scale_k: 80.0
+  ssm_state_dim: 16
+  maturity_tau_s: 18.0
+  asl_maturity_mode: soft_transition
+  asl_maturity_smoothing_s: 3.0
+  asl_rate_mode: thermal_trend
+  asl_rate_window_s: 18.0
+  asl_rate_scale_k_per_s: 0.5
+  experiment_copper_initial_c: 25.0
+  initial_tau_s: 5.0
+  temperature_scale_k: 250.0
+training:
+  initial_checkpoint: 研究记录/ASL_balanced_smooth_candidate_2_20261004/asl/best.pt
+  epochs: 1000
+  learning_rate: 0.00005
+  final_learning_rate: 0.000005
+  weight_decay: 0.000001
+  gradient_clip: 5.0
+  simulation_points_per_power_material: 8
+  top_points_per_power: 64
+  sensor_points_per_power: 32
+  physics_points_per_region: 8
+  validation_every: 25
+  checkpoint_every: 100
+  cpu_threads: 4
+  temporal_probe_delta_s: 0.1
+  top_center_radius_m: 0.005
+  top_center_points_per_power: 32
+  top_tail_window_s: 20.0
+  sensor_tail_window_s: 20.0
+  sensor_shape_points_per_power: 8
+  sensor_shape_delta_s: 2.0
+validation_selection:
+  criterion: max_reference_rmse_ratio
+  reference_rmse_k:
+    顶部: 7.7969708016
+    热端: 0.9254976408
+    冷端: 0.7139137692
+  sensor_tail_rate_scale_k_per_s: 0.003
+  sensor_tail_window_s: 20.0
+loss_weights:
+  simulation: 2.0
+  top: 12.0
+  hot: 50.0
+  cold: 50.0
+  pde: 0.05
+  boundary: 0.1
+  initial: 0.1
+  interface: 0.05
+  low_cooling: 1.0
+  contact_prior: 0.001
+  temporal: 1.0
+  top_center: 2.0
+  top_tail: 1.0
+  top_tail_slope: 2.0
+  top_tail_endpoint: 1.0
+  sensor_tail: 150.0
+  sensor_tail_slope: 6000.0
+  sensor_tail_endpoint: 150.0
+  sensor_shape: 200.0

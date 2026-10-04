@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "power_time_queries": 13818,
+  "time_min_s": 0.0,
+  "time_max_s": 200.0,
+  "query_points_per_power": 141,
+  "splits": [
+    "train",
+    "validation",
+    "test"
+  ],
+  "fidelities": [
+    "experimental",
+    "simulation"
+  ],
+  "bitwise_identical": true,
+  "frozen_history_source_sha256": "9672dbb0ae6144d5c207383563f95940eb1b59d4138a1e0f8b9c9c4ada98199b",
+  "current_history_source_sha256": "e11b9e2e6ac94f1b1f66efb448f2fa06273d894ab181d81865b97586daf4158d",
+  "reason": "Later irregular-cadence continuity fix preserves the project uniformly sampled histories exactly."
+}

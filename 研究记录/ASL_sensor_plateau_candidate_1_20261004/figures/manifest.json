@@ -1,0 +1,46 @@
+{
+  "dpi": 300,
+  "formats": [
+    "png"
+  ],
+  "figures": [
+    "Figure_1_training_curves.png",
+    "Figure_2_test_accuracy.png",
+    "Figure_3_test_errors_by_power.png",
+    "appendix/Figure_3_relative_error_histograms.png",
+    "appendix/Figure_4_fnn_percentile_fields.png",
+    "appendix/Figure_4_gru_percentile_fields.png",
+    "appendix/Figure_4_lstm_percentile_fields.png",
+    "appendix/Figure_4_asl_percentile_fields.png",
+    "appendix/Figure_5_common_full_field_and_errors.png",
+    "Figure_6_surface_634W_5s.png",
+    "Figure_6_surface_634W_30s.png",
+    "Figure_6_surface_634W_60s.png",
+    "Figure_6_surface_634W_90s.png",
+    "Figure_6_surface_634W_120s.png",
+    "Figure_7_top_radial_profiles.png",
+    "Figure_8_temporal_response.png",
+    "Figure_9_actual_vs_predicted.png"
+  ],
+  "png_sha256": {
+    "Figure_1_training_curves.png": "5f606d3ac83f39294441420b16bbcb5dc377442c17c7b83ab5ee8e830c7c2226",
+    "Figure_2_test_accuracy.png": "f0681a37a6d620695e91a108e7b3d6fc48bdd64718ffbee96c93037190f9f199",
+    "Figure_3_test_errors_by_power.png": "a3b5f47e77b3cd3aabbd7d8285e3b0b97f1c9d5902e1f782aeeb3f336620cdd2",
+    "appendix/Figure_3_relative_error_histograms.png": "dfe2ae05121b635294eb50272bd43a29a50b538f0d382373fd0e3df83279fbfe",
+    "appendix/Figure_4_fnn_percentile_fields.png": "2a9a7f29440c28a9a3943bcf039468872b115434e5f974357dcdfddb353ed685",
+    "appendix/Figure_4_gru_percentile_fields.png": "b7d7ea2a3d10d87c88a013aa27d5608104cdc6bd06ccc8e6260e6cfb5887b818",
+    "appendix/Figure_4_lstm_percentile_fields.png": "0a3366222f3c5923eb869b329213df45dadcd47c256b462936c151ec7e2d53ba",
+    "appendix/Figure_4_asl_percentile_fields.png": "3b52403336e80007a312d659db915e04c387695fdaeae16422222c25ccc64a21",
+    "appendix/Figure_5_common_full_field_and_errors.png": "83147757599ce8836ce3ca2452c9a8d41249a784534f93ada46acadde95b5816",
+    "Figure_6_surface_634W_5s.png": "13b3a754d9c189e4ce96b527c487c85c2f07a127a0acdcd7264dd01f304ed32d",
+    "Figure_6_surface_634W_30s.png": "02b086a79848e1399ff201483e11599d45887946ba424887744de50e16a5800f",
+    "Figure_6_surface_634W_60s.png": "df833f3ed530a35c17c4a21759a02d2191b88305f6907fc11a85677adf91b218",
+    "Figure_6_surface_634W_90s.png": "01b225545d3d6edf1286c192641bf3d2847935729286bd01e61faef35e60571f",
+    "Figure_6_surface_634W_120s.png": "6c5f085e337e85d24bd78396748517f2d94c2a587e73d6c156a607427dcb30fb",
+    "Figure_7_top_radial_profiles.png": "847810cf4fef05a883d7d8ff9d775e75281a6417ea27f4022272dde36379d85b",
+    "Figure_8_temporal_response.png": "2c73c86b5587728d495fa22e94a5bd5b3805dd01f9a2795ddd0913b293b012ac",
+    "Figure_9_actual_vs_predicted.png": "14f817246bba831ee17e5bc69d7d3827a70f88ecb75c9dfddd3e9ca55c2dd3b7"
+  },
+  "export_script_sha256": "3c3b5d35876606900025b58f641e8314705611865bd72febf049da34f1726e11",
+  "plot_script_sha256": "9e55522b028973e2229a9e6570bff2ad2548df3d521af638d8b544a2247cc619"
+}

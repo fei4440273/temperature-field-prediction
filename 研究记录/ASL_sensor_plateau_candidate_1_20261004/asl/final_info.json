@@ -1,0 +1,18 @@
+{
+  "method": "asl",
+  "label": "ASL-DeepONet",
+  "epochs_completed": 1000,
+  "seed": 123,
+  "parameters": 76227,
+  "training_seconds": 417.6570383729995,
+  "best_epoch": 925,
+  "best_validation_rmse_k": 0.9455954597339686,
+  "device": "cuda",
+  "history_length": 1000,
+  "boundary_attention": false,
+  "protocol": "conditional_past_sensor_history",
+  "initial_checkpoint": "研究记录/ASL_balanced_smooth_candidate_2_20261004/asl/best.pt",
+  "initial_checkpoint_sha256": "72603cb3c329ae2ad50420f59a452103901954170774f43ef74c907094e9d42b",
+  "initial_training_updates": 1750,
+  "total_training_updates": 2750
+}

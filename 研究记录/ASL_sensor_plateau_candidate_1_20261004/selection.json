@@ -1,0 +1,39 @@
+{
+  "checkpoint": "best.pt",
+  "checkpoint_sha256": "4cc2dabd64b69bd4bb5d6a07b854ae5aa48ddf41a84fb263771d1026b9fa9874",
+  "selected_epoch": 925,
+  "completed_updates": 1000,
+  "total_training_updates": 2750,
+  "selected_checkpoint_training_updates": 2675,
+  "executed_updates_in_lineage": 3000,
+  "execution_scope": "completed saved runs in the ancestry; excludes other candidates and discarded interruption work",
+  "selection_data": [
+    "train",
+    "validation"
+  ],
+  "known_test_benchmark": true,
+  "selection_rule": {
+    "criterion": "max_reference_rmse_ratio",
+    "reference_rmse_k": {
+      "顶部": 7.7969708016,
+      "热端": 0.9254976408,
+      "冷端": 0.7139137692
+    },
+    "sensor_tail_rate_scale_k_per_s": 0.005,
+    "sensor_tail_window_s": 20.0
+  },
+  "baseline_sources": {
+    "fnn": {
+      "checkpoint_sha256": "1e9eb378fc5e69c2df42bb14e4dc17595686627e953a1d7a95ce4f4b758d9fd1",
+      "history_sha256": "45a9e15cca011ce907204d5f45ea466cc96a44ae883f1c9cbdec9a3b1ee27ed2"
+    },
+    "gru": {
+      "checkpoint_sha256": "6674fccabb9ac2d8d571c1f664bc1e3d4bae1cf006fd9d94fe0d1de1fcb40468",
+      "history_sha256": "2b75f63b4ad9eff890d4068cbc3fca05dbdf8a7a90c614fcaac4ecc1ed0e4675"
+    },
+    "lstm": {
+      "checkpoint_sha256": "440c865b9531324c80d7d04cf88b8e0240279864889da918ab9f3890b634816c",
+      "history_sha256": "0ea7d0d6825fde375dc3238e6aa22bee488db456c97edc4e375d72a9f1f31d9d"
+    }
+  }
+}

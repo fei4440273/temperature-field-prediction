@@ -147,7 +147,8 @@ def verify(output,*,require_targets=True):
                 index = np.argmax(errors)
                 np.testing.assert_allclose(errors[index],row["max_abs_error_k"])
                 np.testing.assert_allclose(pack["xy_mm"][index],[row["x_mm"],row["y_mm"]])
-    verification = dict(status="passed",accuracy_acceptance=acceptance,
+    verification = dict(status="passed" if require_targets else "diagnostic_only_passed",
+        acceptance_targets_enforced=require_targets,accuracy_acceptance=acceptance,
         all_three_baseline_models_histories_metrics_and_prediction_arrays_unchanged=True,
         all_asl_prediction_arrays_recomputed_from_selected_model=True,
         checked_prediction_files=checked,early_gate_derivatives=derivatives,dense_sensor_checks=dense_checks,
@@ -155,6 +156,17 @@ def verify(output,*,require_targets=True):
         no_prediction_smoothing=True,experimental_copper_initial_c=25.,
         actual_asl_parameters=result["asl"]["parameters"],selected_epoch=state["epoch"],
         completed_new_updates=1000,total_asl_training_updates=selection["total_training_updates"])
+    if cfg["experiment"].get("sensor_plateau_revision"):
+        from asl_sensor_shape import audit
+        shape = audit(output,ROOT/cfg["experiment"]["previous_asl_output"])
+        recorded = json.loads((output/"sensor_shape_audit.json").read_text(encoding="utf-8"))
+        assert shape==recorded,"Sensor shape audit does not match raw predictions."
+        if require_targets:
+            assert shape["all_six_rate_errors_improved"],"Some sensor late-rate errors did not improve."
+            assert shape["all_six_waviness_metrics_improved"],"Some raw sensor waviness did not improve."
+            assert max(abs(r["rate_error_k_per_s"]) for r in shape["curves"])<.003,"Sensor late-rate mismatch remains excessive."
+            assert max(r["late_max_incoming_jump_k"] for r in shape["curves"])<.0005,"Sensor arrival discontinuity remains."
+        verification["sensor_shape"] = shape
     write_json(output/"verification.json",verification)
     print(json.dumps(verification,ensure_ascii=False),flush=True)
     return verification

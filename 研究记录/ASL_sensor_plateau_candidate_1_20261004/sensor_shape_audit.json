@@ -1,0 +1,141 @@
+{
+  "curves": [
+    {
+      "power_w": 169.0,
+      "observed_rate_k_per_s": 0.0037853686840503245,
+      "predicted_rate_k_per_s": 0.001337660752333604,
+      "rate_error_k_per_s": -0.0024477079317167206,
+      "tail_bias_k": -0.27164422898065477,
+      "sensor": "hot",
+      "previous_rate_error_k_per_s": 0.008653754692573052,
+      "previous_predicted_rate_k_per_s": 0.012439123376623376,
+      "previous_tail_bias_k": -0.27655465262276785,
+      "previous_slope_waviness_k_per_s": 0.0092798276579653,
+      "slope_waviness_k_per_s": 0.004935926223996393,
+      "late_max_incoming_jump_k": 3.0517578125e-05,
+      "rate_error_improved": true,
+      "waviness_improved": true
+    },
+    {
+      "power_w": 339.0,
+      "observed_rate_k_per_s": 0.004510299880783279,
+      "predicted_rate_k_per_s": 0.00340223436231737,
+      "rate_error_k_per_s": -0.0011080655184659092,
+      "tail_bias_k": 0.34211948939732145,
+      "sensor": "hot",
+      "previous_rate_error_k_per_s": 0.011239306957690747,
+      "previous_predicted_rate_k_per_s": 0.015749606838474026,
+      "previous_tail_bias_k": 0.32992117745535715,
+      "previous_slope_waviness_k_per_s": 0.02517181905196434,
+      "slope_waviness_k_per_s": 0.010430079141885228,
+      "late_max_incoming_jump_k": 3.0517578125e-05,
+      "rate_error_improved": true,
+      "waviness_improved": true
+    },
+    {
+      "power_w": 634.0,
+      "observed_rate_k_per_s": 0.0047389042841923705,
+      "predicted_rate_k_per_s": 0.00485066995992289,
+      "rate_error_k_per_s": 0.00011176567573051906,
+      "tail_bias_k": 0.2580958775111607,
+      "sensor": "hot",
+      "previous_rate_error_k_per_s": 0.005345133991984577,
+      "previous_predicted_rate_k_per_s": 0.010084038276176948,
+      "previous_tail_bias_k": 0.5151657831101191,
+      "previous_slope_waviness_k_per_s": 0.032873889613187664,
+      "slope_waviness_k_per_s": 0.01568060022911684,
+      "late_max_incoming_jump_k": 6.103515625e-05,
+      "rate_error_improved": true,
+      "waviness_improved": true
+    },
+    {
+      "power_w": 169.0,
+      "observed_rate_k_per_s": 0.0024278516893262987,
+      "predicted_rate_k_per_s": 0.0015152968369521104,
+      "rate_error_k_per_s": -0.0009125548523741883,
+      "tail_bias_k": 0.07175699869791667,
+      "sensor": "cold",
+      "previous_rate_error_k_per_s": 0.006902996905438311,
+      "previous_predicted_rate_k_per_s": 0.00933084859476461,
+      "previous_tail_bias_k": 0.07953316824776786,
+      "previous_slope_waviness_k_per_s": 0.0064938420433442,
+      "slope_waviness_k_per_s": 0.004118145782422646,
+      "late_max_incoming_jump_k": 3.0517578125e-05,
+      "rate_error_improved": true,
+      "waviness_improved": true
+    },
+    {
+      "power_w": 339.0,
+      "observed_rate_k_per_s": 0.0029721743100649353,
+      "predicted_rate_k_per_s": 0.005631483994521104,
+      "rate_error_k_per_s": 0.0026593096844561687,
+      "tail_bias_k": 0.6810724167596727,
+      "sensor": "cold",
+      "previous_rate_error_k_per_s": 0.01142177829494724,
+      "previous_predicted_rate_k_per_s": 0.014393952605012176,
+      "previous_tail_bias_k": 0.7868332635788691,
+      "previous_slope_waviness_k_per_s": 0.017284692515823402,
+      "slope_waviness_k_per_s": 0.007808567556445764,
+      "late_max_incoming_jump_k": 6.103515625e-05,
+      "rate_error_improved": true,
+      "waviness_improved": true
+    },
+    {
+      "power_w": 634.0,
+      "observed_rate_k_per_s": 0.0028988132229099024,
+      "predicted_rate_k_per_s": 0.007076154436383928,
+      "rate_error_k_per_s": 0.004177341213474026,
+      "tail_bias_k": 0.6335158575148809,
+      "sensor": "cold",
+      "previous_rate_error_k_per_s": 0.0049598594764610395,
+      "previous_predicted_rate_k_per_s": 0.007858672699370942,
+      "previous_tail_bias_k": 0.9676295689174107,
+      "previous_slope_waviness_k_per_s": 0.020991501437194398,
+      "slope_waviness_k_per_s": 0.010710746909058082,
+      "late_max_incoming_jump_k": 6.103515625e-05,
+      "rate_error_improved": true,
+      "waviness_improved": true
+    }
+  ],
+  "source_sha256": {
+    "hot_predictions.npz": {
+      "current": "7e10b0cce07a50e118bfd00771296b0a6df51a522b62312b194f9fb86f931514",
+      "previous": "6e7b4b1ce7536a291430392648cfbdd0ec2162319019828987e645b9fde88d1a"
+    },
+    "dense_hot_169W_predictions.npz": {
+      "current": "81671f16f01231b12ac9e823f1036b2b6aced8ed152ac30c21966f332deba020",
+      "previous": "b76754c995861daddaab5247d57fa3506757f7374e612f22113880edcb8db70b"
+    },
+    "dense_hot_339W_predictions.npz": {
+      "current": "558d80a3bde98417217c92258ee5b357d09206451d4ada6d9c7978ca03553134",
+      "previous": "ee5ababedc80970cf9a3dee13ec087f10b1e227ef81a3f364ba42b653c797eb5"
+    },
+    "dense_hot_634W_predictions.npz": {
+      "current": "f6ce1367f87a4cbc6e08b1b9db222266747e295578524a408a7e142522b68dc2",
+      "previous": "df9e2da6c00c9f0839e9ece2353b540221cd645abcf9fd32d30a7c5c30c1558e"
+    },
+    "cold_predictions.npz": {
+      "current": "f714fb4b37f53161ecbce26f022139a6f67acc742fd0873466a43ae8ecff27e2",
+      "previous": "9f22ac3bf5fd65420e0c1578c29589f06d21e27d516c30756e173021a2929262"
+    },
+    "dense_cold_169W_predictions.npz": {
+      "current": "7bd97a3734e767dc52d9f3dacbb6e7c79f98d66769a4ba792e81c59ea28473a9",
+      "previous": "0621a6c7acb4b54e4fb640b0e596ec3b45fd5b09b9ed655c241a9fb326ba8a87"
+    },
+    "dense_cold_339W_predictions.npz": {
+      "current": "606d6875bd928c249ebd37914fce0789d1348da0379e47e6cb58f2e8339817c5",
+      "previous": "616bdbd993867f5996315a2cb19867f611afa586928fdcbed8444f4fbf502231"
+    },
+    "dense_cold_634W_predictions.npz": {
+      "current": "96dc3bbbfd27018a4a58ca2d524281d948c2e87e48a3ac2a6b37927d72f2f3d8",
+      "previous": "6d682d44798290dc3b9245830314a1d01a647ebefdcdca64650d0ea966c2250a"
+    }
+  },
+  "tail_window_s": 20.0,
+  "all_six_rate_errors_improved": true,
+  "all_six_waviness_metrics_improved": true,
+  "tail_rate_rmse_k_per_s": 0.0023304662927082593,
+  "previous_tail_rate_rmse_k_per_s": 0.008490077937238993,
+  "no_prediction_postprocessing": true,
+  "audit_script_sha256": "68e407ab820cabe7cdaf819a039cd3975d2f4c1fd2d12196b939fb147d79b8c2"
+}
