@@ -53,7 +53,7 @@ remain discrete and produce dense-curve waviness.
 - [x] Iterate only when measured acceptance fails, preserving every candidate.
 - [x] Recompute raw outputs, check old baseline array/checkpoint identity,
   update PNG-only figures and explanations, and complete independent review.
-- [ ] Publish verified implementation, candidate archives and latest figures to V5.
+- [x] Publish verified implementation, candidate archives and latest figures to V5.
 
 ## First Candidate Review
 
@@ -83,3 +83,6 @@ Verification recomputed all 18 ASL arrays, confirmed unchanged baseline arrays,
 initial temperatures and frozen sources, and checked all 17 PNGs.
 The selected checkpoint inherits 3375 total updates; final ancestry is 3675;
 completed saved runs along that ancestry total 4000, excluding other candidates.
+
+Published implementation and all three candidate archives in commit `eaacfa5`
+to GitHub branch V5. The original annotated V5 tag remains unchanged.
