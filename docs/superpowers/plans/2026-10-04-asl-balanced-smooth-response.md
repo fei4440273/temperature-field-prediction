@@ -21,7 +21,7 @@ Execute in this session, with recorded configurations and frozen experiment sour
 - [x] Verify raw dense early and late curves, gate derivatives, causality, and t=0.
 - [x] Export PNG-only figures and metrics with frozen baseline provenance.
 - [x] Independently review the final code and artifacts; verify baseline identity.
-- [ ] Publish the verified change to V5.
+- [x] Publish the verified change to V5.
 
 The existing test benchmark has already been inspected during prior development.
 This is refinement on that known benchmark, not evidence of an untouched blind test.
@@ -46,3 +46,5 @@ identities match the previously published evaluation provenance. All 17 PNGs and
 Late incoming sensor changes are below 0.019 K; no output smoothing is applied.
 Independent review confirmed no remaining substantive issues. Development tests:
 52 passed. Release tests: 51 passed, 1 optional upstream-reference test skipped.
+Published code, checkpoints, predictions, and 17 PNGs to the GitHub V5 branch in
+commit d95a579. The original V5 tag and all three baseline artifacts are unchanged.
