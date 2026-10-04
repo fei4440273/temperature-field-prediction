@@ -1,0 +1,16 @@
+{
+  "method": "lstm",
+  "label": "LSTM-DeepONet",
+  "epochs_completed": 1000,
+  "seed": 123,
+  "parameters": 75075,
+  "training_seconds": 126.66812213097,
+  "best_epoch": 975,
+  "best_validation_rmse_k": 6.578334167324507,
+  "device": "cuda",
+  "history_length": 1000,
+  "boundary_attention": false,
+  "protocol": "conditional_past_sensor_history",
+  "status": "completed",
+  "pid": 2451025
+}

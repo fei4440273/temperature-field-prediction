@@ -2,6 +2,11 @@
 
 ## V5 项目适配版：四种序列 DeepONet 对比
 
+2026-10-04 更新：169 W冷端使用用户修订的 `colddata169W.csv`，对应处理数据已刷新。
+实验铜区热端、冷端的零秒预测严格固定为25℃，历史锚点、归一化基准和物理初始条件同步；
+顶部SiC和仿真初温仍为22℃。本轮保留ASL可训练结构和既有损失配置，重新训练全部四种方法。
+本轮及后续导出只生成300 DPI PNG。旧数据生成的结果保留为历史记录，不与本轮缓存指标直接比较。
+
 V5 新增 FNN、GRU、LSTM、ASL 四种 DeepONet，均不含边界注意力。
 四种方法使用统一配置、数据划分、主干/输出头初始化和采样种子，
 已分别完成 1000 个采样 epochs，主表统一评价第 1000 轮模型。
@@ -16,7 +21,7 @@ ASL升温率锯齿；这一输入处理统一用于四种方法，不读取未�
 将相邻点求导改为过去18秒的因果加权趋势，使用 K/s 归一化。
 四种方法共同增加训练传感器更新前后 ±0.1秒的预测连续性损失。
 ASL 可训练参数仍为76,227个，旧检查点保留原预处理逻辑。
-本轮保持这些输入和可训练模块，针对顶部中心/边缘偏差方向不同的问题，
+上一轮保持这些输入和可训练模块，针对顶部中心/边缘偏差方向不同的问题，
 增加近中心温度及逐功率、逐半径的后段温度、末时刻和升温趋势约束，
 并加强完整顶部曲线监督。配置使用训练/验证集选择，四种方法统一重新训练1000轮。
 
@@ -26,51 +31,56 @@ Figure 8热端/冷端使用0.1秒网格的原始预测，没有平滑或强制�
 
 | 方法 | 实验顶部 RMSE / K | 热端 RMSE / K | 冷端 RMSE / K | 综合 RMSE / K |
 |---|---:|---:|---:|---:|
-| FNN-DeepONet | **5.9273** | 1.3377 | **0.8674** | **4.2664** |
-| GRU-DeepONet | 6.2454 | **0.6830** | 0.8819 | 4.4512 |
-| LSTM-DeepONet | 7.1057 | 1.1108 | 0.9278 | 5.0763 |
-| ASL-DeepONet | 6.1333 | 0.9489 | 0.9259 | 4.3873 |
+| FNN-DeepONet | **5.9399** | 1.3498 | 0.7533 | **4.2707** |
+| GRU-DeepONet | 6.1591 | **0.6426** | **0.6450** | 4.3789 |
+| LSTM-DeepONet | 7.0958 | 1.1419 | 0.8475 | 5.0677 |
+| ASL-DeepONet | 6.1948 | 0.9917 | 0.8248 | 4.4276 |
 
-与前一版 ASL_thermal 相比，ASL 顶部RMSE从6.7109降到6.1333 K，
-近中心后段RMSE从6.1361降到3.6970 K，三个测试功率的末时刻绝对偏差均减小。
-75秒之后传感器到达跳变最大0.01428 K，顶部近中心为0.08569 K。
-339 W仍存在后段低估；顶部2秒的初始历史建立阶段仍有约4.24 K变化，已保留原始诊断。
-热端/冷端RMSE从0.6834/0.7034变为0.9489/0.9259 K，完整误差取舍见报告。
-本轮FNN的顶部及综合误差最低，不据此宣称ASL全面优于其他结构。
+本轮ASL近中心后段RMSE为3.5245 K；339 W末段仍低估约5.80 K。
+75秒之后ASL热端/冷端最大0.1秒变化为0.01413 K，新观测到达跳变最大0.01282 K。
+顶部近中心后期到达变化最大0.09540 K，初始历史建立阶段在2秒有约0.386 K变化。
+完整原始诊断均保留。FNN的顶部及综合误差最低，GRU的热端和冷端误差最低。
 
-- [项目适配版报告与 17 张 300 DPI PNG](研究记录/Sequential_DeepONet_1000epochs_temperature_tail/对比总结.md)
-- [汇总指标 CSV](研究记录/Sequential_DeepONet_1000epochs_temperature_tail/evaluation/summary.csv)
-- [密集时间步检查](研究记录/Sequential_DeepONet_1000epochs_temperature_tail/temporal_audit.json)
-- [独立审计结果](研究记录/Sequential_DeepONet_1000epochs_temperature_tail/verification.json)
-- [温度偏差与验证选型](研究记录/Sequential_DeepONet_1000epochs_temperature_tail/diagnostics/)
-- [统一配置](configs/sequential_deeponet_temperature.yaml)
+- [本轮报告与 17 张 300 DPI PNG](研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004/对比总结.md)
+- [汇总指标 CSV](研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004/evaluation/summary.csv)
+- [密集时间步检查](研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004/temporal_audit.json)
+- [独立审计结果](研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004/verification.json)
+- [温度偏差](研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004/diagnostics/)
+- [数据修订记录](研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004/data_revision/data_revision.json)
+- [统一配置](configs/sequential_deeponet_sensor25.yaml)
+- [上一轮旧数据结果](研究记录/Sequential_DeepONet_1000epochs_temperature_tail/对比总结.md)
 - [前一版输入适配结果](研究记录/Sequential_DeepONet_1000epochs_ASL_thermal/对比总结.md)
 - [版本文件与复现说明](docs/V5-release.md)
 
 每种方法均发布 `initial.pt`、`best.pt`、`latest.pt`、`epoch_1000.pt`、
-完整训练历史和日志，并保留逐点预测、源码快照、模型/输入哈希及同名 PDF。
+完整训练历史和日志，并保留逐点预测、源码快照、模型/输入哈希和PNG图像。
 以下命令在项目根目录执行；新训练必须使用新输出目录。
 
 ```bash
 pip install -e '.[test]'
+python scripts/refresh_sequential_sensor_data.py --destination '研究记录/Sequential_DeepONet_new/data_revision'
 python scripts/train_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
 python scripts/evaluate_sequential_deeponet.py --device cuda --output '研究记录/Sequential_DeepONet_new'
 python scripts/audit_sequential_temporal.py --output '研究记录/Sequential_DeepONet_new'
-python scripts/analyze_sequential_temperature_bias.py --output '研究记录/Sequential_DeepONet_new' --methods fnn gru lstm asl --splits train validation test --selection-from '研究记录/Sequential_DeepONet_1000epochs_temperature_tail/diagnostics/selection.json'
+python scripts/analyze_sequential_temperature_bias.py --output '研究记录/Sequential_DeepONet_new' --methods fnn gru lstm asl --splits train validation test
 python scripts/plot_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_new'
 ```
 
 训练中断后，在同一次训练命令中添加 `--resume`。原始与处理后数据仍按仓库惯例
-不随代码发布，训练、重新推理和完整输入审计需要准备项目 `data/`；
+不完整发布，本轮附带修订CSV和前后测试缓存的证据快照；训练、重新推理和完整输入审计需要准备项目 `data/`；
 重绘已发布的图像可直接使用保存的预测结果。
 
 ```bash
-PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_sequential_deeponet.py tests/test_sequential_temperature_objective.py tests/test_sequential_temperature_bias.py -q -o addopts=''
-python scripts/verify_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs_temperature_tail'
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_sequential_deeponet.py tests/test_sequential_temperature_objective.py tests/test_sequential_temperature_bias.py tests/test_sequential_sensor25.py -q -o addopts=''
+python scripts/verify_sequential_deeponet.py --output '研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004'
 ```
 
 ASL 与原始源码逐权重对齐的测试需要本地 `references/ASL-PINN-code`，
-没有该参考仓库时只跳过该项测试。本机已完成全部 38 项测试和完整实验审计。
+没有该参考仓库时只跳过该项测试。本机已完成全部46项相关测试和完整实验审计。
+
+`../temperature-field-prediction-V5` 是同一仓库的V5发布工作树，创建于2026-10-03
+17:21（北京时间）。开发工作区包含其他未提交任务；发布工作树保存已提交的V5代码与结果，
+不是另一套算法。本轮核心序列代码与结果已同步；最初的V5标签保留首次发布快照。
 
 ## V4 保留代码
 

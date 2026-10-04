@@ -1,0 +1,211 @@
+{
+  "status": "passed",
+  "methods": {
+    "fnn": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 900,
+      "checkpoint_sha256": "1e9eb378fc5e69c2df42bb14e4dc17595686627e953a1d7a95ce4f4b758d9fd1"
+    },
+    "gru": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 975,
+      "checkpoint_sha256": "6674fccabb9ac2d8d571c1f664bc1e3d4bae1cf006fd9d94fe0d1de1fcb40468"
+    },
+    "lstm": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 975,
+      "checkpoint_sha256": "440c865b9531324c80d7d04cf88b8e0240279864889da918ab9f3890b634816c"
+    },
+    "asl": {
+      "epoch": 1000,
+      "optimizer_steps": 1000,
+      "history_rows": 1000,
+      "best_epoch": 900,
+      "checkpoint_sha256": "296f94321489d515dc57ac5413e6a6dea3edde6ee2dad16f0e78f0e3b88dde74"
+    }
+  },
+  "figures": [
+    {
+      "name": "Figure_1_training_curves.png",
+      "width_px": 3034,
+      "height_px": 1144,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_2_test_accuracy.png",
+      "width_px": 3754,
+      "height_px": 1144,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_3_test_errors_by_power.png",
+      "width_px": 3934,
+      "height_px": 1204,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_120s.png",
+      "width_px": 4294,
+      "height_px": 2134,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_30s.png",
+      "width_px": 4294,
+      "height_px": 2134,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_5s.png",
+      "width_px": 4294,
+      "height_px": 2134,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_60s.png",
+      "width_px": 4294,
+      "height_px": 2134,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_6_surface_634W_90s.png",
+      "width_px": 4294,
+      "height_px": 2134,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_7_top_radial_profiles.png",
+      "width_px": 3994,
+      "height_px": 1174,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_8_temporal_response.png",
+      "width_px": 3994,
+      "height_px": 3034,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "Figure_9_actual_vs_predicted.png",
+      "width_px": 2626,
+      "height_px": 2584,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "appendix/Figure_3_relative_error_histograms.png",
+      "width_px": 4354,
+      "height_px": 2074,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "appendix/Figure_4_asl_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "appendix/Figure_4_fnn_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "appendix/Figure_4_gru_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "appendix/Figure_4_lstm_percentile_fields.png",
+      "width_px": 3964,
+      "height_px": 1744,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    },
+    {
+      "name": "appendix/Figure_5_common_full_field_and_errors.png",
+      "width_px": 3964,
+      "height_px": 2014,
+      "dpi": [
+        299.9994,
+        299.9994
+      ]
+    }
+  ],
+  "training_source_and_input_hashes_verified": true,
+  "all_prediction_metrics_recomputed": true,
+  "no_boundary_attention": true,
+  "report": "/home/phl/lyf/Temperature Field Prediction/研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004/对比总结.md",
+  "experimental_cloud_maxima_verified": true,
+  "original_and_corrected_temporal_jumps_verified": false,
+  "dense_predictions_recomputed_from_all_four_models": true,
+  "shared_temporal_loss_verified": true,
+  "asl_thermal_adaptation_verified": false,
+  "previous_asl_dense_predictions_recomputed": false,
+  "note": "Source/metric/image checks supplement manual visual inspection and the focused regression suite.",
+  "temperature_optimization": {
+    "metric_groups": 36,
+    "current_measurements_only": true,
+    "diagnostic_sha256": "141a61677aa51239d3d916d6d0128477eea8e48a238eafedcd5241497c59f42e"
+  },
+  "sensor_data_revision": {
+    "corrected_raw_and_processed_sensor_verified": true,
+    "unchanged_other_inputs_verified": true,
+    "sensor_initial_25c_verified": true,
+    "sic_and_simulation_initial_22c_verified": true,
+    "user_requested_protocol_verified": true
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "method": "asl",
+  "label": "ASL-DeepONet",
+  "epochs_completed": 1000,
+  "seed": 123,
+  "parameters": 76227,
+  "training_seconds": 348.36600339302095,
+  "best_epoch": 900,
+  "best_validation_rmse_k": 5.335469212433494,
+  "device": "cuda",
+  "history_length": 1000,
+  "boundary_attention": false,
+  "protocol": "conditional_past_sensor_history",
+  "status": "completed",
+  "pid": 2451025
+}

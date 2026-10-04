@@ -166,7 +166,6 @@ def save_surface_error_curve(out:Path,power:float,frames):
     fig.text(.5,.025,'平均偏差 = 预测 - 实验；负值表示预测偏低',ha='center',fontsize=10)
     fig.tight_layout(rect=(0.,.12,1.,1.))
     fig.savefig(folder/'顶面温度误差随时间.png',dpi=300)
-    fig.savefig(folder/'顶面温度误差随时间.pdf')
     plt.close(fig)
     with (folder/'顶面温度误差逐时刻.csv').open('w',encoding='utf-8-sig',newline='') as handle:
         writer=csv.DictWriter(handle,fieldnames=list(rows[0]))
