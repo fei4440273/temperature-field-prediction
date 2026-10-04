@@ -92,13 +92,13 @@ class SelectiveSSMBlock(nn.Module):
 class ASLBranch(nn.Module):
     """SSM -> LSTM with dual-state initialization and maturity-gated context."""
     def __init__(self,hidden,rank,state_dim,tau,time_max,*,rate_mode="original",
-                 sensor_scale=80.,rate_window_s=18.,rate_scale=.5,maturity_mode="legacy",maturity_smoothing_s=3.):
+                 sensor_scale=80.,rate_window_s=18.,rate_scale=.5,maturity_mode="legacy"):
         super().__init__()
         if rate_mode not in ("original","thermal_trend"):
             raise ValueError("ASL rate mode must be original or thermal_trend.")
-        if maturity_mode not in ("legacy","smooth","soft_transition"):
-            raise ValueError("ASL maturity mode must be legacy, smooth, or soft_transition.")
-        if any(not math.isfinite(v) or v<=0 for v in (tau,time_max,sensor_scale,rate_window_s,rate_scale,maturity_smoothing_s)):
+        if maturity_mode not in ("legacy","smooth"):
+            raise ValueError("ASL maturity mode must be legacy or smooth.")
+        if any(not math.isfinite(v) or v<=0 for v in (tau,time_max,sensor_scale,rate_window_s,rate_scale)):
             raise ValueError("ASL thermal rate scales must be finite and positive.")
         self.long_input_proj = nn.Linear(5,hidden)
         self.local_input_proj = nn.Linear(5,hidden)
@@ -109,20 +109,11 @@ class ASLBranch(nn.Module):
         self.rate_mode,self.sensor_scale = rate_mode,sensor_scale
         self.rate_window_s,self.rate_scale = rate_window_s,rate_scale
         self.maturity_mode = maturity_mode
-        self.maturity_smoothing_s = maturity_smoothing_s
 
     def maturity_scale(self,query_time):
         if self.maturity_mode=="smooth":
             # No delayed switch: both the value and its derivatives evolve continuously.
             return -torch.expm1(-(query_time*self.time_max/self.tau).square())
-        if self.maturity_mode=="soft_transition":
-            s = self.maturity_smoothing_s
-            seconds = query_time*self.time_max
-            area = s*(F.softplus((seconds-self.tau)/s)-F.softplus((seconds-4*self.tau)/s))
-            initial = s*(F.softplus(seconds.new_tensor(-self.tau/s))
-                         -F.softplus(seconds.new_tensor(-4*self.tau/s)))
-            progress = (area-initial)/(3*self.tau-initial)
-            return -torch.expm1(-3*progress)/(-math.expm1(-3))
         progress = ((query_time*self.time_max-self.tau)/(3*self.tau)).clamp(0.,1.)
         return -torch.expm1(-3*progress)/(-math.expm1(-3))
 
@@ -185,8 +176,7 @@ class SequentialDeepONet(nn.Module):
                 sensor_scale=float(config.get("sensor_scale_k",80.)),
                 rate_window_s=float(config.get("asl_rate_window_s",18.)),
                 rate_scale=float(config.get("asl_rate_scale_k_per_s",.5)),
-                maturity_mode=config.get("asl_maturity_mode","legacy"),
-                maturity_smoothing_s=float(config.get("asl_maturity_smoothing_s",3.)))
+                maturity_mode=config.get("asl_maturity_mode","legacy"))
         elif method=="fnn":
             self.branch = FNNBranch(int(config["long_seq_len"])+int(config["local_seq_len"]),hidden,rank)
         else:

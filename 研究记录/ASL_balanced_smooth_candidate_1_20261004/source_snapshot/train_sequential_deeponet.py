@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import csv
-from dataclasses import asdict
 import hashlib
 import json
 import logging
@@ -149,18 +148,6 @@ def run_method(method,output,cfg,geometry,settings,pools,providers,val_tables,va
     objective_rng = np.random.default_rng(seed+30000)
     generator = torch.Generator(device=device).manual_seed(seed+10000)
     model = SequentialDeepONet(method,geometry,settings,cfg["model"]).to(device)
-    initial_checkpoint = cfg["training"].get("initial_checkpoint")
-    initial_updates = 0
-    if initial_checkpoint:
-        if method!="asl" or cfg["experiment"]["methods"]!=["asl"]:
-            raise ValueError("Warm-start adaptation is restricted to ASL-only experiments.")
-        initial_model,initial_state = load_checkpoint(ROOT/initial_checkpoint,device)
-        if (initial_state["method"]!=method or initial_state["geometry"]!=asdict(geometry)
-                or initial_state["physical_settings"]!=asdict(settings)):
-            raise ValueError("ASL initialization must use the same physical problem.")
-        model.load_state_dict(initial_model.state_dict(),strict=True)
-        initial_updates = int(initial_state["epoch"])
-        del initial_model
     model.set_history_providers(low=providers["low"],high=providers["high"])
     train = cfg["training"]
     epochs = int(train["epochs"])
@@ -203,7 +190,6 @@ def run_method(method,output,cfg,geometry,settings,pools,providers,val_tables,va
         save_checkpoint(output/"initial.pt",model,epoch=0,config=cfg,history=[],seed=seed)
     logger.info("%s: same data/physics, no boundary attention, %d total epochs, seed=%d, parameters=%d",
                 LABELS[method],epochs,seed,sum(p.numel() for p in model.parameters()))
-    score_unit = "ratio" if cfg.get("validation_selection",{}).get("criterion")=="max_reference_rmse_ratio" else "K"
     weights = cfg["loss_weights"]
     center_pool = None
     tail_constraints = None
@@ -264,8 +250,8 @@ def run_method(method,output,cfg,geometry,settings,pools,providers,val_tables,va
                 best_score,best_epoch = selection,epoch
                 save_checkpoint(output/"best.pt",model,epoch=epoch,config=cfg,history=history+[row],seed=seed,
                                 extra=dict(validation_metrics=val_metrics,validation_score_k=selection))
-            logger.info("epoch=%d/%d loss=%.6g val=%.4f %s best=%.4f %s @%d elapsed=%.1fs",
-                        epoch,epochs,row["loss"],selection,score_unit,best_score,score_unit,best_epoch,elapsed)
+            logger.info("epoch=%d/%d loss=%.6g val=%.4f K best=%.4f K @%d elapsed=%.1fs",
+                        epoch,epochs,row["loss"],selection,best_score,best_epoch,elapsed)
         history.append(row)
         if selection is not None or epoch%int(train["checkpoint_every"])==0:
             extra = dict(best_score=best_score,best_epoch=best_epoch,training_seconds=elapsed,
@@ -288,9 +274,6 @@ def run_method(method,output,cfg,geometry,settings,pools,providers,val_tables,va
         parameters=sum(p.numel() for p in model.parameters()),training_seconds=elapsed,
         best_epoch=best_epoch,best_validation_rmse_k=best_score,device=str(device),
         history_length=len(history),boundary_attention=False,protocol="conditional_past_sensor_history")
-    if initial_checkpoint:
-        info.update(initial_checkpoint=initial_checkpoint,initial_checkpoint_sha256=digest(ROOT/initial_checkpoint),
-                    initial_training_updates=initial_updates,total_training_updates=initial_updates+epochs)
     write_json(output/"final_info.json",info)
     write_json(output/"progress.json",dict(info,status="completed",pid=os.getpid()))
     return info
@@ -353,9 +336,7 @@ def main():
             raise ValueError(f"Active experiment source changed: {path.name}")
         if not target.exists():
             shutil.copy2(path,target)
-    initial_path = cfg["training"].get("initial_checkpoint")
     write_json(output/"provenance.json",dict(source_hashes={p.name:digest(p) for p in paths},
-        initial_checkpoint_sha256=digest(ROOT/initial_path) if initial_path else None,
         torch_version=torch.__version__,device=args.device,gpu=torch.cuda.get_device_name(0) if torch.cuda.is_available() else None,
         data_hashes={str(p.relative_to(ROOT)):digest(p) for p in (ROOT/"data/processed").rglob("*.parquet")},
         raw_source_hashes=raw_hashes,

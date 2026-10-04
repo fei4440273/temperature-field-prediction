@@ -1,6 +1,46 @@
 # SiC-Cu 多保真温度场预测
 
-## V5 项目适配版：四种序列 DeepONet 对比
+## V5 最新 ASL 专项改造
+
+ASL 保留两层选择性 SSM→LSTM 和 76,227 个参数，改为连续门控与平滑局部窗口，
+平衡三类实验监督，并按三个区域中最差的相对验证误差选模。
+FNN、GRU、LSTM 模型、训练历史、指标及逐点预测均保持上一版原值。
+
+| 方法 | 顶部 RMSE / ℃ | 热端 RMSE / ℃ | 冷端 RMSE / ℃ | 综合 RMSE / ℃ |
+|---|---:|---:|---:|---:|
+| FNN | 5.9399 | 1.3498 | 0.7533 | 4.2707 |
+| GRU | 6.1591 | 0.6426 | 0.6450 | 4.3789 |
+| LSTM | 7.0958 | 1.1419 | 0.8475 | 5.0677 |
+| ASL | **5.0914** | **0.4672** | **0.4386** | **3.6144** |
+
+ASL 仿真测试全场 RMSE 为 7.7799 ℃，也低于三种基线。原 18 秒门控硬启动及
+21 秒窗口过渡的人工拐折已改为连续过渡，原始模型输出未做滤波或强制单调处理。
+铜热端、冷端零秒仍为 25 ℃；SiC 与仿真初温为 22 ℃。
+
+ASL 从上一版 1000 次更新的模型额外训练 1000 次，按验证集选取本轮第 750 次更新。
+另外三种方法仍是原来 1000 次更新的模型，这次不作为相同预算的架构比较。
+这是已检查过的现有测试基准上的改进，不称为全新盲测。
+
+- [最新报告及 PNG 图片](研究记录/ASL_balanced_smooth_candidate_2_20261004/对比总结.md)
+- [Figure 8](研究记录/ASL_balanced_smooth_candidate_2_20261004/figures/Figure_8_temporal_response.png)
+- [指标 CSV](研究记录/ASL_balanced_smooth_candidate_2_20261004/evaluation/summary.csv)
+- [专项配置](configs/asl_balanced_smooth_2.yaml)
+- [选模与预算](研究记录/ASL_balanced_smooth_candidate_2_20261004/selection.json)
+- [基线不变及模型重算核验](研究记录/ASL_balanced_smooth_candidate_2_20261004/verification.json)
+- [版本与复现说明](docs/V5-release.md)
+
+```bash
+python scripts/train_sequential_deeponet.py --config configs/asl_balanced_smooth_2.yaml --methods asl --output '研究记录/ASL_new'
+python scripts/inspect_asl_iteration.py '研究记录/ASL_new'
+python scripts/evaluate_asl_iteration.py '研究记录/ASL_new' --checkpoint best.pt --figures
+python scripts/verify_asl_iteration.py '研究记录/ASL_new'
+python scripts/plot_sequential_deeponet.py
+```
+
+仅输出 300 DPI PNG。重新训练、推理和完整数据核验需要本地项目数据；从已保存的
+预测重绘图片不需要完整数据。以下保留上一版统一训练结果作为历史记录。
+
+## 历史：传感器与初温修订版
 
 2026-10-04 更新：169 W冷端使用用户修订的 `colddata169W.csv`，对应处理数据已刷新。
 实验铜区热端、冷端的零秒预测严格固定为25℃，历史锚点、归一化基准和物理初始条件同步；

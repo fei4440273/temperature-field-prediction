@@ -1,4 +1,52 @@
-# V5: corrected cold sensor data and 25 C initialization
+# V5: balanced ASL and smooth early response
+
+The latest result is `研究记录/ASL_balanced_smooth_candidate_2_20261004/`, using
+`configs/asl_balanced_smooth_2.yaml`. Only ASL changed. FNN, GRU, and LSTM retain
+their exact previous checkpoints, histories, metrics, and pointwise prediction arrays.
+
+The earlier objective emphasized top-center and late-time trends, improving the
+top while increasing sensor error. Its ASL maturity gate also had derivative
+corners at 18 and 72 seconds. The adaptation preserves the two selective SSM
+blocks, LSTM, state initialization, and 76,227 parameters. A softplus transition
+smooths the original gate; a smooth local window removes the 21-second window
+corner. Balanced supervision and the worst normalized regional validation RMSE
+prevent top improvements from hiding sensor regressions.
+
+| Method | Top RMSE / K | Hot RMSE / K | Cold RMSE / K | Combined RMSE / K |
+|---|---:|---:|---:|---:|
+| FNN | 5.9399 | 1.3498 | 0.7533 | 4.2707 |
+| GRU | 6.1591 | 0.6426 | 0.6450 | 4.3789 |
+| LSTM | 7.0958 | 1.1419 | 0.8475 | 5.0677 |
+| ASL | **5.0914** | **0.4672** | **0.4386** | **3.6144** |
+
+ASL simulation-test RMSE is 7.7799 K, also below all three fixed baselines.
+These are aggregate errors on an already inspected benchmark; they do not imply
+zero error or superiority on every individual observation. ASL initialized from
+its previous 1000-update checkpoint and completed 1000 additional updates, with
+validation selecting update 750. The fixed baselines completed 1000 updates.
+This release does not claim an equal-budget architecture comparison.
+
+The new verifier recomputes all ASL experimental, dense temporal, simulation, and
+surface prediction arrays from the selected model, checks executing-source hashes,
+and verifies exact identity of all non-ASL arrays with the published baseline.
+Frozen-history derivative probes at 18/21/72 seconds confirm the switch corners
+are removed. Copper initial temperature remains 25 C; SiC and simulation remain
+22 C. All 17 updated figures are 300-DPI PNGs, with no output filtering.
+Figure 8 uses dense raw sensor predictions and actual-time top predictions.
+
+```bash
+python scripts/train_sequential_deeponet.py --config configs/asl_balanced_smooth_2.yaml --methods asl --output '研究记录/ASL_new'
+python scripts/inspect_asl_iteration.py '研究记录/ASL_new'
+python scripts/evaluate_asl_iteration.py '研究记录/ASL_new' --checkpoint best.pt --figures
+python scripts/verify_asl_iteration.py '研究记录/ASL_new'
+```
+
+`python scripts/plot_sequential_deeponet.py` now regenerates the latest ASL result
+from saved predictions. The full local dataset is required for training or raw
+model verification. Candidate 1 was rejected on validation; the plan and both
+candidate validation records preserve the iteration evidence.
+
+## Previous Sensor Revision
 
 The 2026-10-04 revision uses the user's corrected `colddata169W.csv`. The 169 W cold test sensor cache has been refreshed; all other processed inputs are unchanged and checked by SHA256. The corrected first measurement is 25.29476 C at 1 s. Measurements are preserved without shifting them to the model's initial temperature.
 

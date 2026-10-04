@@ -1,0 +1,48 @@
+{
+  "baseline_directory": "研究记录/Sequential_DeepONet_1000epochs_sensor25_20261004",
+  "baseline_sources": {
+    "fnn": {
+      "checkpoint_sha256": "1e9eb378fc5e69c2df42bb14e4dc17595686627e953a1d7a95ce4f4b758d9fd1",
+      "history_sha256": "45a9e15cca011ce907204d5f45ea466cc96a44ae883f1c9cbdec9a3b1ee27ed2"
+    },
+    "gru": {
+      "checkpoint_sha256": "6674fccabb9ac2d8d571c1f664bc1e3d4bae1cf006fd9d94fe0d1de1fcb40468",
+      "history_sha256": "2b75f63b4ad9eff890d4068cbc3fca05dbdf8a7a90c614fcaac4ecc1ed0e4675"
+    },
+    "lstm": {
+      "checkpoint_sha256": "440c865b9531324c80d7d04cf88b8e0240279864889da918ab9f3890b634816c",
+      "history_sha256": "0ea7d0d6825fde375dc3238e6aa22bee488db456c97edc4e375d72a9f1f31d9d"
+    }
+  },
+  "asl_checkpoint_sha256": "72603cb3c329ae2ad50420f59a452103901954170774f43ef74c907094e9d42b",
+  "asl_checkpoint": "best.pt",
+  "selected_epoch": 750,
+  "completed_updates": 1000,
+  "unchanged_prediction_files": {
+    "top_predictions.npz": "3f99941ebe417eec4acdae045a679f0eb784d241f5b4740ba42e9d05ac84020a",
+    "hot_predictions.npz": "4f165fe6b0b79880a9268b426cf92bab4b996b22c4efaee7b5fc77e7a8bb3c6f",
+    "cold_predictions.npz": "d4778178b044a6c9682f9a9d6081fc8f1864864a6d74130039b762ddea462505",
+    "simulation_predictions.npz": "7e98ea39a5f463750a403530eeee175d04d667ee3fed65b6bb10d283679c6d3d",
+    "surface_634W_120s.npz": "80e572fec240df45a6bfe75bfe5c5bfcf49cf5a19dc77696103f31cf4ca0e0cf",
+    "surface_634W_30s.npz": "88fcf2a2d4f904262ef6a305d994fcabd8da63dc9c5f4fc82d5282868f267920",
+    "surface_634W_5s.npz": "3904839d2359cb0699de17a84b38718c93ae98216f46002dabe1c0ee0a711271",
+    "surface_634W_60s.npz": "b9c317552db2d2bfa4e1350f4330e864e69449ab4785d52c1873c119542e2b48",
+    "surface_634W_90s.npz": "ca87f584f0b54a775b5fee12b321e0e581d0524ba5827d84580a23172b8561c9",
+    "dense_cold_169W_predictions.npz": "76cdbb171d1212a1de2aac724b3d74660dd3a0bc4e86e4b96fcec7a616f2cf0a",
+    "dense_cold_339W_predictions.npz": "f315a71479fded2042fd7285f3a87d58340e74ab3c0f9f199ff0422be5ddcff5",
+    "dense_cold_634W_predictions.npz": "67c1495cbdc28cc61c63a619d8c011cd8be9c81a94e0fcfb79a9d2daf391cd12",
+    "dense_hot_169W_predictions.npz": "6f2136cea87224329a1c3ab7dd04de17a57e2453fd76a6b741880518d6ffbe2e",
+    "dense_hot_339W_predictions.npz": "7159c46b8da2573caf7f7d67e69c47fb9c7d71cebc0541264b07e8a195761fa4",
+    "dense_hot_634W_predictions.npz": "1c289327c32b6d8a807e8f92496433e925a1f6b80520b47322cb15dbc2150ffe",
+    "dense_top_169W_predictions.npz": "84c022cfd2d5982314f6ed8d0771c4fb4c1b61a40d17247dc7b556f47f737f9d",
+    "dense_top_339W_predictions.npz": "4c7180803ea502ded39365c44d600780d5ff509f0b64d774b33a571680e5380b",
+    "dense_top_634W_predictions.npz": "89cc4b3e903f4a6fbe57c0edd1d35ccb398fe0c12a78c07fe42fe18f7c457e53"
+  },
+  "prediction_source_sha256": {
+    "sequential_deeponet_core.py": "4c63186aeac039ef41b18ae121d743be1cdf45a63a71713f4a401fe116647d1c",
+    "sequential_deeponet_data.py": "1672666ea9b282ca4bcae7ca9d1116a5a4bb89ec6df78fcc684af6e475711a57",
+    "joint_temperature_core.py": "d4c27fb81c0e31bca2f43cd2feb4db6fd6168bcb3d0767b22d020348dc93b572",
+    "train_sequential_deeponet.py": "16ba937fccdb9ef834671a43fd7809780d81cd9c0c6e8fdbb0f267809c92d82f",
+    "evaluate_asl_iteration.py": "678689d87a860d2d074e28d61d2ec6f700f5305c9070dcb834a88fd1b38a6e2f"
+  }
+}

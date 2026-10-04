@@ -1,0 +1,228 @@
+{
+  "status": "passed",
+  "accuracy_acceptance": {
+    "顶部": true,
+    "热端": true,
+    "冷端": true,
+    "综合": true
+  },
+  "all_three_baseline_models_histories_metrics_and_prediction_arrays_unchanged": true,
+  "all_asl_prediction_arrays_recomputed_from_selected_model": true,
+  "checked_prediction_files": [
+    "top_predictions.npz",
+    "hot_predictions.npz",
+    "cold_predictions.npz",
+    "simulation_predictions.npz",
+    "surface_634W_120s.npz",
+    "surface_634W_30s.npz",
+    "surface_634W_5s.npz",
+    "surface_634W_60s.npz",
+    "surface_634W_90s.npz",
+    "dense_cold_169W_predictions.npz",
+    "dense_cold_339W_predictions.npz",
+    "dense_cold_634W_predictions.npz",
+    "dense_hot_169W_predictions.npz",
+    "dense_hot_339W_predictions.npz",
+    "dense_hot_634W_predictions.npz",
+    "dense_top_169W_predictions.npz",
+    "dense_top_339W_predictions.npz",
+    "dense_top_634W_predictions.npz"
+  ],
+  "early_gate_derivatives": [
+    {
+      "sensor": "热端",
+      "power_w": 169.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.1354777067899704,
+      "right_rate_k_per_s": 0.1355094611644745,
+      "abs_rate_change_k_per_s": 3.1754374504089355e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 169.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.16712351143360138,
+      "right_rate_k_per_s": 0.16714301705360413,
+      "abs_rate_change_k_per_s": 1.9505620002746582e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 169.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.025203067809343338,
+      "right_rate_k_per_s": 0.02520035207271576,
+      "abs_rate_change_k_per_s": 2.7157366275787354e-06
+    },
+    {
+      "sensor": "热端",
+      "power_w": 339.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.25411975383758545,
+      "right_rate_k_per_s": 0.2541714906692505,
+      "abs_rate_change_k_per_s": 5.173683166503906e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 339.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.30426961183547974,
+      "right_rate_k_per_s": 0.30429527163505554,
+      "abs_rate_change_k_per_s": 2.5659799575805664e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 339.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.04678729549050331,
+      "right_rate_k_per_s": 0.046783410012722015,
+      "abs_rate_change_k_per_s": 3.885477781295776e-06
+    },
+    {
+      "sensor": "热端",
+      "power_w": 634.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.39238423109054565,
+      "right_rate_k_per_s": 0.39245089888572693,
+      "abs_rate_change_k_per_s": 6.666779518127441e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 634.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.45648863911628723,
+      "right_rate_k_per_s": 0.4565153419971466,
+      "abs_rate_change_k_per_s": 2.6702880859375e-05
+    },
+    {
+      "sensor": "热端",
+      "power_w": 634.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.08129507303237915,
+      "right_rate_k_per_s": 0.08129115402698517,
+      "abs_rate_change_k_per_s": 3.919005393981934e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 169.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.07654062658548355,
+      "right_rate_k_per_s": 0.07655912637710571,
+      "abs_rate_change_k_per_s": 1.8499791622161865e-05
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 169.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.09509201347827911,
+      "right_rate_k_per_s": 0.09510749578475952,
+      "abs_rate_change_k_per_s": 1.5482306480407715e-05
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 169.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.02614937350153923,
+      "right_rate_k_per_s": 0.026147253811359406,
+      "abs_rate_change_k_per_s": 2.119690179824829e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 339.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.16953086853027344,
+      "right_rate_k_per_s": 0.16956371068954468,
+      "abs_rate_change_k_per_s": 3.2842159271240234e-05
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 339.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.19838906824588776,
+      "right_rate_k_per_s": 0.19840797781944275,
+      "abs_rate_change_k_per_s": 1.8909573554992676e-05
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 339.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.052181266248226166,
+      "right_rate_k_per_s": 0.0521785169839859,
+      "abs_rate_change_k_per_s": 2.7492642402648926e-06
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 634.0,
+      "time_s": 18.0,
+      "left_rate_k_per_s": 0.26457372307777405,
+      "right_rate_k_per_s": 0.26461061835289,
+      "abs_rate_change_k_per_s": 3.68952751159668e-05
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 634.0,
+      "time_s": 21.0,
+      "left_rate_k_per_s": 0.29203853011131287,
+      "right_rate_k_per_s": 0.29205322265625,
+      "abs_rate_change_k_per_s": 1.4692544937133789e-05
+    },
+    {
+      "sensor": "冷端",
+      "power_w": 634.0,
+      "time_s": 72.0,
+      "left_rate_k_per_s": 0.097324438393116,
+      "right_rate_k_per_s": 0.09732203930616379,
+      "abs_rate_change_k_per_s": 2.3990869522094727e-06
+    }
+  ],
+  "dense_sensor_checks": [
+    {
+      "file": "dense_cold_169W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.016937255859375,
+      "early_new_max_second_difference_k": 0.003936767578125,
+      "late_max_0_1s_step_k": 0.002899169921875,
+      "late_max_incoming_arrival_jump_k": 0.0050048828125
+    },
+    {
+      "file": "dense_cold_339W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.029083251953125,
+      "early_new_max_second_difference_k": 0.0111083984375,
+      "late_max_0_1s_step_k": 0.013916015625,
+      "late_max_incoming_arrival_jump_k": 0.012939453125
+    },
+    {
+      "file": "dense_cold_634W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.040802001953125,
+      "early_new_max_second_difference_k": 0.01434326171875,
+      "late_max_0_1s_step_k": 0.0128173828125,
+      "late_max_incoming_arrival_jump_k": 0.011077880859375
+    },
+    {
+      "file": "dense_hot_169W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.022735595703125,
+      "early_new_max_second_difference_k": 0.005889892578125,
+      "late_max_0_1s_step_k": 0.003814697265625,
+      "late_max_incoming_arrival_jump_k": 0.00677490234375
+    },
+    {
+      "file": "dense_hot_339W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.035400390625,
+      "early_new_max_second_difference_k": 0.0166015625,
+      "late_max_0_1s_step_k": 0.0194091796875,
+      "late_max_incoming_arrival_jump_k": 0.01873779296875
+    },
+    {
+      "file": "dense_hot_634W_predictions.npz",
+      "early_previous_max_second_difference_k": 0.05609130859375,
+      "early_new_max_second_difference_k": 0.02337646484375,
+      "late_max_0_1s_step_k": 0.01776123046875,
+      "late_max_incoming_arrival_jump_k": 0.01788330078125
+    }
+  ],
+  "verification_script_sha256": "a7c80e9b1841657ff04b2200d9da8f2e37154d9ae293414819b0893ef747aad0",
+  "no_prediction_smoothing": true,
+  "experimental_copper_initial_c": 25.0,
+  "actual_asl_parameters": 76227,
+  "selected_epoch": 750,
+  "completed_new_updates": 1000,
+  "total_asl_training_updates": 2000
+}
